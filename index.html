@@ -8,9 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <meta property="og:title" content="OliviaBike 24.7 - Tienda de Ciclismo Premium">
-    <meta name="description" content="OliviaBike 24.7 - Tienda especializada en ciclismo. Bicicletas de alta gama, accesorios y equipamiento profesional.">
-    
     <style>
         /* ========== RESET Y VARIABLES ========== */
         * {
@@ -137,34 +134,259 @@
             box-shadow: 0 12px 32px rgba(155,224,0,0.35);
         }
 
-        /* ========== ANIMACIONES ========== */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+        .btn-cart {
+            background: var(--black);
+            color: var(--white);
+            padding: 10px 20px;
+            font-size: 0.85rem;
         }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .btn-cart:hover {
+            background: var(--primary);
+            color: var(--black);
+            transform: translateY(-2px);
+        }
+        .btn-cart.added {
+            background: var(--primary);
+            color: var(--black);
+        }
 
-        .fade-in-left {
-            opacity: 0;
-            transform: translateX(-40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+        /* ========== CARRITO FLOTANTE ========== */
+        .cart-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9998;
+            background: var(--black);
+            color: var(--white);
+            padding: 16px 20px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow-xl);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
         }
-        .fade-in-left.visible { opacity: 1; transform: translateX(0); }
+        .cart-float:hover {
+            transform: scale(1.05);
+            background: var(--primary);
+            color: var(--black);
+        }
+        .cart-float .cart-icon {
+            font-size: 1.4rem;
+            position: relative;
+        }
+        .cart-float .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: #FF4444;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--black);
+        }
+        .cart-float .cart-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .cart-float .cart-total {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .cart-float:hover .cart-total {
+            color: var(--black);
+        }
 
-        .fade-in-right {
-            opacity: 0;
-            transform: translateX(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+        /* ========== MODAL CARRITO ========== */
+        .cart-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        .fade-in-right.visible { opacity: 1; transform: translateX(0); }
+        .cart-modal-overlay.active { display: flex; }
 
-        .scale-in {
-            opacity: 0;
-            transform: scale(0.9);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+        .cart-modal {
+            background: var(--white);
+            border-radius: var(--radius);
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            box-shadow: var(--shadow-xl);
+            animation: modalFadeIn 0.3s ease;
+            position: relative;
         }
-        .scale-in.visible { opacity: 1; transform: scale(1); }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .cart-modal-close {
+            position: sticky;
+            top: 0;
+            float: right;
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: var(--gray-100);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            margin-bottom: 20px;
+        }
+        .cart-modal-close:hover {
+            background: var(--black);
+            color: var(--white);
+            transform: rotate(90deg);
+        }
+
+        .cart-modal h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .cart-modal .cart-subtitle {
+            color: var(--gray-400);
+            margin-bottom: 24px;
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 60px 1fr auto auto;
+            gap: 12px;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--gray-100);
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+        .cart-item:hover {
+            background: var(--gray-200);
+        }
+        .cart-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .cart-item .item-info h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        .cart-item .item-info .item-price {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+        .cart-item .item-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cart-item .item-qty button {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid var(--gray-300);
+            background: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-item .item-qty button:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--black);
+        }
+        .cart-item .item-qty span {
+            font-weight: 600;
+            min-width: 24px;
+            text-align: center;
+        }
+        .cart-item .item-remove {
+            color: var(--gray-400);
+            cursor: pointer;
+            transition: var(--transition);
+            background: none;
+            border: none;
+            font-size: 1rem;
+        }
+        .cart-item .item-remove:hover {
+            color: #FF4444;
+            transform: scale(1.2);
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-400);
+        }
+        .cart-empty i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            color: var(--gray-300);
+        }
+
+        .cart-summary {
+            border-top: 2px solid var(--gray-200);
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .cart-summary .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+        }
+        .cart-summary .summary-row.total {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--black);
+            border-top: 1px solid var(--gray-200);
+            padding-top: 12px;
+            margin-top: 4px;
+        }
+        .cart-summary .summary-row.total .amount {
+            color: var(--primary-dark);
+        }
+        .cart-summary .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 16px;
+            font-size: 1.05rem;
+        }
 
         /* ========== HEADER ========== */
         .header {
@@ -554,7 +776,6 @@
             overflow: hidden;
             transition: var(--transition);
             box-shadow: var(--shadow-sm);
-            cursor: pointer;
         }
         .product-card:hover {
             transform: translateY(-8px);
@@ -566,6 +787,7 @@
             height: 220px;
             overflow: hidden;
             background: var(--gray-100);
+            cursor: pointer;
         }
         .product-image img {
             width: 100%;
@@ -615,17 +837,43 @@
             font-size: 1.1rem;
             font-weight: 600;
             margin: 4px 0 12px;
+            cursor: pointer;
         }
-        .product-body .btn {
-            width: 100%;
+        .product-body h3:hover {
+            color: var(--primary-dark);
+        }
+        .product-body .product-price {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--black);
+        }
+        .product-body .product-price .old {
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: var(--gray-400);
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+        .product-body .btn-group-cart {
+            display: flex;
+            gap: 8px;
+        }
+        .product-body .btn-group-cart .btn {
+            flex: 1;
             justify-content: center;
             font-size: 0.85rem;
             padding: 12px;
         }
+        .product-body .btn-group-cart .btn-cart {
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            flex: 1;
+        }
         .product-body .ver-detalle {
             display: block;
             text-align: center;
-            margin-top: 8px;
+            margin-top: 10px;
             font-size: 0.8rem;
             color: var(--gray-400);
             text-decoration: none;
@@ -660,10 +908,6 @@
             padding: 40px;
             box-shadow: var(--shadow-xl);
             animation: modalFadeIn 0.3s ease;
-        }
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: scale(0.95) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .modal-close {
@@ -1117,7 +1361,6 @@
             padding: 18px 48px;
             font-size: 1.1rem;
         }
-        .cta-final .btn i { font-size: 1.2rem; }
 
         /* ========== MAPA ========== */
         .map-section {
@@ -1227,6 +1470,31 @@
         }
         .footer-bottom span { color: var(--primary); }
 
+        /* ========== TOAST NOTIFICATION ========== */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--black);
+            color: var(--white);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            border-left: 4px solid var(--primary);
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 99999;
+            max-width: 360px;
+            font-size: 0.9rem;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast .toast-title {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
         /* ========== RESPONSIVE ========== */
         @media (max-width: 992px) {
             .banner-promo .banner-content {
@@ -1249,6 +1517,12 @@
             }
             .banner-slide .banner-text p { margin: 16px auto 24px; }
             .banner-slide .banner-text .badge-banner { margin: 0 auto 12px; }
+
+            .cart-item {
+                grid-template-columns: 50px 1fr auto;
+                gap: 10px;
+            }
+            .cart-item img { width: 50px; height: 50px; }
         }
 
         @media (max-width: 768px) {
@@ -1303,6 +1577,8 @@
             .product-image { height: 160px; }
             .product-body { padding: 14px; }
             .product-body h3 { font-size: 0.95rem; }
+            .product-body .btn-group-cart { flex-direction: column; }
+            .product-body .btn-group-cart .btn { padding: 10px; font-size: 0.75rem; }
 
             .gallery-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1341,6 +1617,36 @@
             }
             .banner-slide .banner-image img { max-height: 250px; }
             .banners-controls { padding: 15px 0 25px; }
+
+            .cart-float {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 16px;
+            }
+            .cart-float .cart-text { display: none; }
+            .cart-float .cart-total { font-size: 0.85rem; }
+
+            .cart-modal {
+                padding: 24px 16px;
+                margin: 10px;
+            }
+            .cart-item {
+                grid-template-columns: 40px 1fr auto;
+                gap: 8px;
+                padding: 10px 12px;
+            }
+            .cart-item img { width: 40px; height: 40px; }
+            .cart-item .item-info h4 { font-size: 0.85rem; }
+            .cart-item .item-qty button { width: 24px; height: 24px; font-size: 0.8rem; }
+
+            .toast {
+                bottom: 90px;
+                right: 20px;
+                left: 20px;
+                max-width: none;
+                padding: 14px 18px;
+                font-size: 0.85rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1350,9 +1656,9 @@
                 gap: 12px;
             }
             .product-image { height: 140px; }
-            .product-body .btn {
-                font-size: 0.75rem;
-                padding: 10px;
+            .product-body .btn-group-cart .btn {
+                font-size: 0.7rem;
+                padding: 8px;
             }
             .container { padding: 0 16px; }
 
@@ -1397,9 +1703,7 @@
 
     <!-- ========== HERO CON CARRUSEL ========== -->
     <section class="hero" id="hero">
-        <div class="hero-slides" id="heroSlides">
-            <!-- Las imágenes se generan con JavaScript -->
-        </div>
+        <div class="hero-slides" id="heroSlides"></div>
 
         <div class="container">
             <div class="hero-content fade-in visible">
@@ -1415,21 +1719,14 @@
             </div>
         </div>
 
-        <div class="hero-indicators" id="heroIndicators">
-            <!-- Los indicadores se generan con JavaScript -->
-        </div>
-
-        <div class="hero-scroll">
-            <i class="fas fa-chevron-down"></i>
-        </div>
+        <div class="hero-indicators" id="heroIndicators"></div>
+        <div class="hero-scroll"><i class="fas fa-chevron-down"></i></div>
     </section>
 
     <!-- ========== BANNERS ROTATIVOS ========== -->
     <section class="banners-carousel" id="banners">
         <div class="container">
-            <div class="banners-track" id="bannersTrack">
-                <!-- Los banners se generan con JavaScript -->
-            </div>
+            <div class="banners-track" id="bannersTrack"></div>
         </div>
         <div class="banners-controls">
             <button class="btn-banner" id="bannerPrev"><i class="fas fa-chevron-left"></i></button>
@@ -1489,22 +1786,55 @@
                 <p class="section-subtitle">Selección completa de lo mejor para ciclistas que exigen calidad y rendimiento</p>
             </div>
 
-            <div class="products-grid" id="productsGrid">
-                <!-- Los productos se generan con JavaScript -->
-            </div>
+            <div class="products-grid" id="productsGrid"></div>
         </div>
     </section>
 
     <!-- ========== MODAL DE PRODUCTO ========== -->
     <div class="modal-overlay" id="productModal">
         <div class="modal-content">
-            <button class="modal-close" id="modalClose">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="modal-grid" id="modalContent">
-                <!-- Se llena con JavaScript -->
+            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            <div class="modal-grid" id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- ========== CARRITO FLOTANTE ========== -->
+    <div class="cart-float" id="cartFloat" onclick="toggleCart()">
+        <div class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge" id="cartBadge">0</span>
+        </div>
+        <span class="cart-text">Mi Carrito</span>
+        <span class="cart-total" id="cartTotal">$0</span>
+    </div>
+
+    <!-- ========== MODAL CARRITO ========== -->
+    <div class="cart-modal-overlay" id="cartModal">
+        <div class="cart-modal">
+            <button class="cart-modal-close" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+            <h2>🛒 Tu Carrito</h2>
+            <p class="cart-subtitle">Revisa tus productos antes de finalizar la compra</p>
+            <div class="cart-items" id="cartItems"></div>
+            <div class="cart-summary" id="cartSummary">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal">$0</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span class="amount" id="cartTotalAmount">$0</span>
+                </div>
+                <button class="btn btn-whatsapp" onclick="checkout()">
+                    <i class="fab fa-whatsapp"></i> Finalizar compra por WhatsApp
+                </button>
             </div>
         </div>
+    </div>
+
+    <!-- ========== TOAST NOTIFICATION ========== -->
+    <div class="toast" id="toast">
+        <div class="toast-title">✅ Producto agregado</div>
+        <div id="toastMessage">El producto se añadió al carrito</div>
     </div>
 
     <!-- ========== BANNER PROMOCIONAL ========== -->
@@ -1812,7 +2142,7 @@
     <!-- ========== JAVASCRIPT ========== -->
     <script>
         // =====================================================
-        // 1. DATOS DE PRODUCTOS COMPLETOS
+        // 1. DATOS DE PRODUCTOS
         // =====================================================
         const productsData = [
             {
@@ -1830,8 +2160,10 @@
                     'Peso': '13.5kg'
                 },
                 colors: ['#000000', '#9BE000', '#FF0000', '#1E40AF'],
-                price: '$1,299.000',
-                oldPrice: '$1,599.000',
+                price: 1299000,
+                priceFormatted: '$1,299.000',
+                oldPrice: 1599000,
+                oldPriceFormatted: '$1,599.000',
                 stock: 'En stock',
                 stockColor: 'green',
                 whatsappMsg: 'Mountain Bike Pro X1 - Rodado 29"'
@@ -1851,8 +2183,10 @@
                     'Ajuste': 'Sistema BOA'
                 },
                 colors: ['#000000', '#FFFFFF', '#9BE000', '#FF6B00'],
-                price: '$189.000',
+                price: 189000,
+                priceFormatted: '$189.000',
                 oldPrice: null,
+                oldPriceFormatted: null,
                 stock: 'En stock',
                 stockColor: 'green',
                 whatsappMsg: 'Casco Aero Racer Pro'
@@ -1872,8 +2206,10 @@
                     'UVA': 'Protección UPF 50+'
                 },
                 colors: ['#000000', '#9BE000', '#1E40AF', '#FF0000'],
-                price: '$245.000',
-                oldPrice: '$320.000',
+                price: 245000,
+                priceFormatted: '$245.000',
+                oldPrice: 320000,
+                oldPriceFormatted: '$320.000',
                 stock: 'Últimas unidades',
                 stockColor: 'orange',
                 whatsappMsg: 'Kit Maillot + Culotte Elite'
@@ -1893,8 +2229,10 @@
                     'Ruedas': 'Carbono 50mm'
                 },
                 colors: ['#000000', '#9BE000', '#FF6B00', '#FFFFFF'],
-                price: '$3,499.000',
+                price: 3499000,
+                priceFormatted: '$3,499.000',
                 oldPrice: null,
+                oldPriceFormatted: null,
                 stock: 'Últimas unidades',
                 stockColor: 'orange',
                 whatsappMsg: 'Bicicleta Ruta Carbon Elite'
@@ -1914,8 +2252,10 @@
                     'Garantía': '2 años'
                 },
                 colors: ['#000000', '#9BE000', '#FF0000', '#1E40AF'],
-                price: '$89.000',
-                oldPrice: '$120.000',
+                price: 89000,
+                priceFormatted: '$89.000',
+                oldPrice: 120000,
+                oldPriceFormatted: '$120.000',
                 stock: 'En stock',
                 stockColor: 'green',
                 whatsappMsg: 'Gafas Polarizadas Pro'
@@ -1935,8 +2275,10 @@
                     'Calas': 'Incluidas SH-51'
                 },
                 colors: ['#000000', '#9BE000'],
-                price: '$159.000',
+                price: 159000,
+                priceFormatted: '$159.000',
                 oldPrice: null,
+                oldPriceFormatted: null,
                 stock: 'En stock',
                 stockColor: 'green',
                 whatsappMsg: 'Pedales Automáticos Race'
@@ -1944,7 +2286,187 @@
         ];
 
         // =====================================================
-        // 2. HERO CARRUSEL
+        // 2. CARRITO DE COMPRAS
+        // =====================================================
+        let cart = [];
+        const whatsappNumber = '5491123456789';
+
+        function addToCart(productId) {
+            const product = productsData.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    priceFormatted: product.priceFormatted,
+                    image: product.image,
+                    qty: 1
+                });
+            }
+
+            updateCartUI();
+            showToast(`✅ ${product.name} agregado al carrito`);
+            
+            // Cambiar botón temporalmente
+            const btns = document.querySelectorAll(`[data-product-id="${productId}"]`);
+            btns.forEach(btn => {
+                btn.classList.add('added');
+                btn.innerHTML = '<i class="fas fa-check"></i> Agregado';
+                setTimeout(() => {
+                    btn.classList.remove('added');
+                    btn.innerHTML = '<i class="fas fa-cart-plus"></i> Agregar';
+                }, 2000);
+            });
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function updateQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+            updateCartUI();
+        }
+
+        function getCartTotal() {
+            return cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        }
+
+        function getCartCount() {
+            return cart.reduce((sum, item) => sum + item.qty, 0);
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cartBadge');
+            const totalEl = document.getElementById('cartTotal');
+            const count = getCartCount();
+            const total = getCartTotal();
+
+            badge.textContent = count;
+            totalEl.textContent = '$' + total.toLocaleString('es-AR');
+
+            // Actualizar modal
+            renderCartItems();
+            updateCartSummary();
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="cart-empty">
+                        <i class="fas fa-shopping-bag"></i>
+                        <p>Tu carrito está vacío</p>
+                        <p style="font-size: 0.85rem; margin-top: 4px;">Explora nuestros productos y agrega lo que necesites</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="item-info">
+                        <h4>${item.name}</h4>
+                        <div class="item-price">${item.priceFormatted} c/u</div>
+                    </div>
+                    <div class="item-qty">
+                        <button onclick="updateQty(${item.id}, -1)">−</button>
+                        <span>${item.qty}</span>
+                        <button onclick="updateQty(${item.id}, 1)">+</button>
+                    </div>
+                    <button class="item-remove" onclick="removeFromCart(${item.id})" title="Eliminar">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function updateCartSummary() {
+            const total = getCartTotal();
+            document.getElementById('cartSubtotal').textContent = '$' + total.toLocaleString('es-AR');
+            document.getElementById('cartTotalAmount').textContent = '$' + total.toLocaleString('es-AR');
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('active');
+            if (modal.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+                renderCartItems();
+                updateCartSummary();
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Cerrar carrito al hacer clic fuera
+        document.getElementById('cartModal').addEventListener('click', function(e) {
+            if (e.target === this) toggleCart();
+        });
+
+        // =====================================================
+        // 3. CHECKOUT - ENVÍO A WHATSAPP
+        // =====================================================
+        function checkout() {
+            if (cart.length === 0) {
+                showToast('⚠️ Tu carrito está vacío');
+                return;
+            }
+
+            let message = '🛒 *Nuevo pedido desde OliviaBike 24.7*%0A%0A';
+            message += '📋 *Detalle del pedido:*%0A';
+            
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name} x${item.qty} = ${item.priceFormatted}%0A`;
+            });
+
+            const total = getCartTotal();
+            message += `%0A💰 *Total: $${total.toLocaleString('es-AR')}*%0A%0A`;
+            message += '📦 *Datos de envío:*%0A';
+            message += 'Nombre: %0A';
+            message += 'Dirección: %0A';
+            message += 'Localidad: %0A';
+            message += 'Código Postal: %0A%0A';
+            message += '🙏 ¡Gracias por tu compra!';
+
+            // Abrir WhatsApp con el mensaje
+            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+            
+            // Opcional: cerrar carrito después de enviar
+            // toggleCart();
+        }
+
+        // =====================================================
+        // 4. TOAST NOTIFICATION
+        // =====================================================
+        let toastTimeout;
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // =====================================================
+        // 5. HERO CARRUSEL
         // =====================================================
         const heroImages = [
             'https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1600&q=80',
@@ -2006,7 +2528,7 @@
         }
 
         // =====================================================
-        // 3. BANNERS ROTATIVOS
+        // 6. BANNERS ROTATIVOS
         // =====================================================
         const bannersData = [
             {
@@ -2111,7 +2633,7 @@
         }
 
         // =====================================================
-        // 4. RENDERIZAR PRODUCTOS
+        // 7. RENDERIZAR PRODUCTOS
         // =====================================================
         function renderProductsGrid() {
             const grid = document.getElementById('productsGrid');
@@ -2120,21 +2642,35 @@
             grid.innerHTML = productsData.map(product => {
                 const stockClass = product.stock === 'En stock' ? 'in-stock' : 
                                   product.stock === 'Últimas unidades' ? 'low-stock' : 'out-of-stock';
+                
+                const oldPriceHtml = product.oldPriceFormatted ? 
+                    `<span class="old">${product.oldPriceFormatted}</span>` : '';
+                
                 return `
-                    <div class="product-card scale-in" data-id="${product.id}" onclick="openModal(${product.id})">
-                        <div class="product-image">
+                    <div class="product-card scale-in" data-id="${product.id}">
+                        <div class="product-image" onclick="openModal(${product.id})">
                             <img src="${product.image}" alt="${product.name}" loading="lazy">
                             <span class="product-stock ${stockClass}">${product.stock}</span>
                         </div>
                         <div class="product-body">
                             <div class="product-category">${product.category}</div>
-                            <h3>${product.name}</h3>
-                            <a href="https://wa.me/5491123456789?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.name)}" 
-                               target="_blank" 
-                               class="btn btn-green" onclick="event.stopPropagation();">
-                                <i class="fab fa-whatsapp"></i> Consultar
-                            </a>
-                            <a href="#" class="ver-detalle" onclick="event.preventDefault(); event.stopPropagation(); openModal(${product.id})">
+                            <h3 onclick="openModal(${product.id})">${product.name}</h3>
+                            <div class="product-price">
+                                ${product.priceFormatted}
+                                ${oldPriceHtml}
+                            </div>
+                            <div class="btn-group-cart">
+                                <button class="btn btn-cart" data-product-id="${product.id}" onclick="addToCart(${product.id})">
+                                    <i class="fas fa-cart-plus"></i> Agregar
+                                </button>
+                                <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.name)}" 
+                                   target="_blank" 
+                                   class="btn btn-green" 
+                                   onclick="event.stopPropagation();">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                            <a href="#" class="ver-detalle" onclick="event.preventDefault(); openModal(${product.id})">
                                 Ver detalles completos →
                             </a>
                         </div>
@@ -2144,7 +2680,7 @@
         }
 
         // =====================================================
-        // 5. MODAL DE PRODUCTO
+        // 8. MODAL DE PRODUCTO
         // =====================================================
         const modal = document.getElementById('productModal');
         const modalContent = document.getElementById('modalContent');
@@ -2164,6 +2700,9 @@
             const colorsHtml = product.colors ? product.colors.map(color => `
                 <div class="color-option" style="background: ${color};" title="Color disponible"></div>
             `).join('') : '';
+
+            const oldPriceHtml = product.oldPriceFormatted ? 
+                `<span>${product.oldPriceFormatted}</span>` : '';
 
             modalContent.innerHTML = `
                 <div class="modal-image">
@@ -2186,8 +2725,8 @@
                     ` : ''}
 
                     <div class="price">
-                        ${product.price}
-                        ${product.oldPrice ? `<span>${product.oldPrice}</span>` : ''}
+                        ${product.priceFormatted}
+                        ${oldPriceHtml}
                     </div>
 
                     <div class="stock-status">
@@ -2196,13 +2735,13 @@
                     </div>
 
                     <div class="btn-group">
-                        <a href="https://wa.me/5491123456789?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.whatsappMsg)}" 
+                        <button class="btn btn-cart" onclick="addToCart(${product.id}); closeModal();">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                        <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.whatsappMsg)}" 
                            target="_blank" 
                            class="btn btn-whatsapp">
-                            <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
-                        </a>
-                        <a href="#" class="btn btn-outline" onclick="closeModal(); return false;">
-                            Seguir viendo
+                            <i class="fab fa-whatsapp"></i> Consultar
                         </a>
                     </div>
                 </div>
@@ -2226,7 +2765,7 @@
         });
 
         // =====================================================
-        // 6. HEADER SCROLL
+        // 9. HEADER SCROLL
         // =====================================================
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
@@ -2234,7 +2773,7 @@
         });
 
         // =====================================================
-        // 7. HAMBURGER MENU
+        // 10. HAMBURGER MENU
         // =====================================================
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('navMenu');
@@ -2248,7 +2787,7 @@
         });
 
         // =====================================================
-        // 8. FAQ
+        // 11. FAQ
         // =====================================================
         document.querySelectorAll('.faq-item .question').forEach(question => {
             question.addEventListener('click', () => {
@@ -2260,7 +2799,7 @@
         });
 
         // =====================================================
-        // 9. TIMER
+        // 12. TIMER
         // =====================================================
         function startTimer() {
             const target = new Date();
@@ -2278,7 +2817,7 @@
         startTimer();
 
         // =====================================================
-        // 10. INTERSECTION OBSERVER
+        // 13. INTERSECTION OBSERVER
         // =====================================================
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -2290,6 +2829,7 @@
             initHeroCarousel();
             initBannersCarousel();
             renderProductsGrid();
+            updateCartUI();
             
             document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in').forEach(el => {
                 observer.observe(el);
@@ -2303,10 +2843,10 @@
             }, 300);
         });
 
-        console.log('🚴 OliviaBike 24.7 - Landing Page Premium');
-        console.log('📸 Hero con carrusel | 🏷️ Banners rotativos | 🔥 Modal con detalles');
-        console.log('🛠️ Footer con créditos a Ciborg 347');
+        console.log('🚴 OliviaBike 24.7 - Landing Page con Carrito de Compras');
+        console.log('🛒 Carrito funcional + Checkout por WhatsApp');
         console.log('📱 Full responsive en todos los dispositivos');
+        console.log('🛠️ Footer con créditos a Ciborg 347');
     </script>
 </body>
 </html>
