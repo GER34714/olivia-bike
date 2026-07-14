@@ -213,12 +213,24 @@
             background: rgba(255,68,68,0.05);
         }
 
+        .sidebar .nav-item.ir-web {
+            margin-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 16px;
+            color: var(--primary);
+        }
+        .sidebar .nav-item.ir-web:hover {
+            background: rgba(155,224,0,0.1);
+            color: var(--white);
+        }
+
         /* ========== MAIN CONTENT ========== */
         .main-content {
             margin-left: var(--sidebar-width);
             flex: 1;
             padding: 24px 32px 40px;
             min-height: 100vh;
+            width: 100%;
         }
 
         .main-header {
@@ -227,6 +239,12 @@
             align-items: center;
             margin-bottom: 32px;
             flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .main-header .header-left {
+            display: flex;
+            align-items: center;
             gap: 16px;
         }
 
@@ -261,6 +279,64 @@
             font-size: 1.5rem;
             color: var(--black);
             cursor: pointer;
+            padding: 8px;
+        }
+
+        /* ========== BOTONES GLOBALES ========== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-family: var(--font);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn-primary { background: var(--black); color: var(--white); }
+        .btn-primary:hover {
+            background: var(--primary);
+            color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(155,224,0,0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--black);
+            border: 2px solid var(--gray-300);
+        }
+        .btn-outline:hover {
+            border-color: var(--black);
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.8rem;
+        }
+
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #DC2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #22C55E;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #16A34A;
+            transform: translateY(-2px);
         }
 
         /* ========== PANELS ========== */
@@ -316,6 +392,7 @@
             padding: 24px;
             box-shadow: var(--shadow-sm);
             overflow-x: auto;
+            margin-bottom: 20px;
         }
 
         .table-header {
@@ -331,15 +408,11 @@
             font-weight: 700;
         }
 
-        .btn-sm {
-            padding: 8px 16px;
-            font-size: 0.8rem;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
+            min-width: 600px;
         }
         th {
             text-align: left;
@@ -363,6 +436,7 @@
             height: 50px;
             object-fit: cover;
             border-radius: 8px;
+            background: var(--gray-100);
         }
 
         .badge-status {
@@ -376,17 +450,21 @@
         .badge-status.active { background: rgba(34,197,94,0.15); color: #16A34A; }
         .badge-status.pending { background: rgba(245,158,11,0.15); color: #D97706; }
         .badge-status.finished { background: rgba(107,114,128,0.15); color: #6B7280; }
+        .badge-status.en-stock { background: rgba(34,197,94,0.15); color: #16A34A; }
+        .badge-status.ultimas { background: rgba(245,158,11,0.15); color: #D97706; }
+        .badge-status.agotado { background: rgba(239,68,68,0.15); color: #DC2626; }
 
         .actions {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            flex-wrap: wrap;
         }
         .actions button {
             padding: 4px 10px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             transition: var(--transition);
             font-family: var(--font);
         }
@@ -424,7 +502,7 @@
         .form-modal-content {
             background: var(--white);
             border-radius: var(--radius);
-            max-width: 700px;
+            max-width: 800px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -508,7 +586,9 @@
             border-radius: 10px;
             margin-top: 8px;
             border: 2px solid var(--gray-200);
+            display: block;
         }
+        .form-group .image-preview.hidden { display: none; }
 
         .form-group .file-input-wrapper {
             position: relative;
@@ -552,13 +632,15 @@
             margin-top: 24px;
             padding-top: 20px;
             border-top: 2px solid var(--gray-100);
+            flex-wrap: wrap;
         }
         .form-actions .btn {
             flex: 1;
             justify-content: center;
+            min-width: 140px;
         }
 
-        /* ========== PROGRAMADOR ========== */
+        /* ========== PROGRAMADOR PREVIEW ========== */
         .schedule-preview {
             background: var(--black);
             border-radius: var(--radius);
@@ -593,6 +675,24 @@
             max-width: 300px;
             border-radius: 10px;
             margin-top: 12px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .schedule-preview .btn-green {
+            background: var(--primary);
+            color: var(--black);
+            padding: 10px 24px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font);
+            font-size: 0.85rem;
+        }
+        .schedule-preview .btn-green:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
         /* ========== TOAST ========== */
@@ -627,12 +727,17 @@
             .sidebar.open { transform: translateX(0); }
             .main-content {
                 margin-left: 0;
-                padding: 20px;
+                padding: 16px;
             }
             .hamburger-admin { display: block; }
 
             .form-row {
                 grid-template-columns: 1fr;
+            }
+
+            .form-modal-content {
+                padding: 24px 20px;
+                margin: 10px;
             }
         }
 
@@ -640,13 +745,53 @@
             .stats-grid {
                 grid-template-columns: 1fr 1fr;
             }
-            .main-header h1 { font-size: 1.3rem; }
-            .form-modal-content { padding: 24px 16px; }
-            .table-container { padding: 16px; }
-            .table-container table { font-size: 0.75rem; }
+            .main-header h1 { font-size: 1.2rem; }
+            .main-header .user-info span { display: none; }
+            .form-modal-content { padding: 20px 16px; }
+            .table-container { padding: 12px; }
+            .table-container table { font-size: 0.75rem; min-width: 400px; }
             .table-container th,
-            .table-container td { padding: 8px 6px; }
+            .table-container td { padding: 6px 4px; }
+
+            .form-actions .btn {
+                min-width: 100%;
+                flex: none;
+            }
+
+            .schedule-preview { padding: 16px; }
+            .schedule-preview h3 { font-size: 1.2rem; }
         }
+
+        @media (max-width: 400px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .stat-card { padding: 16px; }
+            .stat-card .stat-number { font-size: 1.5rem; }
+            .stat-card .stat-icon { font-size: 1.5rem; }
+        }
+
+        /* Scroll para el contenido del modal */
+        .form-modal-content::-webkit-scrollbar,
+        .main-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .form-modal-content::-webkit-scrollbar-thumb,
+        .main-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        /* Overlay del sidebar en móvil */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 99;
+        }
+        .sidebar-overlay.active { display: block; }
     </style>
 </head>
 <body>
@@ -681,6 +826,9 @@
     <!-- ========== ADMIN APP ========== -->
     <div class="admin-app" id="adminApp">
 
+        <!-- Overlay para móvil -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
         <!-- ========== SIDEBAR ========== -->
         <aside class="sidebar" id="sidebar">
             <a href="#" class="logo">Olivia<span>Bike</span></a>
@@ -705,6 +853,10 @@
                 <i class="fas fa-cog"></i> Configuración
             </a>
             
+            <a class="nav-item ir-web" href="../index.html" target="_blank">
+                <i class="fas fa-external-link-alt"></i> Ver tienda
+            </a>
+            
             <div class="nav-section">Cuenta</div>
             <a class="nav-item logout-btn" onclick="handleLogout()">
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
@@ -714,7 +866,7 @@
         <!-- ========== MAIN CONTENT ========== -->
         <main class="main-content">
             <div class="main-header">
-                <div>
+                <div class="header-left">
                     <button class="hamburger-admin" onclick="toggleSidebar()">
                         <i class="fas fa-bars"></i>
                     </button>
@@ -758,7 +910,7 @@
                     </div>
                 </div>
 
-                <div class="table-container" style="margin-top:20px;">
+                <div class="table-container">
                     <h3 style="margin-bottom:16px;">🛒 Últimos Productos Agregados</h3>
                     <div id="dashboardProducts">
                         <p style="color:var(--gray-400);">No hay productos</p>
@@ -795,17 +947,17 @@
                     </button>
                 </div>
 
-                <div class="table-container" style="margin-top:20px;">
+                <div class="table-container">
                     <h3 style="margin-bottom:16px;">📢 Banners Rotativos</h3>
                     <div id="bannersManager">
                         <p style="color:var(--gray-400);">No hay banners</p>
                     </div>
-                    <button class="btn btn-primary btn-sm" onclick="addBannerImage()">
+                    <button class="btn btn-primary btn-sm" onclick="addBanner()">
                         <i class="fas fa-plus"></i> Agregar banner
                     </button>
                 </div>
 
-                <div class="table-container" style="margin-top:20px;">
+                <div class="table-container">
                     <h3 style="margin-bottom:16px;">🖼️ Galería</h3>
                     <div id="galleryManager">
                         <p style="color:var(--gray-400);">No hay imágenes en la galería</p>
@@ -839,7 +991,7 @@
                     </div>
                 </div>
 
-                <div class="table-container" style="margin-top:20px;">
+                <div class="table-container">
                     <h3 style="margin-bottom:16px;">💬 Testimonios</h3>
                     <div id="testimonialsManager">
                         <p style="color:var(--gray-400);">No hay testimonios</p>
@@ -849,7 +1001,7 @@
                     </button>
                 </div>
 
-                <div class="table-container" style="margin-top:20px;">
+                <div class="table-container">
                     <h3 style="margin-bottom:16px;">❓ Preguntas Frecuentes (FAQ)</h3>
                     <div id="faqManager">
                         <p style="color:var(--gray-400);">No hay preguntas frecuentes</p>
@@ -859,7 +1011,7 @@
                     </button>
                 </div>
 
-                <div class="table-container" style="margin-top:20px;">
+                <div class="table-container">
                     <h3 style="margin-bottom:16px;">🎯 Beneficios</h3>
                     <div id="benefitsManager">
                         <p style="color:var(--gray-400);">No hay beneficios</p>
@@ -914,18 +1066,33 @@
                     </button>
                 </div>
 
-                <div class="table-container" style="margin-top:20px;">
+                <div class="table-container">
                     <h3 style="margin-bottom:16px;">💾 Datos</h3>
-                    <button class="btn btn-outline" onclick="exportData()">
-                        <i class="fas fa-download"></i> Exportar datos (JSON)
-                    </button>
-                    <button class="btn btn-outline" onclick="importData()" style="margin-left:12px;">
-                        <i class="fas fa-upload"></i> Importar datos (JSON)
-                    </button>
-                    <button class="btn btn-outline" onclick="resetAllData()" style="margin-left:12px;border-color:#EF4444;color:#EF4444;">
-                        <i class="fas fa-trash"></i> Resetear todo
-                    </button>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                        <button class="btn btn-outline btn-sm" onclick="exportData()">
+                            <i class="fas fa-download"></i> Exportar datos
+                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="importData()">
+                            <i class="fas fa-upload"></i> Importar datos
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="resetAllData()">
+                            <i class="fas fa-trash"></i> Resetear todo
+                        </button>
+                    </div>
                     <input type="file" id="importFile" accept=".json" style="display:none;" onchange="handleImport(event)">
+                </div>
+
+                <div class="table-container">
+                    <h3 style="margin-bottom:16px;">📋 Instrucciones</h3>
+                    <p style="color:var(--gray-500);font-size:0.9rem;">
+                        <strong>Este panel administra todos los datos del frontend.</strong><br>
+                        Los cambios se guardan automáticamente en el navegador (LocalStorage).<br>
+                        Para ver los cambios en la tienda, abre la página principal en otra pestaña.
+                    </p>
+                    <p style="color:var(--gray-400);font-size:0.85rem;margin-top:8px;">
+                        <i class="fas fa-info-circle"></i> Las imágenes se guardan en base64 dentro del LocalStorage.
+                        Para imágenes grandes, se recomienda usar URLs externas.
+                    </p>
                 </div>
             </div>
 
@@ -955,13 +1122,13 @@
 
         function getDefaultData() {
             return {
-                // Productos
+                // ===== PRODUCTOS (6 productos de ejemplo) =====
                 products: [
                     {
                         id: 1,
                         name: 'Mountain Bike Pro X1',
                         category: 'Bicicletas',
-                        description: 'Bicicleta de montaña de alto rendimiento con cuadro de aluminio 6061 y suspensión delantera de 120mm.',
+                        description: 'Bicicleta de montaña de alto rendimiento con cuadro de aluminio 6061 y suspensión delantera de 120mm. Ideal para rutas exigentes y terrenos irregulares.',
                         image: 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80',
                         specs: {
                             'Rodado': '29"',
@@ -978,15 +1145,14 @@
                         oldPriceFormatted: '$1,599.000',
                         stock: 'En stock',
                         stockColor: 'green',
-                        whatsappMsg: 'Mountain Bike Pro X1 - Rodado 29"',
-                        isNew: false
+                        whatsappMsg: 'Mountain Bike Pro X1 - Rodado 29"'
                     },
                     {
                         id: 2,
                         name: 'Casco Aero Racer Pro',
                         category: 'Cascos',
-                        description: 'Casco aerodinámico de alta gama con ventilación avanzada y certificación CE.',
-                        image: 'https://images.unsplash.com/photo-1621568730701-2b9a4c81c207?w=800&q=80',
+                        description: 'Casco aerodinámico de alta gama con ventilación avanzada y certificación CE. Sistema de ajuste BOA.',
+                        image: 'https://iili.io/CELgZuI.jpg',
                         specs: {
                             'Talle': 'M / L / XL',
                             'Peso': '280g',
@@ -1002,15 +1168,14 @@
                         oldPriceFormatted: null,
                         stock: 'En stock',
                         stockColor: 'green',
-                        whatsappMsg: 'Casco Aero Racer Pro',
-                        isNew: true
+                        whatsappMsg: 'Casco Aero Racer Pro'
                     },
                     {
                         id: 3,
                         name: 'Kit Maillot + Culotte Elite',
                         category: 'Indumentaria',
-                        description: 'Kit completo de ciclismo profesional con maillot de poliester elástico y culotte con badana de gel.',
-                        image: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800&q=80',
+                        description: 'Kit completo de ciclismo profesional con maillot de poliester elástico y culotte con badana de gel. Tecnología de compresión muscular.',
+                        image: 'https://iili.io/CEL8KBf.jpg',
                         specs: {
                             'Talle': 'S / M / L / XL / XXL',
                             'Maillot': 'Poliester elástico',
@@ -1026,14 +1191,13 @@
                         oldPriceFormatted: '$320.000',
                         stock: 'Últimas unidades',
                         stockColor: 'orange',
-                        whatsappMsg: 'Kit Maillot + Culotte Elite',
-                        isNew: false
+                        whatsappMsg: 'Kit Maillot + Culotte Elite'
                     },
                     {
                         id: 4,
                         name: 'Bicicleta Ruta Carbon Elite',
                         category: 'Bicicletas',
-                        description: 'Bicicleta de ruta con cuadro de carbono T800. Peso ultra ligero y cambios electrónicos.',
+                        description: 'Bicicleta de ruta con cuadro de carbono T800. Peso ultra ligero y cambios electrónicos Shimano Ultegra Di2.',
                         image: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&q=80',
                         specs: {
                             'Rodado': '700x25c',
@@ -1050,15 +1214,14 @@
                         oldPriceFormatted: null,
                         stock: 'Últimas unidades',
                         stockColor: 'orange',
-                        whatsappMsg: 'Bicicleta Ruta Carbon Elite',
-                        isNew: true
+                        whatsappMsg: 'Bicicleta Ruta Carbon Elite'
                     },
                     {
                         id: 5,
                         name: 'Gafas Polarizadas Pro',
                         category: 'Accesorios',
-                        description: 'Gafas deportivas con lentes polarizadas UV400 y montura flexible TR-90.',
-                        image: 'https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&q=80',
+                        description: 'Gafas deportivas con lentes polarizadas UV400 y montura flexible TR-90. Incluye 3 lentes intercambiables.',
+                        image: 'https://iili.io/CELjQsV.md.jpg',
                         specs: {
                             'Lentes': 'Polarizadas UV400',
                             'Montura': 'TR-90 flexible',
@@ -1074,15 +1237,14 @@
                         oldPriceFormatted: '$120.000',
                         stock: 'En stock',
                         stockColor: 'green',
-                        whatsappMsg: 'Gafas Polarizadas Pro',
-                        isNew: false
+                        whatsappMsg: 'Gafas Polarizadas Pro'
                     },
                     {
                         id: 6,
                         name: 'Pedales Automáticos Race',
                         category: 'Repuestos',
-                        description: 'Pedales automáticos de competición con cuerpo de aluminio CNC y eje de acero cromado.',
-                        image: 'https://images.unsplash.com/photo-1505705694346-5e5028bc9900?w=800&q=80',
+                        description: 'Pedales automáticos de competición con cuerpo de aluminio CNC y eje de acero cromado. Incluye calas SH-51.',
+                        image: 'https://iili.io/CELOXJ1.md.jpg',
                         specs: {
                             'Material': 'Aluminio CNC',
                             'Eje': 'Acero cromado',
@@ -1098,11 +1260,10 @@
                         oldPriceFormatted: null,
                         stock: 'En stock',
                         stockColor: 'green',
-                        whatsappMsg: 'Pedales Automáticos Race',
-                        isNew: false
+                        whatsappMsg: 'Pedales Automáticos Race'
                     }
                 ],
-                // Hero images
+                // ===== HERO IMAGES =====
                 heroImages: [
                     'https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1600&q=80',
                     'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1600&q=80',
@@ -1110,12 +1271,12 @@
                     'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=1600&q=80',
                     'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1600&q=80'
                 ],
-                // Banners
+                // ===== BANNERS =====
                 banners: [
                     {
                         badge: '🔥 Oferta especial',
                         title: 'Bicicletas de <span>montaña</span> con 30% OFF',
-                        desc: 'Equipate con las mejores bicicletas para terrenos exigentes.',
+                        desc: 'Equipate con las mejores bicicletas para terrenos exigentes. Oferta válida por tiempo limitado.',
                         image: 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80',
                         cta: 'Aprovechar oferta',
                         link: 'https://wa.me/5491123456789'
@@ -1123,7 +1284,7 @@
                     {
                         badge: '⚡ Nuevas llegadas',
                         title: 'Indumentaria <span>Premium</span> para ciclistas',
-                        desc: 'Maillots, culottes y accesorios de las mejores marcas.',
+                        desc: 'Maillots, culottes y accesorios de las mejores marcas. Calidad profesional al mejor precio.',
                         image: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800&q=80',
                         cta: 'Ver colección',
                         link: 'https://wa.me/5491123456789'
@@ -1131,28 +1292,28 @@
                     {
                         badge: '🚴 Accesorios',
                         title: 'Todo lo que <span>necesitas</span> para rodar',
-                        desc: 'Cascos, gafas, pedales, luces y más.',
-                        image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80',
+                        desc: 'Cascos, gafas, pedales, luces y más. Equipamiento completo para tu seguridad y rendimiento.',
+                        image: 'https://iili.io/CEQKYkQ.png',
                         cta: 'Consultar ahora',
                         link: 'https://wa.me/5491123456789'
                     }
                 ],
-                // Gallery
+                // ===== GALLERY =====
                 gallery: [
                     'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&q=80',
-                    'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=800&q=80',
-                    'https://images.unsplash.com/photo-1621568730701-2b9a4c81c207?w=800&q=80',
-                    'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80',
-                    'https://images.unsplash.com/photo-1505705694346-5e5028bc9900?w=800&q=80',
-                    'https://images.unsplash.com/photo-1523626751074-2ee377e2e172?w=800&q=80'
+                    'https://iili.io/CELLXDl.png',
+                    'https://iili.io/CELgZuI.jpg',
+                    'https://iili.io/CEL17gj.jpg',
+                    'https://iili.io/CELi0XI.png',
+                    'https://iili.io/CEL6DZP.md.png'
                 ],
-                // Hero texts
+                // ===== HERO TEXTS =====
                 heroTexts: {
                     badge: '🔥 Tienda Premium',
-                    title: 'Vive la pasión sobre dos ruedas',
+                    title: 'Vive la <span>pasión</span> <br>sobre dos ruedas',
                     desc: 'Encuentra bicicletas de alta gama, accesorios y equipamiento profesional para ciclistas exigentes.'
                 },
-                // Testimonials
+                // ===== TESTIMONIALS =====
                 testimonials: [
                     {
                         name: 'María González',
@@ -1164,27 +1325,27 @@
                     {
                         name: 'Carlos Rodríguez',
                         role: 'Ciclista de ruta',
-                        text: 'Productos de primera calidad y atención increíble. Siempre encuentro lo que necesito y el envío es rapidísimo.',
+                        text: 'Productos de primera calidad y atención increíble. Siempre encuentro lo que necesito y el envío es rapidísimo. 100% recomendados.',
                         image: 'https://i.pravatar.cc/100?img=2',
                         stars: 5
                     },
                     {
                         name: 'Laura Fernández',
                         role: 'Ciclista de montaña',
-                        text: 'Compro todos mis repuestos y accesorios aquí. El equipo de OliviaBike siempre tiene lo último.',
+                        text: 'Compro todos mis repuestos y accesorios aquí. El equipo de OliviaBike siempre tiene lo último y me dan consejos excelentes.',
                         image: 'https://i.pravatar.cc/100?img=3',
                         stars: 5
                     }
                 ],
-                // FAQ
+                // ===== FAQ =====
                 faqs: [
                     { question: '¿Cómo realizan los envíos?', answer: 'Realizamos envíos a todo el país a través de correo argentino y mensajería privada. El tiempo de entrega varía según la ubicación, pero generalmente es de 3 a 7 días hábiles.' },
-                    { question: '¿Tienen stock de todos los productos?', answer: 'Manejamos stock en tiempo real. Todos los productos que ves en la web tienen disponibilidad actualizada.' },
-                    { question: '¿Cómo puedo hacer una consulta?', answer: 'Puedes consultarnos a través de WhatsApp haciendo clic en el botón verde que aparece en toda la página.' },
-                    { question: '¿Aceptan todos los medios de pago?', answer: 'Sí, aceptamos tarjetas de crédito/débito, transferencias bancarias, Mercado Pago y efectivo.' },
-                    { question: '¿Tienen garantía en los productos?', answer: 'Todos nuestros productos cuentan con garantía oficial del fabricante.' }
+                    { question: '¿Tienen stock de todos los productos?', answer: 'Manejamos stock en tiempo real. Todos los productos que ves en la web tienen disponibilidad actualizada. Si un producto está agotado, te avisamos y te ayudamos a encontrar una alternativa.' },
+                    { question: '¿Cómo puedo hacer una consulta?', answer: 'Puedes consultarnos a través de WhatsApp haciendo clic en el botón verde que aparece en toda la página. Te responderemos en menos de 15 minutos en horario comercial.' },
+                    { question: '¿Aceptan todos los medios de pago?', answer: 'Sí, aceptamos tarjetas de crédito/débito, transferencias bancarias, Mercado Pago y efectivo. Ofrecemos cuotas sin interés en muchas de nuestras marcas.' },
+                    { question: '¿Tienen garantía en los productos?', answer: 'Todos nuestros productos cuentan con garantía oficial del fabricante. Además, ofrecemos garantía extendida en bicicletas y componentes de alta gama.' }
                 ],
-                // Benefits
+                // ===== BENEFITS =====
                 benefits: [
                     { icon: 'fa-truck', title: 'Envíos a todo el país', desc: 'Entregas rápidas y seguras a cualquier punto de Argentina' },
                     { icon: 'fa-headset', title: 'Atención personalizada', desc: 'Asesoramiento one-to-one para encontrar el producto ideal' },
@@ -1193,9 +1354,9 @@
                     { icon: 'fa-shield-alt', title: 'Garantía extendida', desc: 'Protección adicional en todas tus compras' },
                     { icon: 'fa-credit-card', title: 'Múltiples medios de pago', desc: 'Cuotas sin interés y todos los métodos disponibles' }
                 ],
-                // Schedules (ofertas programadas)
+                // ===== SCHEDULES =====
                 schedules: [],
-                // Config
+                // ===== CONFIG =====
                 config: {
                     whatsapp: '5491123456789',
                     title: 'OliviaBike 24.7 - Tienda de Ciclismo Premium',
@@ -1212,17 +1373,33 @@
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
-                    data = parsed;
+                    // Merge con defaults para asegurar que todas las propiedades existan
+                    data = mergeDeep(getDefaultData(), parsed);
                 } catch(e) {
                     data = getDefaultData();
                 }
             } else {
                 data = getDefaultData();
+                saveData();
             }
+        }
+
+        function mergeDeep(target, source) {
+            const result = { ...target };
+            for (const key in source) {
+                if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+                    result[key] = mergeDeep(target[key] || {}, source[key]);
+                } else {
+                    result[key] = source[key];
+                }
+            }
+            return result;
         }
 
         function saveData() {
             localStorage.setItem(STORE_KEY, JSON.stringify(data));
+            // También guardamos una copia para el frontend con un formato compatible
+            localStorage.setItem('oliviabike_frontend_data', JSON.stringify(data));
         }
 
         // =====================================================
@@ -1254,7 +1431,6 @@
             }
         }
 
-        // Enter key for login
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && document.getElementById('loginPage').style.display !== 'none') {
                 handleLogin();
@@ -1266,9 +1442,9 @@
         // =====================================================
         const panelTitles = {
             dashboard: 'Dashboard',
-            productos: 'Productos',
-            imagenes: 'Imágenes',
-            contenido: 'Contenido',
+            productos: 'Gestión de Productos',
+            imagenes: 'Gestión de Imágenes',
+            contenido: 'Gestión de Contenido',
             programador: 'Programador de Ofertas',
             configuracion: 'Configuración'
         };
@@ -1277,20 +1453,31 @@
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             
-            document.getElementById(`panel-${panel}`).classList.add('active');
-            document.querySelector(`[data-panel="${panel}"]`).classList.add('active');
+            const panelEl = document.getElementById(`panel-${panel}`);
+            if (panelEl) panelEl.classList.add('active');
+            
+            const navItem = document.querySelector(`[data-panel="${panel}"]`);
+            if (navItem) navItem.classList.add('active');
+            
             document.getElementById('panelTitle').textContent = panelTitles[panel] || panel;
             
             if (window.innerWidth <= 992) {
-                document.getElementById('sidebar').classList.remove('open');
+                toggleSidebar(false);
             }
             
-            // Refresh data on panel change
             refreshAll();
         }
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
+        function toggleSidebar(forceState) {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (forceState === false) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                return;
+            }
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
         }
 
         // =====================================================
@@ -1346,7 +1533,7 @@
             const productsHtml = data.products.slice(0, 5).map(p => `
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);">
                     <div style="display:flex;align-items:center;gap:12px;">
-                        <img src="${p.image}" style="width:40px;height:40px;object-fit:cover;border-radius:8px;">
+                        <img src="${p.image}" style="width:40px;height:40px;object-fit:cover;border-radius:8px;" onerror="this.src='https://via.placeholder.com/40x40?text=No+img'">
                         <div>
                             <strong>${p.name}</strong>
                             <div style="font-size:0.85rem;color:var(--gray-400);">${p.category}</div>
@@ -1388,10 +1575,10 @@
                                 <td><strong>${p.name}</strong></td>
                                 <td>${p.category}</td>
                                 <td>${p.priceFormatted}</td>
-                                <td><span class="badge-status ${p.stock === 'En stock' ? 'active' : 'pending'}">${p.stock}</span></td>
+                                <td><span class="badge-status ${p.stock === 'En stock' ? 'en-stock' : p.stock === 'Últimas unidades' ? 'ultimas' : 'agotado'}">${p.stock}</span></td>
                                 <td>
                                     <div class="actions">
-                                        <button class="edit-btn" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i></button>
+                                        <button class="edit-btn" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i> Editar</button>
                                         <button class="delete-btn" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
                                     </div>
                                 </td>
@@ -1450,19 +1637,12 @@
                         <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen</span>
                         <input type="file" accept="image/*" onchange="previewProductImage(event)">
                     </div>
-                    ${isEdit && product.image ? `<img src="${product.image}" class="image-preview" id="f_product_image_preview">` : '<img class="image-preview" id="f_product_image_preview" style="display:none;">'}
+                    <img class="image-preview ${isEdit && product.image ? '' : 'hidden'}" id="f_product_image_preview" src="${isEdit ? product.image : ''}">
                     <input type="hidden" id="f_product_image" value="${isEdit ? product.image : ''}">
                 </div>
                 <div class="form-group">
                     <label>WhatsApp Message</label>
                     <input type="text" id="f_product_whatsapp" value="${isEdit ? product.whatsappMsg : ''}">
-                </div>
-                <div class="form-group">
-                    <label>¿Es Nuevo?</label>
-                    <select id="f_product_isnew">
-                        <option value="true" ${isEdit && product.isNew ? 'selected' : ''}>Sí</option>
-                        <option value="false" ${isEdit && !product.isNew ? 'selected' : ''}>No</option>
-                    </select>
                 </div>
                 <div class="form-group">
                     <label>Colores (separa con coma)</label>
@@ -1492,7 +1672,7 @@
                 reader.onload = function(e) {
                     const preview = document.getElementById('f_product_image_preview');
                     preview.src = e.target.result;
-                    preview.style.display = 'block';
+                    preview.classList.remove('hidden');
                     document.getElementById('f_product_image').value = e.target.result;
                 };
                 reader.readAsDataURL(file);
@@ -1508,11 +1688,9 @@
             const stock = document.getElementById('f_product_stock').value;
             const image = document.getElementById('f_product_image').value;
             const whatsappMsg = document.getElementById('f_product_whatsapp').value.trim() || name;
-            const isNew = document.getElementById('f_product_isnew').value === 'true';
             const colors = document.getElementById('f_product_colors').value.split(',').map(c => c.trim()).filter(c => c);
             const specsText = document.getElementById('f_product_specs').value;
             
-            // Parse specs
             const specs = {};
             specsText.split('\n').forEach(line => {
                 const parts = line.split(':').map(s => s.trim());
@@ -1545,8 +1723,7 @@
                 oldPriceFormatted,
                 stock,
                 stockColor,
-                whatsappMsg,
-                isNew
+                whatsappMsg
             };
 
             if (productId) {
@@ -1593,7 +1770,7 @@
                 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;">
                     ${data.heroImages.map((img, i) => `
                         <div style="position:relative;border-radius:10px;overflow:hidden;border:2px solid var(--gray-200);">
-                            <img src="${img}" style="width:100%;height:120px;object-fit:cover;">
+                            <img src="${img}" style="width:100%;height:120px;object-fit:cover;" onerror="this.src='https://via.placeholder.com/150x120?text=Error'">
                             <button onclick="removeHeroImage(${i})" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;">
                                 <i class="fas fa-times"></i>
                             </button>
@@ -1643,25 +1820,27 @@
             }
 
             container.innerHTML = `
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;">
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
                     ${data.banners.map((banner, i) => `
                         <div style="background:var(--black);border-radius:10px;padding:16px;color:white;position:relative;">
-                            <img src="${banner.image}" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px;">
+                            <img src="${banner.image}" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px;" onerror="this.src='https://via.placeholder.com/220x100?text=No+img'">
                             <div style="font-size:0.8rem;font-weight:600;color:var(--primary);">${banner.badge}</div>
                             <div style="font-weight:600;font-size:0.9rem;">${banner.title.replace(/<[^>]*>/g, '')}</div>
-                            <button onclick="removeBanner(${i})" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;">
-                                <i class="fas fa-times"></i>
-                            </button>
-                            <button onclick="editBanner(${i})" style="position:absolute;bottom:8px;right:8px;background:var(--primary);color:black;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.7rem;font-weight:600;">
-                                Editar
-                            </button>
+                            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+                                <button onclick="editBanner(${i})" style="background:var(--primary);color:black;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.7rem;font-weight:600;">
+                                    Editar
+                                </button>
+                                <button onclick="removeBanner(${i})" style="background:rgba(239,68,68,0.2);color:#EF4444;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.7rem;font-weight:600;">
+                                    Eliminar
+                                </button>
+                            </div>
                         </div>
                     `).join('')}
                 </div>
             `;
         }
 
-        function addBannerImage() {
+        function addBanner() {
             openBannerForm();
         }
 
@@ -1682,7 +1861,7 @@
                 </div>
                 <div class="form-group">
                     <label>Descripción *</label>
-                    <textarea id="f_banner_desc" rows="2">${isEdit ? banner.desc : 'Equipate con las mejores bicicletas'}</textarea>
+                    <textarea id="f_banner_desc" rows="2">${isEdit ? banner.desc : 'Equipate con las mejores bicicletas para terrenos exigentes.'}</textarea>
                 </div>
                 <div class="form-group">
                     <label>Texto del botón</label>
@@ -1693,12 +1872,12 @@
                     <input type="text" id="f_banner_link" value="${isEdit ? banner.link : 'https://wa.me/5491123456789'}">
                 </div>
                 <div class="form-group">
-                    <label>Imagen</label>
+                    <label>Imagen *</label>
                     <div class="file-input-wrapper">
                         <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen</span>
                         <input type="file" accept="image/*" onchange="previewBannerImage(event)">
                     </div>
-                    ${isEdit && banner.image ? `<img src="${banner.image}" class="image-preview" id="f_banner_image_preview">` : '<img class="image-preview" id="f_banner_image_preview" style="display:none;">'}
+                    <img class="image-preview ${isEdit && banner.image ? '' : 'hidden'}" id="f_banner_image_preview" src="${isEdit ? banner.image : ''}">
                     <input type="hidden" id="f_banner_image" value="${isEdit ? banner.image : ''}">
                 </div>
                 <div class="form-actions">
@@ -1720,7 +1899,7 @@
                 reader.onload = function(e) {
                     const preview = document.getElementById('f_banner_image_preview');
                     preview.src = e.target.result;
-                    preview.style.display = 'block';
+                    preview.classList.remove('hidden');
                     document.getElementById('f_banner_image').value = e.target.result;
                 };
                 reader.readAsDataURL(file);
@@ -1781,7 +1960,7 @@
                 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;">
                     ${data.gallery.map((img, i) => `
                         <div style="position:relative;border-radius:10px;overflow:hidden;border:2px solid var(--gray-200);">
-                            <img src="${img}" style="width:100%;height:120px;object-fit:cover;">
+                            <img src="${img}" style="width:100%;height:120px;object-fit:cover;" onerror="this.src='https://via.placeholder.com/150x120?text=Error'">
                             <button onclick="removeGalleryImage(${i})" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;">
                                 <i class="fas fa-times"></i>
                             </button>
@@ -1827,14 +2006,24 @@
         // =====================================================
         function renderHeroTexts() {
             document.getElementById('heroBadge').value = data.heroTexts.badge;
-            document.getElementById('heroTitle').value = data.heroTexts.title;
+            document.getElementById('heroTitle').value = data.heroTexts.title.replace(/<[^>]*>/g, '').trim();
             document.getElementById('heroDesc').value = data.heroTexts.desc;
         }
 
         function saveHeroTexts() {
-            data.heroTexts.badge = document.getElementById('heroBadge').value.trim();
-            data.heroTexts.title = document.getElementById('heroTitle').value.trim();
-            data.heroTexts.desc = document.getElementById('heroDesc').value.trim();
+            const badge = document.getElementById('heroBadge').value.trim();
+            const title = document.getElementById('heroTitle').value.trim();
+            const desc = document.getElementById('heroDesc').value.trim();
+            
+            // Mantener el span en el título si existe
+            let finalTitle = title;
+            if (!finalTitle.includes('<span>') && !finalTitle.includes('</span>')) {
+                // Si no tiene span, no lo agregamos automáticamente
+            }
+            
+            data.heroTexts.badge = badge;
+            data.heroTexts.title = finalTitle;
+            data.heroTexts.desc = desc;
             saveData();
             showToast('✅ Textos del hero actualizados', 'success');
         }
@@ -1848,16 +2037,16 @@
             }
 
             container.innerHTML = data.testimonials.map((t, i) => `
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);flex-wrap:wrap;gap:8px;">
                     <div style="display:flex;align-items:center;gap:12px;">
-                        <img src="${t.image}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+                        <img src="${t.image}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" onerror="this.src='https://via.placeholder.com/40x40?text=No+img'">
                         <div>
                             <strong>${t.name}</strong>
                             <div style="font-size:0.8rem;color:var(--gray-400);">${t.role}</div>
                             <div style="color:#FFB800;font-size:0.8rem;">${'★'.repeat(t.stars)}${'☆'.repeat(5-t.stars)}</div>
                         </div>
                     </div>
-                    <div>
+                    <div style="display:flex;gap:6px;">
                         <button class="edit-btn" onclick="editTestimonial(${i})"><i class="fas fa-edit"></i></button>
                         <button class="delete-btn" onclick="deleteTestimonial(${i})"><i class="fas fa-trash"></i></button>
                     </div>
@@ -1889,12 +2078,12 @@
                     <input type="number" id="f_testimonial_stars" min="1" max="5" value="${isEdit ? t.stars : 5}">
                 </div>
                 <div class="form-group">
-                    <label>Foto</label>
+                    <label>Foto *</label>
                     <div class="file-input-wrapper">
                         <span class="file-label"><i class="fas fa-upload"></i> Seleccionar foto</span>
                         <input type="file" accept="image/*" onchange="previewTestimonialImage(event)">
                     </div>
-                    ${isEdit && t.image ? `<img src="${t.image}" class="image-preview" id="f_testimonial_image_preview">` : '<img class="image-preview" id="f_testimonial_image_preview" style="display:none;">'}
+                    <img class="image-preview ${isEdit && t.image ? '' : 'hidden'}" id="f_testimonial_image_preview" src="${isEdit ? t.image : ''}">
                     <input type="hidden" id="f_testimonial_image" value="${isEdit ? t.image : ''}">
                 </div>
                 <div class="form-actions">
@@ -1916,7 +2105,7 @@
                 reader.onload = function(e) {
                     const preview = document.getElementById('f_testimonial_image_preview');
                     preview.src = e.target.result;
-                    preview.style.display = 'block';
+                    preview.classList.remove('hidden');
                     document.getElementById('f_testimonial_image').value = e.target.result;
                 };
                 reader.readAsDataURL(file);
@@ -1973,12 +2162,12 @@
             }
 
             container.innerHTML = data.faqs.map((f, i) => `
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);">
-                    <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);flex-wrap:wrap;gap:8px;">
+                    <div style="flex:1;min-width:150px;">
                         <strong>${f.question}</strong>
                         <div style="font-size:0.85rem;color:var(--gray-400);">${f.answer.substring(0, 80)}${f.answer.length > 80 ? '...' : ''}</div>
                     </div>
-                    <div>
+                    <div style="display:flex;gap:6px;">
                         <button class="edit-btn" onclick="editFaq(${i})"><i class="fas fa-edit"></i></button>
                         <button class="delete-btn" onclick="deleteFaq(${i})"><i class="fas fa-trash"></i></button>
                     </div>
@@ -2056,7 +2245,7 @@
             }
 
             container.innerHTML = data.benefits.map((b, i) => `
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);flex-wrap:wrap;gap:8px;">
                     <div style="display:flex;align-items:center;gap:12px;">
                         <i class="fas ${b.icon}" style="font-size:1.5rem;color:var(--primary);width:30px;"></i>
                         <div>
@@ -2064,7 +2253,7 @@
                             <div style="font-size:0.85rem;color:var(--gray-400);">${b.desc}</div>
                         </div>
                     </div>
-                    <div>
+                    <div style="display:flex;gap:6px;">
                         <button class="edit-btn" onclick="editBenefit(${i})"><i class="fas fa-edit"></i></button>
                         <button class="delete-btn" onclick="deleteBenefit(${i})"><i class="fas fa-trash"></i></button>
                     </div>
@@ -2078,7 +2267,7 @@
             
             document.getElementById('formTitle').textContent = isEdit ? '✏️ Editar Beneficio' : '➕ Nuevo Beneficio';
             
-            const iconOptions = ['fa-truck', 'fa-headset', 'fa-lightbulb', 'fa-award', 'fa-shield-alt', 'fa-credit-card', 'fa-rocket', 'fa-gem', 'fa-star'];
+            const iconOptions = ['fa-truck', 'fa-headset', 'fa-lightbulb', 'fa-award', 'fa-shield-alt', 'fa-credit-card', 'fa-rocket', 'fa-gem', 'fa-star', 'fa-heart'];
             
             document.getElementById('formBody').innerHTML = `
                 <div class="form-group">
@@ -2186,7 +2375,6 @@
                 </table>
             `;
 
-            // Verificar ofertas que deben activarse/desactivarse automáticamente
             autoCheckSchedules();
         }
 
@@ -2257,12 +2445,12 @@
                     <input type="text" id="f_schedule_link" value="${isEdit ? s.ctaLink : 'https://wa.me/5491123456789'}">
                 </div>
                 <div class="form-group">
-                    <label>Imagen del banner</label>
+                    <label>Imagen del banner *</label>
                     <div class="file-input-wrapper">
                         <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen</span>
                         <input type="file" accept="image/*" onchange="previewScheduleImage(event)">
                     </div>
-                    ${isEdit && s.imagen ? `<img src="${s.imagen}" class="image-preview" id="f_schedule_image_preview">` : '<img class="image-preview" id="f_schedule_image_preview" style="display:none;">'}
+                    <img class="image-preview ${isEdit && s.imagen ? '' : 'hidden'}" id="f_schedule_image_preview" src="${isEdit ? s.imagen : ''}">
                     <input type="hidden" id="f_schedule_image" value="${isEdit ? s.imagen : ''}">
                 </div>
                 
@@ -2272,7 +2460,7 @@
                         <span class="badge-banner" id="preview_badge">🔥 Oferta especial</span>
                         <h3 id="preview_title">Hasta 50% OFF en <span>todo</span></h3>
                         <p id="preview_desc">No te pierdas esta increíble oferta</p>
-                        <button class="btn btn-green" style="padding:10px 24px;font-size:0.85rem;" id="preview_cta">Aprovechar oferta</button>
+                        <button class="btn-green" id="preview_cta">Aprovechar oferta</button>
                         <br>
                         <img class="preview-image" id="preview_image" src="" style="display:none;">
                     </div>
@@ -2287,13 +2475,11 @@
             `;
 
             // Preview en tiempo real
-            document.getElementById('formBody').addEventListener('input', function(e) {
-                if (e.target.id.startsWith('f_schedule_')) {
-                    updateSchedulePreview();
-                }
+            const inputs = document.querySelectorAll('#formBody input, #formBody textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', updateSchedulePreview);
             });
 
-            // Mostrar preview inicial
             setTimeout(updateSchedulePreview, 100);
 
             document.getElementById('formModal').classList.add('active');
@@ -2308,16 +2494,20 @@
             const image = document.getElementById('f_schedule_image')?.value || '';
 
             const preview = document.getElementById('schedulePreview');
-            preview.classList.add('show');
-            document.getElementById('preview_badge').textContent = badge;
-            document.getElementById('preview_title').innerHTML = title;
-            document.getElementById('preview_desc').textContent = desc;
-            document.getElementById('preview_cta').textContent = cta;
+            if (preview) {
+                preview.classList.add('show');
+                document.getElementById('preview_badge').textContent = badge;
+                document.getElementById('preview_title').innerHTML = title;
+                document.getElementById('preview_desc').textContent = desc;
+                document.getElementById('preview_cta').textContent = cta;
 
-            if (image) {
                 const img = document.getElementById('preview_image');
-                img.src = image;
-                img.style.display = 'block';
+                if (image) {
+                    img.src = image;
+                    img.style.display = 'block';
+                } else {
+                    img.style.display = 'none';
+                }
             }
         }
 
@@ -2328,7 +2518,7 @@
                 reader.onload = function(e) {
                     const preview = document.getElementById('f_schedule_image_preview');
                     preview.src = e.target.result;
-                    preview.style.display = 'block';
+                    preview.classList.remove('hidden');
                     document.getElementById('f_schedule_image').value = e.target.result;
                     updateSchedulePreview();
                 };
@@ -2465,7 +2655,7 @@
                 try {
                     const imported = JSON.parse(e.target.result);
                     if (imported.products && imported.config) {
-                        data = imported;
+                        data = mergeDeep(getDefaultData(), imported);
                         saveData();
                         refreshAll();
                         showToast('✅ Datos importados correctamente', 'success');
@@ -2473,7 +2663,7 @@
                         showToast('⚠️ Archivo inválido', 'error');
                     }
                 } catch(err) {
-                    showToast('⚠️ Error al importar', 'error');
+                    showToast('⚠️ Error al importar: ' + err.message, 'error');
                 }
             };
             reader.readAsText(file);
@@ -2496,12 +2686,13 @@
         // =====================================================
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toastAdmin');
-            toast.textContent = message;
+            const msgEl = document.getElementById('toastAdminMessage');
+            msgEl.textContent = message;
             toast.className = 'toast-admin show ' + type;
             clearTimeout(toast._timeout);
             toast._timeout = setTimeout(() => {
                 toast.classList.remove('show');
-            }, 3000);
+            }, 3500);
         }
 
         // =====================================================
@@ -2512,14 +2703,19 @@
             document.body.style.overflow = '';
         }
 
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('formModal').addEventListener('click', function(e) {
+            if (e.target === this) closeFormModal();
+        });
+
         // =====================================================
-        // 14. VERIFICAR OFERTAS AL INICIAR
+        // 14. VERIFICAR OFERTAS CADA MINUTO
         // =====================================================
         setInterval(() => {
             if (document.getElementById('adminApp').classList.contains('active')) {
                 autoCheckSchedules();
             }
-        }, 60000); // Cada minuto
+        }, 60000);
 
         // =====================================================
         // 15. INICIO
@@ -2528,6 +2724,8 @@
         console.log('📦 Datos guardados en LocalStorage');
         console.log('🔑 Demo: admin / admin123');
         console.log('📅 Programador de ofertas incluido');
+        console.log('🖼️ Gestión completa de imágenes y contenido');
+        console.log('📱 Full responsive');
     </script>
 </body>
 </html>
