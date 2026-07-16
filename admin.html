@@ -1429,7 +1429,7 @@
                             <div style="font-size:0.85rem;color:var(--gray-400);">${p.category}</div>
                         </div>
                     </div>
-                    <span style="font-weight:700;">${p.priceFormatted || '$' + p.price?.toLocaleString('es-AR')}</span>
+                    <span style="font-weight:700;">${'$' + (p.price || 0).toLocaleString('es-AR')}</span>
                 </div>
             `).join('');
             
@@ -1464,7 +1464,7 @@
                                 <td><img src="${p.image}" class="table-img" onerror="this.src='https://via.placeholder.com/50x50?text=No+img'"></td>
                                 <td><strong>${p.name}</strong></td>
                                 <td>${p.category || 'Sin categoría'}</td>
-                                <td>${p.priceFormatted || '$' + p.price?.toLocaleString('es-AR')}</td>
+                                <td>${'$' + (p.price || 0).toLocaleString('es-AR')}</td>
                                 <td><span class="badge-status ${p.stock === 'En stock' ? 'en-stock' : p.stock === 'Últimas unidades' ? 'ultimas' : 'agotado'}">${p.stock || 'Sin stock'}</span></td>
                                 <td>
                                     <div class="actions">
@@ -1480,7 +1480,7 @@
         }
 
         // =====================================================
-        // FORMULARIO DE PRODUCTO CON BOTÓN "NUEVA CATEGORÍA"
+        // FORMULARIO DE PRODUCTO
         // =====================================================
         function openProductForm(productId = null) {
             const isEdit = productId !== null;
@@ -1629,6 +1629,9 @@
             }
         }
 
+        // ============================================================
+        // GUARDAR PRODUCTO - CORREGIDO (SIN oldPriceFormatted)
+        // ============================================================
         async function saveProduct(productId) {
             const name = document.getElementById('f_product_name').value.trim();
             const category_id = parseInt(document.getElementById('f_product_category').value) || null;
@@ -1641,6 +1644,7 @@
             const whatsapp_msg = document.getElementById('f_product_whatsapp').value.trim() || name;
             const colors = document.getElementById('f_product_colors').value.split(',').map(c => c.trim()).filter(c => c);
 
+            // Recoger campos dinámicos
             const custom_fields = {};
             document.querySelectorAll('[id^="field_"]').forEach(el => {
                 const key = el.id.replace('field_', '');
@@ -1655,25 +1659,28 @@
             const category = data.categories.find(c => c.id === category_id);
             const categoryName = category ? category.name : 'Sin categoría';
 
+            // ============================================================
+            // DATOS CORREGIDOS - SOLO columnas que existen en tu schema
+            // ============================================================
             const productData = {
                 id: productId || Date.now(),
                 name,
-                category_id,
+                category_id: category_id || null,
                 category: categoryName,
-                badge_id,
-                price,
-                old_price,
+                badge_id: badge_id || null,
+                price: price,
+                old_price: old_price,
                 description,
                 image,
-                stock,
+                stock: stock,
                 stock_color: stock === 'En stock' ? 'green' : stock === 'Últimas unidades' ? 'orange' : 'red',
-                whatsapp_msg,
+                whatsapp_msg: whatsapp_msg,
                 colors: colors.length ? colors : ['#000000'],
-                custom_fields,
-                priceFormatted: '$' + price.toLocaleString('es-AR'),
-                oldPriceFormatted: old_price ? '$' + old_price.toLocaleString('es-AR') : null,
+                custom_fields: custom_fields,
                 updated_at: new Date().toISOString()
             };
+
+            // ❌ ELIMINADO: priceFormatted y oldPriceFormatted (NO existen en la tabla)
 
             try {
                 if (productId) {
@@ -1726,7 +1733,7 @@
         }
 
         // =====================================================
-        // CREACIÓN RÁPIDA DE CATEGORÍA (desde productos)
+        // CREACIÓN RÁPIDA DE CATEGORÍA
         // =====================================================
         function openQuickCategoryForm() {
             document.getElementById('formTitle').textContent = '➕ Nueva Categoría (Rápida)';
