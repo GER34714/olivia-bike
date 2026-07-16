@@ -2081,7 +2081,6 @@
                 return count === 0 ? 'No hay productos disponibles' : `Mostrando ${count} productos`;
             }
             
-            // Si no hay productos, mostrar mensaje específico
             if (count === 0) {
                 const display = getCategoryDisplay(categoryName, 0);
                 return `No hay ${display} disponibles`;
@@ -2150,7 +2149,7 @@
                 const { data: categories } = await supabaseClient.from('categories').select('*').order('sort_order');
                 allCategories = categories || [];
 
-                // Cargar badges
+                // Cargar badges (DESDE ADMIN)
                 const { data: badges } = await supabaseClient.from('badges').select('*');
                 allBadges = badges || [];
 
@@ -2228,7 +2227,7 @@
         }
 
         // =====================================================
-        // FILTRAR PRODUCTOS POR CATEGORÍA
+        // FILTRAR PRODUCTOS POR CATEGORÍA - CORREGIDO
         // =====================================================
         function filterProducts(category) {
             const cards = document.querySelectorAll('.product-card');
@@ -2240,9 +2239,12 @@
                 card.classList.toggle('active', card.dataset.category === category);
             });
 
-            // Filtrar productos
+            // Filtrar productos - COMPARA CORRECTAMENTE
             cards.forEach(card => {
+                // Obtener la categoría del producto desde data-category
                 const cardCategory = card.dataset.category || 'Sin categoría';
+                
+                // Si la categoría seleccionada es "todos" O coincide con la del producto
                 if (category === 'todos' || cardCategory === category) {
                     card.style.display = 'block';
                     visibleCount++;
@@ -2253,7 +2255,7 @@
 
             // Mostrar mensaje si no hay productos
             const grid = document.getElementById('productsGrid');
-            const noResults = grid.querySelector('.no-results');
+            let noResults = grid.querySelector('.no-results');
             
             if (visibleCount === 0) {
                 if (!noResults) {
@@ -2285,7 +2287,7 @@
         }
 
         // =====================================================
-        // RENDERIZAR PRODUCTOS
+        // RENDERIZAR PRODUCTOS - SOLO BADGE DESDE ADMIN
         // =====================================================
         function renderProducts() {
             const grid = document.getElementById('productsGrid');
@@ -2305,6 +2307,9 @@
                 const oldPriceHtml = product.oldPriceFormatted ? 
                     `<span class="old">${product.oldPriceFormatted}</span>` : '';
 
+                // ============================================================
+                // SOLO BADGE DESDE LA TABLA "badges" (Gestionado desde Admin)
+                // ============================================================
                 const badge = allBadges.find(b => b.id === product.badge_id);
                 const badgeHtml = badge ? `
                     <span style="position:absolute;top:12px;left:12px;background:${badge.color};color:${badge.text_color};padding:4px 14px;border-radius:50px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;z-index:1;">
@@ -2778,6 +2783,7 @@
             const product = allProducts.find(p => p.id === productId);
             if (!product) return;
 
+            // SOLO BADGE DESDE ADMIN
             const badge = allBadges.find(b => b.id === product.badge_id);
             const badgeHtml = badge ? `<span style="display:inline-block;background:${badge.color};color:${badge.text_color};padding:2px 12px;border-radius:4px;font-size:0.7rem;font-weight:600;margin-bottom:8px;">${badge.icon || ''} ${badge.name}</span>` : '';
 
@@ -2950,11 +2956,10 @@
             }, 300);
         });
 
-        console.log('🚴 OliviaBike 24.7 - Landing Page con Carrito de Compras');
+        console.log('🚴 OliviaBike 24.7 - Frontend Corregido');
+        console.log('✅ Filtrado por categorías funcionando');
+        console.log('✅ Badges SOLO desde admin');
         console.log('🛒 Carrito funcional + Checkout por WhatsApp');
-        console.log('📱 Full responsive en todos los dispositivos');
-        console.log('🛠️ Conectado a Supabase');
-        console.log('🔐 Botón Admin en Header y Footer');
     </script>
 </body>
 </html>
