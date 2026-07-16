@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ========== RESET Y VARIABLES ========== */
         * {
             margin: 0;
             padding: 0;
@@ -46,12 +45,10 @@
             overflow-x: hidden;
         }
 
-        /* ========== SCROLLBAR ========== */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--gray-100); }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
 
-        /* ========== UTILIDADES ========== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -150,7 +147,6 @@
             color: var(--black);
         }
 
-        /* ========== BOTÓN ADMIN ========== */
         .btn-admin {
             background: transparent;
             color: var(--black);
@@ -176,7 +172,6 @@
             font-size: 0.9rem;
         }
 
-        /* ========== CARRITO FLOTANTE ========== */
         .cart-float {
             position: fixed;
             bottom: 30px;
@@ -231,7 +226,6 @@
             color: var(--black);
         }
 
-        /* ========== MODAL CARRITO ========== */
         .cart-modal-overlay {
             position: fixed;
             inset: 0;
@@ -414,7 +408,6 @@
             font-size: 1.05rem;
         }
 
-        /* ========== HEADER ========== */
         .header {
             position: fixed;
             top: 0;
@@ -502,7 +495,6 @@
             transition: var(--transition);
         }
 
-        /* ========== HERO CON CARRUSEL ========== */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -638,7 +630,6 @@
             50% { transform: translateX(-50%) translateY(-10px); }
         }
 
-        /* ========== CATEGORÍAS ========== */
         .categories {
             padding: 80px 0;
             background: var(--white);
@@ -661,23 +652,36 @@
             text-decoration: none;
             color: var(--black);
             text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
         }
         .category-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-md);
             background: var(--white);
         }
+        .category-card.active {
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
         .category-card i {
             font-size: 2.4rem;
             color: var(--primary);
             margin-bottom: 12px;
+        }
+        .category-card img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 8px;
         }
         .category-card span {
             font-weight: 600;
             font-size: 0.85rem;
         }
 
-        /* ========== BANNERS ROTATIVOS ========== */
         .banners-carousel {
             padding: 0;
             background: var(--black);
@@ -784,7 +788,6 @@
             border-radius: 4px;
         }
 
-        /* ========== PRODUCTOS ========== */
         .products {
             padding: 80px 0;
             background: var(--gray-100);
@@ -806,6 +809,9 @@
         .product-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
+        }
+        .product-card.hidden {
+            display: none;
         }
 
         .product-image {
@@ -909,7 +915,6 @@
             color: var(--primary);
         }
 
-        /* ========== MODAL DE PRODUCTO ========== */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1101,7 +1106,6 @@
             min-width: 180px;
         }
 
-        /* ========== BANNER PROMOCIONAL ========== */
         .banner-promo {
             padding: 80px 0;
             background: var(--black);
@@ -1172,7 +1176,6 @@
             box-shadow: var(--shadow-xl);
         }
 
-        /* ========== BENEFICIOS ========== */
         .benefits {
             padding: 80px 0;
             background: var(--white);
@@ -1216,7 +1219,6 @@
             font-size: 0.9rem;
         }
 
-        /* ========== GALERÍA ========== */
         .gallery {
             padding: 80px 0;
             background: var(--gray-100);
@@ -1246,7 +1248,6 @@
             grid-row: span 2;
         }
 
-        /* ========== TESTIMONIOS ========== */
         .testimonials {
             padding: 80px 0;
             background: var(--white);
@@ -1303,7 +1304,6 @@
             color: var(--gray-400);
         }
 
-        /* ========== FAQ ========== */
         .faq {
             padding: 80px 0;
             background: var(--gray-100);
@@ -1348,7 +1348,6 @@
             padding: 0 24px 20px;
         }
 
-        /* ========== CTA FINAL ========== */
         .cta-final {
             padding: 100px 0;
             background: var(--black);
@@ -1388,7 +1387,6 @@
             font-size: 1.1rem;
         }
 
-        /* ========== MAPA ========== */
         .map-section {
             padding: 80px 0;
             background: var(--white);
@@ -1406,7 +1404,6 @@
             border: 0;
         }
 
-        /* ========== FOOTER ========== */
         .footer {
             background: var(--black);
             color: var(--white);
@@ -1496,7 +1493,6 @@
         }
         .footer-bottom span { color: var(--primary); }
 
-        /* ========== TOAST NOTIFICATION ========== */
         .toast {
             position: fixed;
             bottom: 100px;
@@ -1521,7 +1517,6 @@
             color: var(--primary);
         }
 
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 992px) {
             .banner-promo .banner-content {
                 grid-template-columns: 1fr;
@@ -1529,13 +1524,9 @@
             }
             .banner-promo .banner-timer { justify-content: center; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
-
-            .modal-grid {
-                grid-template-columns: 1fr;
-            }
+            .modal-grid { grid-template-columns: 1fr; }
             .modal-content { padding: 24px; }
             .modal-image img { max-height: 300px; }
-
             .banner-slide {
                 grid-template-columns: 1fr;
                 text-align: center;
@@ -1543,7 +1534,6 @@
             }
             .banner-slide .banner-text p { margin: 16px auto 24px; }
             .banner-slide .banner-text .badge-banner { margin: 0 auto 12px; }
-
             .cart-item {
                 grid-template-columns: 50px 1fr auto;
                 gap: 10px;
@@ -1553,7 +1543,6 @@
 
         @media (max-width: 768px) {
             .hamburger { display: flex; }
-
             .nav-menu {
                 position: fixed;
                 top: 0;
@@ -1576,16 +1565,13 @@
                 display: block;
                 border-bottom: 1px solid var(--gray-100);
             }
-
             .header-actions .btn-whatsapp {
                 padding: 8px 14px;
                 font-size: 0.8rem;
             }
             .header-actions .btn-whatsapp span { display: none; }
-
             .hero-content h1 { font-size: clamp(2rem, 10vw, 2.8rem); }
             .hero-content p { font-size: 1rem; }
-
             .categories-grid {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 12px;
@@ -1595,7 +1581,6 @@
             }
             .category-card i { font-size: 1.6rem; }
             .category-card span { font-size: 0.7rem; }
-
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 16px;
@@ -1605,7 +1590,6 @@
             .product-body h3 { font-size: 0.95rem; }
             .product-body .btn-group-cart { flex-direction: column; }
             .product-body .btn-group-cart .btn { padding: 10px; font-size: 0.75rem; }
-
             .gallery-grid {
                 grid-template-columns: repeat(2, 1fr);
                 grid-auto-rows: 140px;
@@ -1615,7 +1599,6 @@
                 grid-column: span 2;
                 grid-row: span 1;
             }
-
             .testimonials-grid { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr; gap: 24px; }
             .hero-buttons .btn { width: 100%; justify-content: center; }
@@ -1625,7 +1608,6 @@
                 min-width: 48px;
                 padding: 6px 12px;
             }
-
             .modal-content { padding: 16px; margin: 10px; }
             .modal-info h2 { font-size: 1.5rem; }
             .modal-info .specs-grid {
@@ -1635,15 +1617,12 @@
             .modal-info .price { font-size: 1.6rem; }
             .modal-info .btn-group { flex-direction: column; }
             .modal-info .btn-group .btn { min-width: auto; }
-
             .hero-indicators { bottom: 60px; }
-
             .banner-slide {
                 padding: 40px 0;
             }
             .banner-slide .banner-image img { max-height: 250px; }
             .banners-controls { padding: 15px 0 25px; }
-
             .cart-float {
                 bottom: 20px;
                 right: 20px;
@@ -1651,7 +1630,6 @@
             }
             .cart-float .cart-text { display: none; }
             .cart-float .cart-total { font-size: 0.85rem; }
-
             .cart-modal {
                 padding: 24px 16px;
                 margin: 10px;
@@ -1664,7 +1642,6 @@
             .cart-item img { width: 40px; height: 40px; }
             .cart-item .item-info h4 { font-size: 0.85rem; }
             .cart-item .item-qty button { width: 24px; height: 24px; font-size: 0.8rem; }
-
             .toast {
                 bottom: 90px;
                 right: 20px;
@@ -1687,7 +1664,6 @@
                 padding: 8px;
             }
             .container { padding: 0 16px; }
-
             .banner-slide .banner-text h2 {
                 font-size: 1.6rem;
             }
@@ -1773,7 +1749,7 @@
             <div class="section-header center fade-in">
                 <span class="section-tag">Explora</span>
                 <h2 class="section-title">Categorías</h2>
-                <p class="section-subtitle">Todo lo que necesitas para tu próxima aventura sobre ruedas</p>
+                <p class="section-subtitle">Hacé clic en una categoría para filtrar los productos</p>
             </div>
 
             <div class="categories-grid" id="categoriesGrid">
@@ -1787,8 +1763,8 @@
         <div class="container">
             <div class="section-header center fade-in">
                 <span class="section-tag">Catálogo</span>
-                <h2 class="section-title">Todos los <span style="color: var(--primary);">Productos</span></h2>
-                <p class="section-subtitle">Selección completa de lo mejor para ciclistas que exigen calidad y rendimiento</p>
+                <h2 class="section-title"><span style="color: var(--primary);" id="categoryTitleSpan">Productos</span></h2>
+                <p class="section-subtitle" id="productSubtitle">Selección completa de lo mejor para ciclistas que exigen calidad y rendimiento</p>
             </div>
 
             <div class="products-grid" id="productsGrid">
@@ -2049,6 +2025,73 @@
         let cart = [];
 
         // =====================================================
+        // PLURALIZACIÓN INTELIGENTE
+        // =====================================================
+        function getCategoryDisplay(categoryName, count = 0) {
+            const rules = {
+                'Bicicletas': {
+                    singular: 'la bicicleta',
+                    plural: 'las bicicletas',
+                    todos: 'Todas las bicicletas'
+                },
+                'Cascos': {
+                    singular: 'el casco',
+                    plural: 'los cascos',
+                    todos: 'Todos los cascos'
+                },
+                'Indumentaria': {
+                    singular: 'la indumentaria',
+                    plural: 'toda la indumentaria',
+                    todos: 'Toda la indumentaria'
+                },
+                'Accesorios': {
+                    singular: 'el accesorio',
+                    plural: 'los accesorios',
+                    todos: 'Todos los accesorios'
+                },
+                'Repuestos': {
+                    singular: 'el repuesto',
+                    plural: 'los repuestos',
+                    todos: 'Todos los repuestos'
+                }
+            };
+
+            const defaultRule = {
+                singular: categoryName.toLowerCase(),
+                plural: categoryName.toLowerCase(),
+                todos: `Todos los ${categoryName.toLowerCase()}`
+            };
+
+            const rule = rules[categoryName] || defaultRule;
+            
+            if (count === 0) return rule.todos;
+            if (count === 1) return rule.singular;
+            return rule.plural;
+        }
+
+        function getCategoryTitle(categoryName, count = 0) {
+            if (categoryName === 'todos') return 'Productos';
+            
+            const display = getCategoryDisplay(categoryName, count);
+            return display.charAt(0).toUpperCase() + display.slice(1);
+        }
+
+        function getCategorySubtitle(categoryName, count = 0) {
+            if (categoryName === 'todos') {
+                return count === 0 ? 'No hay productos disponibles' : `Mostrando ${count} productos`;
+            }
+            
+            // Si no hay productos, mostrar mensaje específico
+            if (count === 0) {
+                const display = getCategoryDisplay(categoryName, 0);
+                return `No hay ${display} disponibles`;
+            }
+            
+            const display = getCategoryDisplay(categoryName, count);
+            return `Mostrando ${count} ${display}`;
+        }
+
+        // =====================================================
         // INICIALIZAR SUPABASE
         // =====================================================
         function initSupabase() {
@@ -2152,102 +2195,54 @@
             }
         }
 
-// =====================================================
-// RENDERIZAR CATEGORÍAS CON FILTRO
-// =====================================================
-function renderCategories() {
-    const grid = document.getElementById('categoriesGrid');
-    if (!allCategories || allCategories.length === 0) {
-        grid.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay categorías</p>';
-        return;
-    }
+        // =====================================================
+        // RENDERIZAR CATEGORÍAS CON FILTRO
+        // =====================================================
+        function renderCategories() {
+            const grid = document.getElementById('categoriesGrid');
+            if (!allCategories || allCategories.length === 0) {
+                grid.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay categorías</p>';
+                return;
+            }
 
-    // Agregar botón "Todos" al principio
-    let html = `
-        <div class="category-card active" data-category="todos" onclick="filterProducts('todos')">
-            <i class="fas fa-th-large"></i>
-            <span>Todos</span>
-        </div>
-    `;
+            // Agregar botón "Todos" al principio
+            let html = `
+                <div class="category-card active" data-category="todos" onclick="filterProducts('todos')">
+                    <i class="fas fa-th-large"></i>
+                    <span>Todos</span>
+                </div>
+            `;
 
-    html += allCategories.map(cat => {
-        const icon = cat.icon || 'fa-tag';
-        const imageHtml = cat.image ? `<img src="${cat.image}" style="width:50px;height:50px;object-fit:cover;border-radius:50%;margin-bottom:8px;">` : `<i class="fas ${icon}"></i>`;
-        return `
-            <div class="category-card" data-category="${cat.name}" onclick="filterProducts('${cat.name}')">
-                ${imageHtml}
-                <span>${cat.name}</span>
-            </div>
-        `;
-    }).join('');
+            html += allCategories.map(cat => {
+                const icon = cat.icon || 'fa-tag';
+                const imageHtml = cat.image ? `<img src="${cat.image}" alt="${cat.name}">` : `<i class="fas ${icon}"></i>`;
+                return `
+                    <div class="category-card" data-category="${cat.name}" onclick="filterProducts('${cat.name}')">
+                        ${imageHtml}
+                        <span>${cat.name}</span>
+                    </div>
+                `;
+            }).join('');
 
-    grid.innerHTML = html;
-}
-// =====================================================
-// FILTRAR PRODUCTOS POR CATEGORÍA
-// =====================================================
-function filterProducts(category) {
-    const cards = document.querySelectorAll('.product-card');
-    const categoryCards = document.querySelectorAll('.category-card');
-    let visibleCount = 0;
-
-    // Actualizar clases activas en las categorías
-    categoryCards.forEach(card => {
-        card.classList.toggle('active', card.dataset.category === category);
-    });
-
-    // Filtrar productos
-    cards.forEach(card => {
-        const cardCategory = card.dataset.category || 'Sin categoría';
-        if (category === 'todos' || cardCategory === category) {
-            card.style.display = 'block';
-            visibleCount++;
-        } else {
-            card.style.display = 'none';
+            grid.innerHTML = html;
         }
-    });
 
-    // Mostrar mensaje si no hay productos
-    const grid = document.getElementById('productsGrid');
-    const noResults = grid.querySelector('.no-results');
-    
-    if (visibleCount === 0) {
-        if (!noResults) {
-            const msg = document.createElement('p');
-            msg.className = 'no-results';
-            msg.style.cssText = 'text-align:center;width:100%;padding:40px 0;color:var(--gray-400);';
-            msg.textContent = `No hay productos en la categoría "${category}"`;
-            grid.appendChild(msg);
-        }
-    } else {
-        if (noResults) noResults.remove();
-    }
-
-    // Actualizar título
-    const titleEl = document.querySelector('.products .section-title span');
-    if (titleEl) {
-        const categoryName = category === 'todos' ? 'Productos' : category;
-        titleEl.textContent = categoryName;
-    }
-
-    // Actualizar subtítulo
-    const subtitleEl = document.querySelector('.products .section-subtitle');
-    if (subtitleEl) {
-        subtitleEl.textContent = `Mostrando ${visibleCount} productos en "${category === 'todos' ? 'todos' : category}"`;
-    }
-
-    // Scroll a productos
-    document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
         // =====================================================
         // FILTRAR PRODUCTOS POR CATEGORÍA
         // =====================================================
-        function filterProductsByCategory(category) {
+        function filterProducts(category) {
             const cards = document.querySelectorAll('.product-card');
+            const categoryCards = document.querySelectorAll('.category-card');
             let visibleCount = 0;
 
+            // Actualizar clases activas en las categorías
+            categoryCards.forEach(card => {
+                card.classList.toggle('active', card.dataset.category === category);
+            });
+
+            // Filtrar productos
             cards.forEach(card => {
-                const cardCategory = card.dataset.category;
+                const cardCategory = card.dataset.category || 'Sin categoría';
                 if (category === 'todos' || cardCategory === category) {
                     card.style.display = 'block';
                     visibleCount++;
@@ -2256,11 +2251,37 @@ function filterProducts(category) {
                 }
             });
 
-            // Actualizar contador
-            const countEl = document.querySelector('.section-header.center .section-subtitle');
-            if (countEl) {
-                countEl.textContent = `Mostrando ${visibleCount} productos en "${category}"`;
+            // Mostrar mensaje si no hay productos
+            const grid = document.getElementById('productsGrid');
+            const noResults = grid.querySelector('.no-results');
+            
+            if (visibleCount === 0) {
+                if (!noResults) {
+                    const msg = document.createElement('p');
+                    msg.className = 'no-results';
+                    msg.style.cssText = 'text-align:center;width:100%;padding:40px 0;color:var(--gray-400);';
+                    const displayName = category === 'todos' ? 'productos' : getCategoryDisplay(category, 0);
+                    msg.textContent = `No hay ${displayName} disponibles`;
+                    grid.appendChild(msg);
+                }
+            } else {
+                if (noResults) noResults.remove();
             }
+
+            // Actualizar título con pluralización correcta
+            const titleSpan = document.getElementById('categoryTitleSpan');
+            if (titleSpan) {
+                titleSpan.textContent = getCategoryTitle(category, visibleCount);
+            }
+
+            // Actualizar subtítulo
+            const subtitleEl = document.getElementById('productSubtitle');
+            if (subtitleEl) {
+                subtitleEl.textContent = getCategorySubtitle(category, visibleCount);
+            }
+
+            // Scroll a productos
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // =====================================================
@@ -2273,7 +2294,10 @@ function filterProducts(category) {
                 return;
             }
 
-            // Obtener badges para cada producto
+            // Eliminar mensaje "no results" si existe
+            const noResults = grid.querySelector('.no-results');
+            if (noResults) noResults.remove();
+
             grid.innerHTML = allProducts.map(product => {
                 const stockClass = product.stock === 'En stock' ? 'in-stock' : 
                                   product.stock === 'Últimas unidades' ? 'low-stock' : 'out-of-stock';
