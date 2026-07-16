@@ -2227,29 +2227,51 @@
             grid.innerHTML = html;
         }
 
-        // =====================================================
-        // FILTRAR PRODUCTOS POR CATEGORÍA
-        // =====================================================
         function filterProducts(category) {
-            const cards = document.querySelectorAll('.product-card');
-            const categoryCards = document.querySelectorAll('.category-card');
-            let visibleCount = 0;
+    const cards = document.querySelectorAll('.product-card');
+    const categoryCards = document.querySelectorAll('.category-card');
+    let visibleCount = 0;
 
-            // Actualizar clases activas en las categorías
-            categoryCards.forEach(card => {
-                card.classList.toggle('active', card.dataset.category === category);
-            });
+    // Actualizar clases activas en las categorías
+    categoryCards.forEach(card => {
+        card.classList.toggle('active', card.dataset.category === category);
+    });
 
-            // Filtrar productos
-            cards.forEach(card => {
-                const cardCategory = card.dataset.category || 'Sin categoría';
-                if (category === 'todos' || cardCategory === category) {
-                    card.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+    // Filtrar productos - ESTA ES LA PARTE CORREGIDA
+    cards.forEach(card => {
+        const cardCategory = card.dataset.category || 'Sin categoría';
+        if (category === 'todos' || cardCategory === category) {
+            card.style.display = 'block';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // Actualizar título
+    const titleSpan = document.getElementById('categoryTitleSpan');
+    if (titleSpan) {
+        titleSpan.textContent = category === 'todos' ? 'Productos' : category;
+    }
+
+    // Mostrar mensaje si no hay productos
+    const grid = document.getElementById('productsGrid');
+    let noResults = grid.querySelector('.no-results');
+    if (visibleCount === 0) {
+        if (!noResults) {
+            noResults = document.createElement('p');
+            noResults.className = 'no-results';
+            noResults.style.cssText = 'text-align:center;width:100%;padding:40px 0;color:var(--gray-400);';
+            noResults.textContent = `No hay productos en ${category}`;
+            grid.appendChild(noResults);
+        }
+    } else {
+        if (noResults) noResults.remove();
+    }
+
+    // Scroll a productos
+    document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
             // Mostrar mensaje si no hay productos
             const grid = document.getElementById('productsGrid');
