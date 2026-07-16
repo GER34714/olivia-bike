@@ -2152,38 +2152,93 @@
             }
         }
 
-        // =====================================================
-        // RENDERIZAR CATEGORÍAS
-        // =====================================================
-        function renderCategories() {
-            const grid = document.getElementById('categoriesGrid');
-            if (!allCategories || allCategories.length === 0) {
-                grid.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay categorías</p>';
-                return;
-            }
+// =====================================================
+// RENDERIZAR CATEGORÍAS CON FILTRO
+// =====================================================
+function renderCategories() {
+    const grid = document.getElementById('categoriesGrid');
+    if (!allCategories || allCategories.length === 0) {
+        grid.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay categorías</p>';
+        return;
+    }
 
-            grid.innerHTML = allCategories.map(cat => {
-                const icon = cat.icon || 'fa-tag';
-                const imageHtml = cat.image ? `<img src="${cat.image}" style="width:50px;height:50px;object-fit:cover;border-radius:50%;margin-bottom:8px;">` : `<i class="fas ${icon}"></i>`;
-                return `
-                    <a href="#products" class="category-card" data-category="${cat.name}">
-                        ${imageHtml}
-                        <span>${cat.name}</span>
-                    </a>
-                `;
-            }).join('');
+    // Agregar botón "Todos" al principio
+    let html = `
+        <div class="category-card active" data-category="todos" onclick="filterProducts('todos')">
+            <i class="fas fa-th-large"></i>
+            <span>Todos</span>
+        </div>
+    `;
 
-            // Agregar evento de filtro por categoría
-            document.querySelectorAll('.category-card').forEach(card => {
-                card.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const category = this.dataset.category;
-                    filterProductsByCategory(category);
-                    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-                });
-            });
+    html += allCategories.map(cat => {
+        const icon = cat.icon || 'fa-tag';
+        const imageHtml = cat.image ? `<img src="${cat.image}" style="width:50px;height:50px;object-fit:cover;border-radius:50%;margin-bottom:8px;">` : `<i class="fas ${icon}"></i>`;
+        return `
+            <div class="category-card" data-category="${cat.name}" onclick="filterProducts('${cat.name}')">
+                ${imageHtml}
+                <span>${cat.name}</span>
+            </div>
+        `;
+    }).join('');
+
+    grid.innerHTML = html;
+}
+// =====================================================
+// FILTRAR PRODUCTOS POR CATEGORÍA
+// =====================================================
+function filterProducts(category) {
+    const cards = document.querySelectorAll('.product-card');
+    const categoryCards = document.querySelectorAll('.category-card');
+    let visibleCount = 0;
+
+    // Actualizar clases activas en las categorías
+    categoryCards.forEach(card => {
+        card.classList.toggle('active', card.dataset.category === category);
+    });
+
+    // Filtrar productos
+    cards.forEach(card => {
+        const cardCategory = card.dataset.category || 'Sin categoría';
+        if (category === 'todos' || cardCategory === category) {
+            card.style.display = 'block';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
         }
+    });
 
+    // Mostrar mensaje si no hay productos
+    const grid = document.getElementById('productsGrid');
+    const noResults = grid.querySelector('.no-results');
+    
+    if (visibleCount === 0) {
+        if (!noResults) {
+            const msg = document.createElement('p');
+            msg.className = 'no-results';
+            msg.style.cssText = 'text-align:center;width:100%;padding:40px 0;color:var(--gray-400);';
+            msg.textContent = `No hay productos en la categoría "${category}"`;
+            grid.appendChild(msg);
+        }
+    } else {
+        if (noResults) noResults.remove();
+    }
+
+    // Actualizar título
+    const titleEl = document.querySelector('.products .section-title span');
+    if (titleEl) {
+        const categoryName = category === 'todos' ? 'Productos' : category;
+        titleEl.textContent = categoryName;
+    }
+
+    // Actualizar subtítulo
+    const subtitleEl = document.querySelector('.products .section-subtitle');
+    if (subtitleEl) {
+        subtitleEl.textContent = `Mostrando ${visibleCount} productos en "${category === 'todos' ? 'todos' : category}"`;
+    }
+
+    // Scroll a productos
+    document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
         // =====================================================
         // FILTRAR PRODUCTOS POR CATEGORÍA
         // =====================================================
