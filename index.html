@@ -10,7 +10,7 @@
     
     <style>
         /* ============================================================
-           TODOS TUS ESTILOS ORIGINALES + OPTIMIZACIONES DE IMÁGENES
+           TODOS TUS ESTILOS ORIGINALES
            ============================================================ */
         * {
             margin: 0;
@@ -58,142 +58,6 @@
             padding: 0 24px;
         }
 
-        /* ============================================================
-           OPTIMIZACIÓN DE IMÁGENES
-           ============================================================ */
-        
-        /* 1. Placeholder shimmer para imágenes que cargan */
-        .image-wrapper {
-            position: relative;
-            overflow: hidden;
-            background: var(--gray-100);
-        }
-
-        .image-wrapper::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, 
-                var(--gray-100) 25%, 
-                var(--gray-200) 50%, 
-                var(--gray-100) 75%
-            );
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            z-index: 0;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        .image-wrapper img {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        /* 2. Imagen cargada - ocultar placeholder */
-        .image-wrapper img.loaded {
-            opacity: 1;
-        }
-
-        .image-wrapper img:not(.loaded) {
-            opacity: 0;
-        }
-
-        /* 3. Imagenes responsivas - sin distorsión */
-        .product-image {
-            position: relative;
-            height: 220px;
-            overflow: hidden;
-            background: var(--gray-100);
-            cursor: pointer;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.05);
-        }
-
-        /* 4. Hero - imágenes con carga prioritaria */
-        .hero-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* 5. Galería - imágenes optimizadas */
-        .gallery-item {
-            overflow: hidden;
-            border-radius: var(--radius);
-            position: relative;
-            cursor: pointer;
-            background: var(--gray-100);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        /* 6. Testimonios - avatares optimizados */
-        .testimonial-card .author img {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        /* 7. Banners - imágenes optimizadas */
-        .banner-slide .banner-image img {
-            width: 100%;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-xl);
-            max-height: 350px;
-            object-fit: cover;
-        }
-
-        /* 8. Modal - imagen optimizada */
-        .modal-image img {
-            width: 100%;
-            height: 100%;
-            max-height: 450px;
-            object-fit: cover;
-        }
-
-        /* 9. Pre-carga de imágenes críticas */
-        .hero-slide:first-child img {
-            /* La primera imagen del hero se carga con prioridad */
-            fetch-priority: high;
-        }
-
-        /* 10. Responsive - tamaños de imagen adaptados */
-        @media (max-width: 768px) {
-            .product-image { height: 160px; }
-            .gallery-item { min-height: 140px; }
-            .banner-slide .banner-image img { max-height: 250px; }
-            .modal-image img { max-height: 300px; }
-        }
-
-        @media (max-width: 480px) {
-            .product-image { height: 140px; }
-            .gallery-item { min-height: 100px; }
-        }
-
-        /* 11. Resto de tus estilos originales... */
         .section-tag {
             display: inline-block;
             font-size: 12px;
@@ -306,9 +170,6 @@
             color: var(--black);
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(155,224,0,0.3);
-        }
-        .btn-admin i {
-            font-size: 0.9rem;
         }
 
         .cart-float {
@@ -932,6 +793,44 @@
             background: var(--gray-100);
         }
 
+        /* ===== CONTROLES DE ORDENAMIENTO ===== */
+        .products-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .products-controls .order-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .products-controls .order-selector label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-500);
+        }
+
+        .products-controls .order-selector select {
+            padding: 8px 14px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-family: var(--font);
+            font-size: 0.85rem;
+            background: var(--white);
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .products-controls .order-selector select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(155,224,0,0.1);
+        }
+
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -960,14 +859,12 @@
             background: var(--gray-100);
             cursor: pointer;
         }
-
         .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: var(--transition);
         }
-
         .product-card:hover .product-image img {
             transform: scale(1.05);
         }
@@ -1372,21 +1269,20 @@
             grid-auto-rows: 200px;
             gap: 16px;
         }
-        .gallery-item {
+        .gallery-grid .gallery-item {
             overflow: hidden;
             border-radius: var(--radius);
             position: relative;
             cursor: pointer;
-            background: var(--gray-100);
         }
-        .gallery-item img {
+        .gallery-grid .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: var(--transition);
         }
-        .gallery-item:hover img { transform: scale(1.08); }
-        .gallery-item:first-child {
+        .gallery-grid .gallery-item:hover img { transform: scale(1.08); }
+        .gallery-grid .gallery-item:first-child {
             grid-column: span 2;
             grid-row: span 2;
         }
@@ -1660,9 +1556,6 @@
             color: var(--primary);
         }
 
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
         @media (max-width: 992px) {
             .banner-promo .banner-content {
                 grid-template-columns: 1fr;
@@ -1913,6 +1806,21 @@
                 <p class="section-subtitle" id="productSubtitle">Selección completa de lo mejor para ciclistas que exigen calidad y rendimiento</p>
             </div>
 
+            <!-- ===== CONTROLES DE ORDENAMIENTO ===== -->
+            <div class="products-controls">
+                <div class="order-selector">
+                    <label for="productOrderSelect"><i class="fas fa-arrow-up-wide-short"></i> Ordenar por:</label>
+                    <select id="productOrderSelect" onchange="applyOrder()">
+                        <option value="newest">🆕 Más recientes</option>
+                        <option value="oldest">📅 Más antiguos</option>
+                        <option value="price_asc">💰 Menor precio</option>
+                        <option value="price_desc">💰 Mayor precio</option>
+                        <option value="name_asc">🔤 A - Z</option>
+                        <option value="name_desc">🔤 Z - A</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="products-grid" id="productsGrid">
                 <!-- Los productos se cargan desde Supabase -->
             </div>
@@ -1993,7 +1901,7 @@
                     </div>
                 </div>
                 <div class="banner-image fade-in-right">
-                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80" alt="Bicicleta de montaña" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80" alt="Bicicleta de montaña">
                 </div>
             </div>
         </div>
@@ -2171,41 +2079,41 @@
         let cart = [];
 
         // =====================================================
-        // PLURALIZACIÓN INTELIGENTE
+        // PLURALIZACIÓN INTELIGENTE - CORREGIDA
         // =====================================================
         function getCategoryDisplay(categoryName, count = 0) {
             const rules = {
                 'Bicicletas': {
-                    singular: 'la bicicleta',
-                    plural: 'las bicicletas',
+                    singular: 'Bicicleta',
+                    plural: 'Bicicletas',
                     todos: 'Todas las bicicletas'
                 },
                 'Cascos': {
-                    singular: 'el casco',
-                    plural: 'los cascos',
+                    singular: 'Casco',
+                    plural: 'Cascos',
                     todos: 'Todos los cascos'
                 },
                 'Indumentaria': {
-                    singular: 'la indumentaria',
-                    plural: 'toda la indumentaria',
+                    singular: 'Indumentaria',
+                    plural: 'Indumentaria',
                     todos: 'Toda la indumentaria'
                 },
                 'Accesorios': {
-                    singular: 'el accesorio',
-                    plural: 'los accesorios',
+                    singular: 'Accesorio',
+                    plural: 'Accesorios',
                     todos: 'Todos los accesorios'
                 },
                 'Repuestos': {
-                    singular: 'el repuesto',
-                    plural: 'los repuestos',
+                    singular: 'Repuesto',
+                    plural: 'Repuestos',
                     todos: 'Todos los repuestos'
                 }
             };
 
             const defaultRule = {
-                singular: categoryName.toLowerCase(),
-                plural: categoryName.toLowerCase(),
-                todos: `Todos los ${categoryName.toLowerCase()}`
+                singular: categoryName,
+                plural: categoryName,
+                todos: `Todos los ${categoryName}`
             };
 
             const rule = rules[categoryName] || defaultRule;
@@ -2217,9 +2125,7 @@
 
         function getCategoryTitle(categoryName, count = 0) {
             if (categoryName === 'todos') return 'Productos';
-            
-            const display = getCategoryDisplay(categoryName, count);
-            return display.charAt(0).toUpperCase() + display.slice(1);
+            return getCategoryDisplay(categoryName, count);
         }
 
         function getCategorySubtitle(categoryName, count = 0) {
@@ -2227,13 +2133,11 @@
                 return count === 0 ? 'No hay productos disponibles' : `Mostrando ${count} productos`;
             }
             
-            if (count === 0) {
-                const display = getCategoryDisplay(categoryName, 0);
-                return `No hay ${display} disponibles`;
-            }
-            
             const display = getCategoryDisplay(categoryName, count);
-            return `Mostrando ${count} ${display}`;
+            if (count === 0) {
+                return `No hay ${display.toLowerCase()} disponibles`;
+            }
+            return `Mostrando ${count} ${display.toLowerCase()}`;
         }
 
         // =====================================================
@@ -2285,6 +2189,13 @@
                         logoEl.innerHTML = '';
                         logoEl.appendChild(logoImg);
                     }
+                    // Cargar orden de productos
+                    if (config.productOrder) {
+                        const select = document.getElementById('productOrderSelect');
+                        if (select) {
+                            select.value = config.productOrder;
+                        }
+                    }
                 }
 
                 // Cargar productos
@@ -2335,6 +2246,11 @@
                 updateCartUI();
                 startTimer();
 
+                // Aplicar orden después de renderizar
+                setTimeout(() => {
+                    applyOrder();
+                }, 500);
+
             } catch (err) {
                 console.error('Error loading data:', err);
             }
@@ -2359,7 +2275,7 @@
 
             html += allCategories.map(cat => {
                 const icon = cat.icon || 'fa-tag';
-                const imageHtml = cat.image ? `<img src="${cat.image}" alt="${cat.name}" loading="lazy">` : `<i class="fas ${icon}"></i>`;
+                const imageHtml = cat.image ? `<img src="${cat.image}" alt="${cat.name}">` : `<i class="fas ${icon}"></i>`;
                 return `
                     <div class="category-card" data-category="${cat.name}" onclick="filterProducts('${cat.name}')">
                         ${imageHtml}
@@ -2402,7 +2318,7 @@
                     msg.className = 'no-results';
                     msg.style.cssText = 'text-align:center;width:100%;padding:40px 0;color:var(--gray-400);';
                     const displayName = category === 'todos' ? 'productos' : getCategoryDisplay(category, 0);
-                    msg.textContent = `No hay ${displayName} disponibles`;
+                    msg.textContent = `No hay ${displayName.toLowerCase()} disponibles`;
                     grid.appendChild(msg);
                 }
             } else {
@@ -2419,11 +2335,53 @@
                 subtitleEl.textContent = getCategorySubtitle(category, visibleCount);
             }
 
+            setTimeout(() => {
+                applyOrder();
+            }, 100);
+
             document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // =====================================================
-        // RENDERIZAR PRODUCTOS - CORREGIDO
+        // ORDENAR PRODUCTOS
+        // =====================================================
+        function applyOrder() {
+            const order = document.getElementById('productOrderSelect')?.value || 'newest';
+            const grid = document.getElementById('productsGrid');
+            if (!grid) return;
+            
+            const cards = Array.from(grid.querySelectorAll('.product-card:not([style*="display: none"])'));
+            
+            if (cards.length === 0) return;
+            
+            cards.sort((a, b) => {
+                const aData = getProductData(a);
+                const bData = getProductData(b);
+                
+                switch(order) {
+                    case 'newest': return bData.id - aData.id;
+                    case 'oldest': return aData.id - bData.id;
+                    case 'price_asc': return aData.price - bData.price;
+                    case 'price_desc': return bData.price - aData.price;
+                    case 'name_asc': return aData.name.localeCompare(bData.name, 'es');
+                    case 'name_desc': return bData.name.localeCompare(aData.name, 'es');
+                    default: return 0;
+                }
+            });
+            
+            cards.forEach(card => grid.appendChild(card));
+        }
+
+        function getProductData(card) {
+            const id = parseInt(card.dataset.id) || 0;
+            const name = card.querySelector('h3')?.textContent || '';
+            const priceText = card.querySelector('.product-price')?.textContent || '0';
+            const price = parseFloat(priceText.replace(/[^0-9.,]/g, '').replace(',', '.')) || 0;
+            return { id, name, price };
+        }
+
+        // =====================================================
+        // RENDERIZAR PRODUCTOS
         // =====================================================
         function renderProducts() {
             const grid = document.getElementById('productsGrid');
@@ -2452,7 +2410,7 @@
                 return `
                     <div class="product-card" data-id="${product.id}" data-category="${product.category || 'Sin categoría'}">
                         <div class="product-image" onclick="openModal(${product.id})">
-                            <img src="${product.image}" alt="${product.name}" loading="lazy" onload="this.classList.add('loaded')">
+                            <img src="${product.image}" alt="${product.name}" loading="lazy">
                             ${badgeHtml}
                             <span class="product-stock ${stockClass}">${product.stock || 'Sin stock'}</span>
                         </div>
@@ -2467,7 +2425,7 @@
                                 <button class="btn btn-cart" data-product-id="${product.id}" onclick="addToCart(${product.id})">
                                     <i class="fas fa-cart-plus"></i> Agregar
                                 </button>
-                                <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.whatsapp_msg || product.name)}" 
+                                <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.name)}" 
                                    target="_blank" 
                                    class="btn btn-green" 
                                    onclick="event.stopPropagation();">
@@ -2481,6 +2439,10 @@
                     </div>
                 `;
             }).join('');
+
+            setTimeout(() => {
+                applyOrder();
+            }, 100);
         }
 
         // =====================================================
@@ -2498,7 +2460,7 @@
 
             container.innerHTML = images.map((img, i) => `
                 <div class="hero-slide ${i === 0 ? 'active' : ''}">
-                    <img src="${img}" alt="Ciclista" loading="${i === 0 ? 'eager' : 'lazy'}" fetchpriority="${i === 0 ? 'high' : 'low'}">
+                    <img src="${img}" alt="Ciclista" loading="${i === 0 ? 'eager' : 'lazy'}">
                 </div>
             `).join('');
 
@@ -2550,7 +2512,7 @@
                 {
                     badge: '🔥 Oferta especial',
                     title: 'Bicicletas de <span>montaña</span> con 30% OFF',
-                    description: 'Equipate con las mejores bicicletas para terrenos exigentes. Oferta válida por tiempo limitado.',
+                    description: 'Equipate con las mejores bicicletas para terrenos exigentes.',
                     image: 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80',
                     cta_text: 'Aprovechar oferta',
                     cta_link: `https://wa.me/${whatsappNumber}`
@@ -2666,7 +2628,7 @@
                     <div class="stars">${'★'.repeat(t.stars || 5)}${'☆'.repeat(5-(t.stars || 5))}</div>
                     <p>"${t.text}"</p>
                     <div class="author">
-                        <img src="${t.image}" onerror="this.src='https://i.pravatar.cc/100?img=1'" loading="lazy">
+                        <img src="${t.image}" onerror="this.src='https://i.pravatar.cc/100?img=1'">
                         <div>
                             <div class="name">${t.name}</div>
                             <div class="role">${t.role || ''}</div>
@@ -2821,7 +2783,7 @@
 
             container.innerHTML = cart.map(item => `
                 <div class="cart-item">
-                    <img src="${item.image}" alt="${item.name}" loading="lazy">
+                    <img src="${item.image}" alt="${item.name}">
                     <div class="item-info">
                         <h4>${item.name}</h4>
                         <div class="item-price">${item.priceFormatted} c/u</div>
@@ -2963,7 +2925,7 @@
 
             modalContent.innerHTML = `
                 <div class="modal-image">
-                    <img src="${product.image}" alt="${product.name}" loading="lazy">
+                    <img src="${product.image}" alt="${product.name}">
                 </div>
                 <div class="modal-info">
                     <span class="badge-category">${product.category || 'Sin categoría'}</span>
@@ -2998,7 +2960,7 @@
                         <button class="btn btn-cart" onclick="addToCart(${product.id}); closeModal();">
                             <i class="fas fa-cart-plus"></i> Agregar al carrito
                         </button>
-                        <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.whatsapp_msg || product.name)}" 
+                        <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.name)}" 
                            target="_blank" 
                            class="btn btn-whatsapp">
                             <i class="fab fa-whatsapp"></i> Consultar
@@ -3087,9 +3049,9 @@
             }, 300);
         });
 
-        console.log('🚴 OliviaBike 24.7 - Frontend Optimizado');
-        console.log('✅ Imágenes con lazy loading y placeholder');
+        console.log('🚴 OliviaBike 24.7 - Frontend con Ordenamiento');
         console.log('✅ Filtrado por categorías funcionando');
+        console.log('✅ Ordenamiento de productos activo');
         console.log('✅ Badges SOLO desde admin');
         console.log('🛒 Carrito funcional + Checkout por WhatsApp');
     </script>
