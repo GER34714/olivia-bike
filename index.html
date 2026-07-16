@@ -46,6 +46,7 @@
             overflow-x: hidden;
         }
 
+        /* ========== SCROLLBAR ========== */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--gray-100); }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
@@ -149,6 +150,7 @@
             color: var(--black);
         }
 
+        /* ========== BOTÓN ADMIN ========== */
         .btn-admin {
             background: transparent;
             color: var(--black);
@@ -445,11 +447,6 @@
             color: var(--black);
         }
         .logo span { color: var(--primary); }
-        .logo img {
-            height: 45px;
-            width: auto;
-            vertical-align: middle;
-        }
 
         .nav-menu {
             display: flex;
@@ -641,9 +638,9 @@
             50% { transform: translateX(-50%) translateY(-10px); }
         }
 
-        /* ========== CATEGORÍAS CLIQUEABLES ========== */
+        /* ========== CATEGORÍAS ========== */
         .categories {
-            padding: 60px 0 40px;
+            padding: 80px 0;
             background: var(--white);
         }
 
@@ -664,18 +661,11 @@
             text-decoration: none;
             color: var(--black);
             text-align: center;
-            cursor: pointer;
-            border: 2px solid transparent;
         }
         .category-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-md);
             background: var(--white);
-        }
-        .category-card.active {
-            border-color: var(--primary);
-            background: var(--white);
-            box-shadow: var(--shadow-sm);
         }
         .category-card i {
             font-size: 2.4rem;
@@ -686,49 +676,118 @@
             font-weight: 600;
             font-size: 0.85rem;
         }
-        .category-card .count {
-            font-size: 0.7rem;
-            color: var(--gray-400);
-            font-weight: 400;
-            margin-top: 4px;
+
+        /* ========== BANNERS ROTATIVOS ========== */
+        .banners-carousel {
+            padding: 0;
+            background: var(--black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banners-track {
+            display: flex;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .banner-slide {
+            min-width: 100%;
+            padding: 60px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            color: var(--white);
+        }
+
+        .banner-slide .banner-text h2 {
+            font-size: clamp(2rem, 3.5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+        }
+        .banner-slide .banner-text h2 span { color: var(--primary); }
+        .banner-slide .banner-text p {
+            color: var(--gray-300);
+            margin: 16px 0 24px;
+            font-size: 1.05rem;
+            font-weight: 300;
+            max-width: 480px;
+        }
+        .banner-slide .banner-text .badge-banner {
+            display: inline-block;
+            background: rgba(155,224,0,0.15);
+            color: var(--primary);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .banner-slide .banner-image img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+            max-height: 350px;
+            object-fit: cover;
+        }
+
+        .banners-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0 30px;
+            background: var(--black);
+        }
+
+        .banners-controls .btn-banner {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .banners-controls .btn-banner:hover {
+            background: var(--primary);
+            color: var(--black);
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .banners-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .banners-dots .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.25);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0;
+        }
+        .banners-dots .dot.active {
+            background: var(--primary);
+            width: 24px;
+            border-radius: 4px;
         }
 
         /* ========== PRODUCTOS ========== */
         .products {
-            padding: 40px 0 80px;
+            padding: 80px 0;
             background: var(--gray-100);
-        }
-
-        .products-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-        .products-header .section-title {
-            margin-bottom: 0;
-        }
-        .products-header .product-count {
-            color: var(--gray-400);
-            font-size: 0.9rem;
-        }
-        .btn-clear-filter {
-            padding: 8px 20px;
-            border: 2px solid var(--gray-300);
-            border-radius: 50px;
-            background: transparent;
-            cursor: pointer;
-            font-family: var(--font);
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: var(--transition);
-            color: var(--gray-500);
-        }
-        .btn-clear-filter:hover {
-            border-color: var(--black);
-            color: var(--black);
         }
 
         .products-grid {
@@ -748,9 +807,6 @@
             transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
         }
-        .product-card.hidden {
-            display: none;
-        }
 
         .product-image {
             position: relative;
@@ -769,19 +825,6 @@
             transform: scale(1.05);
         }
 
-        .product-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            padding: 4px 14px;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #000;
-        }
-
         .product-stock {
             position: absolute;
             top: 12px;
@@ -794,16 +837,16 @@
             letter-spacing: 0.5px;
         }
         .product-stock.in-stock {
-            background: rgba(34,197,94,0.15);
-            color: #16A34A;
+            background: rgba(155,224,0,0.15);
+            color: #6B8C00;
         }
         .product-stock.low-stock {
-            background: rgba(245,158,11,0.15);
-            color: #D97706;
+            background: rgba(255,165,0,0.15);
+            color: #B87300;
         }
         .product-stock.out-of-stock {
-            background: rgba(239,68,68,0.15);
-            color: #DC2626;
+            background: rgba(255,0,0,0.1);
+            color: #CC0000;
         }
 
         .product-body {
@@ -1058,29 +1101,309 @@
             min-width: 180px;
         }
 
-        /* ========== TOAST ========== */
-        .toast {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
+        /* ========== BANNER PROMOCIONAL ========== */
+        .banner-promo {
+            padding: 80px 0;
             background: var(--black);
             color: var(--white);
-            padding: 16px 24px;
-            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        .banner-promo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(155,224,0,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .banner-promo .banner-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+        .banner-promo .banner-content h2 {
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.1;
+        }
+        .banner-promo .banner-content h2 span { color: var(--primary); }
+        .banner-promo .banner-content p {
+            color: var(--gray-300);
+            margin: 16px 0 24px;
+            font-weight: 300;
+        }
+
+        .banner-timer {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .timer-item { text-align: center; }
+        .timer-item .number {
+            display: block;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: rgba(255,255,255,0.05);
+            padding: 8px 16px;
+            border-radius: 8px;
+            min-width: 60px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .timer-item .label {
+            font-size: 0.7rem;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .banner-promo .banner-image img {
+            width: 100%;
+            border-radius: var(--radius);
             box-shadow: var(--shadow-xl);
-            border-left: 4px solid var(--primary);
-            transform: translateX(120%);
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 99999;
-            max-width: 360px;
+        }
+
+        /* ========== BENEFICIOS ========== */
+        .benefits {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+        }
+
+        .benefit-item {
+            text-align: center;
+            padding: 24px;
+        }
+        .benefit-item .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            background: rgba(155,224,0,0.1);
+            border-radius: 50%;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+        .benefit-item:hover .icon {
+            transform: scale(1.1) rotate(-5deg);
+            background: var(--primary);
+            color: var(--black);
+        }
+        .benefit-item h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .benefit-item p {
+            color: var(--gray-400);
             font-size: 0.9rem;
         }
-        .toast.show {
-            transform: translateX(0);
+
+        /* ========== GALERÍA ========== */
+        .gallery {
+            padding: 80px 0;
+            background: var(--gray-100);
         }
-        .toast .toast-title {
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 200px;
+            gap: 16px;
+        }
+        .gallery-grid .gallery-item {
+            overflow: hidden;
+            border-radius: var(--radius);
+            position: relative;
+            cursor: pointer;
+        }
+        .gallery-grid .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .gallery-grid .gallery-item:hover img { transform: scale(1.08); }
+        .gallery-grid .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        /* ========== TESTIMONIOS ========== */
+        .testimonials {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .testimonial-card {
+            padding: 32px;
+            background: var(--gray-100);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .testimonial-card .stars {
+            color: #FFB800;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+        .testimonial-card p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            font-weight: 400;
+            line-height: 1.7;
+        }
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--gray-200);
+        }
+        .testimonial-card .author img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .testimonial-card .author .name {
             font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .testimonial-card .author .role {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+        }
+
+        /* ========== FAQ ========== */
+        .faq {
+            padding: 80px 0;
+            background: var(--gray-100);
+        }
+
+        .faq-list {
+            max-width: 740px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        .faq-item .question {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .faq-item .question:hover { background: var(--gray-100); }
+        .faq-item .question i {
+            transition: var(--transition);
             color: var(--primary);
+        }
+        .faq-item.active .question i { transform: rotate(180deg); }
+        .faq-item .answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0 24px;
+            color: var(--gray-500);
+        }
+        .faq-item.active .answer {
+            max-height: 200px;
+            padding: 0 24px 20px;
+        }
+
+        /* ========== CTA FINAL ========== */
+        .cta-final {
+            padding: 100px 0;
+            background: var(--black);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-final::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(155,224,0,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta-final .container { position: relative; z-index: 1; }
+        .cta-final h2 {
+            font-size: clamp(2.4rem, 4vw, 3.6rem);
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+        .cta-final h2 span { color: var(--primary); }
+        .cta-final p {
+            color: var(--gray-300);
+            font-size: 1.1rem;
+            max-width: 540px;
+            margin: 0 auto 32px;
+            font-weight: 300;
+        }
+        .cta-final .btn {
+            padding: 18px 48px;
+            font-size: 1.1rem;
+        }
+
+        /* ========== MAPA ========== */
+        .map-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .map-container {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            height: 380px;
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
 
         /* ========== FOOTER ========== */
@@ -1173,14 +1496,54 @@
         }
         .footer-bottom span { color: var(--primary); }
 
+        /* ========== TOAST NOTIFICATION ========== */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: var(--black);
+            color: var(--white);
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            border-left: 4px solid var(--primary);
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 99999;
+            max-width: 360px;
+            font-size: 0.9rem;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast .toast-title {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
         /* ========== RESPONSIVE ========== */
         @media (max-width: 992px) {
+            .banner-promo .banner-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .banner-promo .banner-timer { justify-content: center; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+
             .modal-grid {
                 grid-template-columns: 1fr;
             }
             .modal-content { padding: 24px; }
             .modal-image img { max-height: 300px; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
+
+            .banner-slide {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 30px;
+            }
+            .banner-slide .banner-text p { margin: 16px auto 24px; }
+            .banner-slide .banner-text .badge-banner { margin: 0 auto 12px; }
+
             .cart-item {
                 grid-template-columns: 50px 1fr auto;
                 gap: 10px;
@@ -1243,8 +1606,25 @@
             .product-body .btn-group-cart { flex-direction: column; }
             .product-body .btn-group-cart .btn { padding: 10px; font-size: 0.75rem; }
 
-            .hero-buttons .btn { width: 100%; justify-content: center; }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 140px;
+                gap: 10px;
+            }
+            .gallery-grid .gallery-item:first-child {
+                grid-column: span 2;
+                grid-row: span 1;
+            }
+
+            .testimonials-grid { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+            .hero-buttons .btn { width: 100%; justify-content: center; }
+            .banner-timer { flex-wrap: wrap; }
+            .timer-item .number {
+                font-size: 1.6rem;
+                min-width: 48px;
+                padding: 6px 12px;
+            }
 
             .modal-content { padding: 16px; margin: 10px; }
             .modal-info h2 { font-size: 1.5rem; }
@@ -1257,6 +1637,12 @@
             .modal-info .btn-group .btn { min-width: auto; }
 
             .hero-indicators { bottom: 60px; }
+
+            .banner-slide {
+                padding: 40px 0;
+            }
+            .banner-slide .banner-image img { max-height: 250px; }
+            .banners-controls { padding: 15px 0 25px; }
 
             .cart-float {
                 bottom: 20px;
@@ -1287,11 +1673,6 @@
                 padding: 14px 18px;
                 font-size: 0.85rem;
             }
-
-            .products-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
         }
 
         @media (max-width: 480px) {
@@ -1306,6 +1687,11 @@
                 padding: 8px;
             }
             .container { padding: 0 16px; }
+
+            .banner-slide .banner-text h2 {
+                font-size: 1.6rem;
+            }
+            .banner-slide .banner-image img { max-height: 200px; }
         }
     </style>
 </head>
@@ -1314,7 +1700,7 @@
     <!-- ========== HEADER ========== -->
     <header class="header" id="header">
         <div class="container">
-            <a href="#" class="logo" id="siteLogo">Olivia<span>Bike</span> 24.7</a>
+            <a href="#" class="logo">Olivia<span>Bike</span> 24.7</a>
 
             <nav>
                 <ul class="nav-menu" id="navMenu">
@@ -1369,22 +1755,29 @@
         <div class="hero-scroll"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- ========== CATEGORÍAS CLIQUEABLES ========== -->
+    <!-- ========== BANNERS ROTATIVOS ========== -->
+    <section class="banners-carousel" id="banners">
+        <div class="container">
+            <div class="banners-track" id="bannersTrack"></div>
+        </div>
+        <div class="banners-controls">
+            <button class="btn-banner" id="bannerPrev"><i class="fas fa-chevron-left"></i></button>
+            <div class="banners-dots" id="bannersDots"></div>
+            <button class="btn-banner" id="bannerNext"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <!-- ========== CATEGORÍAS ========== -->
     <section class="categories" id="categories">
         <div class="container">
             <div class="section-header center fade-in">
                 <span class="section-tag">Explora</span>
                 <h2 class="section-title">Categorías</h2>
-                <p class="section-subtitle">Hacé clic en una categoría para filtrar los productos</p>
+                <p class="section-subtitle">Todo lo que necesitas para tu próxima aventura sobre ruedas</p>
             </div>
 
             <div class="categories-grid" id="categoriesGrid">
                 <!-- Las categorías se cargan desde Supabase -->
-                <div class="category-card active" data-category="todos" onclick="filterByCategory('todos')">
-                    <i class="fas fa-th-large"></i>
-                    <span>Todos</span>
-                    <span class="count" id="countTodos">0</span>
-                </div>
             </div>
         </div>
     </section>
@@ -1392,22 +1785,14 @@
     <!-- ========== PRODUCTOS ========== -->
     <section class="products" id="products">
         <div class="container">
-            <div class="products-header fade-in">
-                <div>
-                    <span class="section-tag">Catálogo</span>
-                    <h2 class="section-title">Nuestros <span style="color: var(--primary);">Productos</span></h2>
-                </div>
-                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-                    <span class="product-count" id="productCount">Mostrando 0 productos</span>
-                    <button class="btn-clear-filter" id="clearFilterBtn" onclick="filterByCategory('todos')" style="display:none;">
-                        <i class="fas fa-times"></i> Limpiar filtro
-                    </button>
-                </div>
+            <div class="section-header center fade-in">
+                <span class="section-tag">Catálogo</span>
+                <h2 class="section-title">Todos los <span style="color: var(--primary);">Productos</span></h2>
+                <p class="section-subtitle">Selección completa de lo mejor para ciclistas que exigen calidad y rendimiento</p>
             </div>
 
             <div class="products-grid" id="productsGrid">
                 <!-- Los productos se cargan desde Supabase -->
-                <p style="text-align:center;width:100%;padding:40px 0;color:var(--gray-400);">Cargando productos...</p>
             </div>
         </div>
     </section>
@@ -1453,14 +1838,47 @@
         </div>
     </div>
 
-    <!-- ========== TOAST ========== -->
+    <!-- ========== TOAST NOTIFICATION ========== -->
     <div class="toast" id="toast">
         <div class="toast-title">✅ Producto agregado</div>
         <div id="toastMessage">El producto se añadió al carrito</div>
     </div>
 
+    <!-- ========== BANNER PROMOCIONAL ========== -->
+    <section class="banner-promo" id="bannerPromo">
+        <div class="container">
+            <div class="banner-content">
+                <div class="fade-in-left">
+                    <span class="section-tag" style="color: var(--primary);">Oferta especial</span>
+                    <h2>Hasta <span>30% OFF</span> en bicicletas de montaña</h2>
+                    <p>No dejes pasar esta oportunidad. Equipamiento de primera calidad para tus rutas más exigentes.</p>
+                    <a href="https://wa.me/5491123456789" target="_blank" class="btn btn-green" id="promoWhatsapp">
+                        <i class="fab fa-whatsapp"></i> Consultar promoción
+                    </a>
+                    <div class="banner-timer" id="timer">
+                        <div class="timer-item">
+                            <span class="number" id="hours">00</span>
+                            <span class="label">Horas</span>
+                        </div>
+                        <div class="timer-item">
+                            <span class="number" id="minutes">00</span>
+                            <span class="label">Minutos</span>
+                        </div>
+                        <div class="timer-item">
+                            <span class="number" id="seconds">00</span>
+                            <span class="label">Segundos</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="banner-image fade-in-right">
+                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80" alt="Bicicleta de montaña">
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ========== BENEFICIOS ========== -->
-    <section class="benefits" id="benefits" style="padding:80px 0;background:var(--white);">
+    <section class="benefits" id="benefits">
         <div class="container">
             <div class="section-header center fade-in">
                 <span class="section-tag">¿Por qué elegirnos?</span>
@@ -1468,14 +1886,29 @@
                 <p class="section-subtitle">Nos enfocamos en brindarte la mejor experiencia de compra y asesoramiento</p>
             </div>
 
-            <div class="benefits-grid" id="benefitsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;">
+            <div class="benefits-grid" id="benefitsGrid">
                 <!-- Beneficios cargados desde Supabase -->
             </div>
         </div>
     </section>
 
+    <!-- ========== GALERÍA ========== -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="section-header center fade-in">
+                <span class="section-tag">Inspiración</span>
+                <h2 class="section-title">Galería</h2>
+                <p class="section-subtitle">Imágenes que capturan la esencia del ciclismo de alto rendimiento</p>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Galería cargada desde Supabase -->
+            </div>
+        </div>
+    </section>
+
     <!-- ========== TESTIMONIOS ========== -->
-    <section class="testimonials" id="testimonials" style="padding:80px 0;background:var(--gray-100);">
+    <section class="testimonials" id="testimonials">
         <div class="container">
             <div class="section-header center fade-in">
                 <span class="section-tag">Testimonios</span>
@@ -1483,14 +1916,14 @@
                 <p class="section-subtitle">Experiencias reales de ciclistas que confían en OliviaBike</p>
             </div>
 
-            <div class="testimonials-grid" id="testimonialsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;">
+            <div class="testimonials-grid" id="testimonialsGrid">
                 <!-- Testimonios cargados desde Supabase -->
             </div>
         </div>
     </section>
 
     <!-- ========== FAQ ========== -->
-    <section class="faq" id="faq" style="padding:80px 0;background:var(--white);">
+    <section class="faq" id="faq">
         <div class="container">
             <div class="section-header center fade-in">
                 <span class="section-tag">Preguntas frecuentes</span>
@@ -1498,21 +1931,36 @@
                 <p class="section-subtitle">Todo lo que necesitas saber antes de hacer tu consulta</p>
             </div>
 
-            <div class="faq-list" id="faqList" style="max-width:740px;margin:0 auto;">
+            <div class="faq-list" id="faqList">
                 <!-- FAQs cargadas desde Supabase -->
             </div>
         </div>
     </section>
 
     <!-- ========== CTA FINAL ========== -->
-    <section class="cta-final" id="contact" style="padding:100px 0;background:var(--black);text-align:center;position:relative;overflow:hidden;">
-        <div class="container" style="position:relative;z-index:1;">
+    <section class="cta-final" id="contact">
+        <div class="container">
             <div class="fade-in">
-                <h2 style="font-size:clamp(2.4rem,4vw,3.6rem);font-weight:900;color:var(--white);margin-bottom:16px;">¿Listo para <span style="color:var(--primary);">rodar</span> con nosotros?</h2>
-                <p style="color:var(--gray-300);font-size:1.1rem;max-width:540px;margin:0 auto 32px;font-weight:300;">Escribinos por WhatsApp y te asesoramos personalmente para encontrar el producto perfecto para ti.</p>
-                <a href="https://wa.me/5491123456789" target="_blank" class="btn btn-whatsapp" id="ctaWhatsapp" style="padding:18px 48px;font-size:1.1rem;">
+                <h2>¿Listo para <span>rodar</span> con nosotros?</h2>
+                <p>Escríbenos por WhatsApp y te asesoramos personalmente para encontrar el producto perfecto para ti.</p>
+                <a href="https://wa.me/5491123456789" target="_blank" class="btn btn-whatsapp" id="ctaWhatsapp">
                     <i class="fab fa-whatsapp"></i> Consultar ahora
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== MAPA ========== -->
+    <section class="map-section" id="map">
+        <div class="container">
+            <div class="section-header center fade-in">
+                <span class="section-tag">Ubicación</span>
+                <h2 class="section-title">Encuéntranos</h2>
+                <p class="section-subtitle">Visítanos en nuestro local y conoce nuestros productos en persona</p>
+            </div>
+
+            <div class="map-container fade-in">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016887889453!2d-58.383759!3d-34.603684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzEzLjMiUyA1OMKwMjMnMDEuNSJX!5e0!3m2!1ses!2sar!4v1700000000000" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
@@ -1522,7 +1970,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#" class="logo" id="footerLogo">Olivia<span>Bike</span> 24.7</a>
+                    <a href="#" class="logo">Olivia<span>Bike</span> 24.7</a>
                     <p>Tu tienda de ciclismo premium. Equipamiento de alta calidad para ciclistas exigentes.</p>
                     <div class="footer-social">
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -1539,7 +1987,7 @@
                         <li><a href="#benefits">Beneficios</a></li>
                         <li><a href="#testimonials">Testimonios</a></li>
                         <li><a href="#faq">FAQ</a></li>
-                        <li><a href="admin.html" target="_blank" style="color:var(--primary);font-weight:600;">
+                        <li><a href="admin.html" target="_blank" style="color: var(--primary); font-weight: 600;">
                             <i class="fas fa-user-shield"></i> Panel Admin
                         </a></li>
                     </ul>
@@ -1579,13 +2027,26 @@
         // CONFIGURACIÓN DE SUPABASE
         // =====================================================
         const SUPABASE_URL = 'https://spwurhpdsvqlwsfyzyrn.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4cm96d21ubmZoYmttYnpnY293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMjAyMjksImV4cCI6MjA5OTc5NjIyOX0.Q8aoYQ_ewGhzQxrWmg0HziJbl0n-AzpOfv7TRhjc3hQ';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwd3VyaHBkc3ZxbHdzZnl6eXJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMTE2NjUsImV4cCI6MjA5OTc4NzY2NX0.AOxs2_7PDMYCS3X0HV5_wGKT0S8IHuFWzGKBx6TX7u4';
 
         let supabaseClient = null;
         let allProducts = [];
-        let currentCategory = 'todos';
-        let cart = [];
+        let allCategories = [];
+        let allBanners = [];
+        let allGallery = [];
+        let allTestimonials = [];
+        let allFaqs = [];
+        let allBenefits = [];
+        let allHeroImages = [];
+        let allBadges = [];
         let whatsappNumber = '5491123456789';
+
+        let currentHeroSlide = 0;
+        let heroInterval;
+        let currentBannerSlide = 0;
+        let bannerInterval;
+
+        let cart = [];
 
         // =====================================================
         // INICIALIZAR SUPABASE
@@ -1596,8 +2057,6 @@
                 console.log('✅ Supabase inicializado');
                 loadAllData();
             } else {
-                console.warn('⚠️ Supabase no está cargado');
-                // Cargar script de Supabase
                 const script = document.createElement('script');
                 script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
                 script.onload = function() {
@@ -1613,196 +2072,179 @@
         // CARGAR TODOS LOS DATOS
         // =====================================================
         async function loadAllData() {
-            await loadConfig();
-            await loadCategories();
-            await loadProducts();
-            await loadHeroImages();
-            await loadHeroTexts();
-            await loadTestimonials();
-            await loadFaqs();
-            await loadBenefits();
-            updateCartUI();
-        }
-
-        // =====================================================
-        // CARGAR CONFIGURACIÓN
-        // =====================================================
-        async function loadConfig() {
             try {
-                const { data } = await supabaseClient.from('config').select('*');
-                if (data) {
-                    data.forEach(item => {
-                        if (item.key === 'whatsapp') {
-                            whatsappNumber = item.value;
-                            // Actualizar todos los enlaces de WhatsApp
-                            document.querySelectorAll('[href*="wa.me"]').forEach(el => {
-                                el.href = `https://wa.me/${item.value}`;
-                            });
-                            document.getElementById('ctaWhatsapp').href = `https://wa.me/${item.value}`;
-                        }
-                        if (item.key === 'logo_url' && item.value) {
-                            const logoImg = document.createElement('img');
-                            logoImg.src = item.value;
-                            logoImg.alt = 'OliviaBike';
-                            logoImg.style.height = '45px';
-                            logoImg.style.width = 'auto';
-                            logoImg.style.verticalAlign = 'middle';
-                            const logoEl = document.getElementById('siteLogo');
-                            logoEl.innerHTML = '';
-                            logoEl.appendChild(logoImg);
-                            const footerLogo = document.getElementById('footerLogo');
-                            footerLogo.innerHTML = '';
-                            const img2 = document.createElement('img');
-                            img2.src = item.value;
-                            img2.alt = 'OliviaBike';
-                            img2.style.height = '40px';
-                            img2.style.width = 'auto';
-                            img2.style.verticalAlign = 'middle';
-                            footerLogo.appendChild(img2);
-                        }
-                    });
-                }
-            } catch (err) {
-                console.error('Error loading config:', err);
-            }
-        }
-
-        // =====================================================
-        // CARGAR CATEGORÍAS
-        // =====================================================
-        async function loadCategories() {
-            try {
-                const { data, error } = await supabaseClient
-                    .from('categories')
-                    .select('*')
-                    .order('sort_order');
-
-                if (error) throw error;
-
-                const grid = document.getElementById('categoriesGrid');
-                // Mantener el botón "Todos"
-                let html = `
-                    <div class="category-card active" data-category="todos" onclick="filterByCategory('todos')">
-                        <i class="fas fa-th-large"></i>
-                        <span>Todos</span>
-                        <span class="count" id="countTodos">0</span>
-                    </div>
-                `;
-
-                if (data && data.length > 0) {
-                    data.forEach(cat => {
-                        html += `
-                            <div class="category-card" data-category="${cat.name}" onclick="filterByCategory('${cat.name}')">
-                                <i class="fas ${cat.icon || 'fa-tag'}"></i>
-                                <span>${cat.name}</span>
-                                <span class="count" id="count_${cat.name.replace(/\s/g, '_')}">0</span>
-                            </div>
-                        `;
-                    });
+                // Cargar configuración
+                const { data: configData } = await supabaseClient.from('config').select('*');
+                if (configData) {
+                    const config = {};
+                    configData.forEach(item => { config[item.key] = item.value; });
+                    if (config.whatsapp) {
+                        whatsappNumber = config.whatsapp;
+                        document.querySelectorAll('[href*="wa.me"]').forEach(el => {
+                            el.href = `https://wa.me/${config.whatsapp}`;
+                        });
+                    }
+                    if (config.hero_badge) document.getElementById('heroBadge').textContent = config.hero_badge;
+                    if (config.hero_title) document.getElementById('heroTitle').innerHTML = config.hero_title;
+                    if (config.hero_desc) document.getElementById('heroDesc').textContent = config.hero_desc;
+                    if (config.logo_url) {
+                        const logoImg = document.createElement('img');
+                        logoImg.src = config.logo_url;
+                        logoImg.style.height = '45px';
+                        logoImg.style.width = 'auto';
+                        logoImg.style.verticalAlign = 'middle';
+                        const logoEl = document.querySelector('.logo');
+                        logoEl.innerHTML = '';
+                        logoEl.appendChild(logoImg);
+                    }
                 }
 
-                grid.innerHTML = html;
+                // Cargar productos
+                const { data: products } = await supabaseClient.from('products').select('*');
+                allProducts = products || [];
+
+                // Cargar categorías
+                const { data: categories } = await supabaseClient.from('categories').select('*').order('sort_order');
+                allCategories = categories || [];
+
+                // Cargar badges
+                const { data: badges } = await supabaseClient.from('badges').select('*');
+                allBadges = badges || [];
+
+                // Cargar imágenes
+                const { data: heroImages } = await supabaseClient.from('images').select('*').eq('type', 'hero').order('sort_order');
+                allHeroImages = heroImages?.map(i => i.url) || [];
+
+                const { data: gallery } = await supabaseClient.from('images').select('*').eq('type', 'gallery').order('sort_order');
+                allGallery = gallery?.map(i => i.url) || [];
+
+                const { data: banners } = await supabaseClient.from('banners').select('*').order('sort_order');
+                allBanners = banners || [];
+
+                // Cargar testimonios
+                const { data: testimonials } = await supabaseClient.from('testimonials').select('*');
+                allTestimonials = testimonials || [];
+
+                // Cargar FAQs
+                const { data: faqs } = await supabaseClient.from('faqs').select('*').order('sort_order');
+                allFaqs = faqs || [];
+
+                // Cargar beneficios
+                const { data: benefits } = await supabaseClient.from('benefits').select('*').order('sort_order');
+                allBenefits = benefits || [];
+
+                console.log('✅ Todos los datos cargados desde Supabase');
+
+                // Renderizar todo
+                renderCategories();
+                renderProducts();
+                renderHeroCarousel();
+                renderBannersCarousel();
+                renderGallery();
+                renderTestimonials();
+                renderFaqs();
+                renderBenefits();
+                updateCartUI();
+                startTimer();
+
             } catch (err) {
-                console.error('Error loading categories:', err);
+                console.error('Error loading data:', err);
             }
         }
 
         // =====================================================
-        // CARGAR PRODUCTOS
+        // RENDERIZAR CATEGORÍAS
         // =====================================================
-        async function loadProducts() {
-            try {
-                const { data, error } = await supabaseClient
-                    .from('products')
-                    .select('*, categories(name), badges(*)')
-                    .order('created_at', { ascending: false });
+        function renderCategories() {
+            const grid = document.getElementById('categoriesGrid');
+            if (!allCategories || allCategories.length === 0) {
+                grid.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay categorías</p>';
+                return;
+            }
 
-                if (error) throw error;
-
-                allProducts = data || [];
-                renderProducts(currentCategory);
-                updateCategoryCounts();
-            } catch (err) {
-                console.error('Error loading products:', err);
-                document.getElementById('productsGrid').innerHTML = `
-                    <p style="text-align:center;width:100%;padding:40px 0;color:red;">Error al cargar productos</p>
+            grid.innerHTML = allCategories.map(cat => {
+                const icon = cat.icon || 'fa-tag';
+                const imageHtml = cat.image ? `<img src="${cat.image}" style="width:50px;height:50px;object-fit:cover;border-radius:50%;margin-bottom:8px;">` : `<i class="fas ${icon}"></i>`;
+                return `
+                    <a href="#products" class="category-card" data-category="${cat.name}">
+                        ${imageHtml}
+                        <span>${cat.name}</span>
+                    </a>
                 `;
-            }
-        }
+            }).join('');
 
-        // =====================================================
-        // FILTRAR POR CATEGORÍA
-        // =====================================================
-        function filterByCategory(category) {
-            currentCategory = category;
-            
-            // Actualizar clases activas
+            // Agregar evento de filtro por categoría
             document.querySelectorAll('.category-card').forEach(card => {
-                card.classList.toggle('active', card.dataset.category === category);
+                card.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const category = this.dataset.category;
+                    filterProductsByCategory(category);
+                    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        }
+
+        // =====================================================
+        // FILTRAR PRODUCTOS POR CATEGORÍA
+        // =====================================================
+        function filterProductsByCategory(category) {
+            const cards = document.querySelectorAll('.product-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardCategory = card.dataset.category;
+                if (category === 'todos' || cardCategory === category) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
             });
 
-            renderProducts(category);
-            
-            // Mostrar/ocultar botón de limpiar filtro
-            const clearBtn = document.getElementById('clearFilterBtn');
-            if (category === 'todos') {
-                clearBtn.style.display = 'none';
-            } else {
-                clearBtn.style.display = 'inline-flex';
+            // Actualizar contador
+            const countEl = document.querySelector('.section-header.center .section-subtitle');
+            if (countEl) {
+                countEl.textContent = `Mostrando ${visibleCount} productos en "${category}"`;
             }
-
-            // Scroll a productos
-            document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // =====================================================
         // RENDERIZAR PRODUCTOS
         // =====================================================
-        function renderProducts(category) {
+        function renderProducts() {
             const grid = document.getElementById('productsGrid');
-            
-            let filtered = allProducts;
-            if (category !== 'todos') {
-                filtered = allProducts.filter(p => p.categories?.name === category);
-            }
-
-            // Actualizar contador
-            document.getElementById('productCount').textContent = `Mostrando ${filtered.length} productos`;
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <p style="text-align:center;width:100%;padding:40px 0;color:var(--gray-400);">
-                        No hay productos en esta categoría
-                    </p>
-                `;
+            if (!allProducts || allProducts.length === 0) {
+                grid.innerHTML = '<p style="text-align:center;width:100%;padding:40px 0;color:var(--gray-400);">No hay productos disponibles</p>';
                 return;
             }
 
-            grid.innerHTML = filtered.map(product => {
+            // Obtener badges para cada producto
+            grid.innerHTML = allProducts.map(product => {
                 const stockClass = product.stock === 'En stock' ? 'in-stock' : 
                                   product.stock === 'Últimas unidades' ? 'low-stock' : 'out-of-stock';
                 
-                const oldPriceHtml = product.old_price ? 
-                    `<span class="old">$${product.old_price.toLocaleString('es-AR')}</span>` : '';
+                const oldPriceHtml = product.oldPriceFormatted ? 
+                    `<span class="old">${product.oldPriceFormatted}</span>` : '';
 
-                const badgeHtml = product.badges ? `
-                    <span class="product-badge" style="background:${product.badges.color};color:${product.badges.text_color};">
-                        ${product.badges.icon || ''} ${product.badges.name}
+                const badge = allBadges.find(b => b.id === product.badge_id);
+                const badgeHtml = badge ? `
+                    <span style="position:absolute;top:12px;left:12px;background:${badge.color};color:${badge.text_color};padding:4px 14px;border-radius:50px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;z-index:1;">
+                        ${badge.icon || ''} ${badge.name}
                     </span>
                 ` : '';
 
                 return `
-                    <div class="product-card" data-id="${product.id}">
+                    <div class="product-card" data-id="${product.id}" data-category="${product.category || 'Sin categoría'}">
                         <div class="product-image" onclick="openModal(${product.id})">
                             <img src="${product.image}" alt="${product.name}" loading="lazy">
                             ${badgeHtml}
                             <span class="product-stock ${stockClass}">${product.stock || 'Sin stock'}</span>
                         </div>
                         <div class="product-body">
-                            <div class="product-category">${product.categories?.name || 'Sin categoría'}</div>
+                            <div class="product-category">${product.category || 'Sin categoría'}</div>
                             <h3 onclick="openModal(${product.id})">${product.name}</h3>
                             <div class="product-price">
-                                $${product.price?.toLocaleString('es-AR')}
+                                ${product.priceFormatted || '$' + product.price?.toLocaleString('es-AR')}
                                 ${oldPriceHtml}
                             </div>
                             <div class="btn-group-cart">
@@ -1826,59 +2268,17 @@
         }
 
         // =====================================================
-        // ACTUALIZAR CONTADORES DE CATEGORÍAS
-        // =====================================================
-        function updateCategoryCounts() {
-            document.getElementById('countTodos').textContent = allProducts.length;
-
-            const categories = ['Bicicletas', 'Cascos', 'Indumentaria', 'Accesorios', 'Repuestos'];
-            categories.forEach(cat => {
-                const count = allProducts.filter(p => p.categories?.name === cat).length;
-                const el = document.getElementById(`count_${cat.replace(/\s/g, '_')}`);
-                if (el) el.textContent = count;
-            });
-        }
-
-        // =====================================================
         // HERO CARRUSEL
         // =====================================================
-        async function loadHeroImages() {
-            try {
-                const { data } = await supabaseClient
-                    .from('images')
-                    .select('*')
-                    .eq('type', 'hero')
-                    .order('sort_order');
+        function renderHeroCarousel() {
+            const images = allHeroImages.length > 0 ? allHeroImages : [
+                'https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1600&q=80',
+                'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1600&q=80',
+                'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=1600&q=80'
+            ];
 
-                if (!data || data.length === 0) {
-                    // Imágenes por defecto
-                    const defaultImages = [
-                        'https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1600&q=80',
-                        'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1600&q=80',
-                        'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=1600&q=80'
-                    ];
-                    initHeroCarousel(defaultImages);
-                    return;
-                }
-
-                const images = data.map(img => img.url);
-                initHeroCarousel(images);
-            } catch (err) {
-                console.error('Error loading hero images:', err);
-            }
-        }
-
-        let currentHeroSlide = 0;
-        let heroInterval;
-
-        function initHeroCarousel(images) {
             const container = document.getElementById('heroSlides');
             const indicators = document.getElementById('heroIndicators');
-
-            if (!images || images.length === 0) {
-                container.innerHTML = '';
-                return;
-            }
 
             container.innerHTML = images.map((img, i) => `
                 <div class="hero-slide ${i === 0 ? 'active' : ''}">
@@ -1927,99 +2327,164 @@
         }
 
         // =====================================================
-        // HERO TEXTS
+        // BANNERS CARRUSEL
         // =====================================================
-        async function loadHeroTexts() {
-            try {
-                const { data } = await supabaseClient
-                    .from('config')
-                    .select('*')
-                    .in('key', ['hero_badge', 'hero_title', 'hero_desc']);
-
-                if (data) {
-                    data.forEach(item => {
-                        if (item.key === 'hero_badge') {
-                            document.getElementById('heroBadge').textContent = item.value;
-                        } else if (item.key === 'hero_title') {
-                            document.getElementById('heroTitle').innerHTML = item.value;
-                        } else if (item.key === 'hero_desc') {
-                            document.getElementById('heroDesc').textContent = item.value;
-                        }
-                    });
+        function renderBannersCarousel() {
+            const banners = allBanners.length > 0 ? allBanners : [
+                {
+                    badge: '🔥 Oferta especial',
+                    title: 'Bicicletas de <span>montaña</span> con 30% OFF',
+                    description: 'Equipate con las mejores bicicletas para terrenos exigentes. Oferta válida por tiempo limitado.',
+                    image: 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80',
+                    cta_text: 'Aprovechar oferta',
+                    cta_link: `https://wa.me/${whatsappNumber}`
                 }
-            } catch (err) {
-                console.error('Error loading hero texts:', err);
-            }
+            ];
+
+            const track = document.getElementById('bannersTrack');
+            const dotsContainer = document.getElementById('bannersDots');
+
+            track.innerHTML = banners.map(banner => `
+                <div class="banner-slide">
+                    <div class="banner-text">
+                        <span class="badge-banner">${banner.badge || '🔥 Oferta'}</span>
+                        <h2>${banner.title}</h2>
+                        <p>${banner.description || ''}</p>
+                        <a href="${banner.cta_link || `https://wa.me/${whatsappNumber}`}" target="_blank" class="btn btn-green">
+                            <i class="fab fa-whatsapp"></i> ${banner.cta_text || 'Consultar'}
+                        </a>
+                    </div>
+                    <div class="banner-image">
+                        <img src="${banner.image}" alt="${banner.title}" loading="lazy">
+                    </div>
+                </div>
+            `).join('');
+
+            dotsContainer.innerHTML = banners.map((_, i) => `
+                <button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Banner ${i + 1}"></button>
+            `).join('');
+
+            dotsContainer.querySelectorAll('.dot').forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.dataset.index);
+                    goToBannerSlide(index);
+                    resetBannerAutoplay();
+                });
+            });
+
+            document.getElementById('bannerPrev').addEventListener('click', () => {
+                goToBannerSlide(currentBannerSlide - 1);
+                resetBannerAutoplay();
+            });
+
+            document.getElementById('bannerNext').addEventListener('click', () => {
+                goToBannerSlide(currentBannerSlide + 1);
+                resetBannerAutoplay();
+            });
+
+            startBannerAutoplay();
+        }
+
+        function goToBannerSlide(index) {
+            const slides = document.querySelectorAll('.banner-slide');
+            const dots = document.querySelectorAll('#bannersDots .dot');
+            
+            if (!slides.length) return;
+
+            if (index < 0) index = slides.length - 1;
+            if (index >= slides.length) index = 0;
+
+            currentBannerSlide = index;
+            document.getElementById('bannersTrack').style.transform = `translateX(-${index * 100}%)`;
+            
+            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+        }
+
+        function startBannerAutoplay() {
+            clearInterval(bannerInterval);
+            bannerInterval = setInterval(() => {
+                const slides = document.querySelectorAll('.banner-slide');
+                if (slides.length === 0) return;
+                goToBannerSlide(currentBannerSlide + 1);
+            }, 6000);
+        }
+
+        function resetBannerAutoplay() {
+            clearInterval(bannerInterval);
+            startBannerAutoplay();
         }
 
         // =====================================================
-        // TESTIMONIALS
+        // GALERÍA
         // =====================================================
-        async function loadTestimonials() {
-            try {
-                const { data } = await supabaseClient
-                    .from('testimonials')
-                    .select('*')
-                    .order('created_at', { ascending: false });
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            const images = allGallery.length > 0 ? allGallery : [
+                'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&q=80',
+                'https://iili.io/CELLXDl.png',
+                'https://iili.io/CELgZuI.jpg',
+                'https://iili.io/CEL17gj.jpg',
+                'https://iili.io/CELi0XI.png',
+                'https://iili.io/CEL6DZP.md.png'
+            ];
 
-                const container = document.getElementById('testimonialsGrid');
-                if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay testimonios</p>';
-                    return;
-                }
+            grid.innerHTML = images.map(img => `
+                <div class="gallery-item scale-in">
+                    <img src="${img}" alt="Galería" loading="lazy">
+                </div>
+            `).join('');
+        }
 
-                container.innerHTML = data.map(t => `
-                    <div class="testimonial-card" style="padding:32px;background:var(--gray-100);border-radius:var(--radius);transition:var(--transition);">
-                        <div class="stars" style="color:#FFB800;margin-bottom:12px;font-size:0.9rem;">${'★'.repeat(t.stars || 5)}${'☆'.repeat(5-(t.stars || 5))}</div>
-                        <p style="font-size:0.95rem;color:var(--gray-600);font-weight:400;line-height:1.7;">"${t.text}"</p>
-                        <div class="author" style="display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-200);">
-                            <img src="${t.image}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" onerror="this.src='https://via.placeholder.com/44x44?text=No+img'">
-                            <div>
-                                <div class="name" style="font-weight:600;font-size:0.9rem;">${t.name}</div>
-                                <div class="role" style="font-size:0.8rem;color:var(--gray-400);">${t.role || ''}</div>
-                            </div>
+        // =====================================================
+        // TESTIMONIOS
+        // =====================================================
+        function renderTestimonials() {
+            const container = document.getElementById('testimonialsGrid');
+            if (!allTestimonials || allTestimonials.length === 0) {
+                container.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay testimonios</p>';
+                return;
+            }
+
+            container.innerHTML = allTestimonials.map(t => `
+                <div class="testimonial-card">
+                    <div class="stars">${'★'.repeat(t.stars || 5)}${'☆'.repeat(5-(t.stars || 5))}</div>
+                    <p>"${t.text}"</p>
+                    <div class="author">
+                        <img src="${t.image}" onerror="this.src='https://i.pravatar.cc/100?img=1'">
+                        <div>
+                            <div class="name">${t.name}</div>
+                            <div class="role">${t.role || ''}</div>
                         </div>
                     </div>
-                `).join('');
-            } catch (err) {
-                console.error('Error loading testimonials:', err);
-            }
+                </div>
+            `).join('');
         }
 
         // =====================================================
         // FAQS
         // =====================================================
-        async function loadFaqs() {
-            try {
-                const { data } = await supabaseClient
-                    .from('faqs')
-                    .select('*')
-                    .order('sort_order');
-
-                const container = document.getElementById('faqList');
-                if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center;color:var(--gray-400);">No hay preguntas frecuentes</p>';
-                    return;
-                }
-
-                container.innerHTML = data.map((f, i) => `
-                    <div class="faq-item ${i === 0 ? 'active' : ''}" style="background:var(--white);border-radius:12px;margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow-sm);">
-                        <div class="question" onclick="toggleFaq(this)" style="padding:20px 24px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;transition:var(--transition);">
-                            <span>${f.question}</span>
-                            <i class="fas fa-chevron-down" style="transition:var(--transition);color:var(--primary);"></i>
-                        </div>
-                        <div class="answer" style="max-height:${i === 0 ? '200px' : '0'};overflow:hidden;transition:max-height 0.4s ease,padding 0.4s ease;padding:${i === 0 ? '0 24px 20px' : '0 24px'};color:var(--gray-500);">
-                            <p>${f.answer}</p>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (err) {
-                console.error('Error loading faqs:', err);
+        function renderFaqs() {
+            const container = document.getElementById('faqList');
+            if (!allFaqs || allFaqs.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--gray-400);">No hay preguntas frecuentes</p>';
+                return;
             }
+
+            container.innerHTML = allFaqs.map((f, i) => `
+                <div class="faq-item ${i === 0 ? 'active' : ''}">
+                    <div class="question" onclick="toggleFaq(this)">
+                        <span>${f.question}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="answer">
+                        <p>${f.answer}</p>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function toggleFaq(questionEl) {
-            const item = questionEl.parentElement;
+        function toggleFaq(el) {
+            const item = el.parentElement;
             const isActive = item.classList.contains('active');
             document.querySelectorAll('.faq-item').forEach(f => {
                 f.classList.remove('active');
@@ -2037,31 +2502,20 @@
         // =====================================================
         // BENEFICIOS
         // =====================================================
-        async function loadBenefits() {
-            try {
-                const { data } = await supabaseClient
-                    .from('benefits')
-                    .select('*')
-                    .order('sort_order');
-
-                const container = document.getElementById('benefitsGrid');
-                if (!data || data.length === 0) {
-                    container.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay beneficios</p>';
-                    return;
-                }
-
-                container.innerHTML = data.map(b => `
-                    <div class="benefit-item" style="text-align:center;padding:24px;">
-                        <div class="icon" style="display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;background:rgba(155,224,0,0.1);border-radius:50%;font-size:2rem;color:var(--primary);margin-bottom:16px;transition:var(--transition);">
-                            <i class="fas ${b.icon}"></i>
-                        </div>
-                        <h4 style="font-size:1.1rem;font-weight:600;margin-bottom:4px;">${b.title}</h4>
-                        <p style="color:var(--gray-400);font-size:0.9rem;">${b.description}</p>
-                    </div>
-                `).join('');
-            } catch (err) {
-                console.error('Error loading benefits:', err);
+        function renderBenefits() {
+            const container = document.getElementById('benefitsGrid');
+            if (!allBenefits || allBenefits.length === 0) {
+                container.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay beneficios</p>';
+                return;
             }
+
+            container.innerHTML = allBenefits.map(b => `
+                <div class="benefit-item">
+                    <div class="icon"><i class="fas ${b.icon}"></i></div>
+                    <h4>${b.title}</h4>
+                    <p>${b.description}</p>
+                </div>
+            `).join('');
         }
 
         // =====================================================
@@ -2079,7 +2533,7 @@
                     id: product.id,
                     name: product.name,
                     price: product.price,
-                    priceFormatted: '$' + product.price.toLocaleString('es-AR'),
+                    priceFormatted: product.priceFormatted || '$' + product.price.toLocaleString('es-AR'),
                     image: product.image,
                     qty: 1
                 });
@@ -2143,7 +2597,7 @@
                     <div class="cart-empty">
                         <i class="fas fa-shopping-bag"></i>
                         <p>Tu carrito está vacío</p>
-                        <p style="font-size:0.85rem;margin-top:4px;">Explora nuestros productos y agrega lo que necesites</p>
+                        <p style="font-size: 0.85rem; margin-top: 4px;">Explora nuestros productos y agrega lo que necesites</p>
                     </div>
                 `;
                 return;
@@ -2191,7 +2645,7 @@
         });
 
         // =====================================================
-        // CHECKOUT - ENVÍO A WHATSAPP
+        // CHECKOUT
         // =====================================================
         function checkout() {
             if (cart.length === 0) {
@@ -2245,7 +2699,9 @@
             const product = allProducts.find(p => p.id === productId);
             if (!product) return;
 
-            // Construir specs desde custom_fields
+            const badge = allBadges.find(b => b.id === product.badge_id);
+            const badgeHtml = badge ? `<span style="display:inline-block;background:${badge.color};color:${badge.text_color};padding:2px 12px;border-radius:4px;font-size:0.7rem;font-weight:600;margin-bottom:8px;">${badge.icon || ''} ${badge.name}</span>` : '';
+
             let specsHtml = '';
             if (product.custom_fields) {
                 const labels = {
@@ -2283,8 +2739,8 @@
                 <div class="color-option" style="background: ${color};" title="Color disponible"></div>
             `).join('') : '';
 
-            const oldPriceHtml = product.old_price ? 
-                `<span>$${product.old_price.toLocaleString('es-AR')}</span>` : '';
+            const oldPriceHtml = product.oldPriceFormatted ? 
+                `<span>${product.oldPriceFormatted}</span>` : '';
 
             const stockColor = product.stock === 'En stock' ? 'green' : 
                               product.stock === 'Últimas unidades' ? 'orange' : 'red';
@@ -2294,7 +2750,8 @@
                     <img src="${product.image}" alt="${product.name}">
                 </div>
                 <div class="modal-info">
-                    <span class="badge-category">${product.categories?.name || 'Sin categoría'}</span>
+                    <span class="badge-category">${product.category || 'Sin categoría'}</span>
+                    ${badgeHtml}
                     <h2>${product.name}</h2>
                     <p class="description">${product.description || 'Sin descripción'}</p>
                     
@@ -2312,7 +2769,7 @@
                     ` : ''}
 
                     <div class="price">
-                        $${product.price.toLocaleString('es-AR')}
+                        ${product.priceFormatted || '$' + product.price.toLocaleString('es-AR')}
                         ${oldPriceHtml}
                     </div>
 
@@ -2374,28 +2831,51 @@
         });
 
         // =====================================================
-        // INICIO
+        // TIMER
         // =====================================================
-        document.addEventListener('DOMContentLoaded', function() {
+        function startTimer() {
+            const target = new Date();
+            target.setHours(target.getHours() + 24);
+
+            function updateTimer() {
+                const diff = Math.max(0, target - new Date());
+                document.getElementById('hours').textContent = String(Math.floor(diff / (1000*60*60))).padStart(2,'0');
+                document.getElementById('minutes').textContent = String(Math.floor((diff % (1000*60*60)) / (1000*60))).padStart(2,'0');
+                document.getElementById('seconds').textContent = String(Math.floor((diff % (1000*60)) / 1000)).padStart(2,'0');
+            }
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
+
+        // =====================================================
+        // INTERSECTION OBSERVER
+        // =====================================================
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.addEventListener('DOMContentLoaded', () => {
             initSupabase();
-
-            // Intersection Observer para animaciones
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.1 });
-
+            
             document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in').forEach(el => {
                 observer.observe(el);
             });
+
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top <= window.innerHeight - 100) el.classList.add('visible');
+                });
+            }, 300);
         });
 
-        console.log('🚴 OliviaBike 24.7 - Tienda de Ciclismo Premium');
-        console.log('📦 Conectado a Supabase');
+        console.log('🚴 OliviaBike 24.7 - Landing Page con Carrito de Compras');
         console.log('🛒 Carrito funcional + Checkout por WhatsApp');
-        console.log('📱 Full responsive');
-        console.log('🔍 Filtro por categorías cliqueables');
+        console.log('📱 Full responsive en todos los dispositivos');
+        console.log('🛠️ Conectado a Supabase');
+        console.log('🔐 Botón Admin en Header y Footer');
     </script>
 </body>
 </html>
