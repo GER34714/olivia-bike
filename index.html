@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* ============================================================
+           TODOS TUS ESTILOS ORIGINALES + OPTIMIZACIONES DE IMÁGENES
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -55,6 +58,142 @@
             padding: 0 24px;
         }
 
+        /* ============================================================
+           OPTIMIZACIÓN DE IMÁGENES
+           ============================================================ */
+        
+        /* 1. Placeholder shimmer para imágenes que cargan */
+        .image-wrapper {
+            position: relative;
+            overflow: hidden;
+            background: var(--gray-100);
+        }
+
+        .image-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, 
+                var(--gray-100) 25%, 
+                var(--gray-200) 50%, 
+                var(--gray-100) 75%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            z-index: 0;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .image-wrapper img {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        /* 2. Imagen cargada - ocultar placeholder */
+        .image-wrapper img.loaded {
+            opacity: 1;
+        }
+
+        .image-wrapper img:not(.loaded) {
+            opacity: 0;
+        }
+
+        /* 3. Imagenes responsivas - sin distorsión */
+        .product-image {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            background: var(--gray-100);
+            cursor: pointer;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        /* 4. Hero - imágenes con carga prioritaria */
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 5. Galería - imágenes optimizadas */
+        .gallery-item {
+            overflow: hidden;
+            border-radius: var(--radius);
+            position: relative;
+            cursor: pointer;
+            background: var(--gray-100);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        /* 6. Testimonios - avatares optimizados */
+        .testimonial-card .author img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* 7. Banners - imágenes optimizadas */
+        .banner-slide .banner-image img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+            max-height: 350px;
+            object-fit: cover;
+        }
+
+        /* 8. Modal - imagen optimizada */
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            max-height: 450px;
+            object-fit: cover;
+        }
+
+        /* 9. Pre-carga de imágenes críticas */
+        .hero-slide:first-child img {
+            /* La primera imagen del hero se carga con prioridad */
+            fetch-priority: high;
+        }
+
+        /* 10. Responsive - tamaños de imagen adaptados */
+        @media (max-width: 768px) {
+            .product-image { height: 160px; }
+            .gallery-item { min-height: 140px; }
+            .banner-slide .banner-image img { max-height: 250px; }
+            .modal-image img { max-height: 300px; }
+        }
+
+        @media (max-width: 480px) {
+            .product-image { height: 140px; }
+            .gallery-item { min-height: 100px; }
+        }
+
+        /* 11. Resto de tus estilos originales... */
         .section-tag {
             display: inline-block;
             font-size: 12px;
@@ -821,12 +960,14 @@
             background: var(--gray-100);
             cursor: pointer;
         }
+
         .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: var(--transition);
         }
+
         .product-card:hover .product-image img {
             transform: scale(1.05);
         }
@@ -841,6 +982,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            z-index: 2;
         }
         .product-stock.in-stock {
             background: rgba(155,224,0,0.15);
@@ -1230,20 +1372,21 @@
             grid-auto-rows: 200px;
             gap: 16px;
         }
-        .gallery-grid .gallery-item {
+        .gallery-item {
             overflow: hidden;
             border-radius: var(--radius);
             position: relative;
             cursor: pointer;
+            background: var(--gray-100);
         }
-        .gallery-grid .gallery-item img {
+        .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: var(--transition);
         }
-        .gallery-grid .gallery-item:hover img { transform: scale(1.08); }
-        .gallery-grid .gallery-item:first-child {
+        .gallery-item:hover img { transform: scale(1.08); }
+        .gallery-item:first-child {
             grid-column: span 2;
             grid-row: span 2;
         }
@@ -1517,6 +1660,9 @@
             color: var(--primary);
         }
 
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 992px) {
             .banner-promo .banner-content {
                 grid-template-columns: 1fr;
@@ -1847,7 +1993,7 @@
                     </div>
                 </div>
                 <div class="banner-image fade-in-right">
-                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80" alt="Bicicleta de montaña">
+                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80" alt="Bicicleta de montaña" loading="lazy">
                 </div>
             </div>
         </div>
@@ -2149,7 +2295,7 @@
                 const { data: categories } = await supabaseClient.from('categories').select('*').order('sort_order');
                 allCategories = categories || [];
 
-                // Cargar badges (DESDE ADMIN)
+                // Cargar badges
                 const { data: badges } = await supabaseClient.from('badges').select('*');
                 allBadges = badges || [];
 
@@ -2204,7 +2350,6 @@
                 return;
             }
 
-            // Agregar botón "Todos" al principio
             let html = `
                 <div class="category-card active" data-category="todos" onclick="filterProducts('todos')">
                     <i class="fas fa-th-large"></i>
@@ -2214,7 +2359,7 @@
 
             html += allCategories.map(cat => {
                 const icon = cat.icon || 'fa-tag';
-                const imageHtml = cat.image ? `<img src="${cat.image}" alt="${cat.name}">` : `<i class="fas ${icon}"></i>`;
+                const imageHtml = cat.image ? `<img src="${cat.image}" alt="${cat.name}" loading="lazy">` : `<i class="fas ${icon}"></i>`;
                 return `
                     <div class="category-card" data-category="${cat.name}" onclick="filterProducts('${cat.name}')">
                         ${imageHtml}
@@ -2234,17 +2379,12 @@
             const categoryCards = document.querySelectorAll('.category-card');
             let visibleCount = 0;
 
-            // Actualizar clases activas en las categorías
             categoryCards.forEach(card => {
                 card.classList.toggle('active', card.dataset.category === category);
             });
 
-            // Filtrar productos - COMPARA CORRECTAMENTE
             cards.forEach(card => {
-                // Obtener la categoría del producto desde data-category
                 const cardCategory = card.dataset.category || 'Sin categoría';
-                
-                // Si la categoría seleccionada es "todos" O coincide con la del producto
                 if (category === 'todos' || cardCategory === category) {
                     card.style.display = 'block';
                     visibleCount++;
@@ -2253,7 +2393,6 @@
                 }
             });
 
-            // Mostrar mensaje si no hay productos
             const grid = document.getElementById('productsGrid');
             let noResults = grid.querySelector('.no-results');
             
@@ -2270,24 +2409,21 @@
                 if (noResults) noResults.remove();
             }
 
-            // Actualizar título con pluralización correcta
             const titleSpan = document.getElementById('categoryTitleSpan');
             if (titleSpan) {
                 titleSpan.textContent = getCategoryTitle(category, visibleCount);
             }
 
-            // Actualizar subtítulo
             const subtitleEl = document.getElementById('productSubtitle');
             if (subtitleEl) {
                 subtitleEl.textContent = getCategorySubtitle(category, visibleCount);
             }
 
-            // Scroll a productos
             document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         // =====================================================
-        // RENDERIZAR PRODUCTOS - SOLO BADGE DESDE ADMIN
+        // RENDERIZAR PRODUCTOS - CORREGIDO
         // =====================================================
         function renderProducts() {
             const grid = document.getElementById('productsGrid');
@@ -2296,7 +2432,6 @@
                 return;
             }
 
-            // Eliminar mensaje "no results" si existe
             const noResults = grid.querySelector('.no-results');
             if (noResults) noResults.remove();
 
@@ -2304,12 +2439,9 @@
                 const stockClass = product.stock === 'En stock' ? 'in-stock' : 
                                   product.stock === 'Últimas unidades' ? 'low-stock' : 'out-of-stock';
                 
-                const oldPriceHtml = product.oldPriceFormatted ? 
-                    `<span class="old">${product.oldPriceFormatted}</span>` : '';
+                const oldPriceHtml = product.old_price ? 
+                    `<span class="old">$${product.old_price.toLocaleString('es-AR')}</span>` : '';
 
-                // ============================================================
-                // SOLO BADGE DESDE LA TABLA "badges" (Gestionado desde Admin)
-                // ============================================================
                 const badge = allBadges.find(b => b.id === product.badge_id);
                 const badgeHtml = badge ? `
                     <span style="position:absolute;top:12px;left:12px;background:${badge.color};color:${badge.text_color};padding:4px 14px;border-radius:50px;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;z-index:1;">
@@ -2320,7 +2452,7 @@
                 return `
                     <div class="product-card" data-id="${product.id}" data-category="${product.category || 'Sin categoría'}">
                         <div class="product-image" onclick="openModal(${product.id})">
-                            <img src="${product.image}" alt="${product.name}" loading="lazy">
+                            <img src="${product.image}" alt="${product.name}" loading="lazy" onload="this.classList.add('loaded')">
                             ${badgeHtml}
                             <span class="product-stock ${stockClass}">${product.stock || 'Sin stock'}</span>
                         </div>
@@ -2328,7 +2460,7 @@
                             <div class="product-category">${product.category || 'Sin categoría'}</div>
                             <h3 onclick="openModal(${product.id})">${product.name}</h3>
                             <div class="product-price">
-                                ${product.priceFormatted || '$' + product.price?.toLocaleString('es-AR')}
+                                $${(product.price || 0).toLocaleString('es-AR')}
                                 ${oldPriceHtml}
                             </div>
                             <div class="btn-group-cart">
@@ -2366,7 +2498,7 @@
 
             container.innerHTML = images.map((img, i) => `
                 <div class="hero-slide ${i === 0 ? 'active' : ''}">
-                    <img src="${img}" alt="Ciclista" loading="${i === 0 ? 'eager' : 'lazy'}">
+                    <img src="${img}" alt="Ciclista" loading="${i === 0 ? 'eager' : 'lazy'}" fetchpriority="${i === 0 ? 'high' : 'low'}">
                 </div>
             `).join('');
 
@@ -2534,7 +2666,7 @@
                     <div class="stars">${'★'.repeat(t.stars || 5)}${'☆'.repeat(5-(t.stars || 5))}</div>
                     <p>"${t.text}"</p>
                     <div class="author">
-                        <img src="${t.image}" onerror="this.src='https://i.pravatar.cc/100?img=1'">
+                        <img src="${t.image}" onerror="this.src='https://i.pravatar.cc/100?img=1'" loading="lazy">
                         <div>
                             <div class="name">${t.name}</div>
                             <div class="role">${t.role || ''}</div>
@@ -2617,7 +2749,7 @@
                     id: product.id,
                     name: product.name,
                     price: product.price,
-                    priceFormatted: product.priceFormatted || '$' + product.price.toLocaleString('es-AR'),
+                    priceFormatted: '$' + (product.price || 0).toLocaleString('es-AR'),
                     image: product.image,
                     qty: 1
                 });
@@ -2689,7 +2821,7 @@
 
             container.innerHTML = cart.map(item => `
                 <div class="cart-item">
-                    <img src="${item.image}" alt="${item.name}">
+                    <img src="${item.image}" alt="${item.name}" loading="lazy">
                     <div class="item-info">
                         <h4>${item.name}</h4>
                         <div class="item-price">${item.priceFormatted} c/u</div>
@@ -2783,7 +2915,6 @@
             const product = allProducts.find(p => p.id === productId);
             if (!product) return;
 
-            // SOLO BADGE DESDE ADMIN
             const badge = allBadges.find(b => b.id === product.badge_id);
             const badgeHtml = badge ? `<span style="display:inline-block;background:${badge.color};color:${badge.text_color};padding:2px 12px;border-radius:4px;font-size:0.7rem;font-weight:600;margin-bottom:8px;">${badge.icon || ''} ${badge.name}</span>` : '';
 
@@ -2824,15 +2955,15 @@
                 <div class="color-option" style="background: ${color};" title="Color disponible"></div>
             `).join('') : '';
 
-            const oldPriceHtml = product.oldPriceFormatted ? 
-                `<span>${product.oldPriceFormatted}</span>` : '';
+            const oldPriceHtml = product.old_price ? 
+                `<span>$${product.old_price.toLocaleString('es-AR')}</span>` : '';
 
             const stockColor = product.stock === 'En stock' ? 'green' : 
                               product.stock === 'Últimas unidades' ? 'orange' : 'red';
 
             modalContent.innerHTML = `
                 <div class="modal-image">
-                    <img src="${product.image}" alt="${product.name}">
+                    <img src="${product.image}" alt="${product.name}" loading="lazy">
                 </div>
                 <div class="modal-info">
                     <span class="badge-category">${product.category || 'Sin categoría'}</span>
@@ -2854,7 +2985,7 @@
                     ` : ''}
 
                     <div class="price">
-                        ${product.priceFormatted || '$' + product.price.toLocaleString('es-AR')}
+                        $${(product.price || 0).toLocaleString('es-AR')}
                         ${oldPriceHtml}
                     </div>
 
@@ -2956,7 +3087,8 @@
             }, 300);
         });
 
-        console.log('🚴 OliviaBike 24.7 - Frontend Corregido');
+        console.log('🚴 OliviaBike 24.7 - Frontend Optimizado');
+        console.log('✅ Imágenes con lazy loading y placeholder');
         console.log('✅ Filtrado por categorías funcionando');
         console.log('✅ Badges SOLO desde admin');
         console.log('🛒 Carrito funcional + Checkout por WhatsApp');
