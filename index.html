@@ -46,7 +46,6 @@
             overflow-x: hidden;
         }
 
-        /* ========== SCROLLBAR ========== */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--gray-100); }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
@@ -150,7 +149,6 @@
             color: var(--black);
         }
 
-        /* ========== BOTÓN ADMIN ========== */
         .btn-admin {
             background: transparent;
             color: var(--black);
@@ -447,6 +445,11 @@
             color: var(--black);
         }
         .logo span { color: var(--primary); }
+        .logo img {
+            height: 45px;
+            width: auto;
+            vertical-align: middle;
+        }
 
         .nav-menu {
             display: flex;
@@ -638,9 +641,9 @@
             50% { transform: translateX(-50%) translateY(-10px); }
         }
 
-        /* ========== CATEGORÍAS ========== */
+        /* ========== CATEGORÍAS CLIQUEABLES ========== */
         .categories {
-            padding: 80px 0;
+            padding: 60px 0 40px;
             background: var(--white);
         }
 
@@ -661,11 +664,18 @@
             text-decoration: none;
             color: var(--black);
             text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
         }
         .category-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-md);
             background: var(--white);
+        }
+        .category-card.active {
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
         }
         .category-card i {
             font-size: 2.4rem;
@@ -676,118 +686,49 @@
             font-weight: 600;
             font-size: 0.85rem;
         }
-
-        /* ========== BANNERS ROTATIVOS ========== */
-        .banners-carousel {
-            padding: 0;
-            background: var(--black);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .banners-track {
-            display: flex;
-            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .banner-slide {
-            min-width: 100%;
-            padding: 60px 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            color: var(--white);
-        }
-
-        .banner-slide .banner-text h2 {
-            font-size: clamp(2rem, 3.5vw, 3.2rem);
-            font-weight: 800;
-            line-height: 1.1;
-        }
-        .banner-slide .banner-text h2 span { color: var(--primary); }
-        .banner-slide .banner-text p {
-            color: var(--gray-300);
-            margin: 16px 0 24px;
-            font-size: 1.05rem;
-            font-weight: 300;
-            max-width: 480px;
-        }
-        .banner-slide .banner-text .badge-banner {
-            display: inline-block;
-            background: rgba(155,224,0,0.15);
-            color: var(--primary);
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-
-        .banner-slide .banner-image img {
-            width: 100%;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-xl);
-            max-height: 350px;
-            object-fit: cover;
-        }
-
-        .banners-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            padding: 20px 0 30px;
-            background: var(--black);
-        }
-
-        .banners-controls .btn-banner {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.15);
-            background: rgba(255,255,255,0.05);
-            color: var(--white);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-        }
-        .banners-controls .btn-banner:hover {
-            background: var(--primary);
-            color: var(--black);
-            border-color: var(--primary);
-            transform: scale(1.05);
-        }
-
-        .banners-dots {
-            display: flex;
-            gap: 8px;
-        }
-        .banners-dots .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.25);
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            padding: 0;
-        }
-        .banners-dots .dot.active {
-            background: var(--primary);
-            width: 24px;
-            border-radius: 4px;
+        .category-card .count {
+            font-size: 0.7rem;
+            color: var(--gray-400);
+            font-weight: 400;
+            margin-top: 4px;
         }
 
         /* ========== PRODUCTOS ========== */
         .products {
-            padding: 80px 0;
+            padding: 40px 0 80px;
             background: var(--gray-100);
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .products-header .section-title {
+            margin-bottom: 0;
+        }
+        .products-header .product-count {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+        .btn-clear-filter {
+            padding: 8px 20px;
+            border: 2px solid var(--gray-300);
+            border-radius: 50px;
+            background: transparent;
+            cursor: pointer;
+            font-family: var(--font);
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: var(--transition);
+            color: var(--gray-500);
+        }
+        .btn-clear-filter:hover {
+            border-color: var(--black);
+            color: var(--black);
         }
 
         .products-grid {
@@ -807,6 +748,9 @@
             transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
         }
+        .product-card.hidden {
+            display: none;
+        }
 
         .product-image {
             position: relative;
@@ -825,6 +769,19 @@
             transform: scale(1.05);
         }
 
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #000;
+        }
+
         .product-stock {
             position: absolute;
             top: 12px;
@@ -837,16 +794,16 @@
             letter-spacing: 0.5px;
         }
         .product-stock.in-stock {
-            background: rgba(155,224,0,0.15);
-            color: #6B8C00;
+            background: rgba(34,197,94,0.15);
+            color: #16A34A;
         }
         .product-stock.low-stock {
-            background: rgba(255,165,0,0.15);
-            color: #B87300;
+            background: rgba(245,158,11,0.15);
+            color: #D97706;
         }
         .product-stock.out-of-stock {
-            background: rgba(255,0,0,0.1);
-            color: #CC0000;
+            background: rgba(239,68,68,0.15);
+            color: #DC2626;
         }
 
         .product-body {
@@ -1101,309 +1058,29 @@
             min-width: 180px;
         }
 
-        /* ========== BANNER PROMOCIONAL ========== */
-        .banner-promo {
-            padding: 80px 0;
+        /* ========== TOAST ========== */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
             background: var(--black);
             color: var(--white);
-            position: relative;
-            overflow: hidden;
-        }
-        .banner-promo::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(155,224,0,0.08) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .banner-promo .banner-content {
-            position: relative;
-            z-index: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            align-items: center;
-        }
-        .banner-promo .banner-content h2 {
-            font-size: clamp(2rem, 3.5vw, 3rem);
-            font-weight: 800;
-            line-height: 1.1;
-        }
-        .banner-promo .banner-content h2 span { color: var(--primary); }
-        .banner-promo .banner-content p {
-            color: var(--gray-300);
-            margin: 16px 0 24px;
-            font-weight: 300;
-        }
-
-        .banner-timer {
-            display: flex;
-            gap: 16px;
-            margin-top: 24px;
-        }
-        .timer-item { text-align: center; }
-        .timer-item .number {
-            display: block;
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: var(--primary);
-            background: rgba(255,255,255,0.05);
-            padding: 8px 16px;
-            border-radius: 8px;
-            min-width: 60px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .timer-item .label {
-            font-size: 0.7rem;
-            color: var(--gray-400);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
-        }
-
-        .banner-promo .banner-image img {
-            width: 100%;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-xl);
-        }
-
-        /* ========== BENEFICIOS ========== */
-        .benefits {
-            padding: 80px 0;
-            background: var(--white);
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 32px;
-        }
-
-        .benefit-item {
-            text-align: center;
-            padding: 24px;
-        }
-        .benefit-item .icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 72px;
-            height: 72px;
-            background: rgba(155,224,0,0.1);
-            border-radius: 50%;
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 16px;
-            transition: var(--transition);
-        }
-        .benefit-item:hover .icon {
-            transform: scale(1.1) rotate(-5deg);
-            background: var(--primary);
-            color: var(--black);
-        }
-        .benefit-item h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        .benefit-item p {
-            color: var(--gray-400);
-            font-size: 0.9rem;
-        }
-
-        /* ========== GALERÍA ========== */
-        .gallery {
-            padding: 80px 0;
-            background: var(--gray-100);
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-auto-rows: 200px;
-            gap: 16px;
-        }
-        .gallery-grid .gallery-item {
-            overflow: hidden;
-            border-radius: var(--radius);
-            position: relative;
-            cursor: pointer;
-        }
-        .gallery-grid .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-        .gallery-grid .gallery-item:hover img { transform: scale(1.08); }
-        .gallery-grid .gallery-item:first-child {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
-
-        /* ========== TESTIMONIOS ========== */
-        .testimonials {
-            padding: 80px 0;
-            background: var(--white);
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-        }
-
-        .testimonial-card {
-            padding: 32px;
-            background: var(--gray-100);
-            border-radius: var(--radius);
-            transition: var(--transition);
-        }
-        .testimonial-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .testimonial-card .stars {
-            color: #FFB800;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-        }
-        .testimonial-card p {
-            font-size: 0.95rem;
-            color: var(--gray-600);
-            font-weight: 400;
-            line-height: 1.7;
-        }
-        .testimonial-card .author {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--gray-200);
-        }
-        .testimonial-card .author img {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .testimonial-card .author .name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .testimonial-card .author .role {
-            font-size: 0.8rem;
-            color: var(--gray-400);
-        }
-
-        /* ========== FAQ ========== */
-        .faq {
-            padding: 80px 0;
-            background: var(--gray-100);
-        }
-
-        .faq-list {
-            max-width: 740px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            background: var(--white);
+            padding: 16px 24px;
             border-radius: 12px;
-            margin-bottom: 12px;
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-xl);
+            border-left: 4px solid var(--primary);
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 99999;
+            max-width: 360px;
+            font-size: 0.9rem;
         }
-        .faq-item .question {
-            padding: 20px 24px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast .toast-title {
             font-weight: 600;
-            transition: var(--transition);
-        }
-        .faq-item .question:hover { background: var(--gray-100); }
-        .faq-item .question i {
-            transition: var(--transition);
             color: var(--primary);
-        }
-        .faq-item.active .question i { transform: rotate(180deg); }
-        .faq-item .answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.4s ease;
-            padding: 0 24px;
-            color: var(--gray-500);
-        }
-        .faq-item.active .answer {
-            max-height: 200px;
-            padding: 0 24px 20px;
-        }
-
-        /* ========== CTA FINAL ========== */
-        .cta-final {
-            padding: 100px 0;
-            background: var(--black);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .cta-final::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 800px;
-            height: 800px;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(155,224,0,0.06) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .cta-final .container { position: relative; z-index: 1; }
-        .cta-final h2 {
-            font-size: clamp(2.4rem, 4vw, 3.6rem);
-            font-weight: 900;
-            color: var(--white);
-            margin-bottom: 16px;
-        }
-        .cta-final h2 span { color: var(--primary); }
-        .cta-final p {
-            color: var(--gray-300);
-            font-size: 1.1rem;
-            max-width: 540px;
-            margin: 0 auto 32px;
-            font-weight: 300;
-        }
-        .cta-final .btn {
-            padding: 18px 48px;
-            font-size: 1.1rem;
-        }
-
-        /* ========== MAPA ========== */
-        .map-section {
-            padding: 80px 0;
-            background: var(--white);
-        }
-
-        .map-container {
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            height: 380px;
-        }
-        .map-container iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
         }
 
         /* ========== FOOTER ========== */
@@ -1496,54 +1173,14 @@
         }
         .footer-bottom span { color: var(--primary); }
 
-        /* ========== TOAST NOTIFICATION ========== */
-        .toast {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            background: var(--black);
-            color: var(--white);
-            padding: 16px 24px;
-            border-radius: 12px;
-            box-shadow: var(--shadow-xl);
-            border-left: 4px solid var(--primary);
-            transform: translateX(120%);
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 99999;
-            max-width: 360px;
-            font-size: 0.9rem;
-        }
-        .toast.show {
-            transform: translateX(0);
-        }
-        .toast .toast-title {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
         /* ========== RESPONSIVE ========== */
         @media (max-width: 992px) {
-            .banner-promo .banner-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .banner-promo .banner-timer { justify-content: center; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-
             .modal-grid {
                 grid-template-columns: 1fr;
             }
             .modal-content { padding: 24px; }
             .modal-image img { max-height: 300px; }
-
-            .banner-slide {
-                grid-template-columns: 1fr;
-                text-align: center;
-                gap: 30px;
-            }
-            .banner-slide .banner-text p { margin: 16px auto 24px; }
-            .banner-slide .banner-text .badge-banner { margin: 0 auto 12px; }
-
+            .footer-grid { grid-template-columns: 1fr 1fr; }
             .cart-item {
                 grid-template-columns: 50px 1fr auto;
                 gap: 10px;
@@ -1606,25 +1243,8 @@
             .product-body .btn-group-cart { flex-direction: column; }
             .product-body .btn-group-cart .btn { padding: 10px; font-size: 0.75rem; }
 
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-                grid-auto-rows: 140px;
-                gap: 10px;
-            }
-            .gallery-grid .gallery-item:first-child {
-                grid-column: span 2;
-                grid-row: span 1;
-            }
-
-            .testimonials-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; gap: 24px; }
             .hero-buttons .btn { width: 100%; justify-content: center; }
-            .banner-timer { flex-wrap: wrap; }
-            .timer-item .number {
-                font-size: 1.6rem;
-                min-width: 48px;
-                padding: 6px 12px;
-            }
+            .footer-grid { grid-template-columns: 1fr; gap: 24px; }
 
             .modal-content { padding: 16px; margin: 10px; }
             .modal-info h2 { font-size: 1.5rem; }
@@ -1637,12 +1257,6 @@
             .modal-info .btn-group .btn { min-width: auto; }
 
             .hero-indicators { bottom: 60px; }
-
-            .banner-slide {
-                padding: 40px 0;
-            }
-            .banner-slide .banner-image img { max-height: 250px; }
-            .banners-controls { padding: 15px 0 25px; }
 
             .cart-float {
                 bottom: 20px;
@@ -1673,6 +1287,11 @@
                 padding: 14px 18px;
                 font-size: 0.85rem;
             }
+
+            .products-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1687,11 +1306,6 @@
                 padding: 8px;
             }
             .container { padding: 0 16px; }
-
-            .banner-slide .banner-text h2 {
-                font-size: 1.6rem;
-            }
-            .banner-slide .banner-image img { max-height: 200px; }
         }
     </style>
 </head>
@@ -1700,7 +1314,7 @@
     <!-- ========== HEADER ========== -->
     <header class="header" id="header">
         <div class="container">
-            <a href="#" class="logo">Olivia<span>Bike</span> 24.7</a>
+            <a href="#" class="logo" id="siteLogo">Olivia<span>Bike</span> 24.7</a>
 
             <nav>
                 <ul class="nav-menu" id="navMenu">
@@ -1710,18 +1324,17 @@
                     <li><a href="#testimonials">Testimonios</a></li>
                     <li><a href="#faq">FAQ</a></li>
                     <li><a href="#contact">Contacto</a></li>
-                    <!-- ===== BOTÓN ADMIN EN EL MENÚ ===== -->
-                    <li><a href="https://olivia-bike.onrender.com/admin.html" target="_blank" class="btn-admin" style="display:inline-flex; margin-top:8px;">
+                    <li><a href="admin.html" target="_blank" class="btn-admin" style="display:inline-flex; margin-top:8px;">
                         <i class="fas fa-user-shield"></i> Admin
                     </a></li>
                 </ul>
             </nav>
 
             <div class="header-actions">
-                <a href="https://olivia-bike.onrender.com/admin.html" target="_blank" class="btn-admin" style="display:none;" id="adminBtnHeader">
+                <a href="admin.html" target="_blank" class="btn-admin" style="display:none;" id="adminBtnHeader">
                     <i class="fas fa-user-shield"></i> Admin
                 </a>
-                <a href="https://wa.me/5491123456789" target="_blank" class="btn btn-whatsapp">
+                <a href="https://wa.me/5491123456789" target="_blank" class="btn btn-whatsapp" id="whatsappBtn">
                     <i class="fab fa-whatsapp"></i>
                     <span>Consultar</span>
                 </a>
@@ -1740,12 +1353,12 @@
 
         <div class="container">
             <div class="hero-content fade-in visible">
-                <span class="badge">🔥 Tienda Premium</span>
-                <h1>Vive la <span>pasión</span> <br>sobre dos ruedas</h1>
-                <p>Encuentra bicicletas de alta gama, accesorios y equipamiento profesional para ciclistas exigentes.</p>
+                <span class="badge" id="heroBadge">🔥 Tienda Premium</span>
+                <h1 id="heroTitle">Vive la <span>pasión</span> <br>sobre dos ruedas</h1>
+                <p id="heroDesc">Encuentra bicicletas de alta gama, accesorios y equipamiento profesional para ciclistas exigentes.</p>
                 <div class="hero-buttons">
                     <a href="#products" class="btn btn-primary">Ver productos</a>
-                    <a href="https://wa.me/5491123456789" target="_blank" class="btn btn-outline">
+                    <a href="https://wa.me/5491123456789" target="_blank" class="btn btn-outline" id="heroWhatsapp">
                         <i class="fab fa-whatsapp"></i> Consultar ahora
                     </a>
                 </div>
@@ -1756,56 +1369,22 @@
         <div class="hero-scroll"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- ========== BANNERS ROTATIVOS ========== -->
-    <section class="banners-carousel" id="banners">
-        <div class="container">
-            <div class="banners-track" id="bannersTrack"></div>
-        </div>
-        <div class="banners-controls">
-            <button class="btn-banner" id="bannerPrev"><i class="fas fa-chevron-left"></i></button>
-            <div class="banners-dots" id="bannersDots"></div>
-            <button class="btn-banner" id="bannerNext"><i class="fas fa-chevron-right"></i></button>
-        </div>
-    </section>
-
-    <!-- ========== CATEGORÍAS ========== -->
+    <!-- ========== CATEGORÍAS CLIQUEABLES ========== -->
     <section class="categories" id="categories">
         <div class="container">
             <div class="section-header center fade-in">
                 <span class="section-tag">Explora</span>
                 <h2 class="section-title">Categorías</h2>
-                <p class="section-subtitle">Todo lo que necesitas para tu próxima aventura sobre ruedas</p>
+                <p class="section-subtitle">Hacé clic en una categoría para filtrar los productos</p>
             </div>
 
-            <div class="categories-grid">
-                <a href="#" class="category-card scale-in">
-                    <i class="fas fa-bicycle"></i>
-                    <span>Bicicletas</span>
-                </a>
-                <a href="#" class="category-card scale-in">
-                    <i class="fas fa-tools"></i>
-                    <span>Accesorios</span>
-                </a>
-                <a href="#" class="category-card scale-in">
-                    <i class="fas fa-tshirt"></i>
-                    <span>Indumentaria</span>
-                </a>
-                <a href="#" class="category-card scale-in">
-                    <i class="fas fa-hard-hat"></i>
-                    <span>Cascos</span>
-                </a>
-                <a href="#" class="category-card scale-in">
-                    <i class="fas fa-cogs"></i>
-                    <span>Repuestos</span>
-                </a>
-                <a href="#" class="category-card scale-in">
-                    <i class="fas fa-flask"></i>
-                    <span>Suplementos</span>
-                </a>
-                <a href="#" class="category-card scale-in">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>Bolsos personalizados</span>
-                </a>
+            <div class="categories-grid" id="categoriesGrid">
+                <!-- Las categorías se cargan desde Supabase -->
+                <div class="category-card active" data-category="todos" onclick="filterByCategory('todos')">
+                    <i class="fas fa-th-large"></i>
+                    <span>Todos</span>
+                    <span class="count" id="countTodos">0</span>
+                </div>
             </div>
         </div>
     </section>
@@ -1813,13 +1392,23 @@
     <!-- ========== PRODUCTOS ========== -->
     <section class="products" id="products">
         <div class="container">
-            <div class="section-header center fade-in">
-                <span class="section-tag">Catálogo</span>
-                <h2 class="section-title">Todos los <span style="color: var(--primary);">Productos</span></h2>
-                <p class="section-subtitle">Selección completa de lo mejor para ciclistas que exigen calidad y rendimiento</p>
+            <div class="products-header fade-in">
+                <div>
+                    <span class="section-tag">Catálogo</span>
+                    <h2 class="section-title">Nuestros <span style="color: var(--primary);">Productos</span></h2>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                    <span class="product-count" id="productCount">Mostrando 0 productos</span>
+                    <button class="btn-clear-filter" id="clearFilterBtn" onclick="filterByCategory('todos')" style="display:none;">
+                        <i class="fas fa-times"></i> Limpiar filtro
+                    </button>
+                </div>
             </div>
 
-            <div class="products-grid" id="productsGrid"></div>
+            <div class="products-grid" id="productsGrid">
+                <!-- Los productos se cargan desde Supabase -->
+                <p style="text-align:center;width:100%;padding:40px 0;color:var(--gray-400);">Cargando productos...</p>
+            </div>
         </div>
     </section>
 
@@ -1864,47 +1453,14 @@
         </div>
     </div>
 
-    <!-- ========== TOAST NOTIFICATION ========== -->
+    <!-- ========== TOAST ========== -->
     <div class="toast" id="toast">
         <div class="toast-title">✅ Producto agregado</div>
         <div id="toastMessage">El producto se añadió al carrito</div>
     </div>
 
-    <!-- ========== BANNER PROMOCIONAL ========== -->
-    <section class="banner-promo" id="bannerPromo">
-        <div class="container">
-            <div class="banner-content">
-                <div class="fade-in-left">
-                    <span class="section-tag" style="color: var(--primary);">Oferta especial</span>
-                    <h2>Hasta <span>30% OFF</span> en bicicletas de montaña</h2>
-                    <p>No dejes pasar esta oportunidad. Equipamiento de primera calidad para tus rutas más exigentes.</p>
-                    <a href="https://wa.me/5491123456789" target="_blank" class="btn btn-green">
-                        <i class="fab fa-whatsapp"></i> Consultar promoción
-                    </a>
-                    <div class="banner-timer" id="timer">
-                        <div class="timer-item">
-                            <span class="number" id="hours">00</span>
-                            <span class="label">Horas</span>
-                        </div>
-                        <div class="timer-item">
-                            <span class="number" id="minutes">00</span>
-                            <span class="label">Minutos</span>
-                        </div>
-                        <div class="timer-item">
-                            <span class="number" id="seconds">00</span>
-                            <span class="label">Segundos</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="banner-image fade-in-right">
-                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80" alt="Bicicleta de montaña">
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- ========== BENEFICIOS ========== -->
-    <section class="benefits" id="benefits">
+    <section class="benefits" id="benefits" style="padding:80px 0;background:var(--white);">
         <div class="container">
             <div class="section-header center fade-in">
                 <span class="section-tag">¿Por qué elegirnos?</span>
@@ -1912,75 +1468,14 @@
                 <p class="section-subtitle">Nos enfocamos en brindarte la mejor experiencia de compra y asesoramiento</p>
             </div>
 
-            <div class="benefits-grid">
-                <div class="benefit-item fade-in">
-                    <div class="icon"><i class="fas fa-truck"></i></div>
-                    <h4>Envíos a todo el país</h4>
-                    <p>Entregas rápidas y seguras a cualquier punto de Argentina</p>
-                </div>
-                <div class="benefit-item fade-in">
-                    <div class="icon"><i class="fas fa-headset"></i></div>
-                    <h4>Atención personalizada</h4>
-                    <p>Asesoramiento one-to-one para encontrar el producto ideal</p>
-                </div>
-                <div class="benefit-item fade-in">
-                    <div class="icon"><i class="fas fa-lightbulb"></i></div>
-                    <h4>Asesoramiento experto</h4>
-                    <p>Equipo de ciclistas profesionales a tu disposición</p>
-                </div>
-                <div class="benefit-item fade-in">
-                    <div class="icon"><i class="fas fa-award"></i></div>
-                    <h4>Productos de calidad</h4>
-                    <p>Marcas líderes y garantía en todos nuestros productos</p>
-                </div>
-                <div class="benefit-item fade-in">
-                    <div class="icon"><i class="fas fa-shield-alt"></i></div>
-                    <h4>Garantía extendida</h4>
-                    <p>Protección adicional en todas tus compras</p>
-                </div>
-                <div class="benefit-item fade-in">
-                    <div class="icon"><i class="fas fa-credit-card"></i></div>
-                    <h4>Múltiples medios de pago</h4>
-                    <p>Cuotas sin interés y todos los métodos disponibles</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== GALERÍA ========== -->
-    <section class="gallery" id="gallery">
-        <div class="container">
-            <div class="section-header center fade-in">
-                <span class="section-tag">Inspiración</span>
-                <h2 class="section-title">Galería</h2>
-                <p class="section-subtitle">Imágenes que capturan la esencia del ciclismo de alto rendimiento</p>
-            </div>
-
-            <div class="gallery-grid">
-                <div class="gallery-item scale-in">
-                    <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&q=80" alt="Bicicleta de carretera" loading="lazy">
-                </div>
-                <div class="gallery-item scale-in">
-                    <img src="https://iili.io/CELLXDl.png" alt="Ciclista en montaña" loading="lazy">
-                </div>
-                <div class="gallery-item scale-in">
-                    <img src="https://iili.io/CELgZuI.jpg" alt="Casco de ciclismo" loading="lazy">
-                </div>
-                <div class="gallery-item scale-in">
-                    <img src="https://iili.io/CEL17gj.jpg" alt="Accesorios de ciclismo" loading="lazy">
-                </div>
-                <div class="gallery-item scale-in">
-                    <img src="https://iili.io/CELi0XI.png" alt="Grupo ciclista" loading="lazy">
-                </div>
-                <div class="gallery-item scale-in">
-                    <img src="https://iili.io/CEL6DZP.md.png" alt="Competencia ciclismo" loading="lazy">
-                </div>
+            <div class="benefits-grid" id="benefitsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;">
+                <!-- Beneficios cargados desde Supabase -->
             </div>
         </div>
     </section>
 
     <!-- ========== TESTIMONIOS ========== -->
-    <section class="testimonials" id="testimonials">
+    <section class="testimonials" id="testimonials" style="padding:80px 0;background:var(--gray-100);">
         <div class="container">
             <div class="section-header center fade-in">
                 <span class="section-tag">Testimonios</span>
@@ -1988,48 +1483,14 @@
                 <p class="section-subtitle">Experiencias reales de ciclistas que confían en OliviaBike</p>
             </div>
 
-            <div class="testimonials-grid">
-                <div class="testimonial-card fade-in">
-                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p>"La mejor tienda de ciclismo que he conocido. Me asesoraron perfecto para elegir mi primera bicicleta de montaña. ¡Llegó en 3 días!"</p>
-                    <div class="author">
-                        <img src="https://i.pravatar.cc/100?img=1" alt="María González">
-                        <div>
-                            <div class="name">María González</div>
-                            <div class="role">Ciclista principiante</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card fade-in">
-                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p>"Productos de primera calidad y atención increíble. Siempre encuentro lo que necesito y el envío es rapidísimo. 100% recomendados."</p>
-                    <div class="author">
-                        <img src="https://i.pravatar.cc/100?img=2" alt="Carlos Rodríguez">
-                        <div>
-                            <div class="name">Carlos Rodríguez</div>
-                            <div class="role">Ciclista de ruta</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card fade-in">
-                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p>"Compro todos mis repuestos y accesorios aquí. El equipo de OliviaBike siempre tiene lo último y me dan consejos excelentes."</p>
-                    <div class="author">
-                        <img src="https://i.pravatar.cc/100?img=3" alt="Laura Fernández">
-                        <div>
-                            <div class="name">Laura Fernández</div>
-                            <div class="role">Ciclista de montaña</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="testimonials-grid" id="testimonialsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;">
+                <!-- Testimonios cargados desde Supabase -->
             </div>
         </div>
     </section>
 
     <!-- ========== FAQ ========== -->
-    <section class="faq" id="faq">
+    <section class="faq" id="faq" style="padding:80px 0;background:var(--white);">
         <div class="container">
             <div class="section-header center fade-in">
                 <span class="section-tag">Preguntas frecuentes</span>
@@ -2037,84 +1498,21 @@
                 <p class="section-subtitle">Todo lo que necesitas saber antes de hacer tu consulta</p>
             </div>
 
-            <div class="faq-list">
-                <div class="faq-item active">
-                    <div class="question">
-                        <span>¿Cómo realizan los envíos?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="answer">
-                        <p>Realizamos envíos a todo el país a través de correo argentino y mensajería privada. El tiempo de entrega varía según la ubicación, pero generalmente es de 3 a 7 días hábiles.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="question">
-                        <span>¿Tienen stock de todos los productos?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="answer">
-                        <p>Manejamos stock en tiempo real. Todos los productos que ves en la web tienen disponibilidad actualizada. Si un producto está agotado, te avisamos y te ayudamos a encontrar una alternativa.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="question">
-                        <span>¿Cómo puedo hacer una consulta?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="answer">
-                        <p>Puedes consultarnos a través de WhatsApp haciendo clic en el botón verde que aparece en toda la página. Te responderemos en menos de 15 minutos en horario comercial.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="question">
-                        <span>¿Aceptan todos los medios de pago?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="answer">
-                        <p>Sí, aceptamos tarjetas de crédito/débito, transferencias bancarias, Mercado Pago y efectivo. Ofrecemos cuotas sin interés en muchas de nuestras marcas.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="question">
-                        <span>¿Tienen garantía en los productos?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="answer">
-                        <p>Todos nuestros productos cuentan con garantía oficial del fabricante. Además, ofrecemos garantía extendida en bicicletas y componentes de alta gama.</p>
-                    </div>
-                </div>
+            <div class="faq-list" id="faqList" style="max-width:740px;margin:0 auto;">
+                <!-- FAQs cargadas desde Supabase -->
             </div>
         </div>
     </section>
 
     <!-- ========== CTA FINAL ========== -->
-    <section class="cta-final" id="contact">
-        <div class="container">
+    <section class="cta-final" id="contact" style="padding:100px 0;background:var(--black);text-align:center;position:relative;overflow:hidden;">
+        <div class="container" style="position:relative;z-index:1;">
             <div class="fade-in">
-                <h2>¿Listo para <span>rodar</span> con nosotros?</h2>
-                <p>Escríbenos por WhatsApp y te asesoramos personalmente para encontrar el producto perfecto para ti.</p>
-                <a href="https://wa.me/5491123456789" target="_blank" class="btn btn-whatsapp">
+                <h2 style="font-size:clamp(2.4rem,4vw,3.6rem);font-weight:900;color:var(--white);margin-bottom:16px;">¿Listo para <span style="color:var(--primary);">rodar</span> con nosotros?</h2>
+                <p style="color:var(--gray-300);font-size:1.1rem;max-width:540px;margin:0 auto 32px;font-weight:300;">Escribinos por WhatsApp y te asesoramos personalmente para encontrar el producto perfecto para ti.</p>
+                <a href="https://wa.me/5491123456789" target="_blank" class="btn btn-whatsapp" id="ctaWhatsapp" style="padding:18px 48px;font-size:1.1rem;">
                     <i class="fab fa-whatsapp"></i> Consultar ahora
                 </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== MAPA ========== -->
-    <section class="map-section" id="map">
-        <div class="container">
-            <div class="section-header center fade-in">
-                <span class="section-tag">Ubicación</span>
-                <h2 class="section-title">Encuéntranos</h2>
-                <p class="section-subtitle">Visítanos en nuestro local y conoce nuestros productos en persona</p>
-            </div>
-
-            <div class="map-container fade-in">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016887889453!2d-58.383759!3d-34.603684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzEzLjMiUyA1OMKwMjMnMDEuNSJX!5e0!3m2!1ses!2sar!4v1700000000000" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
@@ -2124,11 +1522,11 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#" class="logo">Olivia<span>Bike</span> 24.7</a>
+                    <a href="#" class="logo" id="footerLogo">Olivia<span>Bike</span> 24.7</a>
                     <p>Tu tienda de ciclismo premium. Equipamiento de alta calidad para ciclistas exigentes.</p>
                     <div class="footer-social">
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/5491123456789" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/5491123456789" target="_blank" aria-label="WhatsApp" id="footerWhatsapp"><i class="fab fa-whatsapp"></i></a>
                         <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                     </div>
@@ -2141,8 +1539,7 @@
                         <li><a href="#benefits">Beneficios</a></li>
                         <li><a href="#testimonials">Testimonios</a></li>
                         <li><a href="#faq">FAQ</a></li>
-                        <!-- ===== BOTÓN ADMIN EN EL FOOTER ===== -->
-                        <li><a href="https://olivia-bike.onrender.com/admin.html" target="_blank" style="color: var(--primary); font-weight: 600;">
+                        <li><a href="admin.html" target="_blank" style="color:var(--primary);font-weight:600;">
                             <i class="fas fa-user-shield"></i> Panel Admin
                         </a></li>
                     </ul>
@@ -2151,7 +1548,7 @@
                 <div>
                     <h4>Contacto</h4>
                     <ul>
-                        <li><a href="https://wa.me/5491123456789" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                        <li><a href="https://wa.me/5491123456789" target="_blank" id="footerWhatsappLink"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
                         <li><a href="#"><i class="fas fa-envelope"></i> hola@oliviabike.com</a></li>
                         <li><a href="#"><i class="fas fa-phone"></i> +54 11 2345-6789</a></li>
                     </ul>
@@ -2179,157 +1576,499 @@
     <!-- ========== JAVASCRIPT ========== -->
     <script>
         // =====================================================
-        // 1. DATOS DE PRODUCTOS
+        // CONFIGURACIÓN DE SUPABASE
         // =====================================================
-        const productsData = [
-            {
-                id: 1,
-                name: 'Mountain Bike Pro X1',
-                category: 'Bicicletas',
-                description: 'Bicicleta de montaña de alto rendimiento con cuadro de aluminio 6061 y suspensión delantera de 120mm. Ideal para rutas exigentes y terrenos irregulares.',
-                image: 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80',
-                specs: {
-                    'Rodado': '29"',
-                    'Cuadro': 'Aluminio 6061',
-                    'Suspensión': 'Delantera 120mm',
-                    'Cambios': 'Shimano Deore 12v',
-                    'Frenos': 'Disco hidráulicos',
-                    'Peso': '13.5kg'
-                },
-                colors: ['#000000', '#9BE000', '#FF0000', '#1E40AF'],
-                price: 1299000,
-                priceFormatted: '$1,299.000',
-                oldPrice: 1599000,
-                oldPriceFormatted: '$1,599.000',
-                stock: 'En stock',
-                stockColor: 'green',
-                whatsappMsg: 'Mountain Bike Pro X1 - Rodado 29"'
-            },
-            {
-                id: 2,
-                name: 'Casco Aero Racer Pro',
-                category: 'Cascos',
-                description: 'Casco aerodinámico de alta gama con ventilación avanzada y certificación CE. Sistema de ajuste BOA.',
-                image: 'https://iili.io/CELgZuI.jpg',
-                specs: {
-                    'Talle': 'M / L / XL',
-                    'Peso': '280g',
-                    'Material': 'Policarbonato',
-                    'Ventilación': '22 canales',
-                    'Certificación': 'CE EN 1078',
-                    'Ajuste': 'Sistema BOA'
-                },
-                colors: ['#000000', '#FFFFFF', '#9BE000', '#FF6B00'],
-                price: 189000,
-                priceFormatted: '$189.000',
-                oldPrice: null,
-                oldPriceFormatted: null,
-                stock: 'En stock',
-                stockColor: 'green',
-                whatsappMsg: 'Casco Aero Racer Pro'
-            },
-            {
-                id: 3,
-                name: 'Kit Maillot + Culotte Elite',
-                category: 'Indumentaria',
-                description: 'Kit completo de ciclismo profesional con maillot de poliester elástico y culotte con badana de gel. Tecnología de compresión muscular.',
-                image: 'https://iili.io/CEL8KBf.jpg',
-                specs: {
-                    'Talle': 'S / M / L / XL / XXL',
-                    'Maillot': 'Poliester elástico',
-                    'Culotte': 'Badana de gel',
-                    'Lavado': 'A máquina 30°',
-                    'Compresión': 'Media',
-                    'UVA': 'Protección UPF 50+'
-                },
-                colors: ['#000000', '#9BE000', '#1E40AF', '#FF0000'],
-                price: 245000,
-                priceFormatted: '$245.000',
-                oldPrice: 320000,
-                oldPriceFormatted: '$320.000',
-                stock: 'Últimas unidades',
-                stockColor: 'orange',
-                whatsappMsg: 'Kit Maillot + Culotte Elite'
-            },
-            {
-                id: 4,
-                name: 'Bicicleta Ruta Carbon Elite',
-                category: 'Bicicletas',
-                description: 'Bicicleta de ruta con cuadro de carbono T800. Peso ultra ligero y cambios electrónicos Shimano Ultegra Di2.',
-                image: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800&q=80',
-                specs: {
-                    'Rodado': '700x25c',
-                    'Cuadro': 'Carbono T800',
-                    'Peso': '7.8kg',
-                    'Cambios': 'Shimano Ultegra Di2',
-                    'Frenos': 'Disco de carbono',
-                    'Ruedas': 'Carbono 50mm'
-                },
-                colors: ['#000000', '#9BE000', '#FF6B00', '#FFFFFF'],
-                price: 3499000,
-                priceFormatted: '$3,499.000',
-                oldPrice: null,
-                oldPriceFormatted: null,
-                stock: 'Últimas unidades',
-                stockColor: 'orange',
-                whatsappMsg: 'Bicicleta Ruta Carbon Elite'
-            },
-            {
-                id: 5,
-                name: 'Gafas Polarizadas Pro',
-                category: 'Accesorios',
-                description: 'Gafas deportivas con lentes polarizadas UV400 y montura flexible TR-90. Incluye 3 lentes intercambiables.',
-                image: 'https://iili.io/CELjQsV.md.jpg" alt="CELjQsV.md.jpg',
-                specs: {
-                    'Lentes': 'Polarizadas UV400',
-                    'Montura': 'TR-90 flexible',
-                    'Peso': '32g',
-                    'Cobertura': 'Lateral anti-viento',
-                    'Intercambiables': '3 lentes',
-                    'Garantía': '2 años'
-                },
-                colors: ['#000000', '#9BE000', '#FF0000', '#1E40AF'],
-                price: 89000,
-                priceFormatted: '$89.000',
-                oldPrice: 120000,
-                oldPriceFormatted: '$120.000',
-                stock: 'En stock',
-                stockColor: 'green',
-                whatsappMsg: 'Gafas Polarizadas Pro'
-            },
-            {
-                id: 6,
-                name: 'Pedales Automáticos Race',
-                category: 'Repuestos',
-                description: 'Pedales automáticos de competición con cuerpo de aluminio CNC y eje de acero cromado. Incluye calas SH-51.',
-                image: 'https://iili.io/CELOXJ1.md.jpg',
-                specs: {
-                    'Material': 'Aluminio CNC',
-                    'Eje': 'Acero cromado',
-                    'Peso': '285g (par)',
-                    'Rodamiento': 'Sellado',
-                    'Liberación': 'Ajustable (6-12°)',
-                    'Calas': 'Incluidas SH-51'
-                },
-                colors: ['#000000', '#9BE000'],
-                price: 159000,
-                priceFormatted: '$159.000',
-                oldPrice: null,
-                oldPriceFormatted: null,
-                stock: 'En stock',
-                stockColor: 'green',
-                whatsappMsg: 'Pedales Automáticos Race'
-            }
-        ];
+        const SUPABASE_URL = 'https://spwurhpdsvqlwsfyzyrn.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR4cm96d21ubmZoYmttYnpnY293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMjAyMjksImV4cCI6MjA5OTc5NjIyOX0.Q8aoYQ_ewGhzQxrWmg0HziJbl0n-AzpOfv7TRhjc3hQ';
 
-        // =====================================================
-        // 2. CARRITO DE COMPRAS
-        // =====================================================
+        let supabaseClient = null;
+        let allProducts = [];
+        let currentCategory = 'todos';
         let cart = [];
-        const whatsappNumber = '5491123456789';
+        let whatsappNumber = '5491123456789';
 
+        // =====================================================
+        // INICIALIZAR SUPABASE
+        // =====================================================
+        function initSupabase() {
+            if (typeof supabase !== 'undefined') {
+                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('✅ Supabase inicializado');
+                loadAllData();
+            } else {
+                console.warn('⚠️ Supabase no está cargado');
+                // Cargar script de Supabase
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+                script.onload = function() {
+                    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    console.log('✅ Supabase inicializado');
+                    loadAllData();
+                };
+                document.head.appendChild(script);
+            }
+        }
+
+        // =====================================================
+        // CARGAR TODOS LOS DATOS
+        // =====================================================
+        async function loadAllData() {
+            await loadConfig();
+            await loadCategories();
+            await loadProducts();
+            await loadHeroImages();
+            await loadHeroTexts();
+            await loadTestimonials();
+            await loadFaqs();
+            await loadBenefits();
+            updateCartUI();
+        }
+
+        // =====================================================
+        // CARGAR CONFIGURACIÓN
+        // =====================================================
+        async function loadConfig() {
+            try {
+                const { data } = await supabaseClient.from('config').select('*');
+                if (data) {
+                    data.forEach(item => {
+                        if (item.key === 'whatsapp') {
+                            whatsappNumber = item.value;
+                            // Actualizar todos los enlaces de WhatsApp
+                            document.querySelectorAll('[href*="wa.me"]').forEach(el => {
+                                el.href = `https://wa.me/${item.value}`;
+                            });
+                            document.getElementById('ctaWhatsapp').href = `https://wa.me/${item.value}`;
+                        }
+                        if (item.key === 'logo_url' && item.value) {
+                            const logoImg = document.createElement('img');
+                            logoImg.src = item.value;
+                            logoImg.alt = 'OliviaBike';
+                            logoImg.style.height = '45px';
+                            logoImg.style.width = 'auto';
+                            logoImg.style.verticalAlign = 'middle';
+                            const logoEl = document.getElementById('siteLogo');
+                            logoEl.innerHTML = '';
+                            logoEl.appendChild(logoImg);
+                            const footerLogo = document.getElementById('footerLogo');
+                            footerLogo.innerHTML = '';
+                            const img2 = document.createElement('img');
+                            img2.src = item.value;
+                            img2.alt = 'OliviaBike';
+                            img2.style.height = '40px';
+                            img2.style.width = 'auto';
+                            img2.style.verticalAlign = 'middle';
+                            footerLogo.appendChild(img2);
+                        }
+                    });
+                }
+            } catch (err) {
+                console.error('Error loading config:', err);
+            }
+        }
+
+        // =====================================================
+        // CARGAR CATEGORÍAS
+        // =====================================================
+        async function loadCategories() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('categories')
+                    .select('*')
+                    .order('sort_order');
+
+                if (error) throw error;
+
+                const grid = document.getElementById('categoriesGrid');
+                // Mantener el botón "Todos"
+                let html = `
+                    <div class="category-card active" data-category="todos" onclick="filterByCategory('todos')">
+                        <i class="fas fa-th-large"></i>
+                        <span>Todos</span>
+                        <span class="count" id="countTodos">0</span>
+                    </div>
+                `;
+
+                if (data && data.length > 0) {
+                    data.forEach(cat => {
+                        html += `
+                            <div class="category-card" data-category="${cat.name}" onclick="filterByCategory('${cat.name}')">
+                                <i class="fas ${cat.icon || 'fa-tag'}"></i>
+                                <span>${cat.name}</span>
+                                <span class="count" id="count_${cat.name.replace(/\s/g, '_')}">0</span>
+                            </div>
+                        `;
+                    });
+                }
+
+                grid.innerHTML = html;
+            } catch (err) {
+                console.error('Error loading categories:', err);
+            }
+        }
+
+        // =====================================================
+        // CARGAR PRODUCTOS
+        // =====================================================
+        async function loadProducts() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('products')
+                    .select('*, categories(name), badges(*)')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                allProducts = data || [];
+                renderProducts(currentCategory);
+                updateCategoryCounts();
+            } catch (err) {
+                console.error('Error loading products:', err);
+                document.getElementById('productsGrid').innerHTML = `
+                    <p style="text-align:center;width:100%;padding:40px 0;color:red;">Error al cargar productos</p>
+                `;
+            }
+        }
+
+        // =====================================================
+        // FILTRAR POR CATEGORÍA
+        // =====================================================
+        function filterByCategory(category) {
+            currentCategory = category;
+            
+            // Actualizar clases activas
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.toggle('active', card.dataset.category === category);
+            });
+
+            renderProducts(category);
+            
+            // Mostrar/ocultar botón de limpiar filtro
+            const clearBtn = document.getElementById('clearFilterBtn');
+            if (category === 'todos') {
+                clearBtn.style.display = 'none';
+            } else {
+                clearBtn.style.display = 'inline-flex';
+            }
+
+            // Scroll a productos
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // =====================================================
+        // RENDERIZAR PRODUCTOS
+        // =====================================================
+        function renderProducts(category) {
+            const grid = document.getElementById('productsGrid');
+            
+            let filtered = allProducts;
+            if (category !== 'todos') {
+                filtered = allProducts.filter(p => p.categories?.name === category);
+            }
+
+            // Actualizar contador
+            document.getElementById('productCount').textContent = `Mostrando ${filtered.length} productos`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <p style="text-align:center;width:100%;padding:40px 0;color:var(--gray-400);">
+                        No hay productos en esta categoría
+                    </p>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(product => {
+                const stockClass = product.stock === 'En stock' ? 'in-stock' : 
+                                  product.stock === 'Últimas unidades' ? 'low-stock' : 'out-of-stock';
+                
+                const oldPriceHtml = product.old_price ? 
+                    `<span class="old">$${product.old_price.toLocaleString('es-AR')}</span>` : '';
+
+                const badgeHtml = product.badges ? `
+                    <span class="product-badge" style="background:${product.badges.color};color:${product.badges.text_color};">
+                        ${product.badges.icon || ''} ${product.badges.name}
+                    </span>
+                ` : '';
+
+                return `
+                    <div class="product-card" data-id="${product.id}">
+                        <div class="product-image" onclick="openModal(${product.id})">
+                            <img src="${product.image}" alt="${product.name}" loading="lazy">
+                            ${badgeHtml}
+                            <span class="product-stock ${stockClass}">${product.stock || 'Sin stock'}</span>
+                        </div>
+                        <div class="product-body">
+                            <div class="product-category">${product.categories?.name || 'Sin categoría'}</div>
+                            <h3 onclick="openModal(${product.id})">${product.name}</h3>
+                            <div class="product-price">
+                                $${product.price?.toLocaleString('es-AR')}
+                                ${oldPriceHtml}
+                            </div>
+                            <div class="btn-group-cart">
+                                <button class="btn btn-cart" data-product-id="${product.id}" onclick="addToCart(${product.id})">
+                                    <i class="fas fa-cart-plus"></i> Agregar
+                                </button>
+                                <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.whatsapp_msg || product.name)}" 
+                                   target="_blank" 
+                                   class="btn btn-green" 
+                                   onclick="event.stopPropagation();">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                            <a href="#" class="ver-detalle" onclick="event.preventDefault(); openModal(${product.id})">
+                                Ver detalles completos →
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // =====================================================
+        // ACTUALIZAR CONTADORES DE CATEGORÍAS
+        // =====================================================
+        function updateCategoryCounts() {
+            document.getElementById('countTodos').textContent = allProducts.length;
+
+            const categories = ['Bicicletas', 'Cascos', 'Indumentaria', 'Accesorios', 'Repuestos'];
+            categories.forEach(cat => {
+                const count = allProducts.filter(p => p.categories?.name === cat).length;
+                const el = document.getElementById(`count_${cat.replace(/\s/g, '_')}`);
+                if (el) el.textContent = count;
+            });
+        }
+
+        // =====================================================
+        // HERO CARRUSEL
+        // =====================================================
+        async function loadHeroImages() {
+            try {
+                const { data } = await supabaseClient
+                    .from('images')
+                    .select('*')
+                    .eq('type', 'hero')
+                    .order('sort_order');
+
+                if (!data || data.length === 0) {
+                    // Imágenes por defecto
+                    const defaultImages = [
+                        'https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1600&q=80',
+                        'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1600&q=80',
+                        'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=1600&q=80'
+                    ];
+                    initHeroCarousel(defaultImages);
+                    return;
+                }
+
+                const images = data.map(img => img.url);
+                initHeroCarousel(images);
+            } catch (err) {
+                console.error('Error loading hero images:', err);
+            }
+        }
+
+        let currentHeroSlide = 0;
+        let heroInterval;
+
+        function initHeroCarousel(images) {
+            const container = document.getElementById('heroSlides');
+            const indicators = document.getElementById('heroIndicators');
+
+            if (!images || images.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = images.map((img, i) => `
+                <div class="hero-slide ${i === 0 ? 'active' : ''}">
+                    <img src="${img}" alt="Ciclista" loading="${i === 0 ? 'eager' : 'lazy'}">
+                </div>
+            `).join('');
+
+            indicators.innerHTML = images.map((_, i) => `
+                <button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Slide ${i + 1}"></button>
+            `).join('');
+
+            indicators.querySelectorAll('.dot').forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.dataset.index);
+                    goToHeroSlide(index);
+                    resetHeroAutoplay();
+                });
+            });
+
+            startHeroAutoplay();
+        }
+
+        function goToHeroSlide(index) {
+            const slides = document.querySelectorAll('.hero-slide');
+            const dots = document.querySelectorAll('#heroIndicators .dot');
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            currentHeroSlide = index;
+            if (slides[index]) slides[index].classList.add('active');
+            if (dots[index]) dots[index].classList.add('active');
+        }
+
+        function startHeroAutoplay() {
+            clearInterval(heroInterval);
+            heroInterval = setInterval(() => {
+                const slides = document.querySelectorAll('.hero-slide');
+                if (slides.length === 0) return;
+                const next = (currentHeroSlide + 1) % slides.length;
+                goToHeroSlide(next);
+            }, 5000);
+        }
+
+        function resetHeroAutoplay() {
+            clearInterval(heroInterval);
+            startHeroAutoplay();
+        }
+
+        // =====================================================
+        // HERO TEXTS
+        // =====================================================
+        async function loadHeroTexts() {
+            try {
+                const { data } = await supabaseClient
+                    .from('config')
+                    .select('*')
+                    .in('key', ['hero_badge', 'hero_title', 'hero_desc']);
+
+                if (data) {
+                    data.forEach(item => {
+                        if (item.key === 'hero_badge') {
+                            document.getElementById('heroBadge').textContent = item.value;
+                        } else if (item.key === 'hero_title') {
+                            document.getElementById('heroTitle').innerHTML = item.value;
+                        } else if (item.key === 'hero_desc') {
+                            document.getElementById('heroDesc').textContent = item.value;
+                        }
+                    });
+                }
+            } catch (err) {
+                console.error('Error loading hero texts:', err);
+            }
+        }
+
+        // =====================================================
+        // TESTIMONIALS
+        // =====================================================
+        async function loadTestimonials() {
+            try {
+                const { data } = await supabaseClient
+                    .from('testimonials')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                const container = document.getElementById('testimonialsGrid');
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay testimonios</p>';
+                    return;
+                }
+
+                container.innerHTML = data.map(t => `
+                    <div class="testimonial-card" style="padding:32px;background:var(--gray-100);border-radius:var(--radius);transition:var(--transition);">
+                        <div class="stars" style="color:#FFB800;margin-bottom:12px;font-size:0.9rem;">${'★'.repeat(t.stars || 5)}${'☆'.repeat(5-(t.stars || 5))}</div>
+                        <p style="font-size:0.95rem;color:var(--gray-600);font-weight:400;line-height:1.7;">"${t.text}"</p>
+                        <div class="author" style="display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-200);">
+                            <img src="${t.image}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;" onerror="this.src='https://via.placeholder.com/44x44?text=No+img'">
+                            <div>
+                                <div class="name" style="font-weight:600;font-size:0.9rem;">${t.name}</div>
+                                <div class="role" style="font-size:0.8rem;color:var(--gray-400);">${t.role || ''}</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading testimonials:', err);
+            }
+        }
+
+        // =====================================================
+        // FAQS
+        // =====================================================
+        async function loadFaqs() {
+            try {
+                const { data } = await supabaseClient
+                    .from('faqs')
+                    .select('*')
+                    .order('sort_order');
+
+                const container = document.getElementById('faqList');
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center;color:var(--gray-400);">No hay preguntas frecuentes</p>';
+                    return;
+                }
+
+                container.innerHTML = data.map((f, i) => `
+                    <div class="faq-item ${i === 0 ? 'active' : ''}" style="background:var(--white);border-radius:12px;margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow-sm);">
+                        <div class="question" onclick="toggleFaq(this)" style="padding:20px 24px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;transition:var(--transition);">
+                            <span>${f.question}</span>
+                            <i class="fas fa-chevron-down" style="transition:var(--transition);color:var(--primary);"></i>
+                        </div>
+                        <div class="answer" style="max-height:${i === 0 ? '200px' : '0'};overflow:hidden;transition:max-height 0.4s ease,padding 0.4s ease;padding:${i === 0 ? '0 24px 20px' : '0 24px'};color:var(--gray-500);">
+                            <p>${f.answer}</p>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading faqs:', err);
+            }
+        }
+
+        function toggleFaq(questionEl) {
+            const item = questionEl.parentElement;
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(f => {
+                f.classList.remove('active');
+                f.querySelector('.answer').style.maxHeight = '0';
+                f.querySelector('.answer').style.padding = '0 24px';
+            });
+            if (!isActive) {
+                item.classList.add('active');
+                const answer = item.querySelector('.answer');
+                answer.style.maxHeight = '200px';
+                answer.style.padding = '0 24px 20px';
+            }
+        }
+
+        // =====================================================
+        // BENEFICIOS
+        // =====================================================
+        async function loadBenefits() {
+            try {
+                const { data } = await supabaseClient
+                    .from('benefits')
+                    .select('*')
+                    .order('sort_order');
+
+                const container = document.getElementById('benefitsGrid');
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay beneficios</p>';
+                    return;
+                }
+
+                container.innerHTML = data.map(b => `
+                    <div class="benefit-item" style="text-align:center;padding:24px;">
+                        <div class="icon" style="display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;background:rgba(155,224,0,0.1);border-radius:50%;font-size:2rem;color:var(--primary);margin-bottom:16px;transition:var(--transition);">
+                            <i class="fas ${b.icon}"></i>
+                        </div>
+                        <h4 style="font-size:1.1rem;font-weight:600;margin-bottom:4px;">${b.title}</h4>
+                        <p style="color:var(--gray-400);font-size:0.9rem;">${b.description}</p>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading benefits:', err);
+            }
+        }
+
+        // =====================================================
+        // CARRITO DE COMPRAS
+        // =====================================================
         function addToCart(productId) {
-            const product = productsData.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (!product) return;
 
             const existing = cart.find(item => item.id === productId);
@@ -2340,7 +2079,7 @@
                     id: product.id,
                     name: product.name,
                     price: product.price,
-                    priceFormatted: product.priceFormatted,
+                    priceFormatted: '$' + product.price.toLocaleString('es-AR'),
                     image: product.image,
                     qty: 1
                 });
@@ -2404,7 +2143,7 @@
                     <div class="cart-empty">
                         <i class="fas fa-shopping-bag"></i>
                         <p>Tu carrito está vacío</p>
-                        <p style="font-size: 0.85rem; margin-top: 4px;">Explora nuestros productos y agrega lo que necesites</p>
+                        <p style="font-size:0.85rem;margin-top:4px;">Explora nuestros productos y agrega lo que necesites</p>
                     </div>
                 `;
                 return;
@@ -2452,7 +2191,7 @@
         });
 
         // =====================================================
-        // 3. CHECKOUT - ENVÍO A WHATSAPP
+        // CHECKOUT - ENVÍO A WHATSAPP
         // =====================================================
         function checkout() {
             if (cart.length === 0) {
@@ -2480,7 +2219,7 @@
         }
 
         // =====================================================
-        // 4. TOAST NOTIFICATION
+        // TOAST
         // =====================================================
         let toastTimeout;
 
@@ -2496,256 +2235,74 @@
         }
 
         // =====================================================
-        // 5. HERO CARRUSEL
-        // =====================================================
-        const heroImages = [
-            'https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1600&q=80',
-            'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1600&q=80',
-            'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=1600&q=80',
-            'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=1600&q=80',
-            'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1600&q=80'
-        ];
-
-        let currentHeroSlide = 0;
-        let heroInterval;
-
-        function initHeroCarousel() {
-            const container = document.getElementById('heroSlides');
-            const indicators = document.getElementById('heroIndicators');
-
-            container.innerHTML = heroImages.map((img, i) => `
-                <div class="hero-slide ${i === 0 ? 'active' : ''}">
-                    <img src="${img}" alt="Ciclista" loading="${i === 0 ? 'eager' : 'lazy'}">
-                </div>
-            `).join('');
-
-            indicators.innerHTML = heroImages.map((_, i) => `
-                <button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Slide ${i + 1}"></button>
-            `).join('');
-
-            indicators.querySelectorAll('.dot').forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const index = parseInt(dot.dataset.index);
-                    goToHeroSlide(index);
-                    resetHeroAutoplay();
-                });
-            });
-
-            startHeroAutoplay();
-        }
-
-        function goToHeroSlide(index) {
-            const slides = document.querySelectorAll('.hero-slide');
-            const dots = document.querySelectorAll('#heroIndicators .dot');
-            slides.forEach(s => s.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-            currentHeroSlide = index;
-            slides[index].classList.add('active');
-            dots[index].classList.add('active');
-        }
-
-        function startHeroAutoplay() {
-            clearInterval(heroInterval);
-            heroInterval = setInterval(() => {
-                const next = (currentHeroSlide + 1) % heroImages.length;
-                goToHeroSlide(next);
-            }, 5000);
-        }
-
-        function resetHeroAutoplay() {
-            clearInterval(heroInterval);
-            startHeroAutoplay();
-        }
-
-        // =====================================================
-        // 6. BANNERS ROTATIVOS
-        // =====================================================
-        const bannersData = [
-            {
-                badge: '🔥 Oferta especial',
-                title: 'Bicicletas de <span>montaña</span> con 30% OFF',
-                desc: 'Equipate con las mejores bicicletas para terrenos exigentes. Oferta válida por tiempo limitado.',
-                image: 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80',
-                cta: 'Aprovechar oferta',
-                link: 'https://wa.me/5491123456789'
-            },
-            {
-                badge: '⚡ Nuevas llegadas',
-                title: 'Indumentaria <span>Premium</span> para ciclistas',
-                desc: 'Maillots, culottes y accesorios de las mejores marcas. Calidad profesional al mejor precio.',
-                image: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800&q=80',
-                cta: 'Ver colección',
-                link: 'https://wa.me/5491123456789'
-            },
-            {
-                badge: '🚴 Accesorios',
-                title: 'Todo lo que <span>necesitas</span> para rodar',
-                desc: 'Cascos, gafas, pedales, luces y más. Equipamiento completo para tu seguridad y rendimiento.',
-                image: 'https://iili.io/CEQKYkQ.png',
-                cta: 'Consultar ahora',
-                link: 'https://wa.me/5491123456789'
-            }
-        ];
-
-        let currentBannerSlide = 0;
-        let bannerInterval;
-
-        function initBannersCarousel() {
-            const track = document.getElementById('bannersTrack');
-            const dotsContainer = document.getElementById('bannersDots');
-
-            track.innerHTML = bannersData.map(banner => `
-                <div class="banner-slide">
-                    <div class="banner-text">
-                        <span class="badge-banner">${banner.badge}</span>
-                        <h2>${banner.title}</h2>
-                        <p>${banner.desc}</p>
-                        <a href="${banner.link}" target="_blank" class="btn btn-green">
-                            <i class="fab fa-whatsapp"></i> ${banner.cta}
-                        </a>
-                    </div>
-                    <div class="banner-image">
-                        <img src="${banner.image}" alt="${banner.title}" loading="lazy">
-                    </div>
-                </div>
-            `).join('');
-
-            dotsContainer.innerHTML = bannersData.map((_, i) => `
-                <button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Banner ${i + 1}"></button>
-            `).join('');
-
-            dotsContainer.querySelectorAll('.dot').forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const index = parseInt(dot.dataset.index);
-                    goToBannerSlide(index);
-                    resetBannerAutoplay();
-                });
-            });
-
-            document.getElementById('bannerPrev').addEventListener('click', () => {
-                goToBannerSlide(currentBannerSlide - 1);
-                resetBannerAutoplay();
-            });
-
-            document.getElementById('bannerNext').addEventListener('click', () => {
-                goToBannerSlide(currentBannerSlide + 1);
-                resetBannerAutoplay();
-            });
-
-            startBannerAutoplay();
-        }
-
-        function goToBannerSlide(index) {
-            const slides = document.querySelectorAll('.banner-slide');
-            const dots = document.querySelectorAll('#bannersDots .dot');
-            
-            if (!slides.length) return;
-
-            if (index < 0) index = slides.length - 1;
-            if (index >= slides.length) index = 0;
-
-            currentBannerSlide = index;
-            document.getElementById('bannersTrack').style.transform = `translateX(-${index * 100}%)`;
-            
-            dots.forEach((d, i) => d.classList.toggle('active', i === index));
-        }
-
-        function startBannerAutoplay() {
-            clearInterval(bannerInterval);
-            bannerInterval = setInterval(() => {
-                goToBannerSlide(currentBannerSlide + 1);
-            }, 6000);
-        }
-
-        function resetBannerAutoplay() {
-            clearInterval(bannerInterval);
-            startBannerAutoplay();
-        }
-
-        // =====================================================
-        // 7. RENDERIZAR PRODUCTOS
-        // =====================================================
-        function renderProductsGrid() {
-            const grid = document.getElementById('productsGrid');
-            if (!grid) return;
-
-            grid.innerHTML = productsData.map(product => {
-                const stockClass = product.stock === 'En stock' ? 'in-stock' : 
-                                  product.stock === 'Últimas unidades' ? 'low-stock' : 'out-of-stock';
-                
-                const oldPriceHtml = product.oldPriceFormatted ? 
-                    `<span class="old">${product.oldPriceFormatted}</span>` : '';
-                
-                return `
-                    <div class="product-card scale-in" data-id="${product.id}">
-                        <div class="product-image" onclick="openModal(${product.id})">
-                            <img src="${product.image}" alt="${product.name}" loading="lazy">
-                            <span class="product-stock ${stockClass}">${product.stock}</span>
-                        </div>
-                        <div class="product-body">
-                            <div class="product-category">${product.category}</div>
-                            <h3 onclick="openModal(${product.id})">${product.name}</h3>
-                            <div class="product-price">
-                                ${product.priceFormatted}
-                                ${oldPriceHtml}
-                            </div>
-                            <div class="btn-group-cart">
-                                <button class="btn btn-cart" data-product-id="${product.id}" onclick="addToCart(${product.id})">
-                                    <i class="fas fa-cart-plus"></i> Agregar
-                                </button>
-                                <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.name)}" 
-                                   target="_blank" 
-                                   class="btn btn-green" 
-                                   onclick="event.stopPropagation();">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                            </div>
-                            <a href="#" class="ver-detalle" onclick="event.preventDefault(); openModal(${product.id})">
-                                Ver detalles completos →
-                            </a>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // =====================================================
-        // 8. MODAL DE PRODUCTO
+        // MODAL DE PRODUCTO
         // =====================================================
         const modal = document.getElementById('productModal');
         const modalContent = document.getElementById('modalContent');
         const modalClose = document.getElementById('modalClose');
 
         function openModal(productId) {
-            const product = productsData.find(p => p.id === productId);
+            const product = allProducts.find(p => p.id === productId);
             if (!product) return;
 
-            const specsHtml = Object.entries(product.specs).map(([key, value]) => `
-                <div class="spec-item">
-                    <span class="label">${key}</span>
-                    <span class="value">${value}</span>
-                </div>
-            `).join('');
+            // Construir specs desde custom_fields
+            let specsHtml = '';
+            if (product.custom_fields) {
+                const labels = {
+                    'peso': 'Peso',
+                    'rodado': 'Rodado',
+                    'talle_cuadro': 'Talle de cuadro',
+                    'material': 'Material',
+                    'suspension': 'Suspensión',
+                    'cambios': 'Cambios',
+                    'frenos': 'Frenos',
+                    'medidas': 'Medidas',
+                    'talle': 'Talle',
+                    'lavado': 'Lavado',
+                    'compresion': 'Compresión',
+                    'proteccion_uv': 'Protección UV',
+                    'ventilacion': 'Ventilación',
+                    'certificacion': 'Certificación',
+                    'ajuste': 'Ajuste',
+                    'compatibilidad': 'Compatibilidad',
+                    'garantia': 'Garantía',
+                    'incluye': 'Incluye'
+                };
+                const entries = Object.entries(product.custom_fields).filter(([key, val]) => val);
+                if (entries.length > 0) {
+                    specsHtml = entries.map(([key, value]) => `
+                        <div class="spec-item">
+                            <span class="label">${labels[key] || key}</span>
+                            <span class="value">${value}</span>
+                        </div>
+                    `).join('');
+                }
+            }
 
             const colorsHtml = product.colors ? product.colors.map(color => `
                 <div class="color-option" style="background: ${color};" title="Color disponible"></div>
             `).join('') : '';
 
-            const oldPriceHtml = product.oldPriceFormatted ? 
-                `<span>${product.oldPriceFormatted}</span>` : '';
+            const oldPriceHtml = product.old_price ? 
+                `<span>$${product.old_price.toLocaleString('es-AR')}</span>` : '';
+
+            const stockColor = product.stock === 'En stock' ? 'green' : 
+                              product.stock === 'Últimas unidades' ? 'orange' : 'red';
 
             modalContent.innerHTML = `
                 <div class="modal-image">
                     <img src="${product.image}" alt="${product.name}">
                 </div>
                 <div class="modal-info">
-                    <span class="badge-category">${product.category}</span>
+                    <span class="badge-category">${product.categories?.name || 'Sin categoría'}</span>
                     <h2>${product.name}</h2>
-                    <p class="description">${product.description}</p>
+                    <p class="description">${product.description || 'Sin descripción'}</p>
                     
-                    <div class="specs-grid">
-                        ${specsHtml}
-                    </div>
+                    ${specsHtml ? `
+                        <div class="specs-grid">
+                            ${specsHtml}
+                        </div>
+                    ` : ''}
 
                     ${product.colors ? `
                         <div class="colors">
@@ -2755,20 +2312,20 @@
                     ` : ''}
 
                     <div class="price">
-                        ${product.priceFormatted}
+                        $${product.price.toLocaleString('es-AR')}
                         ${oldPriceHtml}
                     </div>
 
                     <div class="stock-status">
-                        <span class="dot ${product.stockColor}"></span>
-                        ${product.stock}
+                        <span class="dot ${stockColor}"></span>
+                        ${product.stock || 'Sin stock'}
                     </div>
 
                     <div class="btn-group">
                         <button class="btn btn-cart" onclick="addToCart(${product.id}); closeModal();">
                             <i class="fas fa-cart-plus"></i> Agregar al carrito
                         </button>
-                        <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.whatsappMsg)}" 
+                        <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.whatsapp_msg || product.name)}" 
                            target="_blank" 
                            class="btn btn-whatsapp">
                             <i class="fab fa-whatsapp"></i> Consultar
@@ -2795,7 +2352,7 @@
         });
 
         // =====================================================
-        // 9. HEADER SCROLL
+        // HEADER SCROLL
         // =====================================================
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
@@ -2803,7 +2360,7 @@
         });
 
         // =====================================================
-        // 10. HAMBURGER MENU
+        // HAMBURGER MENU
         // =====================================================
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('navMenu');
@@ -2817,67 +2374,28 @@
         });
 
         // =====================================================
-        // 11. FAQ
+        // INICIO
         // =====================================================
-        document.querySelectorAll('.faq-item .question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                const isActive = item.classList.contains('active');
-                document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('active'));
-                if (!isActive) item.classList.add('active');
-            });
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            initSupabase();
 
-        // =====================================================
-        // 12. TIMER
-        // =====================================================
-        function startTimer() {
-            const target = new Date();
-            target.setHours(target.getHours() + 24);
+            // Intersection Observer para animaciones
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
 
-            function updateTimer() {
-                const diff = Math.max(0, target - new Date());
-                document.getElementById('hours').textContent = String(Math.floor(diff / (1000*60*60))).padStart(2,'0');
-                document.getElementById('minutes').textContent = String(Math.floor((diff % (1000*60*60)) / (1000*60))).padStart(2,'0');
-                document.getElementById('seconds').textContent = String(Math.floor((diff % (1000*60)) / 1000)).padStart(2,'0');
-            }
-            updateTimer();
-            setInterval(updateTimer, 1000);
-        }
-        startTimer();
-
-        // =====================================================
-        // 13. INTERSECTION OBSERVER
-        // =====================================================
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initHeroCarousel();
-            initBannersCarousel();
-            renderProductsGrid();
-            updateCartUI();
-            
             document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in').forEach(el => {
                 observer.observe(el);
             });
-
-            setTimeout(() => {
-                document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in').forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top <= window.innerHeight - 100) el.classList.add('visible');
-                });
-            }, 300);
         });
 
-        console.log('🚴 OliviaBike 24.7 - Landing Page con Carrito de Compras');
+        console.log('🚴 OliviaBike 24.7 - Tienda de Ciclismo Premium');
+        console.log('📦 Conectado a Supabase');
         console.log('🛒 Carrito funcional + Checkout por WhatsApp');
-        console.log('📱 Full responsive en todos los dispositivos');
-        console.log('🛠️ Footer con créditos a Ciborg 347');
-        console.log('🔐 Botón Admin en Header y Footer');
+        console.log('📱 Full responsive');
+        console.log('🔍 Filtro por categorías cliqueables');
     </script>
 </body>
 </html>
