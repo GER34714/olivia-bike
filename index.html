@@ -713,7 +713,7 @@
         }
 
         /* ============================================================
-           HERO
+           HERO - CON IMAGEN HARCODEADA
            ============================================================ */
         .hero {
             min-height: 100vh;
@@ -733,11 +733,6 @@
         .hero-slide {
             position: absolute;
             inset: 0;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-            z-index: 0;
-        }
-        .hero-slide.active {
             opacity: 1;
             z-index: 1;
         }
@@ -803,28 +798,7 @@
         }
 
         .hero-indicators {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 3;
-            display: flex;
-            gap: 10px;
-        }
-        .hero-indicators .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            padding: 0;
-        }
-        .hero-indicators .dot.active {
-            background: var(--primary);
-            width: 28px;
-            border-radius: 5px;
+            display: none;
         }
 
         .hero-scroll {
@@ -1330,24 +1304,27 @@
             line-height: 1.2;
         }
 
+        /* ============================================================
+           DESCRIPCIÓN DEL MODAL - CON MÁS ESPACIO
+           ============================================================ */
         .modal-info .description {
             color: var(--gray-600);
-            font-size: 0.95rem;
-            line-height: 1.9;
-            padding: 20px 20px;
-            max-height: 280px;
+            font-size: 1rem;
+            line-height: 2;
+            padding: 24px 24px;
+            max-height: 400px;
             overflow-y: auto;
             border-top: 1px solid var(--gray-100);
             border-bottom: 1px solid var(--gray-100);
-            margin: 4px 0;
+            margin: 8px 0;
             background: var(--gray-50);
-            border-radius: 10px;
+            border-radius: 12px;
             text-align: left;
             width: 100%;
         }
 
         .modal-info .description p {
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .modal-info .specs-grid {
@@ -2232,8 +2209,10 @@
                 max-height: 300px;
             }
             .modal-info .description {
-                max-height: 200px;
-                padding: 16px 16px;
+                font-size: 0.95rem;
+                padding: 20px 20px;
+                max-height: 320px;
+                line-height: 1.9;
             }
             .banner-slide {
                 grid-template-columns: 1fr;
@@ -2330,14 +2309,13 @@
                 font-size: 1.5rem;
             }
             .modal-info .description {
-                padding: 14px 14px;
                 font-size: 0.9rem;
-                max-height: 180px;
-                line-height: 1.7;
-                border-radius: 8px;
+                padding: 16px 16px;
+                max-height: 260px;
+                line-height: 1.8;
             }
             .modal-info .description p {
-                margin-bottom: 8px;
+                margin-bottom: 12px;
             }
             .modal-info .specs-grid {
                 grid-template-columns: 1fr;
@@ -2441,9 +2419,10 @@
                 border-radius: 10px;
             }
             .modal-info .description {
-                padding: 12px 12px;
                 font-size: 0.85rem;
-                max-height: 150px;
+                padding: 14px 14px;
+                max-height: 200px;
+                line-height: 1.7;
             }
             .modal-info h2 {
                 font-size: 1.3rem;
@@ -2521,7 +2500,7 @@
         </div>
     </header>
 
-    <!-- ========== HERO CON CARRUSEL ========== -->
+    <!-- ========== HERO CON CARRUSEL (HARCODEADO) ========== -->
     <section class="hero" id="hero">
         <div class="hero-slides" id="heroSlides"></div>
 
@@ -2656,7 +2635,7 @@
         <div id="toastMessage">El producto se añadió al carrito</div>
     </div>
 
-    <!-- ========== GALERÍA MEJORADA ========== -->
+    <!-- ========== GALERÍA ========== -->
     <section class="gallery" id="gallery">
         <div class="container">
             <div class="section-header center fade-in">
@@ -3052,9 +3031,9 @@
                 const { data: badges } = await supabaseClient.from('badges').select('*');
                 allBadges = badges || [];
 
-                // Cargar imágenes hero
-                const { data: heroImages } = await supabaseClient.from('images').select('*').eq('type', 'hero').order('sort_order');
-                allHeroImages = heroImages?.map(i => i.url) || [];
+                // Cargar imágenes hero - NO SE USA MÁS
+                // const { data: heroImages } = await supabaseClient.from('images').select('*').eq('type', 'hero').order('sort_order');
+                // allHeroImages = heroImages?.map(i => i.url) || [];
 
                 // Cargar galería
                 const { data: gallery } = await supabaseClient.from('gallery').select('*').order('sort_order');
@@ -3080,7 +3059,7 @@
 
                 renderCategories();
                 renderProducts();
-                renderHeroCarousel();
+                renderHeroCarousel(); // Ahora usa imagen hardcodeada
                 renderBannersCarousel();
                 renderGallery();
                 renderTestimonials();
@@ -3395,62 +3374,27 @@
         });
 
         // =====================================================
-        // HERO CARRUSEL
+        // HERO CARRUSEL - CON IMAGEN HARCODEADA
         // =====================================================
         function renderHeroCarousel() {
-            const images = allHeroImages.length > 0 ? allHeroImages : [
-                'https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1600&q=80',
-                'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1600&q=80',
-                'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=1600&q=80'
-            ];
+            // IMAGEN HARCODEADA (subida desde el admin)
+            const heroImage = 'https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784346479068_uo2k0l.jpg';
+            
+            // Usamos UNA sola imagen (la hardcodeada)
+            const images = [heroImage];
 
             const container = document.getElementById('heroSlides');
             const indicators = document.getElementById('heroIndicators');
 
             container.innerHTML = images.map((img, i) => `
                 <div class="hero-slide ${i === 0 ? 'active' : ''}">
-                    <img src="${img}" alt="Ciclista" class="lazy-image" loading="${i === 0 ? 'eager' : 'lazy'}" fetchpriority="${i === 0 ? 'high' : 'low'}" onload="this.classList.add('loaded')">
+                    <img src="${img}" alt="OliviaBike - Ciclismo Premium" class="lazy-image" loading="eager" fetchpriority="high" onload="this.classList.add('loaded')">
                 </div>
             `).join('');
 
-            indicators.innerHTML = images.map((_, i) => `
-                <button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Slide ${i + 1}"></button>
-            `).join('');
-
-            indicators.querySelectorAll('.dot').forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const index = parseInt(dot.dataset.index);
-                    goToHeroSlide(index);
-                    resetHeroAutoplay();
-                });
-            });
-
-            startHeroAutoplay();
-        }
-
-        function goToHeroSlide(index) {
-            const slides = document.querySelectorAll('.hero-slide');
-            const dots = document.querySelectorAll('#heroIndicators .dot');
-            slides.forEach(s => s.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-            currentHeroSlide = index;
-            if (slides[index]) slides[index].classList.add('active');
-            if (dots[index]) dots[index].classList.add('active');
-        }
-
-        function startHeroAutoplay() {
-            clearInterval(heroInterval);
-            heroInterval = setInterval(() => {
-                const slides = document.querySelectorAll('.hero-slide');
-                if (slides.length === 0) return;
-                const next = (currentHeroSlide + 1) % slides.length;
-                goToHeroSlide(next);
-            }, 5000);
-        }
-
-        function resetHeroAutoplay() {
-            clearInterval(heroInterval);
-            startHeroAutoplay();
+            // Ocultar indicadores (solo una imagen)
+            indicators.innerHTML = '';
+            indicators.style.display = 'none';
         }
 
         // =====================================================
@@ -4223,11 +4167,11 @@
 
         console.log('🚴 OliviaBike 24.7 - Frontend con Paleta Roja');
         console.log('🔴 Color principal: ROJO (#E63946)');
-        console.log('✅ Galería mejorada con modal');
+        console.log('✅ Hero con imagen hardcodeada (carga instantánea)');
+        console.log('✅ Galería con lazy loading desde Supabase');
+        console.log('✅ Modal de productos con descripción mejorada (más espacio)');
         console.log('✅ Las imágenes muestran título y descripción al hacer hover');
         console.log('✅ Al hacer click se abre modal con imagen grande + toda la info');
-        console.log('✅ Preparado para recibir datos desde Supabase (tabla gallery)');
-        console.log('✅ Campos: id, image_url, title, description, badge, category, sort_order');
         console.log('📸 Galería completamente funcional');
     </script>
 </body>
