@@ -716,7 +716,7 @@
         }
 
         /* ============================================================
-           HERO - 1 IMAGEN HARDCODEADA + RESTO DESDE SUPABASE
+           HERO
            ============================================================ */
         .hero {
             min-height: 100vh;
@@ -1881,7 +1881,7 @@
         }
 
         /* ============================================================
-           BANNER PROMO - AHORA CON OFERTAS PROGRAMADAS
+           BANNER PROMO
            ============================================================ */
         .banner-promo {
             padding: 80px 0;
@@ -2696,6 +2696,7 @@
             <a href="#" class="logo" id="mainLogo">
                 <span id="logoText">Olivia<span>Bike</span> 24.7</span>
             </a>
+
             <nav>
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="#categories">Categorías</a></li>
@@ -2710,24 +2711,39 @@
                     </a></li>
                 </ul>
             </nav>
+
             <div class="header-actions">
+                <a href="admin.html" target="_blank" class="btn-admin" style="display:none;" id="adminBtnHeader">
+                    <i class="fas fa-user-shield"></i> Admin
+                </a>
                 <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-whatsapp" id="whatsappBtn">
-                    <i class="fab fa-whatsapp"></i> <span>Consultar</span>
+                    <i class="fab fa-whatsapp"></i>
+                    <span>Consultar</span>
                 </a>
                 <button class="hamburger" id="hamburger" aria-label="Abrir menú de navegación">
-                    <span></span><span></span><span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- ========== HERO ========== -->
+    <!-- ========== HERO - 1 IMAGEN HARDCODEADA + RESTO DESDE SUPABASE ========== -->
     <section class="hero" id="hero">
         <div class="hero-slides" id="heroSlides">
+            <!-- IMAGEN 1 - HARDCODEADA -->
             <div class="hero-slide active">
-                <img src="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg?w=1200&q=80&auto=format" alt="OliviaBike - Bicicletas Premium" fetchpriority="high" onload="this.classList.add('loaded')" class="lazy-image">
+                <img 
+                    src="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg?w=1200&q=80&auto=format" 
+                    alt="OliviaBike - Bicicletas Premium" 
+                    fetchpriority="high"
+                    onload="this.classList.add('loaded')"
+                    class="lazy-image">
             </div>
+            <!-- IMÁGENES 2, 3, etc - Se cargan desde Supabase -->
         </div>
+
         <div class="container">
             <div class="hero-content fade-in visible">
                 <span class="badge" id="heroBadge">🔥 Tienda Premium</span>
@@ -2735,31 +2751,43 @@
                 <p id="heroDesc">Encuentra bicicletas de alta gama, accesorios y equipamiento profesional para ciclistas exigentes.</p>
                 <div class="hero-buttons">
                     <a href="#products" class="btn btn-primary">Ver productos</a>
-                    <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-outline" id="heroWhatsapp"><i class="fab fa-whatsapp"></i> Consultar ahora</a>
+                    <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-outline" id="heroWhatsapp">
+                        <i class="fab fa-whatsapp"></i> Consultar ahora
+                    </a>
                 </div>
             </div>
         </div>
+
         <div class="hero-indicators" id="heroIndicators">
             <button class="dot active" data-index="0" aria-label="Slide 1"></button>
         </div>
         <div class="hero-scroll"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- ========== BANNERS ========== -->
+    <!-- ========== BANNERS - 1 IMAGEN HARDCODEADA + RESTO DESDE SUPABASE ========== -->
     <section class="banners-carousel" id="banners">
         <div class="container">
             <div class="banners-track" id="bannersTrack">
+                <!-- BANNER 1 - HARDCODEADO -->
                 <div class="banner-slide" data-index="0">
                     <div class="banner-text">
                         <span class="badge-banner">🚴‍♂️ Equipate con lo mejor</span>
                         <h2>Olivia <span>Bike</span><br>Todo para tu bicicleta</h2>
                         <p>Elegí ropa y accesorios de calidad. Elegí Olivia.</p>
-                        <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red"><i class="fab fa-whatsapp"></i> Consultar ahora</a>
+                        <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red">
+                            <i class="fab fa-whatsapp"></i> Consultar ahora
+                        </a>
                     </div>
                     <div class="banner-image">
-                        <img src="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/ChatGPT%20Image%2018%20jul%202026,%2007_18_19%20a.m..png" alt="Olivia Bike - Todo para tu bicicleta" fetchpriority="high" onload="this.classList.add('loaded')" class="lazy-image">
+                        <img 
+                            src="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/ChatGPT%20Image%2018%20jul%202026,%2006_11_19%20a.m..png?w=1200&q=80&auto=format" 
+                            alt="Olivia Bike - Todo para tu bicicleta" 
+                            fetchpriority="high"
+                            onload="this.classList.add('loaded')"
+                            class="lazy-image">
                     </div>
                 </div>
+                <!-- BANNERS 2, 3, etc - Se cargan desde Supabase -->
             </div>
         </div>
         <div class="banners-controls">
@@ -2779,7 +2807,10 @@
                 <h2 class="section-title">Categorías</h2>
                 <p class="section-subtitle">Hacé clic en una categoría para filtrar los productos</p>
             </div>
-            <div class="categories-grid" id="categoriesGrid"></div>
+
+            <div class="categories-grid" id="categoriesGrid">
+                <!-- Las categorías se cargan desde Supabase -->
+            </div>
         </div>
     </section>
 
@@ -2791,6 +2822,7 @@
                 <h2 class="section-title"><span style="color: var(--primary);" id="categoryTitleSpan">Productos</span></h2>
                 <p class="section-subtitle" id="productSubtitle">Selección completa de lo mejor para ciclistas que exigen calidad y rendimiento</p>
             </div>
+
             <div class="products-controls">
                 <div class="order-selector">
                     <label for="productOrderSelect"><i class="fas fa-arrow-up-wide-short"></i> Ordenar por:</label>
@@ -2804,11 +2836,14 @@
                     </select>
                 </div>
             </div>
-            <div class="products-grid" id="productsGrid"></div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Los productos se cargan desde Supabase -->
+            </div>
         </div>
     </section>
 
-    <!-- ========== MODAL DE PRODUCTO ========== -->
+    <!-- ========== MODAL DE PRODUCTO CON RELACIONADOS ========== -->
     <div class="modal-overlay" id="productModal">
         <div class="modal-content">
             <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
@@ -2843,9 +2878,17 @@
             <p class="cart-subtitle">Revisa tus productos antes de finalizar la compra</p>
             <div class="cart-items" id="cartItems"></div>
             <div class="cart-summary" id="cartSummary">
-                <div class="summary-row"><span>Subtotal</span><span id="cartSubtotal">$0</span></div>
-                <div class="summary-row total"><span>Total</span><span class="amount" id="cartTotalAmount">$0</span></div>
-                <button class="btn btn-whatsapp" onclick="checkout()"><i class="fab fa-whatsapp"></i> Finalizar compra por WhatsApp</button>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal">$0</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span class="amount" id="cartTotalAmount">$0</span>
+                </div>
+                <button class="btn btn-whatsapp" onclick="checkout()">
+                    <i class="fab fa-whatsapp"></i> Finalizar compra por WhatsApp
+                </button>
             </div>
         </div>
     </div>
@@ -2856,7 +2899,7 @@
         <div id="toastMessage">El producto se añadió al carrito</div>
     </div>
 
-    <!-- ========== GALERÍA ========== -->
+    <!-- ========== GALERÍA CON FLECHAS EN MODAL ========== -->
     <section class="gallery" id="gallery">
         <div class="container">
             <div class="section-header center fade-in">
@@ -2864,6 +2907,7 @@
                 <h2 class="section-title">Galería</h2>
                 <p class="section-subtitle">Hacé clic en cualquier imagen para verla en detalle</p>
             </div>
+
             <div class="gallery-wrapper">
                 <div class="gallery-grid" id="galleryGrid">
                     <div class="loading-container" style="grid-column:1/-1;">
@@ -2872,26 +2916,45 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Controles con flechas -->
             <div class="gallery-controls" id="galleryControls">
-                <button class="btn-gallery" id="galleryPrev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+                <button class="btn-gallery" id="galleryPrev" aria-label="Anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
                 <div class="gallery-dots" id="galleryDots"></div>
-                <button class="btn-gallery" id="galleryNext" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+                <button class="btn-gallery" id="galleryNext" aria-label="Siguiente">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- ========== MODAL DE GALERÍA ========== -->
+    <!-- ========== MODAL DE GALERÍA - GRANDE CON FLECHAS DENTRO ========== -->
     <div class="gallery-modal-overlay" id="galleryModal">
         <div class="gallery-modal-content">
-            <button class="gallery-modal-close" id="galleryModalClose"><i class="fas fa-times"></i></button>
-            <button class="gallery-modal-nav prev" id="galleryModalPrev"><i class="fas fa-chevron-left"></i></button>
-            <button class="gallery-modal-nav next" id="galleryModalNext"><i class="fas fa-chevron-right"></i></button>
+            <button class="gallery-modal-close" id="galleryModalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <!-- FLECHAS DE NAVEGACIÓN DENTRO DEL MODAL -->
+            <button class="gallery-modal-nav prev" id="galleryModalPrev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="gallery-modal-nav next" id="galleryModalNext">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
             <div class="gallery-modal-body" id="galleryModalBody">
-                <div class="gallery-modal-image"><img id="galleryModalImage" src="" alt="Imagen de galería"></div>
+                <div class="gallery-modal-image">
+                    <img id="galleryModalImage" src="" alt="Imagen de galería">
+                </div>
                 <div class="gallery-modal-info">
                     <span class="gallery-modal-badge" id="galleryModalBadge">📸 Galería</span>
                     <h2 id="galleryModalTitle">Título de la imagen</h2>
-                    <div class="gallery-modal-description" id="galleryModalDescription">Descripción de la imagen</div>
+                    <div class="gallery-modal-description" id="galleryModalDescription">
+                        Descripción de la imagen
+                    </div>
                     <div class="gallery-modal-meta">
                         <span><i class="fas fa-calendar-alt"></i> <span id="galleryModalDate">Fecha</span></span>
                         <span><i class="fas fa-tag"></i> <span id="galleryModalCategory">Categoría</span></span>
@@ -2902,13 +2965,34 @@
         </div>
     </div>
 
-    <!-- ========== BANNER PROMO CON OFERTAS PROGRAMADAS ========== -->
+    <!-- ========== BANNER PROMOCIONAL ========== -->
     <section class="banner-promo" id="bannerPromo">
         <div class="container">
-            <div class="banner-content" id="bannerPromoContent">
+            <div class="banner-content">
                 <div class="fade-in-left">
-                    <div class="loading-spinner" style="margin:20px auto;"></div>
-                    <p style="color:var(--gray-400);text-align:center;">Cargando oferta...</p>
+                    <span class="section-tag" style="color: var(--primary);">Oferta especial</span>
+                    <h2>Hasta <span>30% OFF</span> en bicicletas de montaña</h2>
+                    <p>No dejes pasar esta oportunidad. Equipamiento de primera calidad para tus rutas más exigentes.</p>
+                    <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red" id="promoWhatsapp">
+                        <i class="fab fa-whatsapp"></i> Consultar promoción
+                    </a>
+                    <div class="banner-timer" id="timer">
+                        <div class="timer-item">
+                            <span class="number" id="hours">00</span>
+                            <span class="label">Horas</span>
+                        </div>
+                        <div class="timer-item">
+                            <span class="number" id="minutes">00</span>
+                            <span class="label">Minutos</span>
+                        </div>
+                        <div class="timer-item">
+                            <span class="number" id="seconds">00</span>
+                            <span class="label">Segundos</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="banner-image fade-in-right">
+                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80&auto=format" alt="Bicicleta de montaña" loading="lazy">
                 </div>
             </div>
         </div>
@@ -2922,7 +3006,10 @@
                 <h2 class="section-title">Beneficios <span style="color: var(--primary);">OliviaBike</span></h2>
                 <p class="section-subtitle">Nos enfocamos en brindarte la mejor experiencia de compra y asesoramiento</p>
             </div>
-            <div class="benefits-grid" id="benefitsGrid"></div>
+
+            <div class="benefits-grid" id="benefitsGrid">
+                <!-- Beneficios cargados desde Supabase -->
+            </div>
         </div>
     </section>
 
@@ -2934,7 +3021,10 @@
                 <h2 class="section-title">Lo que dicen <span style="color: var(--primary);">nuestros clientes</span></h2>
                 <p class="section-subtitle">Experiencias reales de ciclistas que confían en OliviaBike</p>
             </div>
-            <div class="testimonials-grid" id="testimonialsGrid"></div>
+
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <!-- Testimonios cargados desde Supabase -->
+            </div>
         </div>
     </section>
 
@@ -2946,7 +3036,10 @@
                 <h2 class="section-title">Resolvemos tus <span style="color: var(--primary);">dudas</span></h2>
                 <p class="section-subtitle">Todo lo que necesitas saber antes de hacer tu consulta</p>
             </div>
-            <div class="faq-list" id="faqList"></div>
+
+            <div class="faq-list" id="faqList">
+                <!-- FAQs cargadas desde Supabase -->
+            </div>
         </div>
     </section>
 
@@ -2956,7 +3049,9 @@
             <div class="fade-in">
                 <h2>¿Listo para <span>rodar</span> con nosotros?</h2>
                 <p>Escríbenos por WhatsApp y te asesoramos personalmente para encontrar el producto perfecto para ti.</p>
-                <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red" id="ctaWhatsapp"><i class="fab fa-whatsapp"></i> Consultar ahora</a>
+                <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red" id="ctaWhatsapp">
+                    <i class="fab fa-whatsapp"></i> Consultar ahora
+                </a>
             </div>
         </div>
     </section>
@@ -2969,6 +3064,7 @@
                 <h2 class="section-title">Encuéntranos</h2>
                 <p class="section-subtitle">Visítanos en nuestro local y conoce nuestros productos en persona</p>
             </div>
+
             <div class="map-container fade-in">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016887889453!2d-58.383759!3d-34.603684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzEzLjMiUyA1OMKwMjMnMDEuNSJX!5e0!3m2!1ses!2sar!4v1700000000000" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
@@ -2989,6 +3085,7 @@
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                     </div>
                 </div>
+
                 <div>
                     <h4>Enlaces</h4>
                     <ul>
@@ -2997,9 +3094,12 @@
                         <li><a href="#benefits">Beneficios</a></li>
                         <li><a href="#testimonials">Testimonios</a></li>
                         <li><a href="#faq">FAQ</a></li>
-                        <li><a href="admin.html" target="_blank" style="color: var(--primary); font-weight: 600;"><i class="fas fa-user-shield"></i> Panel Admin</a></li>
+                        <li><a href="admin.html" target="_blank" style="color: var(--primary); font-weight: 600;">
+                            <i class="fas fa-user-shield"></i> Panel Admin
+                        </a></li>
                     </ul>
                 </div>
+
                 <div>
                     <h4>Contacto</h4>
                     <ul>
@@ -3007,6 +3107,7 @@
                         <li><a href="#"><i class="fas fa-phone"></i> +54 11 3388-461348</a></li>
                     </ul>
                 </div>
+
                 <div>
                     <h4>Horarios</h4>
                     <ul>
@@ -3016,15 +3117,20 @@
                     </ul>
                 </div>
             </div>
+
             <div class="footer-bottom">
-                <div class="creator">Creado y diseñado por <a href="https://ciborg347.onrender.com" target="_blank">Ciborg 347</a></div>
+                <div class="creator">
+                    Creado y diseñado por <a href="https://ciborg347.onrender.com" target="_blank">Ciborg 347</a>
+                </div>
                 <p>&copy; 2026 <span>OliviaBike 24.7</span>. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
 
     <!-- ========== BOTÓN VOLVER ARRIBA ========== -->
-    <button class="scroll-top" id="scrollTop" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></button>
+    <button class="scroll-top" id="scrollTop" aria-label="Volver arriba">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- ========== JAVASCRIPT ========== -->
     <script>
@@ -3042,8 +3148,8 @@
         let allTestimonials = [];
         let allFaqs = [];
         let allBenefits = [];
+        let allHeroImages = [];
         let allBadges = [];
-        let allSchedules = [];
         let whatsappNumber = '54911338461348';
 
         let currentHeroSlide = 0;
@@ -3052,6 +3158,7 @@
         let bannerInterval;
         let isBannerAnimating = false;
 
+        // Variables para galería modal con flechas
         let currentGalleryIndex = 0;
         let galleryItems = [];
 
@@ -3067,19 +3174,28 @@
                 if (saved) {
                     cart = JSON.parse(saved);
                     if (allProducts.length > 0) {
-                        cart = cart.filter(item => allProducts.some(p => p.id === item.id));
+                        cart = cart.filter(item => 
+                            allProducts.some(p => p.id === item.id)
+                        );
                     }
                     updateCartUI();
                 }
-            } catch (e) { console.warn('Error loading cart:', e); cart = []; }
+            } catch (e) {
+                console.warn('Error loading cart:', e);
+                cart = [];
+            }
         }
 
         function saveCartToStorage() {
-            try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart)); } catch (e) { console.warn('Error saving cart:', e); }
+            try {
+                localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            } catch (e) {
+                console.warn('Error saving cart:', e);
+            }
         }
 
         // =====================================================
-        // PLURALIZACIÓN
+        // PLURALIZACIÓN INTELIGENTE
         // =====================================================
         function getCategoryDisplay(categoryName, count = 0) {
             const rules = {
@@ -3106,7 +3222,9 @@
                 return count === 0 ? 'No hay productos disponibles' : `Mostrando ${count} productos`;
             }
             const display = getCategoryDisplay(categoryName, count);
-            if (count === 0) return `No hay ${display.toLowerCase()} disponibles`;
+            if (count === 0) {
+                return `No hay ${display.toLowerCase()} disponibles`;
+            }
             return `Mostrando ${count} ${display.toLowerCase()}`;
         }
 
@@ -3135,23 +3253,31 @@
         // =====================================================
         async function loadAllData() {
             try {
-                console.log('📡 Iniciando carga de datos desde Supabase...');
-                
                 // Mostrar loading en productos
                 const grid = document.getElementById('productsGrid');
                 if (grid) {
-                    grid.innerHTML = `<div class="loading-container" style="grid-column:1/-1;"><div class="loading-spinner"></div><p style="color:var(--gray-400);margin-top:12px;">Cargando productos...</p></div>`;
+                    grid.innerHTML = `
+                        <div class="loading-container" style="grid-column:1/-1;">
+                            <div class="loading-spinner"></div>
+                            <p style="color:var(--gray-400);margin-top:12px;">Cargando productos...</p>
+                        </div>
+                    `;
                 }
+
+                // Mostrar loading en galería
                 const galleryGrid = document.getElementById('galleryGrid');
                 if (galleryGrid) {
-                    galleryGrid.innerHTML = `<div class="loading-container" style="grid-column:1/-1;"><div class="loading-spinner"></div><p style="color:var(--gray-400);margin-top:12px;">Cargando galería...</p></div>`;
+                    galleryGrid.innerHTML = `
+                        <div class="loading-container" style="grid-column:1/-1;">
+                            <div class="loading-spinner"></div>
+                            <p style="color:var(--gray-400);margin-top:12px;">Cargando galería...</p>
+                        </div>
+                    `;
                 }
 
                 // CONFIG
-                const { data: configData, error: configError } = await supabaseClient.from('config').select('*');
-                if (configError) {
-                    console.warn('⚠️ Error cargando config:', configError.message);
-                } else if (configData) {
+                const { data: configData } = await supabaseClient.from('config').select('*');
+                if (configData) {
                     const config = {};
                     configData.forEach(item => { config[item.key] = item.value; });
                     if (config.whatsapp) {
@@ -3163,6 +3289,7 @@
                     if (config.hero_badge) document.getElementById('heroBadge').textContent = config.hero_badge;
                     if (config.hero_title) document.getElementById('heroTitle').innerHTML = config.hero_title;
                     if (config.hero_desc) document.getElementById('heroDesc').textContent = config.hero_desc;
+                    
                     if (config.logo_url) {
                         const logoContainer = document.getElementById('mainLogo');
                         const logoText = document.getElementById('logoText');
@@ -3175,6 +3302,7 @@
                         logoImg.loading = 'eager';
                         logoContainer.insertBefore(logoImg, logoText);
                     }
+                    
                     if (config.productOrder) {
                         const select = document.getElementById('productOrderSelect');
                         if (select) select.value = config.productOrder;
@@ -3182,202 +3310,459 @@
                 }
 
                 // PRODUCTOS
-                const { data: products, error: productsError } = await supabaseClient.from('products').select('*');
-                if (productsError) {
-                    console.warn('⚠️ Error cargando productos:', productsError.message);
-                    allProducts = [];
-                } else {
-                    allProducts = products || [];
-                }
+                const { data: products } = await supabaseClient.from('products').select('*');
+                allProducts = products || [];
 
                 // CATEGORÍAS
-                const { data: categories, error: catError } = await supabaseClient.from('categories').select('*').order('sort_order');
-                if (catError) {
-                    console.warn('⚠️ Error cargando categorías:', catError.message);
-                    allCategories = [];
-                } else {
-                    allCategories = categories || [];
-                }
+                const { data: categories } = await supabaseClient.from('categories').select('*').order('sort_order');
+                allCategories = categories || [];
 
                 // BADGES
-                const { data: badges, error: badgesError } = await supabaseClient.from('badges').select('*');
-                if (badgesError) {
-                    console.warn('⚠️ Error cargando badges:', badgesError.message);
-                    allBadges = [];
-                } else {
-                    allBadges = badges || [];
-                }
+                const { data: badges } = await supabaseClient.from('badges').select('*');
+                allBadges = badges || [];
 
-                // SCHEDULES (OFERTAS PROGRAMADAS)
-                const { data: schedules, error: schedulesError } = await supabaseClient.from('schedules').select('*');
-                if (schedulesError) {
-                    console.warn('⚠️ Error cargando schedules:', schedulesError.message);
-                    allSchedules = [];
-                } else {
-                    allSchedules = schedules || [];
-                    console.log(`📦 ${allSchedules.length} ofertas programadas cargadas`);
-                }
+                // HERO IMAGES (para slides adicionales)
+                const { data: heroImages } = await supabaseClient.from('images').select('*').eq('type', 'hero').order('sort_order');
+                allHeroImages = heroImages?.map(i => i.url) || [];
 
                 // GALERÍA
-                const { data: gallery, error: galleryError } = await supabaseClient.from('gallery').select('*').order('sort_order');
-                if (galleryError) {
-                    console.warn('⚠️ Error cargando galería:', galleryError.message);
-                    allGallery = [];
-                } else {
-                    allGallery = gallery || [];
-                }
+                const { data: gallery } = await supabaseClient.from('gallery').select('*').order('sort_order');
+                allGallery = gallery || [];
 
-                // BANNERS
-                const { data: banners, error: bannersError } = await supabaseClient.from('banners').select('*').order('sort_order');
-                if (bannersError) {
-                    console.warn('⚠️ Error cargando banners:', bannersError.message);
-                    allBanners = [];
-                } else {
-                    allBanners = banners || [];
-                }
+                // BANNERS (para slides adicionales)
+                const { data: banners } = await supabaseClient.from('banners').select('*').order('sort_order');
+                allBanners = banners || [];
 
                 // TESTIMONIOS
-                const { data: testimonials, error: testError } = await supabaseClient.from('testimonials').select('*');
-                if (testError) {
-                    console.warn('⚠️ Error cargando testimonios:', testError.message);
-                    allTestimonials = [];
-                } else {
-                    allTestimonials = testimonials || [];
-                }
+                const { data: testimonials } = await supabaseClient.from('testimonials').select('*');
+                allTestimonials = testimonials || [];
 
                 // FAQS
-                const { data: faqs, error: faqsError } = await supabaseClient.from('faqs').select('*').order('sort_order');
-                if (faqsError) {
-                    console.warn('⚠️ Error cargando FAQs:', faqsError.message);
-                    allFaqs = [];
-                } else {
-                    allFaqs = faqs || [];
-                }
+                const { data: faqs } = await supabaseClient.from('faqs').select('*').order('sort_order');
+                allFaqs = faqs || [];
 
                 // BENEFICIOS
-                const { data: benefits, error: benefitsError } = await supabaseClient.from('benefits').select('*').order('sort_order');
-                if (benefitsError) {
-                    console.warn('⚠️ Error cargando beneficios:', benefitsError.message);
-                    allBenefits = [];
-                } else {
-                    allBenefits = benefits || [];
-                }
+                const { data: benefits } = await supabaseClient.from('benefits').select('*').order('sort_order');
+                allBenefits = benefits || [];
 
-                console.log('✅ Todos los datos cargados correctamente');
-                console.log(`📊 Productos: ${allProducts.length}, Categorías: ${allCategories.length}, Ofertas: ${allSchedules.length}`);
+                console.log('✅ Todos los datos cargados desde Supabase');
 
                 renderCategories();
                 renderProducts();
+                renderHeroCarousel();
+                renderBannersCarousel();
                 renderGallery();
                 renderTestimonials();
                 renderFaqs();
                 renderBenefits();
-                renderBannerPromo(); // <-- ESTA ES LA NUEVA FUNCIÓN QUE RENDERIZA EL BANNER CON OFERTAS
                 
                 loadCartFromStorage();
                 updateCartUI();
+                startTimer();
 
                 setTimeout(() => { applyOrder(); }, 500);
 
             } catch (err) {
-                console.error('❌ ERROR FATAL al cargar datos:', err);
-                console.error('❌ Mensaje:', err.message);
-                console.error('❌ Stack:', err.stack);
-                showToast('⚠️ Error al cargar los datos: ' + err.message, 'error');
+                console.error('Error loading data:', err);
+                showToast('⚠️ Error al cargar los datos. Intenta de nuevo.', 'error');
             }
         }
 
         // =====================================================
-        // RENDER BANNER PROMO CON OFERTAS PROGRAMADAS
+        // RENDER HERO CARRUSEL (1 hardcodeada + resto desde Supabase)
         // =====================================================
-        function renderBannerPromo() {
-            const container = document.getElementById('bannerPromoContent');
-            
-            // Buscar oferta activa
-            const now = new Date();
-            const ofertaActiva = allSchedules.find(s => {
-                if (s.estado !== 'activo') return false;
-                const inicio = new Date(s.fecha_inicio);
-                const fin = new Date(s.fecha_fin);
-                return now >= inicio && now <= fin;
+        function renderHeroCarousel() {
+            const container = document.getElementById('heroSlides');
+            const indicators = document.getElementById('heroIndicators');
+
+            // La imagen 1 ya está hardcodeada en el HTML
+            // Agregamos las imágenes adicionales desde Supabase
+            const additionalImages = allHeroImages.filter(img => 
+                img !== 'https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg'
+            );
+
+            additionalImages.forEach((img, i) => {
+                const slideIndex = i + 1;
+                const slide = document.createElement('div');
+                slide.className = 'hero-slide';
+                slide.dataset.index = slideIndex;
+                slide.innerHTML = `
+                    <img src="${img}?w=1200&q=80&auto=format" alt="Ciclista" fetchpriority="high" onload="this.classList.add('loaded')" class="lazy-image">
+                `;
+                container.appendChild(slide);
+
+                // Agregar indicador
+                const dot = document.createElement('button');
+                dot.className = 'dot';
+                dot.dataset.index = slideIndex;
+                dot.setAttribute('aria-label', `Slide ${slideIndex + 1}`);
+                dot.addEventListener('click', () => {
+                    goToHeroSlide(slideIndex);
+                    resetHeroAutoplay();
+                });
+                indicators.appendChild(dot);
             });
 
-            if (ofertaActiva) {
-                // Mostrar la oferta programada
-                container.innerHTML = `
-                    <div class="fade-in-left">
-                        <span class="section-tag" style="color: var(--primary);">${ofertaActiva.badge || '🔥 Oferta especial'}</span>
-                        <h2>${ofertaActiva.title || 'Oferta especial'}</h2>
-                        <p>${ofertaActiva.description || 'No te pierdas esta increíble oferta.'}</p>
-                        <a href="${ofertaActiva.cta_link || `https://wa.me/${whatsappNumber}`}" target="_blank" class="btn btn-red" id="promoWhatsapp">
-                            <i class="fab fa-whatsapp"></i> ${ofertaActiva.cta_text || 'Consultar promoción'}
-                        </a>
-                        <div class="banner-timer" id="timer">
-                            <div class="timer-item">
-                                <span class="number" id="hours">00</span>
-                                <span class="label">Horas</span>
-                            </div>
-                            <div class="timer-item">
-                                <span class="number" id="minutes">00</span>
-                                <span class="label">Minutos</span>
-                            </div>
-                            <div class="timer-item">
-                                <span class="number" id="seconds">00</span>
-                                <span class="label">Segundos</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="banner-image fade-in-right">
-                        <img src="${ofertaActiva.image || 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80&auto=format'}" 
-                             alt="${ofertaActiva.title || 'Oferta especial'}" 
-                             loading="lazy"
-                             onload="this.classList.add('loaded')"
-                             class="lazy-image">
-                    </div>
-                `;
-                
-                // Iniciar el contador si hay fecha de fin
-                if (ofertaActiva.fecha_fin) {
-                    const target = new Date(ofertaActiva.fecha_fin);
-                    startTimer(target);
+            // Esperar a que todas las imágenes estén cargadas para iniciar el carrusel
+            const allImages = container.querySelectorAll('.hero-slide img');
+            let loadedCount = 0;
+            
+            if (allImages.length === 0) return;
+
+            allImages.forEach(img => {
+                if (img.complete) {
+                    loadedCount++;
                 } else {
-                    const target = new Date();
-                    target.setHours(target.getHours() + 24);
-                    startTimer(target);
+                    img.addEventListener('load', () => {
+                        loadedCount++;
+                        if (loadedCount === allImages.length) {
+                            startHeroAutoplay();
+                        }
+                    });
+                    img.addEventListener('error', () => {
+                        loadedCount++;
+                        if (loadedCount === allImages.length) {
+                            startHeroAutoplay();
+                        }
+                    });
                 }
-            } else {
-                // No hay oferta activa - mostrar mensaje por defecto
-                container.innerHTML = `
-                    <div class="fade-in-left">
-                        <span class="section-tag" style="color: var(--primary);">🚴‍♂️ OliviaBike</span>
-                        <h2>Equipate con <span>lo mejor</span></h2>
-                        <p>Descubre nuestra colección de bicicletas, indumentaria y accesorios de alta calidad.</p>
-                        <a href="#products" class="btn btn-red"><i class="fas fa-bicycle"></i> Ver productos</a>
-                    </div>
-                    <div class="banner-image fade-in-right">
-                        <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80&auto=format" 
-                             alt="Bicicleta" 
-                             loading="lazy"
-                             onload="this.classList.add('loaded')"
-                             class="lazy-image">
-                    </div>
-                `;
+            });
+
+            if (loadedCount === allImages.length) {
+                startHeroAutoplay();
             }
         }
 
-        // =====================================================
-        // TIMER
-        // =====================================================
-        function startTimer(targetDate) {
-            function updateTimer() {
-                const diff = Math.max(0, targetDate - new Date());
-                document.getElementById('hours').textContent = String(Math.floor(diff / (1000*60*60))).padStart(2,'0');
-                document.getElementById('minutes').textContent = String(Math.floor((diff % (1000*60*60)) / (1000*60))).padStart(2,'0');
-                document.getElementById('seconds').textContent = String(Math.floor((diff % (1000*60)) / 1000)).padStart(2,'0');
-            }
-            updateTimer();
-            setInterval(updateTimer, 1000);
+function renderBannersCarousel() {
+    const track = document.getElementById('bannersTrack');
+    const dotsContainer = document.getElementById('bannersDots');
+
+    console.log('🔄 Renderizando banners...');
+    console.log('📸 Banners desde Supabase:', allBanners.length);
+
+    const hardcodedUrl = 'https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/ChatGPT%20Image%2018%20jul%202026,%2006_11_19%20a.m..png';
+
+    // Filtramos los banners de Supabase, excluyendo el que ya está hardcodeado
+    const extraBanners = (allBanners || []).filter(b => b.image !== hardcodedUrl);
+
+    // Reconstruimos SOLO los dots (no tocamos el track / slide hardcodeado)
+    dotsContainer.innerHTML = '';
+    const firstDot = document.createElement('button');
+    firstDot.className = 'dot active';
+    firstDot.dataset.index = 0;
+    firstDot.addEventListener('click', () => {
+        goToBannerSlide(0);
+        resetBannerAutoplay();
+    });
+    dotsContainer.appendChild(firstDot);
+
+    // Por si esta función se llama más de una vez, sacamos slides dinámicos previos
+    // (dejamos SOLO el que tiene data-index="0", que es el hardcodeado del HTML)
+    track.querySelectorAll('.banner-slide[data-index]:not([data-index="0"])').forEach(el => el.remove());
+
+    // Agregamos los banners nuevos DESPUÉS del hardcodeado
+    extraBanners.forEach((banner, index) => {
+        const slideIndex = index + 1;
+        console.log(`📦 Agregando banner ${slideIndex}: ${banner.title}`);
+
+        const slide = document.createElement('div');
+        slide.className = 'banner-slide';
+        slide.dataset.index = slideIndex;
+        slide.innerHTML = `
+            <div class="banner-text">
+                <span class="badge-banner">${banner.badge || '🔥 Oferta'}</span>
+                <h2>${banner.title}</h2>
+                <p>${banner.description || ''}</p>
+                <a href="${banner.cta_link || `https://wa.me/${whatsappNumber}`}" target="_blank" class="btn btn-red">
+                    <i class="fab fa-whatsapp"></i> ${banner.cta_text || 'Consultar'}
+                </a>
+            </div>
+            <div class="banner-image">
+                <img 
+                    src="${banner.image}?w=1200&q=80&auto=format" 
+                    alt="${banner.title}" 
+                    loading="lazy"
+                    onload="this.classList.add('loaded')"
+                    onerror="console.error('❌ Error cargando banner:', this.src);"
+                    class="lazy-image">
+            </div>
+        `;
+        track.appendChild(slide);
+
+        const dot = document.createElement('button');
+        dot.className = 'dot';
+        dot.dataset.index = slideIndex;
+        dot.addEventListener('click', () => {
+            goToBannerSlide(slideIndex);
+            resetBannerAutoplay();
+        });
+        dotsContainer.appendChild(dot);
+    });
+
+    const totalSlides = track.querySelectorAll('.banner-slide').length;
+    console.log(`📸 Banners totales en el carrusel: ${totalSlides}`);
+
+    if (extraBanners.length === 0) {
+        console.warn('⚠️ No hay banners adicionales en Supabase, el carrusel se queda quieto en el hardcodeado');
+        return;
+    }
+
+    // El carrusel arranca (autoplay) recién cuando los banners de Supabase ya cargaron sus imágenes
+    const newImages = track.querySelectorAll('.banner-slide[data-index]:not([data-index="0"]) img');
+    let loadedCount = 0;
+
+    newImages.forEach(img => {
+        if (img.complete && img.naturalHeight !== 0) {
+            loadedCount++;
+            img.classList.add('loaded');
+        } else {
+            img.addEventListener('load', () => {
+                loadedCount++;
+                img.classList.add('loaded');
+                console.log(`✅ Banner cargado: ${loadedCount}/${newImages.length}`);
+                if (loadedCount === newImages.length) {
+                    console.log('🎯 Todos los banners nuevos cargados, arrancando carrusel');
+                    startBannerAutoplay();
+                }
+            });
+            img.addEventListener('error', () => {
+                loadedCount++;
+                console.error(`❌ Error en banner: ${img.src}`);
+                if (loadedCount === newImages.length) startBannerAutoplay();
+            });
         }
+    });
+
+    if (loadedCount === newImages.length) {
+        console.log('🎯 Los banners nuevos ya estaban cargados (caché)');
+        startBannerAutoplay();
+    }
+
+    // Configurar controles (evitando listeners duplicados si se llama de nuevo)
+    const prevBtn = document.getElementById('bannerPrev');
+    const nextBtn = document.getElementById('bannerNext');
+    const newPrevBtn = prevBtn.cloneNode(true);
+    const newNextBtn = nextBtn.cloneNode(true);
+    prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+    nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+
+    newPrevBtn.addEventListener('click', () => {
+        goToBannerSlide(currentBannerSlide - 1);
+        resetBannerAutoplay();
+    });
+    newNextBtn.addEventListener('click', () => {
+        goToBannerSlide(currentBannerSlide + 1);
+        resetBannerAutoplay();
+    });
+}
+        // =====================================================
+        // HERO CONTROLS
+        // =====================================================
+        function goToHeroSlide(index) {
+            const slides = document.querySelectorAll('.hero-slide');
+            const dots = document.querySelectorAll('#heroIndicators .dot');
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            currentHeroSlide = index;
+            if (slides[index]) slides[index].classList.add('active');
+            if (dots[index]) dots[index].classList.add('active');
+        }
+
+        function startHeroAutoplay() {
+            clearInterval(heroInterval);
+            heroInterval = setInterval(() => {
+                const slides = document.querySelectorAll('.hero-slide');
+                if (slides.length === 0) return;
+                const next = (currentHeroSlide + 1) % slides.length;
+                goToHeroSlide(next);
+            }, 5000);
+        }
+
+        function resetHeroAutoplay() {
+            clearInterval(heroInterval);
+            startHeroAutoplay();
+        }
+
+        // =====================================================
+        // BANNERS CONTROLS
+        // =====================================================
+        function goToBannerSlide(index) {
+            const slides = document.querySelectorAll('.banner-slide');
+            const dots = document.querySelectorAll('#bannersDots .dot');
+            if (!slides.length) return;
+            if (index < 0) index = slides.length - 1;
+            if (index >= slides.length) index = 0;
+            isBannerAnimating = true;
+            currentBannerSlide = index;
+            const track = document.getElementById('bannersTrack');
+            track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            track.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+            setTimeout(() => { isBannerAnimating = false; }, 700);
+        }
+
+        function startBannerAutoplay() {
+            clearInterval(bannerInterval);
+            bannerInterval = setInterval(() => {
+                if (!isBannerAnimating) {
+                    const slides = document.querySelectorAll('.banner-slide');
+                    if (slides.length === 0) return;
+                    goToBannerSlide(currentBannerSlide + 1);
+                }
+            }, 6000);
+        }
+
+        function resetBannerAutoplay() {
+            clearInterval(bannerInterval);
+            setTimeout(() => { startBannerAutoplay(); }, 3000);
+        }
+
+        // =====================================================
+        // RENDER GALERÍA CON FLECHAS EN MODAL
+        // =====================================================
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            const dotsContainer = document.getElementById('galleryDots');
+            const prevBtn = document.getElementById('galleryPrev');
+            const nextBtn = document.getElementById('galleryNext');
+
+            if (!allGallery || allGallery.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column:1/-1;text-align:center;padding:40px 0;color:var(--gray-400);">
+                        <i class="fas fa-images" style="font-size:3rem;display:block;margin-bottom:16px;color:var(--gray-300);"></i>
+                        <p>No hay imágenes en la galería aún.</p>
+                        <p style="font-size:0.85rem;margin-top:4px;">Pronto agregaremos contenido visual.</p>
+                    </div>
+                `;
+                dotsContainer.innerHTML = '';
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+                return;
+            }
+
+            galleryItems = allGallery;
+            currentGalleryIndex = 0;
+
+            // Guardar en una variable global para el modal
+            window.galleryItems = allGallery;
+
+            // Mostrar todas las imágenes en la grilla
+            grid.innerHTML = allGallery.map((item, index) => {
+                const isFirst = index === 0;
+                const badge = item.badge || '📸';
+                const title = item.title || 'Sin título';
+                const description = item.description || '';
+
+                return `
+                    <div class="gallery-item" onclick="openGalleryModal(${item.id})" style="grid-column:${isFirst ? 'span 2' : 'auto'};grid-row:${isFirst ? 'span 2' : 'auto'};">
+                        <img src="${item.image_url}?w=600&q=80&auto=format" alt="${title}" class="lazy-image" loading="${isFirst ? 'eager' : 'lazy'}" onload="this.classList.add('loaded')">
+                        <div class="gallery-overlay">
+                            <span class="gallery-badge">${badge}</span>
+                            <h3>${title}</h3>
+                            ${description ? `<p>${description}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Ocultar controles de paginación (ya no son necesarios porque todas las imágenes se muestran)
+            document.getElementById('galleryControls').style.display = 'none';
+        }
+
+        // =====================================================
+        // MODAL DE GALERÍA - GRANDE CON FLECHAS
+        // =====================================================
+        function openGalleryModal(id) {
+            // Buscar el índice de la imagen
+            const index = allGallery.findIndex(g => g.id === id);
+            if (index === -1) return;
+            
+            currentGalleryIndex = index;
+            galleryItems = allGallery;
+            window.galleryItems = allGallery;
+            showGalleryImage(index);
+            
+            const modal = document.getElementById('galleryModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showGalleryImage(index) {
+            const item = galleryItems[index];
+            if (!item) return;
+            
+            const image = document.getElementById('galleryModalImage');
+            const title = document.getElementById('galleryModalTitle');
+            const description = document.getElementById('galleryModalDescription');
+            const badge = document.getElementById('galleryModalBadge');
+            const date = document.getElementById('galleryModalDate');
+            const category = document.getElementById('galleryModalCategory');
+            const counter = document.getElementById('galleryModalCounter');
+            const prevBtn = document.getElementById('galleryModalPrev');
+            const nextBtn = document.getElementById('galleryModalNext');
+            
+            image.src = item.image_url + '?w=1200&q=80&auto=format';
+            image.alt = item.title || 'Imagen de galería';
+            title.textContent = item.title || 'Sin título';
+            description.textContent = item.description || 'Sin descripción';
+            badge.textContent = item.badge || '📸 Galería';
+            date.textContent = item.created_at ? new Date(item.created_at).toLocaleDateString('es-AR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }) : 'Fecha no disponible';
+            category.textContent = item.category || 'General';
+            counter.textContent = `${index + 1} / ${galleryItems.length}`;
+            
+            // Mostrar/ocultar flechas según la posición
+            prevBtn.classList.toggle('hidden', index === 0);
+            nextBtn.classList.toggle('hidden', index === galleryItems.length - 1);
+            
+            // Animación de carga
+            image.classList.remove('loaded');
+            image.onload = function() {
+                image.classList.add('loaded');
+            };
+        }
+
+        function closeGalleryModal() {
+            const modal = document.getElementById('galleryModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Eventos del modal de galería
+        document.getElementById('galleryModalClose').addEventListener('click', closeGalleryModal);
+        document.getElementById('galleryModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeGalleryModal();
+        });
+
+        // Flechas del modal
+        document.getElementById('galleryModalPrev').addEventListener('click', () => {
+            if (currentGalleryIndex > 0) {
+                showGalleryImage(currentGalleryIndex - 1);
+                currentGalleryIndex--;
+            }
+        });
+
+        document.getElementById('galleryModalNext').addEventListener('click', () => {
+            if (currentGalleryIndex < galleryItems.length - 1) {
+                showGalleryImage(currentGalleryIndex + 1);
+                currentGalleryIndex++;
+            }
+        });
+
+        // Navegación con teclado
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('galleryModal').classList.contains('active')) return;
+            if (e.key === 'ArrowLeft') {
+                document.getElementById('galleryModalPrev').click();
+            } else if (e.key === 'ArrowRight') {
+                document.getElementById('galleryModalNext').click();
+            } else if (e.key === 'Escape') {
+                closeGalleryModal();
+            }
+        });
 
         // =====================================================
         // RENDER CATEGORÍAS
@@ -3388,12 +3773,25 @@
                 grid.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay categorías</p>';
                 return;
             }
-            let html = `<div class="category-card active" data-category="todos" onclick="filterProducts('todos')"><i class="fas fa-th-large"></i><span>Todos</span></div>`;
+
+            let html = `
+                <div class="category-card active" data-category="todos" onclick="filterProducts('todos')">
+                    <i class="fas fa-th-large"></i>
+                    <span>Todos</span>
+                </div>
+            `;
+
             html += allCategories.map(cat => {
                 const icon = cat.icon || 'fa-tag';
                 const imageHtml = cat.image ? `<img src="${cat.image}" alt="${cat.name}" loading="lazy">` : `<i class="fas ${icon}"></i>`;
-                return `<div class="category-card" data-category="${cat.name}" onclick="filterProducts('${cat.name}')">${imageHtml}<span>${cat.name}</span></div>`;
+                return `
+                    <div class="category-card" data-category="${cat.name}" onclick="filterProducts('${cat.name}')">
+                        ${imageHtml}
+                        <span>${cat.name}</span>
+                    </div>
+                `;
             }).join('');
+
             grid.innerHTML = html;
         }
 
@@ -3404,7 +3802,11 @@
             const cards = document.querySelectorAll('.product-card');
             const categoryCards = document.querySelectorAll('.category-card');
             let visibleCount = 0;
-            categoryCards.forEach(card => { card.classList.toggle('active', card.dataset.category === category); });
+
+            categoryCards.forEach(card => {
+                card.classList.toggle('active', card.dataset.category === category);
+            });
+
             cards.forEach(card => {
                 const cardCategory = card.dataset.category || 'Sin categoría';
                 if (category === 'todos' || cardCategory === category) {
@@ -3414,8 +3816,10 @@
                     card.style.display = 'none';
                 }
             });
+
             const grid = document.getElementById('productsGrid');
             let noResults = grid.querySelector('.no-results');
+            
             if (visibleCount === 0) {
                 if (!noResults) {
                     const msg = document.createElement('p');
@@ -3428,12 +3832,20 @@
             } else {
                 if (noResults) noResults.remove();
             }
+
             const titleSpan = document.getElementById('categoryTitleSpan');
-            if (titleSpan) titleSpan.textContent = getCategoryTitle(category, visibleCount);
+            if (titleSpan) {
+                titleSpan.textContent = getCategoryTitle(category, visibleCount);
+            }
+
             const subtitleEl = document.getElementById('productSubtitle');
-            if (subtitleEl) subtitleEl.textContent = getCategorySubtitle(category, visibleCount);
+            if (subtitleEl) {
+                subtitleEl.textContent = getCategorySubtitle(category, visibleCount);
+            }
+
             setTimeout(() => { applyOrder(); }, 100);
             document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
             trackEvent('Filtro', 'Filtrar por categoría', category);
         }
 
@@ -3444,8 +3856,10 @@
             const order = document.getElementById('productOrderSelect')?.value || 'newest';
             const grid = document.getElementById('productsGrid');
             if (!grid) return;
+            
             const cards = Array.from(grid.querySelectorAll('.product-card:not([style*="display: none"])'));
             if (cards.length === 0) return;
+            
             cards.sort((a, b) => {
                 const aData = getProductData(a);
                 const bData = getProductData(b);
@@ -3460,6 +3874,7 @@
                 }
             });
             cards.forEach(card => grid.appendChild(card));
+            
             trackEvent('Orden', 'Cambiar orden', order);
         }
 
@@ -3480,13 +3895,23 @@
                 grid.innerHTML = '<p style="text-align:center;width:100%;padding:40px 0;color:var(--gray-400);">No hay productos disponibles</p>';
                 return;
             }
+
             const noResults = grid.querySelector('.no-results');
             if (noResults) noResults.remove();
+
             grid.innerHTML = allProducts.map((product, index) => {
-                const oldPriceHtml = product.old_price ? `<span class="old">$${product.old_price.toLocaleString('es-AR')}</span>` : '';
+                const oldPriceHtml = product.old_price ? 
+                    `<span class="old">$${product.old_price.toLocaleString('es-AR')}</span>` : '';
+
                 const badge = allBadges.find(b => b.id === product.badge_id);
-                const badgeHtml = badge && badge.is_active !== false ? `<span class="badge-flag" style="background:${badge.color};color:${badge.text_color};">${badge.icon || ''} ${badge.name}</span>` : '';
+                const badgeHtml = badge && badge.is_active !== false ? `
+                    <span class="badge-flag" style="background:${badge.color};color:${badge.text_color};">
+                        ${badge.icon || ''} ${badge.name}
+                    </span>
+                ` : '';
+
                 const isPriority = index < 3;
+
                 return `
                     <div class="product-card" data-id="${product.id}" data-category="${product.category || 'Sin categoría'}">
                         <div class="product-image" onclick="openModal(${product.id})">
@@ -3495,16 +3920,29 @@
                         </div>
                         <div class="product-body">
                             <h3 onclick="openModal(${product.id})">${product.name}</h3>
-                            <div class="product-price">$${(product.price || 0).toLocaleString('es-AR')} ${oldPriceHtml}</div>
-                            <div class="btn-group-cart">
-                                <button class="btn btn-cart" data-product-id="${product.id}" onclick="addToCart(${product.id})"><i class="fas fa-cart-plus"></i> Agregar</button>
-                                <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.name)}" target="_blank" class="btn btn-red" onclick="event.stopPropagation();"><i class="fab fa-whatsapp"></i></a>
+                            <div class="product-price">
+                                $${(product.price || 0).toLocaleString('es-AR')}
+                                ${oldPriceHtml}
                             </div>
-                            <a href="#" class="ver-detalle" onclick="event.preventDefault(); openModal(${product.id})">Ver detalles completos →</a>
+                            <div class="btn-group-cart">
+                                <button class="btn btn-cart" data-product-id="${product.id}" onclick="addToCart(${product.id})">
+                                    <i class="fas fa-cart-plus"></i> Agregar
+                                </button>
+                                <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.name)}" 
+                                   target="_blank" 
+                                   class="btn btn-red" 
+                                   onclick="event.stopPropagation();">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                            <a href="#" class="ver-detalle" onclick="event.preventDefault(); openModal(${product.id})">
+                                Ver detalles completos →
+                            </a>
                         </div>
                     </div>
                 `;
             }).join('');
+
             setTimeout(() => { applyOrder(); }, 100);
         }
 
@@ -3523,7 +3961,10 @@
                     <p>"${t.text}"</p>
                     <div class="author">
                         <img src="${t.image}?w=100&q=80&auto=format" class="lazy-image" onerror="this.src='https://i.pravatar.cc/100?img=1'" loading="lazy" onload="this.classList.add('loaded')">
-                        <div><div class="name">${t.name}</div><div class="role">${t.role || ''}</div></div>
+                        <div>
+                            <div class="name">${t.name}</div>
+                            <div class="role">${t.role || ''}</div>
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -3540,7 +3981,10 @@
             }
             container.innerHTML = allFaqs.map((f, i) => `
                 <div class="faq-item ${i === 0 ? 'active' : ''}">
-                    <div class="question" onclick="toggleFaq(this)"><span>${f.question}</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="question" onclick="toggleFaq(this)">
+                        <span>${f.question}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
                     <div class="answer"><p>${f.answer}</p></div>
                 </div>
             `).join('');
@@ -3587,16 +4031,31 @@
             const container = document.getElementById('relatedProductsGrid');
             const mainContainer = document.getElementById('relatedProductsContainer');
             const product = allProducts.find(p => p.id === productId);
-            if (!product) { mainContainer.style.display = 'none'; return; }
-            const related = allProducts.filter(p => p.id !== productId && p.category === product.category).slice(0, 4);
-            if (related.length === 0) { mainContainer.style.display = 'none'; return; }
+            
+            if (!product) {
+                mainContainer.style.display = 'none';
+                return;
+            }
+
+            const related = allProducts
+                .filter(p => p.id !== productId && p.category === product.category)
+                .slice(0, 4);
+
+            if (related.length === 0) {
+                mainContainer.style.display = 'none';
+                return;
+            }
+
             mainContainer.style.display = 'block';
+
             container.innerHTML = related.map(p => `
                 <div class="related-product-card" onclick="openModal(${p.id})" title="Ver ${p.name}">
                     <img src="${p.image}?w=200&q=80&auto=format" alt="${p.name}" class="lazy-image" loading="lazy" onload="this.classList.add('loaded')" style="height:100px;">
                     <div class="related-name">${p.name}</div>
                     <div class="related-price">$${p.price.toLocaleString('es-AR')}</div>
-                    <button class="btn-related" onclick="event.stopPropagation(); addToCart(${p.id})"><i class="fas fa-cart-plus"></i> Agregar</button>
+                    <button class="btn-related" onclick="event.stopPropagation(); addToCart(${p.id})">
+                        <i class="fas fa-cart-plus"></i> Agregar
+                    </button>
                 </div>
             `).join('');
         }
@@ -3607,8 +4066,11 @@
         function addToCart(productId) {
             const product = allProducts.find(p => p.id === productId);
             if (!product) return;
+            
             const existing = cart.find(item => item.id === productId);
-            if (existing) { existing.qty += 1; } else {
+            if (existing) {
+                existing.qty += 1;
+            } else {
                 cart.push({
                     id: product.id,
                     name: product.name,
@@ -3618,10 +4080,13 @@
                     qty: 1
                 });
             }
+            
             saveCartToStorage();
             updateCartUI();
             showToast(`✅ ${product.name} agregado al carrito`, 'success');
+            
             trackEvent('Carrito', 'Agregar producto', product.name);
+            
             const btns = document.querySelectorAll(`[data-product-id="${productId}"]`);
             btns.forEach(btn => {
                 btn.classList.add('added');
@@ -3638,20 +4103,30 @@
             cart = cart.filter(item => item.id !== productId);
             saveCartToStorage();
             updateCartUI();
-            if (product) showToast(`🗑️ ${product.name} eliminado del carrito`, 'warning');
+            if (product) {
+                showToast(`🗑️ ${product.name} eliminado del carrito`, 'warning');
+            }
         }
 
         function updateQty(productId, delta) {
             const item = cart.find(i => i.id === productId);
             if (!item) return;
             item.qty += delta;
-            if (item.qty <= 0) { removeFromCart(productId); return; }
+            if (item.qty <= 0) {
+                removeFromCart(productId);
+                return;
+            }
             saveCartToStorage();
             updateCartUI();
         }
 
-        function getCartTotal() { return cart.reduce((sum, item) => sum + (item.price * item.qty), 0); }
-        function getCartCount() { return cart.reduce((sum, item) => sum + item.qty, 0); }
+        function getCartTotal() {
+            return cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        }
+
+        function getCartCount() {
+            return cart.reduce((sum, item) => sum + item.qty, 0);
+        }
 
         function updateCartUI() {
             const badge = document.getElementById('cartBadge');
@@ -3667,19 +4142,30 @@
         function renderCartItems() {
             const container = document.getElementById('cartItems');
             if (cart.length === 0) {
-                container.innerHTML = `<div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Tu carrito está vacío</p><p style="font-size: 0.85rem; margin-top: 4px;">Explora nuestros productos y agrega lo que necesites</p></div>`;
+                container.innerHTML = `
+                    <div class="cart-empty">
+                        <i class="fas fa-shopping-bag"></i>
+                        <p>Tu carrito está vacío</p>
+                        <p style="font-size: 0.85rem; margin-top: 4px;">Explora nuestros productos y agrega lo que necesites</p>
+                    </div>
+                `;
                 return;
             }
             container.innerHTML = cart.map(item => `
                 <div class="cart-item">
                     <img src="${item.image}" alt="${item.name}" class="lazy-image" loading="lazy" onload="this.classList.add('loaded')">
-                    <div class="item-info"><h4>${item.name}</h4><div class="item-price">${item.priceFormatted} c/u</div></div>
+                    <div class="item-info">
+                        <h4>${item.name}</h4>
+                        <div class="item-price">${item.priceFormatted} c/u</div>
+                    </div>
                     <div class="item-qty">
                         <button onclick="updateQty(${item.id}, -1)">−</button>
                         <span>${item.qty}</span>
                         <button onclick="updateQty(${item.id}, 1)">+</button>
                     </div>
-                    <button class="item-remove" onclick="removeFromCart(${item.id})" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+                    <button class="item-remove" onclick="removeFromCart(${item.id})" title="Eliminar">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
                 </div>
             `).join('');
         }
@@ -3707,28 +4193,47 @@
         });
 
         function checkout() {
-            if (cart.length === 0) { showToast('⚠️ Tu carrito está vacío', 'warning'); return; }
+            if (cart.length === 0) {
+                showToast('⚠️ Tu carrito está vacío', 'warning');
+                return;
+            }
+
             const customerName = prompt('Por favor, ingresa tu nombre completo:');
             if (customerName === null) return;
-            if (!customerName.trim()) { showToast('⚠️ El nombre es obligatorio para continuar', 'warning'); return; }
+            if (!customerName.trim()) {
+                showToast('⚠️ El nombre es obligatorio para continuar', 'warning');
+                return;
+            }
+
             const address = prompt('Dirección de envío:');
             if (address === null) return;
-            if (!address.trim()) { showToast('⚠️ La dirección es obligatoria para continuar', 'warning'); return; }
+            if (!address.trim()) {
+                showToast('⚠️ La dirección es obligatoria para continuar', 'warning');
+                return;
+            }
+
             const city = prompt('Localidad:');
             if (city === null) return;
+
             let message = '🛒 *Nuevo pedido desde OliviaBike 24.7*%0A%0A';
             message += '👤 *Datos del cliente:*%0A';
             message += `Nombre: ${customerName.trim()}%0A`;
             message += `Dirección: ${address.trim()}%0A`;
-            if (city && city.trim()) message += `Localidad: ${city.trim()}%0A`;
+            if (city && city.trim()) {
+                message += `Localidad: ${city.trim()}%0A`;
+            }
             message += '%0A📋 *Detalle del pedido:*%0A';
+            
             cart.forEach((item, index) => {
                 message += `${index + 1}. ${item.name} x${item.qty} = $${(item.price * item.qty).toLocaleString('es-AR')}%0A`;
             });
+            
             const total = getCartTotal();
             message += `%0A💰 *Total: $${total.toLocaleString('es-AR')}*%0A%0A`;
             message += '🙏 ¡Gracias por tu compra!';
+            
             trackEvent('Carrito', 'Checkout', cart.length);
+            
             window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
             toggleCart();
         }
@@ -3742,19 +4247,24 @@
             const toast = document.getElementById('toast');
             const toastMsg = document.getElementById('toastMessage');
             const toastTitle = document.querySelector('.toast-title');
+            
             const types = {
                 success: { title: '✅ Éxito', color: 'var(--primary)' },
                 error: { title: '❌ Error', color: '#ef4444' },
                 warning: { title: '⚠️ Atención', color: '#f59e0b' },
                 info: { title: 'ℹ️ Info', color: '#3b82f6' }
             };
+            
             const config = types[type] || types.success;
             toastTitle.textContent = config.title;
             toast.style.borderLeftColor = config.color;
             toastMsg.textContent = message;
+            
             toast.classList.add('show');
             clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3000);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
 
         // =====================================================
@@ -3762,7 +4272,10 @@
         // =====================================================
         function trackEvent(category, action, label = null) {
             if (typeof gtag !== 'undefined') {
-                gtag('event', action, { 'event_category': category, 'event_label': label || undefined });
+                gtag('event', action, {
+                    'event_category': category,
+                    'event_label': label || undefined
+                });
             }
             console.log(`📊 ${category}: ${action} ${label || ''}`);
         }
@@ -3777,9 +4290,12 @@
         function openModal(productId) {
             const product = allProducts.find(p => p.id === productId);
             if (!product) return;
+
             trackEvent('Producto', 'Ver detalle', product.name);
+
             const badge = allBadges.find(b => b.id === product.badge_id);
             const badgeHtml = badge && badge.is_active !== false ? `<span style="display:inline-block;background:${badge.color};color:${badge.text_color};padding:2px 12px;border-radius:4px;font-size:0.7rem;font-weight:600;margin-bottom:8px;">${badge.icon || ''} ${badge.name}</span>` : '';
+
             let specsHtml = '';
             if (product.custom_fields) {
                 const labels = {
@@ -3793,20 +4309,41 @@
                 const entries = Object.entries(product.custom_fields).filter(([key, val]) => val);
                 if (entries.length > 0) {
                     specsHtml = entries.map(([key, value]) => `
-                        <div class="spec-item"><span class="label">${labels[key] || key}</span><span class="value">${value}</span></div>
+                        <div class="spec-item">
+                            <span class="label">${labels[key] || key}</span>
+                            <span class="value">${value}</span>
+                        </div>
                     `).join('');
                 }
             }
-            const colorsHtml = product.colors ? product.colors.map(color => `<div class="color-option" style="background: ${color};" title="Color disponible"></div>`).join('') : '';
-            const oldPriceHtml = product.old_price ? `<span>$${product.old_price.toLocaleString('es-AR')}</span>` : '';
-            const stockColor = product.stock === 'En stock' ? 'green' : product.stock === 'Últimas unidades' ? 'orange' : 'red';
+
+            const colorsHtml = product.colors ? product.colors.map(color => `
+                <div class="color-option" style="background: ${color};" title="Color disponible"></div>
+            `).join('') : '';
+
+            const oldPriceHtml = product.old_price ? 
+                `<span>$${product.old_price.toLocaleString('es-AR')}</span>` : '';
+
+            const stockColor = product.stock === 'En stock' ? 'green' : 
+                              product.stock === 'Últimas unidades' ? 'orange' : 'red';
+
             let mainImage = product.image || '';
             let additionalImages = product.additional_images || [];
-            if (additionalImages.length === 0 && mainImage) additionalImages = [mainImage];
+            if (additionalImages.length === 0 && mainImage) {
+                additionalImages = [mainImage];
+            }
+
             let thumbnailsHtml = '';
             if (additionalImages.length > 1) {
-                thumbnailsHtml = `<div class="modal-image-thumbnails">${additionalImages.map((img, idx) => `<img src="${img}?w=100&q=80&auto=format" alt="Imagen ${idx + 1}" class="lazy-image" onclick="changeModalImage(this, '${img}?w=600&q=80&auto=format')" ${idx === 0 ? 'class="active"' : ''} onload="this.classList.add('loaded')" style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid var(--gray-200);transition:var(--transition);">`).join('')}</div>`;
+                thumbnailsHtml = `
+                    <div class="modal-image-thumbnails">
+                        ${additionalImages.map((img, idx) => `
+                            <img src="${img}?w=100&q=80&auto=format" alt="Imagen ${idx + 1}" class="lazy-image" onclick="changeModalImage(this, '${img}?w=600&q=80&auto=format')" ${idx === 0 ? 'class="active"' : ''} onload="this.classList.add('loaded')" style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid var(--gray-200);transition:var(--transition);">
+                        `).join('')}
+                    </div>
+                `;
             }
+
             modalContent.innerHTML = `
                 <div class="modal-image" id="modalImageContainer">
                     <img id="modalMainImage" src="${mainImage}?w=600&q=80&auto=format" alt="${product.name}" class="lazy-image" loading="lazy" onload="this.classList.add('loaded')">
@@ -3816,22 +4353,48 @@
                     <span class="badge-category">${product.category || 'Sin categoría'}</span>
                     ${badgeHtml}
                     <h2>${product.name}</h2>
-                    <div class="description">${product.description ? product.description.split('\n').map(p => `<p>${p}</p>`).join('') : 'Sin descripción'}</div>
+                    <div class="description">
+                        ${product.description ? product.description.split('\n').map(p => `<p>${p}</p>`).join('') : 'Sin descripción'}
+                    </div>
                     ${specsHtml ? `<div class="specs-grid">${specsHtml}</div>` : ''}
-                    ${product.colors ? `<div class="colors"><span class="color-label">Colores disponibles:</span> ${colorsHtml}</div>` : ''}
-                    <div class="price">$${(product.price || 0).toLocaleString('es-AR')} ${oldPriceHtml}</div>
-                    <div class="stock-status"><span class="dot ${stockColor}"></span> ${product.stock || 'Sin stock'}</div>
+                    ${product.colors ? `
+                        <div class="colors">
+                            <span class="color-label">Colores disponibles:</span>
+                            ${colorsHtml}
+                        </div>
+                    ` : ''}
+                    <div class="price">
+                        $${(product.price || 0).toLocaleString('es-AR')}
+                        ${oldPriceHtml}
+                    </div>
+                    <div class="stock-status">
+                        <span class="dot ${stockColor}"></span>
+                        ${product.stock || 'Sin stock'}
+                    </div>
                     <div class="btn-group">
-                        <button class="btn btn-cart" onclick="addToCart(${product.id}); closeModal();"><i class="fas fa-cart-plus"></i> Agregar al carrito</button>
-                        <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.name)}" target="_blank" class="btn btn-red"><i class="fab fa-whatsapp"></i> Consultar</a>
+                        <button class="btn btn-cart" onclick="addToCart(${product.id}); closeModal();">
+                            <i class="fas fa-cart-plus"></i> Agregar al carrito
+                        </button>
+                        <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.name)}" 
+                           target="_blank" 
+                           class="btn btn-red">
+                            <i class="fab fa-whatsapp"></i> Consultar
+                        </a>
                     </div>
                 </div>
             `;
+
             setTimeout(() => {
                 const imgContainer = document.getElementById('modalImageContainer');
-                if (imgContainer) imgContainer.addEventListener('click', function() { this.classList.toggle('zoomed'); });
+                if (imgContainer) {
+                    imgContainer.addEventListener('click', function() {
+                        this.classList.toggle('zoomed');
+                    });
+                }
             }, 100);
+
             renderRelatedProducts(productId);
+
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -3841,7 +4404,9 @@
             if (mainImg) {
                 mainImg.src = src;
                 mainImg.classList.remove('loaded');
-                mainImg.onload = function() { mainImg.classList.add('loaded'); };
+                mainImg.onload = function() {
+                    mainImg.classList.add('loaded');
+                };
             }
             document.querySelectorAll('.modal-image-thumbnails img').forEach(img => {
                 img.classList.toggle('active', img === thumb);
@@ -3861,7 +4426,26 @@
         // HEADER SCROLL
         // =====================================================
         const header = document.getElementById('header');
-        window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.pageYOffset > 80); });
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.pageYOffset > 80);
+        });
+
+        // =====================================================
+        // BOTÓN VOLVER ARRIBA
+        // =====================================================
+        const scrollTopBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 600) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            trackEvent('UI', 'Volver arriba');
+        });
 
         // =====================================================
         // OCULTAR BOTONES FLOTANTES
@@ -3869,15 +4453,19 @@
         function checkFloatButtonsVisibility() {
             const footer = document.getElementById('footer');
             const floatButtons = document.getElementById('floatButtons');
+            
             if (!footer || !floatButtons) return;
+
             const footerRect = footer.getBoundingClientRect();
             const windowHeight = window.innerHeight;
+
             if (footerRect.top < windowHeight && footerRect.bottom > 0) {
                 floatButtons.classList.add('hidden');
             } else {
                 floatButtons.classList.remove('hidden');
             }
         }
+
         window.addEventListener('scroll', checkFloatButtonsVisibility);
         window.addEventListener('resize', checkFloatButtonsVisibility);
 
@@ -3886,6 +4474,7 @@
         // =====================================================
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('navMenu');
+
         hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
         document.querySelectorAll('.nav-menu a').forEach(link => {
             link.addEventListener('click', () => navMenu.classList.remove('open'));
@@ -3895,98 +4484,28 @@
         });
 
         // =====================================================
-        // GALERÍA
+        // TIMER
         // =====================================================
-        function renderGallery() {
-            const grid = document.getElementById('galleryGrid');
-            const dotsContainer = document.getElementById('galleryDots');
-            const prevBtn = document.getElementById('galleryPrev');
-            const nextBtn = document.getElementById('galleryNext');
-            if (!allGallery || allGallery.length === 0) {
-                grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px 0;color:var(--gray-400);"><i class="fas fa-images" style="font-size:3rem;display:block;margin-bottom:16px;color:var(--gray-300);"></i><p>No hay imágenes en la galería aún.</p><p style="font-size:0.85rem;margin-top:4px;">Pronto agregaremos contenido visual.</p></div>`;
-                dotsContainer.innerHTML = '';
-                prevBtn.disabled = true;
-                nextBtn.disabled = true;
-                return;
+        function startTimer() {
+            const target = new Date();
+            target.setHours(target.getHours() + 24);
+            function updateTimer() {
+                const diff = Math.max(0, target - new Date());
+                document.getElementById('hours').textContent = String(Math.floor(diff / (1000*60*60))).padStart(2,'0');
+                document.getElementById('minutes').textContent = String(Math.floor((diff % (1000*60*60)) / (1000*60))).padStart(2,'0');
+                document.getElementById('seconds').textContent = String(Math.floor((diff % (1000*60)) / 1000)).padStart(2,'0');
             }
-            galleryItems = allGallery;
-            currentGalleryIndex = 0;
-            window.galleryItems = allGallery;
-            grid.innerHTML = allGallery.map((item, index) => {
-                const isFirst = index === 0;
-                const badge = item.badge || '📸';
-                const title = item.title || 'Sin título';
-                const description = item.description || '';
-                return `<div class="gallery-item" onclick="openGalleryModal(${item.id})" style="grid-column:${isFirst ? 'span 2' : 'auto'};grid-row:${isFirst ? 'span 2' : 'auto'};">
-                    <img src="${item.image_url}?w=600&q=80&auto=format" alt="${title}" class="lazy-image" loading="${isFirst ? 'eager' : 'lazy'}" onload="this.classList.add('loaded')">
-                    <div class="gallery-overlay"><span class="gallery-badge">${badge}</span><h3>${title}</h3>${description ? `<p>${description}</p>` : ''}</div>
-                </div>`;
-            }).join('');
-            document.getElementById('galleryControls').style.display = 'none';
+            updateTimer();
+            setInterval(updateTimer, 1000);
         }
-
-        function openGalleryModal(id) {
-            const index = allGallery.findIndex(g => g.id === id);
-            if (index === -1) return;
-            currentGalleryIndex = index;
-            galleryItems = allGallery;
-            window.galleryItems = allGallery;
-            showGalleryImage(index);
-            document.getElementById('galleryModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function showGalleryImage(index) {
-            const item = galleryItems[index];
-            if (!item) return;
-            document.getElementById('galleryModalImage').src = item.image_url + '?w=1200&q=80&auto=format';
-            document.getElementById('galleryModalImage').alt = item.title || 'Imagen de galería';
-            document.getElementById('galleryModalTitle').textContent = item.title || 'Sin título';
-            document.getElementById('galleryModalDescription').textContent = item.description || 'Sin descripción';
-            document.getElementById('galleryModalBadge').textContent = item.badge || '📸 Galería';
-            document.getElementById('galleryModalDate').textContent = item.created_at ? new Date(item.created_at).toLocaleDateString('es-AR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            }) : 'Fecha no disponible';
-            document.getElementById('galleryModalCategory').textContent = item.category || 'General';
-            document.getElementById('galleryModalCounter').textContent = `${index + 1} / ${galleryItems.length}`;
-            document.getElementById('galleryModalPrev').classList.toggle('hidden', index === 0);
-            document.getElementById('galleryModalNext').classList.toggle('hidden', index === galleryItems.length - 1);
-        }
-
-        document.getElementById('galleryModalClose').addEventListener('click', () => {
-            document.getElementById('galleryModal').classList.remove('active');
-            document.body.style.overflow = '';
-        });
-        document.getElementById('galleryModal').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) {
-                document.getElementById('galleryModal').classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-        document.getElementById('galleryModalPrev').addEventListener('click', () => {
-            if (currentGalleryIndex > 0) { showGalleryImage(currentGalleryIndex - 1);
-                currentGalleryIndex--; }
-        });
-        document.getElementById('galleryModalNext').addEventListener('click', () => {
-            if (currentGalleryIndex < galleryItems.length - 1) { showGalleryImage(currentGalleryIndex + 1);
-                currentGalleryIndex++; }
-        });
-        document.addEventListener('keydown', (e) => {
-            if (!document.getElementById('galleryModal').classList.contains('active')) return;
-            if (e.key === 'ArrowLeft') { document.getElementById('galleryModalPrev').click(); } else if (e.key === 'ArrowRight') { document
-                    .getElementById('galleryModalNext').click(); } else if (e.key === 'Escape') {
-                document.getElementById('galleryModal').classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
 
         // =====================================================
         // INTERSECTION OBSERVER
         // =====================================================
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -4004,9 +4523,11 @@
         });
 
         console.log('🚴 OliviaBike 24.7 - Performance Optimizada');
-        console.log('📦 BANNER PROMO: Ahora muestra ofertas programadas desde Supabase');
-        console.log('📦 Si no hay ofertas activas, muestra mensaje por defecto');
-        console.log('✅ Ofertas activas se actualizan automáticamente');
+        console.log('🔴 HERO: 1 imagen hardcodeada con preload + fetchpriority="high"');
+        console.log('🟡 BANNER: 1 imagen hardcodeada + el resto desde Supabase (carrusel completo)');
+        console.log('🟢 RESTO: Imágenes desde Supabase con fetchpriority="high"');
+        console.log('📸 GALERÍA: Modal GRANDE con flechas DENTRO y navegación por teclado');
+        console.log('📸 Todas las URLs optimizadas con ?w=1200&q=80&auto=format');
     </script>
 </body>
 </html>
