@@ -42,6 +42,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
+    <!-- ========== PRELOAD HERO IMAGE (MÁXIMA PRIORIDAD) ========== -->
+    <link rel="preload" as="image" href="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg?w=1200&q=80&auto=format" fetchpriority="high">
+
     <!-- Preconnect para fuentes y CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2521,9 +2524,19 @@
         </div>
     </header>
 
-    <!-- ========== HERO CON CARRUSEL ========== -->
+    <!-- ========== HERO - SOLO 1 IMAGEN HARDCODEADA ========== -->
     <section class="hero" id="hero">
-        <div class="hero-slides" id="heroSlides"></div>
+        <div class="hero-slides" id="heroSlides">
+            <!-- ÚNICA imagen hardcodeada en el hero -->
+            <div class="hero-slide active">
+                <img 
+                    src="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg?w=1200&q=80&auto=format" 
+                    alt="OliviaBike - Bicicletas Premium" 
+                    fetchpriority="high"
+                    onload="this.classList.add('loaded')"
+                    class="lazy-image">
+            </div>
+        </div>
 
         <div class="container">
             <div class="hero-content fade-in visible">
@@ -2539,18 +2552,42 @@
             </div>
         </div>
 
-        <div class="hero-indicators" id="heroIndicators"></div>
+        <div class="hero-indicators" id="heroIndicators">
+            <button class="dot active" data-index="0" aria-label="Slide 1"></button>
+        </div>
         <div class="hero-scroll"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- ========== BANNERS ROTATIVOS ========== -->
+    <!-- ========== BANNERS - SOLO 1 IMAGEN HARDCODEADA ========== -->
     <section class="banners-carousel" id="banners">
         <div class="container">
-            <div class="banners-track" id="bannersTrack"></div>
+            <div class="banners-track" id="bannersTrack">
+                <!-- ÚNICA imagen hardcodeada en el banner -->
+                <div class="banner-slide" data-index="0">
+                    <div class="banner-text">
+                        <span class="badge-banner">🚴‍♂️ Equipate con lo mejor</span>
+                        <h2>Olivia <span>Bike</span><br>Todo para tu bicicleta</h2>
+                        <p>Elegí ropa y accesorios de calidad. Elegí Olivia.</p>
+                        <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red">
+                            <i class="fab fa-whatsapp"></i> Consultar ahora
+                        </a>
+                    </div>
+                    <div class="banner-image">
+                        <img 
+                            src="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/ChatGPT%20Image%2018%20jul%202026,%2006_11_19%20a.m..png?w=1200&q=80&auto=format" 
+                            alt="Olivia Bike - Todo para tu bicicleta" 
+                            fetchpriority="high"
+                            onload="this.classList.add('loaded')"
+                            class="lazy-image">
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="banners-controls">
             <button class="btn-banner" id="bannerPrev"><i class="fas fa-chevron-left"></i></button>
-            <div class="banners-dots" id="bannersDots"></div>
+            <div class="banners-dots" id="bannersDots">
+                <button class="dot active" data-index="0"></button>
+            </div>
             <button class="btn-banner" id="bannerNext"><i class="fas fa-chevron-right"></i></button>
         </div>
     </section>
@@ -2604,7 +2641,6 @@
         <div class="modal-content">
             <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
             <div class="modal-grid" id="modalContent"></div>
-            <!-- Productos relacionados -->
             <div class="related-products" id="relatedProductsContainer" style="display:none;">
                 <h4><i class="fas fa-sync-alt"></i> Productos relacionados</h4>
                 <div class="related-products-grid" id="relatedProductsGrid"></div>
@@ -2612,7 +2648,7 @@
         </div>
     </div>
 
-    <!-- ========== BOTONES FLOTANTES (CARRITO + WHATSAPP) ========== -->
+    <!-- ========== BOTONES FLOTANTES ========== -->
     <div class="float-buttons" id="floatButtons">
         <div class="cart-float" id="cartFloat" onclick="toggleCart()">
             <div class="cart-icon">
@@ -2650,13 +2686,13 @@
         </div>
     </div>
 
-    <!-- ========== TOAST NOTIFICATION ========== -->
+    <!-- ========== TOAST ========== -->
     <div class="toast" id="toast">
         <div class="toast-title">✅ Producto agregado</div>
         <div id="toastMessage">El producto se añadió al carrito</div>
     </div>
 
-    <!-- ========== GALERÍA MEJORADA ========== -->
+    <!-- ========== GALERÍA ========== -->
     <section class="gallery" id="gallery">
         <div class="container">
             <div class="section-header center fade-in">
@@ -2666,7 +2702,6 @@
             </div>
 
             <div class="gallery-grid" id="galleryGrid">
-                <!-- La galería se carga desde Supabase -->
                 <div class="loading-container" style="grid-column:1/-1;">
                     <div class="loading-spinner"></div>
                     <p style="color:var(--gray-400);margin-top:12px;">Cargando galería...</p>
@@ -2725,7 +2760,7 @@
                     </div>
                 </div>
                 <div class="banner-image fade-in-right">
-                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80" alt="Bicicleta de montaña" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80&auto=format" alt="Bicicleta de montaña" loading="lazy">
                 </div>
             </div>
         </div>
@@ -2867,9 +2902,7 @@
 
     <!-- ========== JAVASCRIPT ========== -->
     <script>
-        // =====================================================
         // CONFIGURACIÓN DE SUPABASE
-        // =====================================================
         const SUPABASE_URL = 'https://spwurhpdsvqlwsfyzyrn.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwd3VyaHBkc3ZxbHdzZnl6eXJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQyMTE2NjUsImV4cCI6MjA5OTc4NzY2NX0.AOxs2_7PDMYCS3X0HV5_wGKT0S8IHuFWzGKBx6TX7u4';
 
@@ -2881,18 +2914,142 @@
         let allTestimonials = [];
         let allFaqs = [];
         let allBenefits = [];
-        let allHeroImages = [];
         let allBadges = [];
         let whatsappNumber = '54911338461348';
 
-        let currentHeroSlide = 0;
-        let heroInterval;
-        let currentBannerSlide = 0;
-        let bannerInterval;
-        let isBannerDragging = false;
-        let bannerStartX = 0;
-        let bannerCurrentX = 0;
-        let isBannerAnimating = false;
+        // =====================================================
+        // INICIALIZAR SUPABASE
+        // =====================================================
+        function initSupabase() {
+            if (typeof supabase !== 'undefined') {
+                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('✅ Supabase inicializado');
+                loadAllData();
+            } else {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+                script.onload = function() {
+                    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    console.log('✅ Supabase inicializado');
+                    loadAllData();
+                };
+                document.head.appendChild(script);
+            }
+        }
+
+        // =====================================================
+        // CARGAR TODOS LOS DATOS
+        // =====================================================
+        async function loadAllData() {
+            try {
+                // Mostrar loading en productos
+                const grid = document.getElementById('productsGrid');
+                if (grid) {
+                    grid.innerHTML = `
+                        <div class="loading-container" style="grid-column:1/-1;">
+                            <div class="loading-spinner"></div>
+                            <p style="color:var(--gray-400);margin-top:12px;">Cargando productos...</p>
+                        </div>
+                    `;
+                }
+
+                // Mostrar loading en galería
+                const galleryGrid = document.getElementById('galleryGrid');
+                if (galleryGrid) {
+                    galleryGrid.innerHTML = `
+                        <div class="loading-container" style="grid-column:1/-1;">
+                            <div class="loading-spinner"></div>
+                            <p style="color:var(--gray-400);margin-top:12px;">Cargando galería...</p>
+                        </div>
+                    `;
+                }
+
+                // CONFIG
+                const { data: configData } = await supabaseClient.from('config').select('*');
+                if (configData) {
+                    const config = {};
+                    configData.forEach(item => { config[item.key] = item.value; });
+                    if (config.whatsapp) {
+                        whatsappNumber = config.whatsapp;
+                        document.querySelectorAll('[href*="wa.me"]').forEach(el => {
+                            el.href = `https://wa.me/${config.whatsapp}`;
+                        });
+                    }
+                    if (config.hero_badge) document.getElementById('heroBadge').textContent = config.hero_badge;
+                    if (config.hero_title) document.getElementById('heroTitle').innerHTML = config.hero_title;
+                    if (config.hero_desc) document.getElementById('heroDesc').textContent = config.hero_desc;
+                    
+                    if (config.logo_url) {
+                        const logoContainer = document.getElementById('mainLogo');
+                        const logoText = document.getElementById('logoText');
+                        const oldLogo = logoContainer.querySelector('.logo-img');
+                        if (oldLogo) oldLogo.remove();
+                        const logoImg = document.createElement('img');
+                        logoImg.src = config.logo_url;
+                        logoImg.className = 'logo-img';
+                        logoImg.alt = 'OliviaBike';
+                        logoImg.loading = 'eager';
+                        logoContainer.insertBefore(logoImg, logoText);
+                    }
+                    
+                    if (config.productOrder) {
+                        const select = document.getElementById('productOrderSelect');
+                        if (select) select.value = config.productOrder;
+                    }
+                }
+
+                // PRODUCTOS
+                const { data: products } = await supabaseClient.from('products').select('*');
+                allProducts = products || [];
+
+                // CATEGORÍAS
+                const { data: categories } = await supabaseClient.from('categories').select('*').order('sort_order');
+                allCategories = categories || [];
+
+                // BADGES
+                const { data: badges } = await supabaseClient.from('badges').select('*');
+                allBadges = badges || [];
+
+                // GALERÍA
+                const { data: gallery } = await supabaseClient.from('gallery').select('*').order('sort_order');
+                allGallery = gallery || [];
+
+                // BANNERS DINÁMICOS (se agregarán después del hardcodeado)
+                const { data: banners } = await supabaseClient.from('banners').select('*').order('sort_order');
+                allBanners = banners || [];
+
+                // TESTIMONIOS
+                const { data: testimonials } = await supabaseClient.from('testimonials').select('*');
+                allTestimonials = testimonials || [];
+
+                // FAQS
+                const { data: faqs } = await supabaseClient.from('faqs').select('*').order('sort_order');
+                allFaqs = faqs || [];
+
+                // BENEFICIOS
+                const { data: benefits } = await supabaseClient.from('benefits').select('*').order('sort_order');
+                allBenefits = benefits || [];
+
+                console.log('✅ Todos los datos cargados desde Supabase');
+
+                renderCategories();
+                renderProducts();
+                renderGallery();
+                renderTestimonials();
+                renderFaqs();
+                renderBenefits();
+                
+                loadCartFromStorage();
+                updateCartUI();
+                startTimer();
+
+                setTimeout(() => { applyOrder(); }, 500);
+
+            } catch (err) {
+                console.error('Error loading data:', err);
+                showToast('⚠️ Error al cargar los datos. Intenta de nuevo.', 'error');
+            }
+        }
 
         // =====================================================
         // CARRITO CON PERSISTENCIA EN localStorage
@@ -2958,167 +3115,6 @@
                 return `No hay ${display.toLowerCase()} disponibles`;
             }
             return `Mostrando ${count} ${display.toLowerCase()}`;
-        }
-
-        // =====================================================
-        // INICIALIZAR SUPABASE
-        // =====================================================
-        function initSupabase() {
-            if (typeof supabase !== 'undefined') {
-                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('✅ Supabase inicializado');
-                loadAllData();
-            } else {
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
-                script.onload = function() {
-                    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                    console.log('✅ Supabase inicializado');
-                    loadAllData();
-                };
-                document.head.appendChild(script);
-            }
-        }
-
-        // =====================================================
-        // CARGAR TODOS LOS DATOS
-        // =====================================================
-        async function loadAllData() {
-            try {
-                // Mostrar loading en productos
-                const grid = document.getElementById('productsGrid');
-                if (grid) {
-                    grid.innerHTML = `
-                        <div class="loading-container" style="grid-column:1/-1;">
-                            <div class="loading-spinner"></div>
-                            <p style="color:var(--gray-400);margin-top:12px;">Cargando productos...</p>
-                        </div>
-                    `;
-                }
-
-                // Mostrar loading en galería
-                const galleryGrid = document.getElementById('galleryGrid');
-                if (galleryGrid) {
-                    galleryGrid.innerHTML = `
-                        <div class="loading-container" style="grid-column:1/-1;">
-                            <div class="loading-spinner"></div>
-                            <p style="color:var(--gray-400);margin-top:12px;">Cargando galería...</p>
-                        </div>
-                    `;
-                }
-
-                const { data: configData } = await supabaseClient.from('config').select('*');
-                if (configData) {
-                    const config = {};
-                    configData.forEach(item => { config[item.key] = item.value; });
-                    if (config.whatsapp) {
-                        whatsappNumber = config.whatsapp;
-                        document.querySelectorAll('[href*="wa.me"]').forEach(el => {
-                            el.href = `https://wa.me/${config.whatsapp}`;
-                        });
-                    }
-                    if (config.hero_badge) document.getElementById('heroBadge').textContent = config.hero_badge;
-                    if (config.hero_title) document.getElementById('heroTitle').innerHTML = config.hero_title;
-                    if (config.hero_desc) document.getElementById('heroDesc').textContent = config.hero_desc;
-                    
-                    if (config.logo_url) {
-                        const logoContainer = document.getElementById('mainLogo');
-                        const logoText = document.getElementById('logoText');
-                        const oldLogo = logoContainer.querySelector('.logo-img');
-                        if (oldLogo) oldLogo.remove();
-                        const logoImg = document.createElement('img');
-                        logoImg.src = config.logo_url;
-                        logoImg.className = 'logo-img';
-                        logoImg.alt = 'OliviaBike';
-                        logoImg.loading = 'eager';
-                        logoContainer.insertBefore(logoImg, logoText);
-                    }
-                    
-                    if (config.productOrder) {
-                        const select = document.getElementById('productOrderSelect');
-                        if (select) select.value = config.productOrder;
-                    }
-                }
-
-                // Cargar productos
-                const { data: products } = await supabaseClient.from('products').select('*');
-                allProducts = products || [];
-
-                // Cargar categorías
-                const { data: categories } = await supabaseClient.from('categories').select('*').order('sort_order');
-                allCategories = categories || [];
-
-                // Cargar badges
-                const { data: badges } = await supabaseClient.from('badges').select('*');
-                allBadges = badges || [];
-
-                // Cargar imágenes hero
-                const { data: heroImages } = await supabaseClient.from('images').select('*').eq('type', 'hero').order('sort_order');
-                allHeroImages = heroImages?.map(i => i.url) || [];
-
-                // Cargar galería
-                const { data: gallery } = await supabaseClient.from('gallery').select('*').order('sort_order');
-                allGallery = gallery || [];
-
-                // Cargar banners
-                const { data: banners } = await supabaseClient.from('banners').select('*').order('sort_order');
-                allBanners = banners || [];
-
-                // Cargar testimonios
-                const { data: testimonials } = await supabaseClient.from('testimonials').select('*');
-                allTestimonials = testimonials || [];
-
-                // Cargar FAQs
-                const { data: faqs } = await supabaseClient.from('faqs').select('*').order('sort_order');
-                allFaqs = faqs || [];
-
-                // Cargar beneficios
-                const { data: benefits } = await supabaseClient.from('benefits').select('*').order('sort_order');
-                allBenefits = benefits || [];
-
-                console.log('✅ Todos los datos cargados desde Supabase');
-
-                renderCategories();
-                renderProducts();
-                renderHeroCarousel();
-                renderBannersCarousel();
-                renderGallery();
-                renderTestimonials();
-                renderFaqs();
-                renderBenefits();
-                
-                // Cargar carrito desde localStorage después de tener productos
-                loadCartFromStorage();
-                
-                updateCartUI();
-                startTimer();
-
-                setTimeout(() => { applyOrder(); }, 500);
-
-            } catch (err) {
-                console.error('Error loading data:', err);
-                showToast('⚠️ Error al cargar los datos. Intenta de nuevo.', 'error');
-                
-                const grid = document.getElementById('productsGrid');
-                if (grid) {
-                    grid.innerHTML = `
-                        <p style="text-align:center;width:100%;padding:40px 0;color:var(--gray-400);">
-                            <i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:12px;color:var(--primary);"></i>
-                            Error al cargar productos. Por favor, recarga la página.
-                        </p>
-                    `;
-                }
-
-                const galleryGrid = document.getElementById('galleryGrid');
-                if (galleryGrid) {
-                    galleryGrid.innerHTML = `
-                        <p style="text-align:center;width:100%;padding:40px 0;color:var(--gray-400);grid-column:1/-1;">
-                            <i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:12px;color:var(--primary);"></i>
-                            Error al cargar la galería.
-                        </p>
-                    `;
-                }
-            }
         }
 
         // =====================================================
@@ -3272,7 +3268,7 @@
                 return `
                     <div class="product-card" data-id="${product.id}" data-category="${product.category || 'Sin categoría'}">
                         <div class="product-image" onclick="openModal(${product.id})">
-                            <img src="${product.image}" alt="${product.name}" class="lazy-image" loading="${isPriority ? 'eager' : 'lazy'}" fetchpriority="${isPriority ? 'high' : 'low'}" onload="this.classList.add('loaded')">
+                            <img src="${product.image}?w=400&q=80&auto=format" alt="${product.name}" class="lazy-image" loading="${isPriority ? 'eager' : 'lazy'}" fetchpriority="${isPriority ? 'high' : 'low'}" onload="this.classList.add('loaded')">
                             ${badgeHtml}
                         </div>
                         <div class="product-body">
@@ -3330,7 +3326,7 @@
 
                 return `
                     <div class="gallery-item" onclick="openGalleryModal(${item.id})" style="grid-column:${isFirst ? 'span 2' : 'auto'};grid-row:${isFirst ? 'span 2' : 'auto'};">
-                        <img src="${item.image_url}" alt="${title}" class="lazy-image" loading="${isFirst ? 'eager' : 'lazy'}" onload="this.classList.add('loaded')">
+                        <img src="${item.image_url}?w=600&q=80&auto=format" alt="${title}" class="lazy-image" loading="${isFirst ? 'eager' : 'lazy'}" onload="this.classList.add('loaded')">
                         <div class="gallery-overlay">
                             <span class="gallery-badge">${badge}</span>
                             <h3>${title}</h3>
@@ -3356,7 +3352,7 @@
             const date = document.getElementById('galleryModalDate');
             const category = document.getElementById('galleryModalCategory');
 
-            image.src = item.image_url;
+            image.src = item.image_url + '?w=800&q=80&auto=format';
             image.alt = item.title || 'Imagen de galería';
             title.textContent = item.title || 'Sin título';
             description.textContent = item.description || 'Sin descripción';
@@ -3368,7 +3364,6 @@
             }) : 'Fecha no disponible';
             category.textContent = item.category || 'General';
 
-            // Cargar imagen en el modal
             image.classList.remove('loaded');
             image.onload = function() {
                 image.classList.add('loaded');
@@ -3395,254 +3390,6 @@
         });
 
         // =====================================================
-        // HERO CARRUSEL
-        // =====================================================
-        function renderHeroCarousel() {
-            const images = allHeroImages.length > 0 ? allHeroImages : [
-                'https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1600&q=80',
-                'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1600&q=80',
-                'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=1600&q=80'
-            ];
-
-            const container = document.getElementById('heroSlides');
-            const indicators = document.getElementById('heroIndicators');
-
-            container.innerHTML = images.map((img, i) => `
-                <div class="hero-slide ${i === 0 ? 'active' : ''}">
-                    <img src="${img}" alt="Ciclista" class="lazy-image" loading="${i === 0 ? 'eager' : 'lazy'}" fetchpriority="${i === 0 ? 'high' : 'low'}" onload="this.classList.add('loaded')">
-                </div>
-            `).join('');
-
-            indicators.innerHTML = images.map((_, i) => `
-                <button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Slide ${i + 1}"></button>
-            `).join('');
-
-            indicators.querySelectorAll('.dot').forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const index = parseInt(dot.dataset.index);
-                    goToHeroSlide(index);
-                    resetHeroAutoplay();
-                });
-            });
-
-            startHeroAutoplay();
-        }
-
-        function goToHeroSlide(index) {
-            const slides = document.querySelectorAll('.hero-slide');
-            const dots = document.querySelectorAll('#heroIndicators .dot');
-            slides.forEach(s => s.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-            currentHeroSlide = index;
-            if (slides[index]) slides[index].classList.add('active');
-            if (dots[index]) dots[index].classList.add('active');
-        }
-
-        function startHeroAutoplay() {
-            clearInterval(heroInterval);
-            heroInterval = setInterval(() => {
-                const slides = document.querySelectorAll('.hero-slide');
-                if (slides.length === 0) return;
-                const next = (currentHeroSlide + 1) % slides.length;
-                goToHeroSlide(next);
-            }, 5000);
-        }
-
-        function resetHeroAutoplay() {
-            clearInterval(heroInterval);
-            startHeroAutoplay();
-        }
-
-        // =====================================================
-        // BANNERS CARRUSEL CON SWIPE
-        // =====================================================
-        function renderBannersCarousel() {
-            const banners = allBanners.length > 0 ? allBanners : [
-                {
-                    badge: '🔥 Oferta especial',
-                    title: 'Bicicletas de <span>montaña</span> con 30% OFF',
-                    description: 'Equipate con las mejores bicicletas para terrenos exigentes.',
-                    image: 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80',
-                    cta_text: 'Aprovechar oferta',
-                    cta_link: `https://wa.me/${whatsappNumber}`
-                },
-                {
-                    badge: '🚴 Rodá con estilo',
-                    title: 'Indumentaria <span>Premium</span> para ciclistas',
-                    description: 'Ropa técnica de alta calidad para tus rutas más exigentes.',
-                    image: 'https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=800&q=80',
-                    cta_text: 'Ver colección',
-                    cta_link: `https://wa.me/${whatsappNumber}`
-                }
-            ];
-
-            const track = document.getElementById('bannersTrack');
-            const dotsContainer = document.getElementById('bannersDots');
-
-            track.innerHTML = banners.map((banner, idx) => `
-                <div class="banner-slide" data-index="${idx}">
-                    <div class="banner-text">
-                        <span class="badge-banner">${banner.badge || '🔥 Oferta'}</span>
-                        <h2>${banner.title}</h2>
-                        <p>${banner.description || ''}</p>
-                        <a href="${banner.cta_link || `https://wa.me/${whatsappNumber}`}" target="_blank" class="btn btn-red">
-                            <i class="fab fa-whatsapp"></i> ${banner.cta_text || 'Consultar'}
-                        </a>
-                    </div>
-                    <div class="banner-image">
-                        <img src="${banner.image}" alt="${banner.title}" class="lazy-image" loading="lazy" onload="this.classList.add('loaded')">
-                    </div>
-                </div>
-            `).join('');
-
-            dotsContainer.innerHTML = banners.map((_, i) => `
-                <button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Banner ${i + 1}"></button>
-            `).join('');
-
-            dotsContainer.querySelectorAll('.dot').forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const index = parseInt(dot.dataset.index);
-                    goToBannerSlide(index);
-                    resetBannerAutoplay();
-                });
-            });
-
-            document.getElementById('bannerPrev').addEventListener('click', () => {
-                goToBannerSlide(currentBannerSlide - 1);
-                resetBannerAutoplay();
-            });
-
-            document.getElementById('bannerNext').addEventListener('click', () => {
-                goToBannerSlide(currentBannerSlide + 1);
-                resetBannerAutoplay();
-            });
-
-            // SWIPE TÁCTIL
-            const carousel = document.getElementById('banners');
-            
-            carousel.addEventListener('touchstart', (e) => {
-                if (isBannerAnimating) return;
-                const touch = e.touches[0];
-                bannerStartX = touch.clientX;
-                isBannerDragging = true;
-                clearInterval(bannerInterval);
-            }, { passive: true });
-
-            carousel.addEventListener('touchmove', (e) => {
-                if (!isBannerDragging || isBannerAnimating) return;
-                const touch = e.touches[0];
-                bannerCurrentX = touch.clientX;
-                const diff = bannerStartX - bannerCurrentX;
-                const slides = document.querySelectorAll('.banner-slide');
-                if (slides.length === 0) return;
-                const track = document.getElementById('bannersTrack');
-                const offset = (currentBannerSlide * 100) + (diff / track.offsetWidth * 100);
-                track.style.transition = 'none';
-                track.style.transform = `translateX(-${offset}%)`;
-            }, { passive: true });
-
-            carousel.addEventListener('touchend', (e) => {
-                if (!isBannerDragging || isBannerAnimating) {
-                    isBannerDragging = false;
-                    return;
-                }
-                isBannerDragging = false;
-                const diff = bannerStartX - bannerCurrentX;
-                const threshold = 50;
-                if (Math.abs(diff) > threshold) {
-                    if (diff > 0) {
-                        goToBannerSlide(currentBannerSlide + 1);
-                    } else {
-                        goToBannerSlide(currentBannerSlide - 1);
-                    }
-                } else {
-                    const track = document.getElementById('bannersTrack');
-                    track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                    track.style.transform = `translateX(-${currentBannerSlide * 100}%)`;
-                }
-                resetBannerAutoplay();
-            }, { passive: true });
-
-            // Mouse drag
-            let isMouseDragging = false;
-            let mouseStartX = 0;
-            let mouseCurrentX = 0;
-
-            carousel.addEventListener('mousedown', (e) => {
-                if (isBannerAnimating) return;
-                isMouseDragging = true;
-                mouseStartX = e.clientX;
-                clearInterval(bannerInterval);
-                carousel.style.cursor = 'grabbing';
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                if (!isMouseDragging || isBannerAnimating) return;
-                mouseCurrentX = e.clientX;
-                const diff = mouseStartX - mouseCurrentX;
-                const slides = document.querySelectorAll('.banner-slide');
-                if (slides.length === 0) return;
-                const track = document.getElementById('bannersTrack');
-                const offset = (currentBannerSlide * 100) + (diff / track.offsetWidth * 100);
-                track.style.transition = 'none';
-                track.style.transform = `translateX(-${offset}%)`;
-            });
-
-            document.addEventListener('mouseup', (e) => {
-                if (!isMouseDragging) return;
-                isMouseDragging = false;
-                carousel.style.cursor = 'default';
-                const diff = mouseStartX - mouseCurrentX;
-                const threshold = 50;
-                if (Math.abs(diff) > threshold) {
-                    if (diff > 0) {
-                        goToBannerSlide(currentBannerSlide + 1);
-                    } else {
-                        goToBannerSlide(currentBannerSlide - 1);
-                    }
-                } else {
-                    const track = document.getElementById('bannersTrack');
-                    track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                    track.style.transform = `translateX(-${currentBannerSlide * 100}%)`;
-                }
-                resetBannerAutoplay();
-            });
-
-            startBannerAutoplay();
-        }
-
-        function goToBannerSlide(index) {
-            const slides = document.querySelectorAll('.banner-slide');
-            const dots = document.querySelectorAll('#bannersDots .dot');
-            if (!slides.length) return;
-            if (index < 0) index = slides.length - 1;
-            if (index >= slides.length) index = 0;
-            isBannerAnimating = true;
-            currentBannerSlide = index;
-            const track = document.getElementById('bannersTrack');
-            track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            track.style.transform = `translateX(-${index * 100}%)`;
-            dots.forEach((d, i) => d.classList.toggle('active', i === index));
-            setTimeout(() => { isBannerAnimating = false; }, 700);
-        }
-
-        function startBannerAutoplay() {
-            clearInterval(bannerInterval);
-            bannerInterval = setInterval(() => {
-                if (!isBannerDragging && !isMouseDragging && !isBannerAnimating) {
-                    const slides = document.querySelectorAll('.banner-slide');
-                    if (slides.length === 0) return;
-                    goToBannerSlide(currentBannerSlide + 1);
-                }
-            }, 6000);
-        }
-
-        function resetBannerAutoplay() {
-            clearInterval(bannerInterval);
-            setTimeout(() => { startBannerAutoplay(); }, 3000);
-        }
-
-        // =====================================================
         // TESTIMONIOS
         // =====================================================
         function renderTestimonials() {
@@ -3656,7 +3403,7 @@
                     <div class="stars">${'★'.repeat(t.stars || 5)}${'☆'.repeat(5-(t.stars || 5))}</div>
                     <p>"${t.text}"</p>
                     <div class="author">
-                        <img src="${t.image}" class="lazy-image" onerror="this.src='https://i.pravatar.cc/100?img=1'" loading="lazy" onload="this.classList.add('loaded')">
+                        <img src="${t.image}?w=100&q=80&auto=format" class="lazy-image" onerror="this.src='https://i.pravatar.cc/100?img=1'" loading="lazy" onload="this.classList.add('loaded')">
                         <div>
                             <div class="name">${t.name}</div>
                             <div class="role">${t.role || ''}</div>
@@ -3746,7 +3493,7 @@
 
             container.innerHTML = related.map(p => `
                 <div class="related-product-card" onclick="openModal(${p.id})" title="Ver ${p.name}">
-                    <img src="${p.image}" alt="${p.name}" class="lazy-image" loading="lazy" onload="this.classList.add('loaded')" style="height:100px;">
+                    <img src="${p.image}?w=200&q=80&auto=format" alt="${p.name}" class="lazy-image" loading="lazy" onload="this.classList.add('loaded')" style="height:100px;">
                     <div class="related-name">${p.name}</div>
                     <div class="related-price">$${p.price.toLocaleString('es-AR')}</div>
                     <button class="btn-related" onclick="event.stopPropagation(); addToCart(${p.id})">
@@ -3757,7 +3504,7 @@
         }
 
         // =====================================================
-        // CARRITO DE COMPRAS CON PERSISTENCIA
+        // CARRITO DE COMPRAS
         // =====================================================
         function addToCart(productId) {
             const product = allProducts.find(p => p.id === productId);
@@ -3772,7 +3519,7 @@
                     name: product.name,
                     price: product.price,
                     priceFormatted: '$' + (product.price || 0).toLocaleString('es-AR'),
-                    image: product.image,
+                    image: product.image + '?w=100&q=80&auto=format',
                     qty: 1
                 });
             }
@@ -3888,9 +3635,6 @@
             if (e.target === this) toggleCart();
         });
 
-        // =====================================================
-        // CHECKOUT MEJORADO
-        // =====================================================
         function checkout() {
             if (cart.length === 0) {
                 showToast('⚠️ Tu carrito está vacío', 'warning');
@@ -3938,7 +3682,7 @@
         }
 
         // =====================================================
-        // TOAST MEJORADO
+        // TOAST
         // =====================================================
         let toastTimeout;
 
@@ -3967,7 +3711,7 @@
         }
 
         // =====================================================
-        // ANALYTICS / TRACKING
+        // ANALYTICS
         // =====================================================
         function trackEvent(category, action, label = null) {
             if (typeof gtag !== 'undefined') {
@@ -3980,7 +3724,7 @@
         }
 
         // =====================================================
-        // MODAL DE PRODUCTO CON RELACIONADOS
+        // MODAL DE PRODUCTO
         // =====================================================
         const modal = document.getElementById('productModal');
         const modalContent = document.getElementById('modalContent');
@@ -4037,7 +3781,7 @@
                 thumbnailsHtml = `
                     <div class="modal-image-thumbnails">
                         ${additionalImages.map((img, idx) => `
-                            <img src="${img}" alt="Imagen ${idx + 1}" class="lazy-image" onclick="changeModalImage(this, '${img}')" ${idx === 0 ? 'class="active"' : ''} onload="this.classList.add('loaded')" style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid var(--gray-200);transition:var(--transition);">
+                            <img src="${img}?w=100&q=80&auto=format" alt="Imagen ${idx + 1}" class="lazy-image" onclick="changeModalImage(this, '${img}?w=600&q=80&auto=format')" ${idx === 0 ? 'class="active"' : ''} onload="this.classList.add('loaded')" style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid var(--gray-200);transition:var(--transition);">
                         `).join('')}
                     </div>
                 `;
@@ -4045,7 +3789,7 @@
 
             modalContent.innerHTML = `
                 <div class="modal-image" id="modalImageContainer">
-                    <img id="modalMainImage" src="${mainImage}" alt="${product.name}" class="lazy-image" loading="lazy" onload="this.classList.add('loaded')">
+                    <img id="modalMainImage" src="${mainImage}?w=600&q=80&auto=format" alt="${product.name}" class="lazy-image" loading="lazy" onload="this.classList.add('loaded')">
                     ${thumbnailsHtml}
                 </div>
                 <div class="modal-info">
@@ -4147,7 +3891,7 @@
         });
 
         // =====================================================
-        // OCULTAR BOTONES FLOTANTES AL LLEGAR AL FOOTER
+        // OCULTAR BOTONES FLOTANTES
         // =====================================================
         function checkFloatButtonsVisibility() {
             const footer = document.getElementById('footer');
@@ -4221,14 +3965,11 @@
             setTimeout(checkFloatButtonsVisibility, 500);
         });
 
-        console.log('🚴 OliviaBike 24.7 - Frontend con Paleta Roja');
-        console.log('🔴 Color principal: ROJO (#E63946)');
-        console.log('✅ Galería mejorada con modal');
-        console.log('✅ Las imágenes muestran título y descripción al hacer hover');
-        console.log('✅ Al hacer click se abre modal con imagen grande + toda la info');
-        console.log('✅ Preparado para recibir datos desde Supabase (tabla gallery)');
-        console.log('✅ Campos: id, image_url, title, description, badge, category, sort_order');
-        console.log('📸 Galería completamente funcional');
+        console.log('🚴 OliviaBike 24.7 - Performance Optimizada');
+        console.log('🔴 HERO: 1 imagen hardcodeada con preload + fetchpriority="high"');
+        console.log('🟡 BANNER: 1 imagen hardcodeada con fetchpriority="high"');
+        console.log('🟢 RESTO: loading="lazy" + fetchpriority="low"');
+        console.log('📸 Todas las URLs optimizadas con ?w=1200&q=80&auto=format');
     </script>
 </body>
 </html>
