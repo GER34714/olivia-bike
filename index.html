@@ -914,14 +914,16 @@
             max-width: 480px;
         }
 
+        /* IMAGEN COMPLETA - object-fit: contain */
         .banner-slide .banner-image img {
             width: 100%;
             border-radius: var(--radius);
             box-shadow: var(--shadow-xl);
             max-height: 350px;
-            object-fit: cover;
+            object-fit: contain;
             pointer-events: none;
             display: block;
+            background: var(--black);
         }
 
         /* FLECHAS LATERALES */
@@ -3227,6 +3229,25 @@
         }
 
         // =====================================================
+        // PRELOAD DINÁMICO PARA BANNERS
+        // =====================================================
+        function preloadFirstBannerImage() {
+            if (allBanners && allBanners.length > 0) {
+                const firstBanner = allBanners[0];
+                if (firstBanner && firstBanner.image) {
+                    // Crear link preload dinámicamente
+                    const link = document.createElement('link');
+                    link.rel = 'preload';
+                    link.as = 'image';
+                    link.href = firstBanner.image;
+                    link.fetchpriority = 'high';
+                    document.head.appendChild(link);
+                    console.log('🔄 Preload del primer banner:', firstBanner.image);
+                }
+            }
+        }
+
+        // =====================================================
         // CARGAR TODOS LOS DATOS
         // =====================================================
         async function loadAllData() {
@@ -3313,6 +3334,9 @@
                 allBanners = banners || [];
                 console.log('📢 Banners cargados desde Supabase:', allBanners.length);
 
+                // Preload del primer banner (carga prioritaria)
+                preloadFirstBannerImage();
+
                 // Cargar testimonios
                 const { data: testimonials } = await supabaseClient.from('testimonials').select('*');
                 allTestimonials = testimonials || [];
@@ -3390,6 +3414,7 @@
                         <div class="banner-image">
                             <img src="https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1200&q=80" 
                                  alt="OliviaBike" 
+                                 fetchpriority="high"
                                  loading="eager"
                                  width="600" 
                                  height="350">
@@ -3405,6 +3430,10 @@
                     if (!imageSrc || imageSrc === '') {
                         imageSrc = 'https://via.placeholder.com/600x350?text=Sin+imagen';
                     }
+                    
+                    // PRIMER BANNER: prioridad alta (carga inmediata)
+                    // RESTO DE BANNERS: carga normal (lazy)
+                    const isFirst = index === 0;
                     
                     return `
                         <div class="banner-slide" data-index="${index}">
@@ -3423,7 +3452,7 @@
                             <div class="banner-image">
                                 <img src="${imageSrc}" 
                                      alt="${banner.title || 'Banner'}" 
-                                     loading="${index === 0 ? 'eager' : 'lazy'}"
+                                     ${isFirst ? 'fetchpriority="high" loading="eager"' : 'loading="lazy"'}
                                      width="600" 
                                      height="350"
                                      onerror="this.src='https://via.placeholder.com/600x350?text=Error+de+imagen'">
@@ -4661,6 +4690,9 @@
         console.log('🚴 OliviaBike 24.7 - Optimizado');
         console.log('✅ Hero: prioridad máxima (preload + fetchpriority)');
         console.log('✅ Banners: cargados dinámicamente desde Supabase');
+        console.log('✅ Banners: primer banner con fetchpriority="high" y loading="eager"');
+        console.log('✅ Banners: Preload dinámico para el primer banner');
+        console.log('✅ Banners: imagen completa con object-fit: contain');
         console.log('✅ Banners: flechas laterales a la imagen');
         console.log('✅ Banners: sin mostrar parte del siguiente slide');
         console.log('✅ Productos: lazy loading + zoom interactivo');
