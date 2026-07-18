@@ -58,6 +58,15 @@
         /* ============================================================
            NUEVA PALETA DE COLORES - ROJO + NEGRO + BLANCO
            ============================================================ */
+        /* ========== FUENTE PERSONALIZADA ========== */
+        @font-face {
+            font-family: 'Aesthetic';
+            src: url('Aesthetic.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -84,6 +93,7 @@
             --radius: 16px;
             --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --font: 'Poppins', sans-serif;
+            --font-aesthetic: 'Aesthetic', 'Poppins', sans-serif;
         }
 
         html { scroll-behavior: smooth; }
@@ -652,6 +662,7 @@
             letter-spacing: -1px;
             text-decoration: none;
             color: var(--white);
+            flex-shrink: 0;
         }
         .logo .logo-img {
             height: 45px;
@@ -659,7 +670,35 @@
             margin-right: 12px;
             max-height: 45px;
         }
-        .logo span { color: var(--primary); }
+        .logo .logo-text {
+            display: flex;
+            align-items: baseline;
+            white-space: nowrap;
+            flex-wrap: wrap;
+        }
+        .logo .logo-text .olivia {
+            font-family: var(--font-aesthetic);
+            font-size: 1.7rem;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+            margin-right: 2px;
+            color: var(--white);
+            line-height: 1;
+        }
+        .logo .logo-text .bike {
+            font-family: var(--font);
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: var(--white);
+            line-height: 1;
+        }
+        .logo .logo-text .siete {
+            font-family: var(--font);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--primary);
+            line-height: 1;
+        }
 
         .nav-menu {
             display: flex;
@@ -2186,8 +2225,48 @@
 
         .footer-brand .logo {
             color: var(--white);
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
             margin-bottom: 12px;
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-decoration: none;
+            gap: 0;
+        }
+        .footer-brand .logo .logo-img {
+            height: 45px;
+            width: auto;
+            margin-right: 12px;
+            max-height: 45px;
+        }
+        .footer-brand .logo .logo-text {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+        .footer-brand .logo .logo-text .olivia {
+            font-family: var(--font-aesthetic);
+            font-size: 1.7rem;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+            margin-right: 2px;
+            color: var(--white);
+            line-height: 1;
+        }
+        .footer-brand .logo .logo-text .bike {
+            font-family: var(--font);
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: var(--white);
+            line-height: 1;
+        }
+        .footer-brand .logo .logo-text .siete {
+            font-family: var(--font);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--primary);
+            line-height: 1;
         }
         .footer-brand p {
             color: var(--gray-400);
@@ -2379,6 +2458,19 @@
             .gallery-modal-nav.next { right: 10px; }
             .gallery-modal-info h2 {
                 font-size: 1.6rem;
+            }
+            .logo .logo-text .olivia {
+                font-size: 1.4rem;
+            }
+            .logo .logo-text .bike {
+                font-size: 1.3rem;
+            }
+            .logo .logo-text .siete {
+                font-size: 1.2rem;
+            }
+            .logo .logo-img {
+                height: 38px;
+                max-height: 38px;
             }
         }
 
@@ -2587,6 +2679,33 @@
                 height: 36px;
                 font-size: 1rem;
             }
+            .logo .logo-text .olivia {
+                font-size: 1.2rem;
+            }
+            .logo .logo-text .bike {
+                font-size: 1.1rem;
+            }
+            .logo .logo-text .siete {
+                font-size: 1rem;
+            }
+            .logo .logo-img {
+                height: 32px;
+                max-height: 32px;
+                margin-right: 8px;
+            }
+            .footer-brand .logo .logo-text .olivia {
+                font-size: 1.3rem;
+            }
+            .footer-brand .logo .logo-text .bike {
+                font-size: 1.2rem;
+            }
+            .footer-brand .logo .logo-text .siete {
+                font-size: 1.1rem;
+            }
+            .footer-brand .logo .logo-img {
+                height: 38px;
+                max-height: 38px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -2685,6 +2804,33 @@
             .gallery-modal-info .gallery-modal-meta span {
                 font-size: 0.75rem;
             }
+            .logo .logo-text .olivia {
+                font-size: 1rem;
+            }
+            .logo .logo-text .bike {
+                font-size: 0.95rem;
+            }
+            .logo .logo-text .siete {
+                font-size: 0.85rem;
+            }
+            .logo .logo-img {
+                height: 28px;
+                max-height: 28px;
+                margin-right: 6px;
+            }
+            .footer-brand .logo .logo-text .olivia {
+                font-size: 1.1rem;
+            }
+            .footer-brand .logo .logo-text .bike {
+                font-size: 1rem;
+            }
+            .footer-brand .logo .logo-text .siete {
+                font-size: 0.95rem;
+            }
+            .footer-brand .logo .logo-img {
+                height: 32px;
+                max-height: 32px;
+            }
         }
     </style>
 </head>
@@ -2694,7 +2840,10 @@
     <header class="header" id="header">
         <div class="container">
             <a href="#" class="logo" id="mainLogo">
-                <span id="logoText">Olivia<span>Bike</span> 24.7</span>
+                <img src="logo-olivia-bike.png" alt="OliviaBike" class="logo-img" loading="eager" onerror="this.style.display='none'">
+                <span class="logo-text" id="logoText">
+                    <span class="olivia">Olivia</span><span class="bike">Bike</span> <span class="siete">24.7</span>
+                </span>
             </a>
 
             <nav>
@@ -2716,7 +2865,7 @@
                 <a href="admin.html" target="_blank" class="btn-admin" style="display:none;" id="adminBtnHeader">
                     <i class="fas fa-user-shield"></i> Admin
                 </a>
-                <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-whatsapp" id="whatsappBtn">
+                <a href="https://wa.me/5493388461348" target="_blank" class="btn btn-whatsapp" id="whatsappBtn">
                     <i class="fab fa-whatsapp"></i>
                     <span>Consultar</span>
                 </a>
@@ -2751,7 +2900,7 @@
                 <p id="heroDesc">Encuentra bicicletas de alta gama, accesorios y equipamiento profesional para ciclistas exigentes.</p>
                 <div class="hero-buttons">
                     <a href="#products" class="btn btn-primary">Ver productos</a>
-                    <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-outline" id="heroWhatsapp">
+                    <a href="https://wa.me/5493388461348" target="_blank" class="btn btn-outline" id="heroWhatsapp">
                         <i class="fab fa-whatsapp"></i> Consultar ahora
                     </a>
                 </div>
@@ -2772,9 +2921,9 @@
                 <div class="banner-slide" data-index="0">
                     <div class="banner-text">
                         <span class="badge-banner">🚴‍♂️ Equipate con lo mejor</span>
-                        <h2>Olivia <span>Bike</span><br>Todo para tu bicicleta</h2>
+                        <h2><span class="olivia-text" style="font-family:var(--font-aesthetic);">Olivia</span> <span style="color:var(--primary);">Bike</span><br>Todo para tu bicicleta</h2>
                         <p>Elegí ropa y accesorios de calidad. Elegí Olivia.</p>
-                        <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red">
+                        <a href="https://wa.me/5493388461348" target="_blank" class="btn btn-red">
                             <i class="fab fa-whatsapp"></i> Consultar ahora
                         </a>
                     </div>
@@ -2865,7 +3014,7 @@
             <span class="cart-text">Mi Carrito</span>
             <span class="cart-total" id="cartTotal">$0</span>
         </div>
-        <a href="https://wa.me/54911338461348" target="_blank" class="whatsapp-float" id="whatsappFloat" aria-label="WhatsApp">
+        <a href="https://wa.me/5493388461348" target="_blank" class="whatsapp-float" id="whatsappFloat" aria-label="WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
     </div>
@@ -3019,7 +3168,7 @@
             <div class="fade-in">
                 <h2>¿Listo para <span>rodar</span> con nosotros?</h2>
                 <p>Escríbenos por WhatsApp y te asesoramos personalmente para encontrar el producto perfecto para ti.</p>
-                <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red" id="ctaWhatsapp">
+                <a href="https://wa.me/5493388461348" target="_blank" class="btn btn-red" id="ctaWhatsapp">
                     <i class="fab fa-whatsapp"></i> Consultar ahora
                 </a>
             </div>
@@ -3046,11 +3195,16 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#" class="logo">Olivia<span>Bike</span> 24.7</a>
+                    <a href="#" class="logo">
+                        <img src="logo-olivia-bike.png" alt="OliviaBike" class="logo-img" loading="lazy" onerror="this.style.display='none'">
+                        <span class="logo-text">
+                            <span class="olivia">Olivia</span><span class="bike">Bike</span> <span class="siete">24.7</span>
+                        </span>
+                    </a>
                     <p>Tu tienda de ciclismo premium. Equipamiento de alta calidad para ciclistas exigentes.</p>
                     <div class="footer-social">
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/54911338461348" target="_blank" aria-label="WhatsApp" id="footerWhatsapp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/5493388461348" target="_blank" aria-label="WhatsApp" id="footerWhatsapp"><i class="fab fa-whatsapp"></i></a>
                         <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                     </div>
@@ -3073,8 +3227,8 @@
                 <div>
                     <h4>Contacto</h4>
                     <ul>
-                        <li><a href="https://wa.me/54911338461348" target="_blank" id="footerWhatsappLink"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
-                        <li><a href="#"><i class="fas fa-phone"></i> +54 11 3388-461348</a></li>
+                        <li><a href="https://wa.me/5493388461348" target="_blank" id="footerWhatsappLink"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +54 9 3388 46-1348</a></li>
                     </ul>
                 </div>
 
@@ -3120,7 +3274,7 @@
         let allBenefits = [];
         let allHeroImages = [];
         let allBadges = [];
-        let whatsappNumber = '54911338461348';
+        let whatsappNumber = '5493388461348';
         let offerTimerInterval = null;
 
         let currentHeroSlide = 0;
@@ -3263,15 +3417,10 @@
                     
                     if (config.logo_url) {
                         const logoContainer = document.getElementById('mainLogo');
-                        const logoText = document.getElementById('logoText');
                         const oldLogo = logoContainer.querySelector('.logo-img');
-                        if (oldLogo) oldLogo.remove();
-                        const logoImg = document.createElement('img');
-                        logoImg.src = config.logo_url;
-                        logoImg.className = 'logo-img';
-                        logoImg.alt = 'OliviaBike';
-                        logoImg.loading = 'eager';
-                        logoContainer.insertBefore(logoImg, logoText);
+                        if (oldLogo && oldLogo.src !== config.logo_url) {
+                            // No reemplazar la imagen local si ya existe
+                        }
                     }
                     
                     if (config.productOrder) {
@@ -4384,7 +4533,11 @@
             trackEvent('Producto', 'Ver detalle', product.name);
 
             const badge = allBadges.find(b => b.id === product.badge_id);
-            const badgeHtml = badge && badge.is_active !== false ? `<span style="display:inline-block;background:${badge.color};color:${badge.text_color};padding:2px 12px;border-radius:4px;font-size:0.7rem;font-weight:600;margin-bottom:8px;">${badge.icon || ''} ${badge.name}</span>` : '';
+            const badgeHtml = badge && badge.is_active !== false ? `
+                <span style="display:inline-block;background:${badge.color};color:${badge.text_color};padding:2px 12px;border-radius:50px;font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;width:auto;max-width:fit-content;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+                    ${badge.icon || ''} ${badge.name}
+                </span>
+            ` : '';
 
             let specsHtml = '';
             if (product.custom_fields) {
@@ -4441,7 +4594,7 @@
                 </div>
                 <div class="modal-info">
                     <span class="badge-category">${product.category || 'Sin categoría'}</span>
-                    ${badgeHtml}
+                    ${badgeHtml ? `<div style="margin-top:4px;">${badgeHtml}</div>` : ''}
                     <h2>${product.name}</h2>
                     <div class="description">
                         ${product.description ? product.description.split('\n').map(p => `<p>${p}</p>`).join('') : 'Sin descripción'}
@@ -4603,6 +4756,9 @@
         console.log('📸 GALERÍA: Modal GRANDE con flechas DENTRO y navegación por teclado');
         console.log('📅 OFERTAS: Cargadas desde tabla schedules de Supabase');
         console.log('📸 Todas las URLs optimizadas con ?w=1200&q=80&auto=format');
+        console.log('📞 WhatsApp: +54 9 3388 46-1348');
+        console.log('🖼️ Logo: imagen local con fallback');
+        console.log('✒️ Fuente Aesthetic aplicada a "Olivia"');
     </script>
 </body>
 </html>
