@@ -45,9 +45,6 @@
     <!-- ========== PRELOAD - IMAGEN DEL HERO (PRIORIDAD MÁXIMA) ========== -->
     <link rel="preload" as="image" href="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg" fetchpriority="high">
     
-    <!-- ========== PRELOAD - IMAGEN DEL BANNER (PRIORIDAD ALTA) ========== -->
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=1200&q=80&auto=format&fit=crop" fetchpriority="high">
-    
     <!-- Preconnect para fuentes y CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -134,7 +131,7 @@
         }
 
         /* ============================================================
-           LAZY LOADING PARA IMÁGENES (SIN SHIMMER)
+           LAZY LOADING PARA IMÁGENES
            ============================================================ */
         .lazy-image {
             opacity: 0;
@@ -854,13 +851,21 @@
         }
 
         /* ============================================================
-           BANNERS - NUEVA ESTRUCTURA CON CONTROLES INTERMEDIOS
+           BANNERS - CARRUSEL DINÁMICO DESDE SUPABASE
            ============================================================ */
         .banners-carousel {
             padding: 0;
             background: var(--black);
             position: relative;
             overflow: hidden;
+        }
+
+        .banners-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            overflow: hidden;
+            position: relative;
         }
 
         .banners-track {
@@ -870,17 +875,11 @@
             will-change: transform;
         }
 
-        .banner-slide-wrapper {
-            position: relative;
-            min-width: 100%;
-            width: 100%;
-            flex-shrink: 0;
-            padding: 60px 0;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
         .banner-slide {
+            flex: 0 0 100%;
+            min-width: 100%;
+            max-width: 100%;
+            padding: 60px 0;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
@@ -925,97 +924,51 @@
             display: block;
         }
 
-        /* Controles del banner - por defecto abajo */
-        .banner-controls-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            padding: 20px 0 10px;
-            background: var(--black);
-            position: relative;
-            z-index: 2;
-        }
-
-        .banner-controls-wrapper .btn-banner {
-            width: 44px;
-            height: 44px;
+        /* FLECHAS LATERALES */
+        .banner-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.15);
-            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
             color: var(--white);
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.2rem;
         }
-        .banner-controls-wrapper .btn-banner:hover {
+
+        .banner-arrow:hover {
             background: var(--primary);
-            color: var(--white);
             border-color: var(--primary);
-            transform: scale(1.05);
+            transform: translateY(-50%) scale(1.1);
         }
 
-        .banner-controls-wrapper .banners-dots {
-            display: flex;
-            gap: 8px;
-        }
-        .banner-controls-wrapper .banners-dots .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            padding: 0;
-        }
-        .banner-controls-wrapper .banners-dots .dot.active {
-            background: var(--primary);
-            width: 28px;
-            border-radius: 5px;
+        .banner-arrow-prev {
+            left: 10px;
         }
 
-        /* Controles inferiores (se ocultan en móviles) */
-        .banners-controls {
+        .banner-arrow-next {
+            right: 10px;
+        }
+
+        /* DOTS */
+        .banner-dots-container {
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 20px;
+            gap: 8px;
             padding: 20px 0 30px;
             background: var(--black);
-            position: relative;
-            z-index: 2;
         }
 
-        .banners-controls .btn-banner {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.15);
-            background: rgba(255,255,255,0.05);
-            color: var(--white);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-        }
-        .banners-controls .btn-banner:hover {
-            background: var(--primary);
-            color: var(--white);
-            border-color: var(--primary);
-            transform: scale(1.05);
-        }
-
-        .banners-controls .banners-dots {
-            display: flex;
-            gap: 8px;
-        }
-        .banners-controls .banners-dots .dot {
+        .banner-dots-container .dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
@@ -1025,10 +978,56 @@
             transition: var(--transition);
             padding: 0;
         }
-        .banners-controls .banners-dots .dot.active {
+
+        .banner-dots-container .dot.active {
             background: var(--primary);
             width: 28px;
             border-radius: 5px;
+        }
+
+        @media (max-width: 992px) {
+            .banner-slide {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 30px;
+            }
+            .banner-slide .banner-text p { margin: 16px auto 24px; }
+            .banner-slide .banner-text .badge-banner { margin: 0 auto 12px; }
+            .banner-slide .banner-image img { max-height: 300px; }
+            .banner-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .banner-slide { padding: 40px 0; }
+            .banner-slide .banner-image img { max-height: 250px; }
+            .banner-arrow {
+                width: 36px;
+                height: 36px;
+                font-size: 0.85rem;
+            }
+            .banner-arrow-prev { left: 5px; }
+            .banner-arrow-next { right: 5px; }
+            .banner-dots-container .dot {
+                width: 8px;
+                height: 8px;
+            }
+            .banner-dots-container .dot.active {
+                width: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .banner-slide .banner-text h2 { font-size: 1.6rem; }
+            .banner-slide .banner-image img { max-height: 200px; }
+            .banner-arrow {
+                width: 30px;
+                height: 30px;
+                font-size: 0.75rem;
+            }
         }
 
         /* ============================================================
@@ -1152,7 +1151,6 @@
             display: none;
         }
 
-        /* Contenedor de imagen con zoom */
         .product-image {
             position: relative;
             height: 220px;
@@ -1168,7 +1166,6 @@
             loading: lazy;
         }
 
-        /* Contenedor de zoom (lupa) */
         .product-image .zoom-container {
             position: absolute;
             top: 0;
@@ -1215,10 +1212,6 @@
             pointer-events: none;
             transform: scale(1);
             transition: none;
-        }
-
-        .product-image .zoom-container .zoom-image.visible {
-            display: block;
         }
 
         .product-card:hover .product-image img {
@@ -1326,7 +1319,7 @@
         }
 
         /* ============================================================
-           MODAL CON PRODUCTOS RELACIONADOS
+           MODAL CON PRODUCTOS RELACIONADOS Y ZOOM CON LUPA
            ============================================================ */
         .modal-overlay {
             position: fixed;
@@ -1386,23 +1379,87 @@
             align-items: start;
         }
 
+        #modalZoomContainer {
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            border-radius: var(--radius);
+            background: var(--gray-100);
+        }
+
+        #modalZoomContainer img {
+            width: 100%;
+            height: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            display: block;
+        }
+
+        #modalZoomLens {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 120px;
+            height: 120px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(2px);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            display: none;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            z-index: 5;
+        }
+
+        #modalZoomResult {
+            position: absolute;
+            top: 0;
+            right: -120px;
+            width: 120px;
+            height: 120px;
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            background-repeat: no-repeat;
+            background-size: 300% 300%;
+            display: none;
+            z-index: 5;
+            background-color: var(--gray-100);
+            box-shadow: var(--shadow-lg);
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            #modalZoomLens {
+                width: 80px !important;
+                height: 80px !important;
+            }
+            #modalZoomResult {
+                width: 80px !important;
+                height: 80px !important;
+                right: -80px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #modalZoomLens {
+                width: 60px !important;
+                height: 60px !important;
+            }
+            #modalZoomResult {
+                width: 60px !important;
+                height: 60px !important;
+                right: -60px !important;
+            }
+        }
+
         .modal-image {
             border-radius: var(--radius);
             overflow: hidden;
             background: var(--gray-100);
             position: sticky;
             top: 0;
-            cursor: zoom-in;
-            transition: var(--transition);
-        }
-
-        .modal-image.zoomed {
-            cursor: zoom-out;
-        }
-
-        .modal-image.zoomed img {
-            transform: scale(1.5);
-            transition: transform 0.3s ease;
         }
 
         .modal-image img {
@@ -1410,7 +1467,6 @@
             height: 100%;
             max-height: 450px;
             object-fit: cover;
-            transition: transform 0.3s ease;
         }
 
         .modal-image-thumbnails {
@@ -1464,7 +1520,6 @@
             margin-bottom: 4px;
         }
 
-        /* DESCRIPCIÓN CON MÁS ESPACIO Y SEPARACIÓN */
         .modal-info .description {
             color: var(--gray-600);
             font-size: 1rem;
@@ -1552,7 +1607,6 @@
             margin-left: 12px;
         }
 
-        /* BADGE STOCK - TAMAÑO JUSTO SIN ESTIRARSE */
         .modal-info .stock-status {
             display: inline-flex;
             align-items: center;
@@ -2406,8 +2460,10 @@
                 height: 40px;
                 font-size: 1rem;
             }
-            .banner-slide-wrapper {
-                padding: 50px 0;
+            .banner-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
             }
         }
 
@@ -2516,58 +2572,22 @@
                 margin-bottom: 12px;
             }
             .hero-indicators { bottom: 60px; }
-            
-            /* BANNERS: CONTROLES ENTRE TEXTO E IMAGEN EN MÓVILES */
-            .banner-slide-wrapper {
-                padding: 30px 0 0;
-                display: flex;
-                flex-direction: column;
-            }
-            
-            .banner-slide .banner-text {
-                order: 1;
-                padding: 0 10px;
-            }
-            
-            .banner-controls-wrapper {
-                order: 2;
-                padding: 16px 0;
-                background: transparent;
-                position: relative;
-                z-index: 2;
-            }
-            
-            .banner-controls-wrapper .btn-banner {
-                width: 38px;
-                height: 38px;
+            .banner-slide { padding: 40px 0; }
+            .banner-slide .banner-image img { max-height: 250px; }
+            .banner-arrow {
+                width: 36px;
+                height: 36px;
                 font-size: 0.85rem;
-                background: rgba(255,255,255,0.1);
-                border-color: rgba(255,255,255,0.2);
             }
-            
-            .banner-controls-wrapper .banners-dots .dot {
+            .banner-arrow-prev { left: 5px; }
+            .banner-arrow-next { right: 5px; }
+            .banner-dots-container .dot {
                 width: 8px;
                 height: 8px;
             }
-            
-            .banner-controls-wrapper .banners-dots .dot.active {
+            .banner-dots-container .dot.active {
                 width: 24px;
             }
-            
-            .banner-slide .banner-image {
-                order: 3;
-                padding: 0 10px 20px;
-            }
-            
-            .banner-slide .banner-image img {
-                max-height: 250px;
-                border-radius: var(--radius);
-            }
-            
-            .banners-controls {
-                display: none !important;
-            }
-            
             .float-buttons {
                 bottom: 20px;
                 right: 20px;
@@ -2616,7 +2636,6 @@
                 height: 36px;
                 font-size: 0.9rem;
             }
-            /* Zoom en móviles - tamaño más pequeño */
             .product-image .zoom-container .zoom-lens {
                 width: 80px;
                 height: 80px;
@@ -2635,10 +2654,13 @@
                 padding: 8px;
             }
             .container { padding: 0 16px; }
-            .banner-slide .banner-text h2 {
-                font-size: 1.6rem;
-            }
+            .banner-slide .banner-text h2 { font-size: 1.6rem; }
             .banner-slide .banner-image img { max-height: 200px; }
+            .banner-arrow {
+                width: 30px;
+                height: 30px;
+                font-size: 0.75rem;
+            }
             .modal-content {
                 padding: 12px 12px;
                 margin: 6px;
@@ -2682,17 +2704,6 @@
             .scroll-top {
                 bottom: 85px;
                 right: 15px;
-                width: 34px;
-                height: 34px;
-                font-size: 0.8rem;
-            }
-            .banner-slide-wrapper {
-                padding: 20px 0 0;
-            }
-            .banner-controls-wrapper {
-                padding: 12px 0;
-            }
-            .banner-controls-wrapper .btn-banner {
                 width: 34px;
                 height: 34px;
                 font-size: 0.8rem;
@@ -2748,7 +2759,6 @@
     <!-- ========== HERO - PRIORIDAD MÁXIMA ========== -->
     <section class="hero" id="hero">
         <div class="hero-slides" id="heroSlides">
-            <!-- PRIMERA IMAGEN HARCODEADA (carga instantánea) - NUEVA URL -->
             <div class="hero-slide active">
                 <img src="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg" 
                      alt="OliviaBike - Ciclismo Premium" 
@@ -2758,7 +2768,6 @@
                      height="1080" 
                      decoding="async">
             </div>
-            <!-- Las demás imágenes se agregan con JavaScript -->
         </div>
 
         <div class="container">
@@ -2779,72 +2788,22 @@
         <div class="hero-scroll"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- ========== BANNERS - CON CONTROLES INTERMEDIOS Y SWIPE ========== -->
+    <!-- ========== BANNERS - CARRUSEL DINÁMICO DESDE SUPABASE ========== -->
     <section class="banners-carousel" id="banners">
-        <div class="container">
+        <div class="banners-container">
             <div class="banners-track" id="bannersTrack">
-                <!-- Banner 1 -->
-                <div class="banner-slide-wrapper" data-index="0">
-                    <div class="banner-slide">
-                        <div class="banner-text">
-                            <span class="badge-banner">🔥 Oferta especial</span>
-                            <h2>Bicicletas de <span>montaña</span> con 30% OFF</h2>
-                            <p>Equipate con las mejores bicicletas para terrenos exigentes.</p>
-                            <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red">
-                                <i class="fab fa-whatsapp"></i> Aprovechar oferta
-                            </a>
-                        </div>
-                        <div class="banner-image">
-                            <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=1200&q=80&auto=format&fit=crop" 
-                                 alt="Bicicleta de montaña" 
-                                 fetchpriority="high" 
-                                 loading="eager"
-                                 width="600" 
-                                 height="350">
-                        </div>
-                    </div>
-                    <!-- CONTROLES DENTRO DEL SLIDE (para móviles) -->
-                    <div class="banner-controls-wrapper">
-                        <button class="btn-banner" onclick="previousBanner()"><i class="fas fa-chevron-left"></i></button>
-                        <div class="banners-dots" id="bannersDotsInner0"></div>
-                        <button class="btn-banner" onclick="nextBanner()"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                </div>
-                
-                <!-- Banner 2 -->
-                <div class="banner-slide-wrapper" data-index="1">
-                    <div class="banner-slide">
-                        <div class="banner-text">
-                            <span class="badge-banner">🚴 Rodá con estilo</span>
-                            <h2>Indumentaria <span>Premium</span> para ciclistas</h2>
-                            <p>Ropa técnica de alta calidad para tus rutas más exigentes.</p>
-                            <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red">
-                                <i class="fab fa-whatsapp"></i> Ver colección
-                            </a>
-                        </div>
-                        <div class="banner-image">
-                            <img src="https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1200&q=80&auto=format&fit=crop" 
-                                 alt="Ciclista con indumentaria" 
-                                 fetchpriority="high" 
-                                 loading="eager"
-                                 width="600" 
-                                 height="350">
-                        </div>
-                    </div>
-                    <div class="banner-controls-wrapper">
-                        <button class="btn-banner" onclick="previousBanner()"><i class="fas fa-chevron-left"></i></button>
-                        <div class="banners-dots" id="bannersDotsInner1"></div>
-                        <button class="btn-banner" onclick="nextBanner()"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                </div>
+                <!-- LOS BANNERS SE CARGAN DINÁMICAMENTE DESDE SUPABASE -->
             </div>
+            <!-- FLECHAS LATERALES -->
+            <button class="banner-arrow banner-arrow-prev" id="bannerPrev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="banner-arrow banner-arrow-next" id="bannerNext">
+                <i class="fas fa-chevron-right"></i>
+            </button>
         </div>
-        <!-- CONTROLES INFERIORES (se ocultan en móviles) -->
-        <div class="banners-controls">
-            <button class="btn-banner" id="bannerPrev"><i class="fas fa-chevron-left"></i></button>
-            <div class="banners-dots" id="bannersDots"></div>
-            <button class="btn-banner" id="bannerNext"><i class="fas fa-chevron-right"></i></button>
-        </div>
+        <!-- DOTS -->
+        <div class="banner-dots-container" id="bannerDots"></div>
     </section>
 
     <!-- ========== CATEGORÍAS ========== -->
@@ -3178,11 +3137,8 @@
         let currentHeroSlide = 0;
         let heroInterval;
         let currentBannerSlide = 0;
+        let totalBannerSlides = 0;
         let bannerInterval;
-        let isBannerDragging = false;
-        let bannerStartX = 0;
-        let bannerCurrentX = 0;
-        let isBannerAnimating = false;
 
         // =====================================================
         // CARRITO
@@ -3350,9 +3306,12 @@
                 const { data: gallery } = await supabaseClient.from('gallery').select('*').order('sort_order');
                 allGallery = gallery || [];
 
-                // Cargar banners
+                // =====================================================
+                // CARGAR BANNERS DESDE SUPABASE
+                // =====================================================
                 const { data: banners } = await supabaseClient.from('banners').select('*').order('sort_order');
                 allBanners = banners || [];
+                console.log('📢 Banners cargados desde Supabase:', allBanners.length);
 
                 // Cargar testimonios
                 const { data: testimonials } = await supabaseClient.from('testimonials').select('*');
@@ -3371,7 +3330,7 @@
                 renderCategories();
                 renderProducts();
                 renderHeroCarousel();
-                initBannersCarousel();
+                renderBannersFromSupabase(); // <-- Renderizar banners dinámicos
                 renderGallery();
                 renderTestimonials();
                 renderFaqs();
@@ -3408,6 +3367,149 @@
                 }
             }
         }
+
+        // =====================================================
+        // RENDERIZAR BANNERS DESDE SUPABASE (DINÁMICO)
+        // =====================================================
+        function renderBannersFromSupabase() {
+            const track = document.getElementById('bannersTrack');
+            const dotsContainer = document.getElementById('bannerDots');
+            
+            // Si NO hay banners en Supabase, mostrar banner por defecto
+            if (!allBanners || allBanners.length === 0) {
+                track.innerHTML = `
+                    <div class="banner-slide">
+                        <div class="banner-text">
+                            <span class="badge-banner">🚴 OliviaBike</span>
+                            <h2>Bienvenido a <span>OliviaBike</span> 24.7</h2>
+                            <p>Descubre nuestra selección de bicicletas y accesorios de alta calidad.</p>
+                            <a href="https://wa.me/${whatsappNumber}" target="_blank" class="btn btn-red">
+                                <i class="fab fa-whatsapp"></i> Consultar ahora
+                            </a>
+                        </div>
+                        <div class="banner-image">
+                            <img src="https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1200&q=80" 
+                                 alt="OliviaBike" 
+                                 loading="eager"
+                                 width="600" 
+                                 height="350">
+                        </div>
+                    </div>
+                `;
+                totalBannerSlides = 1;
+            } else {
+                // Si HAY banners en Supabase, mostrarlos
+                track.innerHTML = allBanners.map((banner, index) => {
+                    // Verificar que la imagen sea una URL válida
+                    let imageSrc = banner.image || '';
+                    if (!imageSrc || imageSrc === '') {
+                        imageSrc = 'https://via.placeholder.com/600x350?text=Sin+imagen';
+                    }
+                    
+                    return `
+                        <div class="banner-slide" data-index="${index}">
+                            <div class="banner-text">
+                                ${banner.badge ? `<span class="badge-banner">${banner.badge}</span>` : ''}
+                                <h2>${banner.title || 'Sin título'}</h2>
+                                ${banner.description ? `<p>${banner.description}</p>` : ''}
+                                ${banner.cta_text ? `
+                                    <a href="${banner.cta_link || 'https://wa.me/' + whatsappNumber}" 
+                                       target="${banner.cta_link?.startsWith('http') ? '_blank' : ''}" 
+                                       class="btn btn-red">
+                                        <i class="fas fa-arrow-right"></i> ${banner.cta_text}
+                                    </a>
+                                ` : ''}
+                            </div>
+                            <div class="banner-image">
+                                <img src="${imageSrc}" 
+                                     alt="${banner.title || 'Banner'}" 
+                                     loading="${index === 0 ? 'eager' : 'lazy'}"
+                                     width="600" 
+                                     height="350"
+                                     onerror="this.src='https://via.placeholder.com/600x350?text=Error+de+imagen'">
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                totalBannerSlides = allBanners.length;
+            }
+
+            // Configurar dots
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalBannerSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                dot.dataset.index = i;
+                dot.onclick = () => goToBannerSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+
+            // Configurar flechas
+            document.getElementById('bannerPrev').onclick = () => {
+                goToBannerSlide(currentBannerSlide - 1);
+                resetBannerAutoplay();
+            };
+            document.getElementById('bannerNext').onclick = () => {
+                goToBannerSlide(currentBannerSlide + 1);
+                resetBannerAutoplay();
+            };
+
+            // Inicializar carrusel
+            goToBannerSlide(0);
+            startBannerAutoplay();
+
+            console.log(`✅ ${totalBannerSlides} banners mostrados`);
+        }
+
+        // =====================================================
+        // BANNERS CARRUSEL - CONTROL
+        // =====================================================
+        function goToBannerSlide(index) {
+            if (index < 0) index = totalBannerSlides - 1;
+            if (index >= totalBannerSlides) index = 0;
+            
+            currentBannerSlide = index;
+            const track = document.getElementById('bannersTrack');
+            track.style.transform = `translateX(-${index * 100}%)`;
+            
+            // Actualizar dots
+            document.querySelectorAll('#bannerDots .dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextBanner() {
+            goToBannerSlide(currentBannerSlide + 1);
+            resetBannerAutoplay();
+        }
+
+        function previousBanner() {
+            goToBannerSlide(currentBannerSlide - 1);
+            resetBannerAutoplay();
+        }
+
+        function startBannerAutoplay() {
+            clearInterval(bannerInterval);
+            if (totalBannerSlides > 1) {
+                bannerInterval = setInterval(() => {
+                    nextBanner();
+                }, 5000);
+            }
+        }
+
+        function resetBannerAutoplay() {
+            clearInterval(bannerInterval);
+            startBannerAutoplay();
+        }
+
+        // Pausar autoplay al pasar el mouse
+        document.querySelector('.banners-carousel')?.addEventListener('mouseenter', () => {
+            clearInterval(bannerInterval);
+        });
+
+        document.querySelector('.banners-carousel')?.addEventListener('mouseleave', () => {
+            startBannerAutoplay();
+        });
 
         // =====================================================
         // RENDERIZAR CATEGORÍAS
@@ -3539,7 +3641,6 @@
                 const img = container.querySelector('img');
                 if (!img) return;
 
-                // Crear contenedor de zoom
                 const zoomContainer = document.createElement('div');
                 zoomContainer.className = 'zoom-container';
                 
@@ -3587,7 +3688,6 @@
                     isZoomActive = false;
                 }
 
-                // Eventos para desktop
                 container.addEventListener('mouseenter', () => {
                     if (window.innerWidth > 768) {
                         zoomContainer.classList.add('active');
@@ -3606,7 +3706,6 @@
                     }
                 });
 
-                // Eventos para móviles (touch)
                 container.addEventListener('touchstart', (e) => {
                     if (window.innerWidth <= 768) {
                         e.preventDefault();
@@ -3630,7 +3729,7 @@
         }
 
         // =====================================================
-        // RENDERIZAR PRODUCTOS - CON ZOOM
+        // RENDERIZAR PRODUCTOS
         // =====================================================
         function renderProducts() {
             const grid = document.getElementById('productsGrid');
@@ -3693,7 +3792,6 @@
                 `;
             }).join('');
 
-            // Configurar zoom después de renderizar
             setTimeout(setupProductZoom, 200);
             setTimeout(() => { applyOrder(); }, 100);
         }
@@ -3862,203 +3960,6 @@
         function resetHeroAutoplay() {
             clearInterval(heroInterval);
             startHeroAutoplay();
-        }
-
-        // =====================================================
-        // BANNERS CARRUSEL - CON SWIPE Y CONTROLES INTERMEDIOS
-        // =====================================================
-        function initBannersCarousel() {
-            const track = document.getElementById('bannersTrack');
-            const slides = track.querySelectorAll('.banner-slide-wrapper');
-            const totalSlides = slides.length;
-            let currentSlide = 0;
-            let isAnimating = false;
-            
-            // Si no hay slides, salir
-            if (totalSlides === 0) return;
-
-            // Función para actualizar dots
-            function updateDots(index) {
-                // Dots externos
-                const outerDots = document.querySelectorAll('#bannersDots .dot');
-                outerDots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === index);
-                });
-                
-                // Dots internos de cada slide
-                slides.forEach((slide, i) => {
-                    const innerDots = slide.querySelectorAll('.banners-dots .dot');
-                    innerDots.forEach((dot, j) => {
-                        dot.classList.toggle('active', j === index);
-                    });
-                });
-            }
-
-            // Función para ir a un slide
-            window.goToBannerSlide = function(index) {
-                if (isAnimating) return;
-                if (index < 0) index = totalSlides - 1;
-                if (index >= totalSlides) index = 0;
-                
-                isAnimating = true;
-                track.style.transform = `translateX(-${index * 100}%)`;
-                currentSlide = index;
-                updateDots(index);
-                
-                setTimeout(() => {
-                    isAnimating = false;
-                }, 600);
-            };
-
-            // Función para siguiente banner (global)
-            window.nextBanner = function() {
-                goToBannerSlide(currentSlide + 1);
-                resetBannerAutoplay();
-            };
-
-            window.previousBanner = function() {
-                goToBannerSlide(currentSlide - 1);
-                resetBannerAutoplay();
-            };
-
-            // Crear dots para cada slide interno
-            slides.forEach((slide, slideIndex) => {
-                const dotsContainer = slide.querySelector('.banners-dots');
-                if (dotsContainer) {
-                    dotsContainer.innerHTML = '';
-                    for (let i = 0; i < totalSlides; i++) {
-                        const dot = document.createElement('button');
-                        dot.className = `dot ${i === 0 ? 'active' : ''}`;
-                        dot.onclick = () => {
-                            goToBannerSlide(i);
-                            resetBannerAutoplay();
-                        };
-                        dotsContainer.appendChild(dot);
-                    }
-                }
-            });
-
-            // Dots externos
-            const outerDotsContainer = document.getElementById('bannersDots');
-            if (outerDotsContainer) {
-                outerDotsContainer.innerHTML = '';
-                for (let i = 0; i < totalSlides; i++) {
-                    const dot = document.createElement('button');
-                    dot.className = `dot ${i === 0 ? 'active' : ''}`;
-                    dot.onclick = () => {
-                        goToBannerSlide(i);
-                        resetBannerAutoplay();
-                    };
-                    outerDotsContainer.appendChild(dot);
-                }
-            }
-
-            // Botones externos
-            document.getElementById('bannerPrev').onclick = () => {
-                goToBannerSlide(currentSlide - 1);
-                resetBannerAutoplay();
-            };
-            document.getElementById('bannerNext').onclick = () => {
-                goToBannerSlide(currentSlide + 1);
-                resetBannerAutoplay();
-            };
-
-            // ========== SWIPE / TOUCH PARA MÓVILES ==========
-            let touchStartX = 0;
-            let touchEndX = 0;
-            let isSwiping = false;
-
-            track.addEventListener('touchstart', function(e) {
-                touchStartX = e.changedTouches[0].screenX;
-                isSwiping = true;
-            }, { passive: true });
-
-            track.addEventListener('touchmove', function(e) {
-                if (!isSwiping) return;
-                const diff = touchStartX - e.changedTouches[0].screenX;
-                if (Math.abs(diff) > 20) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
-
-            track.addEventListener('touchend', function(e) {
-                if (!isSwiping) return;
-                touchEndX = e.changedTouches[0].screenX;
-                const diff = touchStartX - touchEndX;
-                
-                if (Math.abs(diff) > 50) {
-                    if (diff > 0) {
-                        goToBannerSlide(currentSlide + 1);
-                    } else {
-                        goToBannerSlide(currentSlide - 1);
-                    }
-                    resetBannerAutoplay();
-                }
-                isSwiping = false;
-            }, { passive: true });
-
-            // ========== DRAG PARA DESKTOP ==========
-            let isDragging = false;
-            let dragStartX = 0;
-            let dragCurrentX = 0;
-            let dragOffset = 0;
-
-            track.addEventListener('mousedown', function(e) {
-                isDragging = true;
-                dragStartX = e.clientX;
-                track.style.transition = 'none';
-                dragOffset = currentSlide * 100;
-            });
-
-            document.addEventListener('mousemove', function(e) {
-                if (!isDragging) return;
-                dragCurrentX = e.clientX;
-                const diff = ((dragStartX - dragCurrentX) / track.offsetWidth) * 100;
-                const newOffset = dragOffset + diff;
-                track.style.transform = `translateX(-${newOffset}%)`;
-            });
-
-            document.addEventListener('mouseup', function(e) {
-                if (!isDragging) return;
-                isDragging = false;
-                track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                
-                const diff = ((dragStartX - dragCurrentX) / track.offsetWidth) * 100;
-                if (Math.abs(diff) > 10) {
-                    if (diff > 0) {
-                        goToBannerSlide(currentSlide + 1);
-                    } else {
-                        goToBannerSlide(currentSlide - 1);
-                    }
-                    resetBannerAutoplay();
-                } else {
-                    goToBannerSlide(currentSlide);
-                }
-            });
-
-            // ========== AUTOPLAY ==========
-            function startBannerAutoplay() {
-                clearInterval(bannerInterval);
-                bannerInterval = setInterval(() => {
-                    goToBannerSlide(currentSlide + 1);
-                }, 5000);
-            }
-
-            function resetBannerAutoplay() {
-                clearInterval(bannerInterval);
-                startBannerAutoplay();
-            }
-
-            // Pausar autoplay al pasar el mouse
-            const carousel = document.querySelector('.banners-carousel');
-            carousel.addEventListener('mouseenter', () => clearInterval(bannerInterval));
-            carousel.addEventListener('mouseleave', startBannerAutoplay);
-
-            // Inicializar
-            goToBannerSlide(0);
-            startBannerAutoplay();
-
-            console.log('✅ Banners carrusel inicializado con swipe y controles intermedios');
         }
 
         // =====================================================
@@ -4396,7 +4297,7 @@
         }
 
         // =====================================================
-        // MODAL DE PRODUCTO
+        // MODAL DE PRODUCTO CON ZOOM CON LUPA
         // =====================================================
         const modal = document.getElementById('productModal');
         const modalContent = document.getElementById('modalContent');
@@ -4453,7 +4354,7 @@
                 thumbnailsHtml = `
                     <div class="modal-image-thumbnails">
                         ${additionalImages.map((img, idx) => `
-                            <img src="${img}" alt="Imagen ${idx + 1}" class="lazy-image" onclick="changeModalImage(this, '${img}')" ${idx === 0 ? 'class="active"' : ''} onload="this.classList.add('loaded')" style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid var(--gray-200);transition:var(--transition);">
+                            <img src="${img}" alt="Imagen ${idx + 1}" class="lazy-image" onclick="changeModalImage(this, '${img}')" ${idx === 0 ? 'active' : ''} onload="this.classList.add('loaded')">
                         `).join('')}
                     </div>
                 `;
@@ -4461,7 +4362,11 @@
 
             modalContent.innerHTML = `
                 <div class="modal-image" id="modalImageContainer">
-                    <img id="modalMainImage" src="${mainImage}" alt="${product.name}" class="lazy-image" loading="lazy" onload="this.classList.add('loaded')">
+                    <div style="position:relative;overflow:hidden;cursor:crosshair;border-radius:var(--radius);background:var(--gray-100);" id="modalZoomContainer">
+                        <img id="modalMainImage" src="${mainImage}" alt="${product.name}" class="lazy-image" loading="lazy" onload="this.classList.add('loaded')" style="width:100%;height:100%;max-height:450px;object-fit:cover;transition:transform 0.3s ease;display:block;">
+                        <div id="modalZoomLens" style="position:absolute;top:0;left:0;width:120px;height:120px;border:2px solid var(--primary);border-radius:50%;background:rgba(255,255,255,0.05);backdrop-filter:blur(2px);pointer-events:none;transform:translate(-50%,-50%);display:none;box-shadow:0 0 20px rgba(0,0,0,0.3);z-index:5;"></div>
+                        <div id="modalZoomResult" style="position:absolute;top:0;right:-120px;width:120px;height:120px;border:2px solid var(--primary);border-radius:var(--radius);background-repeat:no-repeat;background-size:300% 300%;display:none;z-index:5;background-color:var(--gray-100);box-shadow:var(--shadow-lg);pointer-events:none;"></div>
+                    </div>
                     ${thumbnailsHtml}
                 </div>
                 <div class="modal-info">
@@ -4500,18 +4405,127 @@
             `;
 
             setTimeout(() => {
-                const imgContainer = document.getElementById('modalImageContainer');
-                if (imgContainer) {
-                    imgContainer.addEventListener('click', function() {
-                        this.classList.toggle('zoomed');
-                    });
-                }
-            }, 100);
+                initModalZoom();
+            }, 200);
 
             renderRelatedProducts(productId);
 
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
+        }
+
+        // Función para inicializar el zoom con lupa en el modal
+        function initModalZoom() {
+            const container = document.getElementById('modalZoomContainer');
+            const img = document.getElementById('modalMainImage');
+            const lens = document.getElementById('modalZoomLens');
+            const result = document.getElementById('modalZoomResult');
+            
+            if (!container || !img || !lens || !result) return;
+
+            img.onload = function() {
+                setupModalZoom(container, img, lens, result);
+            };
+            
+            if (img.complete) {
+                setupModalZoom(container, img, lens, result);
+            }
+        }
+
+        function setupModalZoom(container, img, lens, result) {
+            let isZoomActive = false;
+
+            function getCursorPosition(e) {
+                const rect = container.getBoundingClientRect();
+                const x = (e.clientX || e.touches?.[0]?.clientX || 0) - rect.left;
+                const y = (e.clientY || e.touches?.[0]?.clientY || 0) - rect.top;
+                return { x, y, rect };
+            }
+
+            function updateZoom(e) {
+                const { x, y, rect } = getCursorPosition(e);
+                
+                const lensSize = window.innerWidth < 768 ? 80 : 120;
+                const lensHalf = lensSize / 2;
+                
+                let lensX = Math.max(0, Math.min(rect.width - lensSize, x - lensHalf));
+                let lensY = Math.max(0, Math.min(rect.height - lensSize, y - lensHalf));
+                
+                lens.style.left = lensX + 'px';
+                lens.style.top = lensY + 'px';
+                lens.style.width = lensSize + 'px';
+                lens.style.height = lensSize + 'px';
+                
+                const percentX = (lensX + lensHalf) / rect.width * 100;
+                const percentY = (lensY + lensHalf) / rect.height * 100;
+                
+                result.style.backgroundImage = `url(${img.src})`;
+                result.style.backgroundPosition = `${percentX}% ${percentY}%`;
+                result.style.backgroundSize = `${(rect.width / lensSize) * 100}%`;
+                
+                const resultSize = window.innerWidth < 768 ? 80 : 120;
+                result.style.width = resultSize + 'px';
+                result.style.height = resultSize + 'px';
+                
+                const rect2 = container.getBoundingClientRect();
+                if (rect2.right + resultSize > window.innerWidth) {
+                    result.style.right = 'auto';
+                    result.style.left = '-120px';
+                } else {
+                    result.style.right = '-120px';
+                    result.style.left = 'auto';
+                }
+                
+                lens.style.display = 'block';
+                result.style.display = 'block';
+                isZoomActive = true;
+            }
+
+            function hideZoom() {
+                lens.style.display = 'none';
+                result.style.display = 'none';
+                isZoomActive = false;
+            }
+
+            container.addEventListener('mouseenter', function(e) {
+                if (window.innerWidth > 768) {
+                    result.style.display = 'block';
+                    updateZoom(e);
+                }
+            });
+
+            container.addEventListener('mousemove', function(e) {
+                if (window.innerWidth > 768) {
+                    updateZoom(e);
+                }
+            });
+
+            container.addEventListener('mouseleave', function() {
+                if (window.innerWidth > 768) {
+                    hideZoom();
+                }
+            });
+
+            container.addEventListener('touchstart', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    result.style.display = 'block';
+                    updateZoom(e);
+                }
+            }, { passive: false });
+
+            container.addEventListener('touchmove', function(e) {
+                if (window.innerWidth <= 768 && isZoomActive) {
+                    e.preventDefault();
+                    updateZoom(e);
+                }
+            }, { passive: false });
+
+            container.addEventListener('touchend', function() {
+                if (window.innerWidth <= 768) {
+                    hideZoom();
+                }
+            });
         }
 
         function changeModalImage(thumb, src) {
@@ -4521,6 +4535,13 @@
                 mainImg.classList.remove('loaded');
                 mainImg.onload = function() {
                     mainImg.classList.add('loaded');
+                    // Reinicializar zoom con la nueva imagen
+                    const container = document.getElementById('modalZoomContainer');
+                    const lens = document.getElementById('modalZoomLens');
+                    const result = document.getElementById('modalZoomResult');
+                    if (container && lens && result) {
+                        setupModalZoom(container, mainImg, lens, result);
+                    }
                 };
             }
             document.querySelectorAll('.modal-image-thumbnails img').forEach(img => {
@@ -4639,13 +4660,12 @@
 
         console.log('🚴 OliviaBike 24.7 - Optimizado');
         console.log('✅ Hero: prioridad máxima (preload + fetchpriority)');
-        console.log('✅ Banners: prioridad alta (fetchpriority + eager)');
-        console.log('✅ Banners: controles entre texto e imagen en móviles');
-        console.log('✅ Banners: swipe táctil para pasar');
+        console.log('✅ Banners: cargados dinámicamente desde Supabase');
+        console.log('✅ Banners: flechas laterales a la imagen');
+        console.log('✅ Banners: sin mostrar parte del siguiente slide');
         console.log('✅ Productos: lazy loading + zoom interactivo');
+        console.log('✅ Modal: zoom con lupa en imágenes');
         console.log('✅ Galería: lazy loading');
-        console.log('✅ Badge stock: tamaño justo');
-        console.log('✅ Descripción producto: más espacio y separación');
     </script>
 </body>
 </html>
