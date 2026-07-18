@@ -1640,7 +1640,7 @@
                 <div class="form-group">
                     <label>Imagen *</label>
                     <div class="file-input-wrapper">
-                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen</span>
+                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen (se comprime automáticamente)</span>
                         <input type="file" accept="image/*" onchange="previewProductImage(event)">
                     </div>
                     <img class="image-preview ${isEdit && product.image ? '' : 'hidden'}" id="f_product_image_preview" src="${isEdit ? product.image : ''}">
@@ -1730,7 +1730,7 @@
                     const preview = document.getElementById('f_product_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    document.getElementById('f_product_image').value = e.target.result;
+                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
@@ -1746,7 +1746,6 @@
             const price = parseFloat(document.getElementById('f_product_price').value);
             const old_price = parseFloat(document.getElementById('f_product_oldprice').value) || null;
             const description = document.getElementById('f_product_desc').value.trim();
-            const image = document.getElementById('f_product_image').value;
             const stock = document.getElementById('f_product_stock').value;
             const whatsapp_msg = document.getElementById('f_product_whatsapp').value.trim() || name;
             const colors = document.getElementById('f_product_colors').value.split(',').map(c => c.trim()).filter(c => c);
@@ -1757,13 +1756,48 @@
                 custom_fields[key] = el.value;
             });
 
-            if (!name || !description || !price || !image) {
+            if (!name || !description || !price) {
                 showToast('⚠️ Completa todos los campos requeridos', 'error');
+                return;
+            }
+
+            // --- IMAGEN: subir a Storage si hay archivo nuevo ---
+            const fileInput = document.querySelector('#formBody input[type="file"]');
+            let imageUrl = document.getElementById('f_product_image').value;
+
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                try {
+                    const file = fileInput.files[0];
+                    showToast('📤 Subiendo imagen...', 'info');
+                    imageUrl = await uploadImageToStorage(file);
+                    showToast('✅ Imagen subida correctamente', 'success');
+                } catch (err) {
+                    console.error('Error uploading image:', err);
+                    showToast('❌ Error al subir la imagen: ' + err.message, 'error');
+                    return;
+                }
+            }
+
+            if (!imageUrl) {
+                showToast('⚠️ Se requiere una imagen', 'error');
                 return;
             }
 
             const category = data.categories.find(c => c.id === category_id);
             const categoryName = category ? category.name : 'Sin categoría';
+
+            // Si estamos editando y la imagen cambió, eliminar la vieja
+            if (productId) {
+                const oldProduct = data.products.find(p => p.id === productId);
+                if (oldProduct && oldProduct.image && oldProduct.image !== imageUrl && oldProduct.image.includes('/storage/')) {
+                    try {
+                        await deleteImageFromStorage(oldProduct.image);
+                        console.log('🗑️ Imagen vieja eliminada');
+                    } catch (err) {
+                        console.warn('No se pudo eliminar la imagen vieja:', err);
+                    }
+                }
+            }
 
             const productData = {
                 id: productId || Date.now(),
@@ -1774,7 +1808,7 @@
                 price: price,
                 old_price: old_price,
                 description,
-                image,
+                image: imageUrl,
                 stock: stock,
                 stock_color: stock === 'En stock' ? 'green' : stock === 'Últimas unidades' ? 'orange' : 'red',
                 whatsapp_msg: whatsapp_msg,
@@ -1847,7 +1881,7 @@
                 <div class="form-group">
                     <label>Imagen de la categoría</label>
                     <div class="file-input-wrapper">
-                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen</span>
+                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen (se comprime automáticamente)</span>
                         <input type="file" accept="image/*" onchange="previewQuickCategoryImage(event)">
                     </div>
                     <img class="image-preview hidden" id="f_quick_category_image_preview">
@@ -1878,7 +1912,7 @@
                     const preview = document.getElementById('f_quick_category_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    document.getElementById('f_quick_category_image').value = e.target.result;
+                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
@@ -1886,7 +1920,6 @@
 
         async function saveQuickCategory() {
             const name = document.getElementById('f_quick_category_name').value.trim();
-            const image = document.getElementById('f_quick_category_image').value;
             const icon = document.getElementById('f_quick_category_icon').value.trim() || '🏷️';
 
             if (!name) {
@@ -1894,10 +1927,27 @@
                 return;
             }
 
+            // --- IMAGEN: subir a Storage si hay archivo ---
+            const fileInput = document.querySelector('#formBody input[type="file"]');
+            let imageUrl = document.getElementById('f_quick_category_image').value;
+
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                try {
+                    const file = fileInput.files[0];
+                    showToast('📤 Subiendo imagen...', 'info');
+                    imageUrl = await uploadImageToStorage(file);
+                    showToast('✅ Imagen subida correctamente', 'success');
+                } catch (err) {
+                    console.error('Error uploading image:', err);
+                    showToast('❌ Error al subir la imagen: ' + err.message, 'error');
+                    return;
+                }
+            }
+
             const categoryData = {
                 id: Date.now(),
                 name,
-                image: image || null,
+                image: imageUrl || null,
                 icon: icon,
                 sort_order: data.categories.length
             };
@@ -1990,7 +2040,7 @@
                 <div class="form-group">
                     <label>Imagen de la categoría</label>
                     <div class="file-input-wrapper">
-                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen</span>
+                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen (se comprime automáticamente)</span>
                         <input type="file" accept="image/*" onchange="previewCategoryImage(event)">
                     </div>
                     <img class="image-preview ${isEdit && category.image ? '' : 'hidden'}" id="f_category_image_preview" src="${isEdit ? category.image : ''}">
@@ -2026,7 +2076,7 @@
                     const preview = document.getElementById('f_category_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    document.getElementById('f_category_image').value = e.target.result;
+                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
@@ -2034,7 +2084,6 @@
 
         async function saveCategory(categoryId) {
             const name = document.getElementById('f_category_name').value.trim();
-            const image = document.getElementById('f_category_image').value;
             const icon = document.getElementById('f_category_icon').value.trim() || '🏷️';
             const sort_order = parseInt(document.getElementById('f_category_sort').value) || 0;
 
@@ -2043,10 +2092,40 @@
                 return;
             }
 
+            // --- IMAGEN: subir a Storage si hay archivo nuevo ---
+            const fileInput = document.querySelector('#formBody input[type="file"]');
+            let imageUrl = document.getElementById('f_category_image').value;
+
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                try {
+                    const file = fileInput.files[0];
+                    showToast('📤 Subiendo imagen...', 'info');
+                    imageUrl = await uploadImageToStorage(file);
+                    showToast('✅ Imagen subida correctamente', 'success');
+                } catch (err) {
+                    console.error('Error uploading image:', err);
+                    showToast('❌ Error al subir la imagen: ' + err.message, 'error');
+                    return;
+                }
+            }
+
+            // Si estamos editando y la imagen cambió, eliminar la vieja
+            if (categoryId) {
+                const oldCategory = data.categories.find(c => c.id === categoryId);
+                if (oldCategory && oldCategory.image && oldCategory.image !== imageUrl && oldCategory.image.includes('/storage/')) {
+                    try {
+                        await deleteImageFromStorage(oldCategory.image);
+                        console.log('🗑️ Imagen vieja eliminada');
+                    } catch (err) {
+                        console.warn('No se pudo eliminar la imagen vieja:', err);
+                    }
+                }
+            }
+
             const categoryData = {
                 id: categoryId || Date.now(),
                 name,
-                image: image || null,
+                image: imageUrl || null,
                 icon: icon,
                 sort_order
             };
@@ -2648,7 +2727,7 @@
                 <div class="form-group">
                     <label>Imagen *</label>
                     <div class="file-input-wrapper">
-                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen</span>
+                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen (se comprime automáticamente)</span>
                         <input type="file" accept="image/*" onchange="previewBannerImage(event)">
                     </div>
                     <img class="image-preview ${isEdit && banner.image ? '' : 'hidden'}" id="f_banner_image_preview" src="${isEdit ? banner.image : ''}">
@@ -2674,7 +2753,7 @@
                     const preview = document.getElementById('f_banner_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    document.getElementById('f_banner_image').value = e.target.result;
+                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
@@ -2686,11 +2765,45 @@
             const description = document.getElementById('f_banner_desc').value.trim();
             const cta_text = document.getElementById('f_banner_cta').value.trim();
             const cta_link = document.getElementById('f_banner_link').value.trim();
-            const image = document.getElementById('f_banner_image').value;
 
-            if (!title || !description || !image) {
+            if (!title || !description) {
                 showToast('⚠️ Completa los campos requeridos', 'error');
                 return;
+            }
+
+            // --- IMAGEN: subir a Storage si hay archivo nuevo ---
+            const fileInput = document.querySelector('#formBody input[type="file"]');
+            let imageUrl = document.getElementById('f_banner_image').value;
+
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                try {
+                    const file = fileInput.files[0];
+                    showToast('📤 Subiendo imagen...', 'info');
+                    imageUrl = await uploadImageToStorage(file);
+                    showToast('✅ Imagen subida correctamente', 'success');
+                } catch (err) {
+                    console.error('Error uploading image:', err);
+                    showToast('❌ Error al subir la imagen: ' + err.message, 'error');
+                    return;
+                }
+            }
+
+            if (!imageUrl) {
+                showToast('⚠️ Se requiere una imagen', 'error');
+                return;
+            }
+
+            // Si estamos editando y la imagen cambió, eliminar la vieja
+            if (bannerId) {
+                const oldBanner = data.banners.find(b => b.id === bannerId);
+                if (oldBanner && oldBanner.image && oldBanner.image !== imageUrl && oldBanner.image.includes('/storage/')) {
+                    try {
+                        await deleteImageFromStorage(oldBanner.image);
+                        console.log('🗑️ Imagen vieja eliminada');
+                    } catch (err) {
+                        console.warn('No se pudo eliminar la imagen vieja:', err);
+                    }
+                }
             }
 
             const bannerData = {
@@ -2698,7 +2811,7 @@
                 badge,
                 title,
                 description,
-                image,
+                image: imageUrl,
                 cta_text,
                 cta_link
             };
@@ -2919,6 +3032,19 @@
                 return;
             }
 
+            // Si estamos editando y la imagen cambió, eliminar la vieja
+            if (itemId) {
+                const oldItem = data.galleryItems.find(g => g.id === itemId);
+                if (oldItem && oldItem.image_url && oldItem.image_url !== imageUrl && oldItem.image_url.includes('/storage/')) {
+                    try {
+                        await deleteImageFromStorage(oldItem.image_url);
+                        console.log('🗑️ Imagen vieja eliminada');
+                    } catch (err) {
+                        console.warn('No se pudo eliminar la imagen vieja:', err);
+                    }
+                }
+            }
+
             const galleryData = {
                 id: itemId || Date.now(),
                 image_url: imageUrl,
@@ -2931,11 +3057,6 @@
 
             try {
                 if (itemId) {
-                    const oldItem = data.galleryItems.find(g => g.id === itemId);
-                    if (oldItem && oldItem.image_url !== imageUrl) {
-                        await deleteImageFromStorage(oldItem.image_url);
-                    }
-                    
                     const { error } = await supabaseClient
                         .from('gallery')
                         .update(galleryData)
@@ -2976,7 +3097,7 @@
                     .eq('id', itemId);
                 if (error) throw error;
                 
-                if (item && item.image_url) {
+                if (item && item.image_url && item.image_url.includes('/storage/')) {
                     await deleteImageFromStorage(item.image_url);
                 }
                 
@@ -3080,7 +3201,7 @@
                 <div class="form-group">
                     <label>Foto *</label>
                     <div class="file-input-wrapper">
-                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar foto</span>
+                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar foto (se comprime automáticamente)</span>
                         <input type="file" accept="image/*" onchange="previewTestimonialImage(event)">
                     </div>
                     <img class="image-preview ${isEdit && t.image ? '' : 'hidden'}" id="f_testimonial_image_preview" src="${isEdit ? t.image : ''}">
@@ -3106,7 +3227,7 @@
                     const preview = document.getElementById('f_testimonial_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    document.getElementById('f_testimonial_image').value = e.target.result;
+                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
@@ -3117,11 +3238,45 @@
             const role = document.getElementById('f_testimonial_role').value.trim();
             const text = document.getElementById('f_testimonial_text').value.trim();
             const stars = parseInt(document.getElementById('f_testimonial_stars').value) || 5;
-            const image = document.getElementById('f_testimonial_image').value;
 
-            if (!name || !text || !image) {
+            if (!name || !text) {
                 showToast('⚠️ Completa los campos requeridos', 'error');
                 return;
+            }
+
+            // --- IMAGEN: subir a Storage si hay archivo nuevo ---
+            const fileInput = document.querySelector('#formBody input[type="file"]');
+            let imageUrl = document.getElementById('f_testimonial_image').value;
+
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                try {
+                    const file = fileInput.files[0];
+                    showToast('📤 Subiendo imagen...', 'info');
+                    imageUrl = await uploadImageToStorage(file);
+                    showToast('✅ Imagen subida correctamente', 'success');
+                } catch (err) {
+                    console.error('Error uploading image:', err);
+                    showToast('❌ Error al subir la imagen: ' + err.message, 'error');
+                    return;
+                }
+            }
+
+            if (!imageUrl) {
+                showToast('⚠️ Se requiere una imagen', 'error');
+                return;
+            }
+
+            // Si estamos editando y la imagen cambió, eliminar la vieja
+            if (testimonialId) {
+                const oldTestimonial = data.testimonials.find(t => t.id === testimonialId);
+                if (oldTestimonial && oldTestimonial.image && oldTestimonial.image !== imageUrl && oldTestimonial.image.includes('/storage/')) {
+                    try {
+                        await deleteImageFromStorage(oldTestimonial.image);
+                        console.log('🗑️ Imagen vieja eliminada');
+                    } catch (err) {
+                        console.warn('No se pudo eliminar la imagen vieja:', err);
+                    }
+                }
             }
 
             const testimonialData = {
@@ -3130,7 +3285,7 @@
                 role,
                 text,
                 stars,
-                image
+                image: imageUrl
             };
 
             try {
@@ -3537,7 +3692,7 @@
                 <div class="form-group">
                     <label>Imagen del banner *</label>
                     <div class="file-input-wrapper">
-                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen</span>
+                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen (se comprime automáticamente)</span>
                         <input type="file" accept="image/*" onchange="previewScheduleImage(event)">
                     </div>
                     <img class="image-preview ${isEdit && s.image ? '' : 'hidden'}" id="f_schedule_image_preview" src="${isEdit ? s.image : ''}">
@@ -3608,8 +3763,7 @@
                     const preview = document.getElementById('f_schedule_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    document.getElementById('f_schedule_image').value = e.target.result;
-                    updateSchedulePreview();
+                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
@@ -3624,11 +3778,45 @@
             const description = document.getElementById('f_schedule_desc').value.trim();
             const cta_text = document.getElementById('f_schedule_cta').value.trim();
             const cta_link = document.getElementById('f_schedule_link').value.trim();
-            const image = document.getElementById('f_schedule_image').value;
 
-            if (!nombre || !fechaInicio || !fechaFin || !title || !description || !image) {
+            if (!nombre || !fechaInicio || !fechaFin || !title || !description) {
                 showToast('⚠️ Completa todos los campos requeridos', 'error');
                 return;
+            }
+
+            // --- IMAGEN: subir a Storage si hay archivo nuevo ---
+            const fileInput = document.querySelector('#formBody input[type="file"]');
+            let imageUrl = document.getElementById('f_schedule_image').value;
+
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                try {
+                    const file = fileInput.files[0];
+                    showToast('📤 Subiendo imagen...', 'info');
+                    imageUrl = await uploadImageToStorage(file);
+                    showToast('✅ Imagen subida correctamente', 'success');
+                } catch (err) {
+                    console.error('Error uploading image:', err);
+                    showToast('❌ Error al subir la imagen: ' + err.message, 'error');
+                    return;
+                }
+            }
+
+            if (!imageUrl) {
+                showToast('⚠️ Se requiere una imagen', 'error');
+                return;
+            }
+
+            // Si estamos editando y la imagen cambió, eliminar la vieja
+            if (scheduleId) {
+                const oldSchedule = data.schedules.find(s => s.id === scheduleId);
+                if (oldSchedule && oldSchedule.image && oldSchedule.image !== imageUrl && oldSchedule.image.includes('/storage/')) {
+                    try {
+                        await deleteImageFromStorage(oldSchedule.image);
+                        console.log('🗑️ Imagen vieja eliminada');
+                    } catch (err) {
+                        console.warn('No se pudo eliminar la imagen vieja:', err);
+                    }
+                }
             }
 
             const now = new Date();
@@ -3650,7 +3838,7 @@
                 description,
                 cta_text,
                 cta_link,
-                image,
+                image: imageUrl,
                 created_at: new Date().toISOString()
             };
 
@@ -3781,28 +3969,28 @@
             }
         }
 
-        function uploadLogo(event) {
+        async function uploadLogo(event) {
             const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    try {
-                        const { error } = await supabaseClient
-                            .from('config')
-                            .upsert({ key: 'logo_url', value: e.target.result, updated_at: new Date().toISOString() }, { onConflict: 'key' });
-                        if (error) throw error;
-                        
-                        const preview = document.getElementById('logoPreview');
-                        preview.src = e.target.result;
-                        preview.style.display = 'block';
-                        await loadAllData();
-                        showToast('✅ Logo actualizado', 'success');
-                    } catch (err) {
-                        console.error('Error uploading logo:', err);
-                        showToast('Error al subir logo', 'error');
-                    }
-                };
-                reader.readAsDataURL(file);
+            if (!file) return;
+
+            try {
+                showToast('📤 Subiendo logo...', 'info');
+                const imageUrl = await uploadImageToStorage(file);
+                
+                const { error } = await supabaseClient
+                    .from('config')
+                    .upsert({ key: 'logo_url', value: imageUrl, updated_at: new Date().toISOString() }, { onConflict: 'key' });
+                if (error) throw error;
+                
+                const preview = document.getElementById('logoPreview');
+                preview.src = imageUrl;
+                preview.style.display = 'block';
+                
+                await loadAllData();
+                showToast('✅ Logo actualizado correctamente', 'success');
+            } catch (err) {
+                console.error('Error uploading logo:', err);
+                showToast('❌ Error al subir el logo: ' + err.message, 'error');
             }
         }
 
