@@ -43,7 +43,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- ========== PRELOAD - IMAGEN DEL HERO (PRIORIDAD MÁXIMA) ========== -->
-    <link rel="preload" as="image" href="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784346479068_uo2k0l.jpg" fetchpriority="high">
+    <link rel="preload" as="image" href="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg" fetchpriority="high">
     
     <!-- ========== PRELOAD - IMAGEN DEL BANNER (PRIORIDAD ALTA) ========== -->
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=1200&q=80&auto=format&fit=crop" fetchpriority="high">
@@ -854,7 +854,7 @@
         }
 
         /* ============================================================
-           BANNERS - PRIORIDAD ALTA
+           BANNERS - NUEVA ESTRUCTURA CON CONTROLES INTERMEDIOS
            ============================================================ */
         .banners-carousel {
             padding: 0;
@@ -870,18 +870,22 @@
             will-change: transform;
         }
 
-        .banner-slide {
+        .banner-slide-wrapper {
+            position: relative;
             min-width: 100%;
             width: 100%;
+            flex-shrink: 0;
             padding: 60px 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .banner-slide {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
             color: var(--white);
-            flex-shrink: 0;
-            user-select: none;
-            -webkit-user-select: none;
         }
 
         .banner-slide .banner-text .badge-banner {
@@ -911,7 +915,6 @@
             max-width: 480px;
         }
 
-        /* Imagen del banner - PRIORIDAD ALTA */
         .banner-slide .banner-image img {
             width: 100%;
             border-radius: var(--radius);
@@ -922,6 +925,60 @@
             display: block;
         }
 
+        /* Controles del banner - por defecto abajo */
+        .banner-controls-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0 10px;
+            background: var(--black);
+            position: relative;
+            z-index: 2;
+        }
+
+        .banner-controls-wrapper .btn-banner {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .banner-controls-wrapper .btn-banner:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .banner-controls-wrapper .banners-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .banner-controls-wrapper .banners-dots .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0;
+        }
+        .banner-controls-wrapper .banners-dots .dot.active {
+            background: var(--primary);
+            width: 28px;
+            border-radius: 5px;
+        }
+
+        /* Controles inferiores (se ocultan en móviles) */
         .banners-controls {
             display: flex;
             justify-content: center;
@@ -954,11 +1011,11 @@
             transform: scale(1.05);
         }
 
-        .banners-dots {
+        .banners-controls .banners-dots {
             display: flex;
             gap: 8px;
         }
-        .banners-dots .dot {
+        .banners-controls .banners-dots .dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
@@ -968,7 +1025,7 @@
             transition: var(--transition);
             padding: 0;
         }
-        .banners-dots .dot.active {
+        .banners-controls .banners-dots .dot.active {
             background: var(--primary);
             width: 28px;
             border-radius: 5px;
@@ -1030,7 +1087,7 @@
         }
 
         /* ============================================================
-           PRODUCTOS - PRIORIDAD BAJA (LAZY LOADING)
+           PRODUCTOS - CON ZOOM INTERACTIVO
            ============================================================ */
         .products {
             padding: 80px 0;
@@ -1095,21 +1152,75 @@
             display: none;
         }
 
+        /* Contenedor de imagen con zoom */
         .product-image {
             position: relative;
             height: 220px;
             overflow: hidden;
             background: var(--gray-100);
-            cursor: pointer;
+            cursor: crosshair;
         }
         .product-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: var(--transition);
-            /* PRODUCTOS: LAZY LOADING */
             loading: lazy;
         }
+
+        /* Contenedor de zoom (lupa) */
+        .product-image .zoom-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .product-image .zoom-container.active {
+            opacity: 1;
+        }
+
+        .product-image .zoom-container .zoom-lens {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(2px);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            display: none;
+        }
+
+        .product-image .zoom-container .zoom-lens.active {
+            display: block;
+        }
+
+        .product-image .zoom-container .zoom-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300%;
+            height: 300%;
+            background-size: cover;
+            background-position: center;
+            pointer-events: none;
+            transform: scale(1);
+            transition: none;
+        }
+
+        .product-image .zoom-container .zoom-image.visible {
+            display: block;
+        }
+
         .product-card:hover .product-image img {
             transform: scale(1.05);
         }
@@ -1124,7 +1235,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            z-index: 2;
+            z-index: 4;
             display: inline-block;
             width: auto;
             max-width: fit-content;
@@ -1143,7 +1254,10 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            z-index: 2;
+            z-index: 4;
+            width: auto !important;
+            max-width: fit-content !important;
+            display: inline-block !important;
         }
         .product-stock.in-stock {
             background: rgba(34,197,94,0.15);
@@ -1350,11 +1464,12 @@
             margin-bottom: 4px;
         }
 
+        /* DESCRIPCIÓN CON MÁS ESPACIO Y SEPARACIÓN */
         .modal-info .description {
             color: var(--gray-600);
             font-size: 1rem;
-            line-height: 2;
-            padding: 28px 28px;
+            line-height: 2.2;
+            padding: 32px 32px;
             max-height: 400px;
             overflow-y: auto;
             border-top: 1px solid var(--gray-100);
@@ -1364,10 +1479,15 @@
             border-radius: 12px;
             text-align: left;
             width: 100%;
+            letter-spacing: 0.02em;
         }
 
         .modal-info .description p {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .modal-info .description p:last-child {
+            margin-bottom: 0;
         }
 
         .modal-info .specs-grid {
@@ -1432,12 +1552,18 @@
             margin-left: 12px;
         }
 
+        /* BADGE STOCK - TAMAÑO JUSTO SIN ESTIRARSE */
         .modal-info .stock-status {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             font-size: 0.9rem;
             font-weight: 500;
+            width: auto !important;
+            max-width: fit-content !important;
+            padding: 4px 14px;
+            border-radius: 50px;
+            background: var(--gray-100);
         }
         .modal-info .stock-status .dot {
             display: inline-block;
@@ -2253,9 +2379,9 @@
             }
             .modal-info .description {
                 font-size: 0.95rem;
-                padding: 24px 24px;
+                padding: 28px 28px;
                 max-height: 320px;
-                line-height: 1.9;
+                line-height: 2.2;
             }
             .banner-slide {
                 grid-template-columns: 1fr;
@@ -2264,6 +2390,7 @@
             }
             .banner-slide .banner-text p { margin: 16px auto 24px; }
             .banner-slide .banner-text .badge-banner { margin: 0 auto 12px; }
+            .banner-slide .banner-image img { max-height: 300px; }
             .cart-item {
                 grid-template-columns: 50px 1fr auto;
                 gap: 10px;
@@ -2278,6 +2405,9 @@
                 width: 40px;
                 height: 40px;
                 font-size: 1rem;
+            }
+            .banner-slide-wrapper {
+                padding: 50px 0;
             }
         }
 
@@ -2353,13 +2483,13 @@
             }
             .modal-info .description {
                 font-size: 0.95rem;
-                padding: 20px 20px;
+                padding: 24px 24px;
                 max-height: 300px;
-                line-height: 1.9;
+                line-height: 2.2;
                 margin: 10px 0;
             }
             .modal-info .description p {
-                margin-bottom: 12px;
+                margin-bottom: 16px;
             }
             .modal-info .specs-grid {
                 grid-template-columns: 1fr;
@@ -2386,11 +2516,58 @@
                 margin-bottom: 12px;
             }
             .hero-indicators { bottom: 60px; }
-            .banner-slide {
-                padding: 40px 0;
+            
+            /* BANNERS: CONTROLES ENTRE TEXTO E IMAGEN EN MÓVILES */
+            .banner-slide-wrapper {
+                padding: 30px 0 0;
+                display: flex;
+                flex-direction: column;
             }
-            .banner-slide .banner-image img { max-height: 250px; }
-            .banners-controls { padding: 15px 0 25px; }
+            
+            .banner-slide .banner-text {
+                order: 1;
+                padding: 0 10px;
+            }
+            
+            .banner-controls-wrapper {
+                order: 2;
+                padding: 16px 0;
+                background: transparent;
+                position: relative;
+                z-index: 2;
+            }
+            
+            .banner-controls-wrapper .btn-banner {
+                width: 38px;
+                height: 38px;
+                font-size: 0.85rem;
+                background: rgba(255,255,255,0.1);
+                border-color: rgba(255,255,255,0.2);
+            }
+            
+            .banner-controls-wrapper .banners-dots .dot {
+                width: 8px;
+                height: 8px;
+            }
+            
+            .banner-controls-wrapper .banners-dots .dot.active {
+                width: 24px;
+            }
+            
+            .banner-slide .banner-image {
+                order: 3;
+                padding: 0 10px 20px;
+            }
+            
+            .banner-slide .banner-image img {
+                max-height: 250px;
+                border-radius: var(--radius);
+            }
+            
+            .banners-controls {
+                display: none !important;
+            }
+            
             .float-buttons {
                 bottom: 20px;
                 right: 20px;
@@ -2439,6 +2616,11 @@
                 height: 36px;
                 font-size: 0.9rem;
             }
+            /* Zoom en móviles - tamaño más pequeño */
+            .product-image .zoom-container .zoom-lens {
+                width: 80px;
+                height: 80px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -2464,13 +2646,13 @@
             }
             .modal-info .description {
                 font-size: 0.9rem;
-                padding: 18px 18px;
+                padding: 20px 20px;
                 max-height: 260px;
-                line-height: 1.8;
+                line-height: 2.2;
                 margin: 8px 0;
             }
             .modal-info .description p {
-                margin-bottom: 10px;
+                margin-bottom: 14px;
             }
             .modal-info h2 {
                 font-size: 1.3rem;
@@ -2503,6 +2685,21 @@
                 width: 34px;
                 height: 34px;
                 font-size: 0.8rem;
+            }
+            .banner-slide-wrapper {
+                padding: 20px 0 0;
+            }
+            .banner-controls-wrapper {
+                padding: 12px 0;
+            }
+            .banner-controls-wrapper .btn-banner {
+                width: 34px;
+                height: 34px;
+                font-size: 0.8rem;
+            }
+            .product-image .zoom-container .zoom-lens {
+                width: 60px;
+                height: 60px;
             }
         }
     </style>
@@ -2551,9 +2748,9 @@
     <!-- ========== HERO - PRIORIDAD MÁXIMA ========== -->
     <section class="hero" id="hero">
         <div class="hero-slides" id="heroSlides">
-            <!-- PRIMERA IMAGEN HARCODEADA (carga instantánea) -->
+            <!-- PRIMERA IMAGEN HARCODEADA (carga instantánea) - NUEVA URL -->
             <div class="hero-slide active">
-                <img src="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784346479068_uo2k0l.jpg" 
+                <img src="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg" 
                      alt="OliviaBike - Ciclismo Premium" 
                      fetchpriority="high" 
                      loading="eager"
@@ -2582,50 +2779,67 @@
         <div class="hero-scroll"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- ========== BANNERS - PRIORIDAD ALTA ========== -->
+    <!-- ========== BANNERS - CON CONTROLES INTERMEDIOS Y SWIPE ========== -->
     <section class="banners-carousel" id="banners">
         <div class="container">
             <div class="banners-track" id="bannersTrack">
-                <!-- Banner 1 - PRIORIDAD ALTA -->
-                <div class="banner-slide" data-index="0">
-                    <div class="banner-text">
-                        <span class="badge-banner">🔥 Oferta especial</span>
-                        <h2>Bicicletas de <span>montaña</span> con 30% OFF</h2>
-                        <p>Equipate con las mejores bicicletas para terrenos exigentes.</p>
-                        <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red">
-                            <i class="fab fa-whatsapp"></i> Aprovechar oferta
-                        </a>
+                <!-- Banner 1 -->
+                <div class="banner-slide-wrapper" data-index="0">
+                    <div class="banner-slide">
+                        <div class="banner-text">
+                            <span class="badge-banner">🔥 Oferta especial</span>
+                            <h2>Bicicletas de <span>montaña</span> con 30% OFF</h2>
+                            <p>Equipate con las mejores bicicletas para terrenos exigentes.</p>
+                            <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red">
+                                <i class="fab fa-whatsapp"></i> Aprovechar oferta
+                            </a>
+                        </div>
+                        <div class="banner-image">
+                            <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=1200&q=80&auto=format&fit=crop" 
+                                 alt="Bicicleta de montaña" 
+                                 fetchpriority="high" 
+                                 loading="eager"
+                                 width="600" 
+                                 height="350">
+                        </div>
                     </div>
-                    <div class="banner-image">
-                        <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=1200&q=80&auto=format&fit=crop" 
-                             alt="Bicicleta de montaña" 
-                             fetchpriority="high" 
-                             loading="eager"
-                             width="600" 
-                             height="350">
+                    <!-- CONTROLES DENTRO DEL SLIDE (para móviles) -->
+                    <div class="banner-controls-wrapper">
+                        <button class="btn-banner" onclick="previousBanner()"><i class="fas fa-chevron-left"></i></button>
+                        <div class="banners-dots" id="bannersDotsInner0"></div>
+                        <button class="btn-banner" onclick="nextBanner()"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
-                <!-- Banner 2 - PRIORIDAD ALTA -->
-                <div class="banner-slide" data-index="1">
-                    <div class="banner-text">
-                        <span class="badge-banner">🚴 Rodá con estilo</span>
-                        <h2>Indumentaria <span>Premium</span> para ciclistas</h2>
-                        <p>Ropa técnica de alta calidad para tus rutas más exigentes.</p>
-                        <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red">
-                            <i class="fab fa-whatsapp"></i> Ver colección
-                        </a>
+                
+                <!-- Banner 2 -->
+                <div class="banner-slide-wrapper" data-index="1">
+                    <div class="banner-slide">
+                        <div class="banner-text">
+                            <span class="badge-banner">🚴 Rodá con estilo</span>
+                            <h2>Indumentaria <span>Premium</span> para ciclistas</h2>
+                            <p>Ropa técnica de alta calidad para tus rutas más exigentes.</p>
+                            <a href="https://wa.me/54911338461348" target="_blank" class="btn btn-red">
+                                <i class="fab fa-whatsapp"></i> Ver colección
+                            </a>
+                        </div>
+                        <div class="banner-image">
+                            <img src="https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1200&q=80&auto=format&fit=crop" 
+                                 alt="Ciclista con indumentaria" 
+                                 fetchpriority="high" 
+                                 loading="eager"
+                                 width="600" 
+                                 height="350">
+                        </div>
                     </div>
-                    <div class="banner-image">
-                        <img src="https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1200&q=80&auto=format&fit=crop" 
-                             alt="Ciclista con indumentaria" 
-                             fetchpriority="high" 
-                             loading="eager"
-                             width="600" 
-                             height="350">
+                    <div class="banner-controls-wrapper">
+                        <button class="btn-banner" onclick="previousBanner()"><i class="fas fa-chevron-left"></i></button>
+                        <div class="banners-dots" id="bannersDotsInner1"></div>
+                        <button class="btn-banner" onclick="nextBanner()"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- CONTROLES INFERIORES (se ocultan en móviles) -->
         <div class="banners-controls">
             <button class="btn-banner" id="bannerPrev"><i class="fas fa-chevron-left"></i></button>
             <div class="banners-dots" id="bannersDots"></div>
@@ -2648,7 +2862,7 @@
         </div>
     </section>
 
-    <!-- ========== PRODUCTOS - PRIORIDAD BAJA ========== -->
+    <!-- ========== PRODUCTOS ========== -->
     <section class="products" id="products">
         <div class="container">
             <div class="section-header center fade-in">
@@ -2733,7 +2947,7 @@
         <div id="toastMessage">El producto se añadió al carrito</div>
     </div>
 
-    <!-- ========== GALERÍA - PRIORIDAD BAJA ========== -->
+    <!-- ========== GALERÍA ========== -->
     <section class="gallery" id="gallery">
         <div class="container">
             <div class="section-header center fade-in">
@@ -3157,7 +3371,7 @@
                 renderCategories();
                 renderProducts();
                 renderHeroCarousel();
-                renderBannersCarousel();
+                initBannersCarousel();
                 renderGallery();
                 renderTestimonials();
                 renderFaqs();
@@ -3318,7 +3532,105 @@
         }
 
         // =====================================================
-        // RENDERIZAR PRODUCTOS - CON LAZY LOADING
+        // ZOOM INTERACTIVO EN IMÁGENES DE PRODUCTOS
+        // =====================================================
+        function setupProductZoom() {
+            document.querySelectorAll('.product-image').forEach(container => {
+                const img = container.querySelector('img');
+                if (!img) return;
+
+                // Crear contenedor de zoom
+                const zoomContainer = document.createElement('div');
+                zoomContainer.className = 'zoom-container';
+                
+                const zoomLens = document.createElement('div');
+                zoomLens.className = 'zoom-lens';
+                
+                const zoomImage = document.createElement('div');
+                zoomImage.className = 'zoom-image';
+                zoomImage.style.backgroundImage = `url(${img.src})`;
+                
+                zoomContainer.appendChild(zoomLens);
+                zoomContainer.appendChild(zoomImage);
+                container.appendChild(zoomContainer);
+
+                let isZoomActive = false;
+
+                function updateZoom(e) {
+                    const rect = container.getBoundingClientRect();
+                    const x = (e.clientX || e.touches?.[0]?.clientX || 0) - rect.left;
+                    const y = (e.clientY || e.touches?.[0]?.clientY || 0) - rect.top;
+                    
+                    const percentX = Math.max(0, Math.min(1, x / rect.width));
+                    const percentY = Math.max(0, Math.min(1, y / rect.height));
+                    
+                    const lensSize = window.innerWidth < 768 ? 80 : 120;
+                    const lensHalf = lensSize / 2;
+                    
+                    zoomLens.style.left = `${x}px`;
+                    zoomLens.style.top = `${y}px`;
+                    zoomLens.style.width = `${lensSize}px`;
+                    zoomLens.style.height = `${lensSize}px`;
+                    
+                    zoomImage.style.backgroundPosition = `${percentX * 100}% ${percentY * 100}%`;
+                    zoomImage.style.width = `${rect.width * 3}px`;
+                    zoomImage.style.height = `${rect.height * 3}px`;
+                    
+                    zoomLens.classList.add('active');
+                    zoomContainer.classList.add('active');
+                    isZoomActive = true;
+                }
+
+                function hideZoom() {
+                    zoomLens.classList.remove('active');
+                    zoomContainer.classList.remove('active');
+                    isZoomActive = false;
+                }
+
+                // Eventos para desktop
+                container.addEventListener('mouseenter', () => {
+                    if (window.innerWidth > 768) {
+                        zoomContainer.classList.add('active');
+                    }
+                });
+
+                container.addEventListener('mousemove', (e) => {
+                    if (window.innerWidth > 768) {
+                        updateZoom(e);
+                    }
+                });
+
+                container.addEventListener('mouseleave', () => {
+                    if (window.innerWidth > 768) {
+                        hideZoom();
+                    }
+                });
+
+                // Eventos para móviles (touch)
+                container.addEventListener('touchstart', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        updateZoom(e);
+                    }
+                }, { passive: false });
+
+                container.addEventListener('touchmove', (e) => {
+                    if (window.innerWidth <= 768 && isZoomActive) {
+                        e.preventDefault();
+                        updateZoom(e);
+                    }
+                }, { passive: false });
+
+                container.addEventListener('touchend', () => {
+                    if (window.innerWidth <= 768) {
+                        hideZoom();
+                    }
+                });
+            });
+        }
+
+        // =====================================================
+        // RENDERIZAR PRODUCTOS - CON ZOOM
         // =====================================================
         function renderProducts() {
             const grid = document.getElementById('productsGrid');
@@ -3341,6 +3653,12 @@
                     </span>
                 ` : '';
 
+                const stockHtml = product.stock ? `
+                    <span class="product-stock ${product.stock === 'En stock' ? 'in-stock' : product.stock === 'Últimas unidades' ? 'low-stock' : 'out-of-stock'}">
+                        ${product.stock}
+                    </span>
+                ` : '';
+
                 return `
                     <div class="product-card" data-id="${product.id}" data-category="${product.category || 'Sin categoría'}">
                         <div class="product-image" onclick="openModal(${product.id})">
@@ -3348,6 +3666,7 @@
                                  loading="lazy" 
                                  onload="this.classList.add('loaded')">
                             ${badgeHtml}
+                            ${stockHtml}
                         </div>
                         <div class="product-body">
                             <h3 onclick="openModal(${product.id})">${product.name}</h3>
@@ -3374,11 +3693,13 @@
                 `;
             }).join('');
 
+            // Configurar zoom después de renderizar
+            setTimeout(setupProductZoom, 200);
             setTimeout(() => { applyOrder(); }, 100);
         }
 
         // =====================================================
-        // RENDERIZAR GALERÍA - CON LAZY LOADING
+        // RENDERIZAR GALERÍA
         // =====================================================
         function renderGallery() {
             const grid = document.getElementById('galleryGrid');
@@ -3470,13 +3791,11 @@
         });
 
         // =====================================================
-        // HERO CARRUSEL - HÍBRIDO
+        // HERO CARRUSEL
         // =====================================================
         function renderHeroCarousel() {
-            // Obtener imágenes de Supabase (todas excepto la primera)
             let heroImages = allHeroImages || [];
             
-            // Si no hay imágenes en Supabase, usar respaldo
             if (heroImages.length === 0) {
                 heroImages = [
                     'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1600&q=80',
@@ -3487,8 +3806,6 @@
             const container = document.getElementById('heroSlides');
             const indicators = document.getElementById('heroIndicators');
 
-            // La primera imagen ya está en el HTML (hardcodeada)
-            // Solo agregamos las imágenes adicionales
             heroImages.forEach((img, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'hero-slide';
@@ -3504,15 +3821,12 @@
                 container.appendChild(slide);
             });
 
-            // Total de slides: 1 (hardcodeada) + heroImages.length
             const totalSlides = 1 + heroImages.length;
 
-            // Crear indicadores para todas las imágenes
             indicators.innerHTML = Array.from({ length: totalSlides }, (_, i) => `
                 <button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Slide ${i + 1}"></button>
             `).join('');
 
-            // Eventos para los indicadores
             indicators.querySelectorAll('.dot').forEach(dot => {
                 dot.addEventListener('click', () => {
                     const index = parseInt(dot.dataset.index);
@@ -3521,7 +3835,6 @@
                 });
             });
 
-            // Iniciar autoplay
             currentHeroSlide = 0;
             startHeroAutoplay();
         }
@@ -3552,32 +3865,200 @@
         }
 
         // =====================================================
-        // BANNERS CARRUSEL
+        // BANNERS CARRUSEL - CON SWIPE Y CONTROLES INTERMEDIOS
         // =====================================================
-        function renderBannersCarousel() {
-            const banners = allBanners.length > 0 ? allBanners : [
-                {
-                    badge: '🔥 Oferta especial',
-                    title: 'Bicicletas de <span>montaña</span> con 30% OFF',
-                    description: 'Equipate con las mejores bicicletas para terrenos exigentes.',
-                    image: 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=1200&q=80&auto=format&fit=crop',
-                    cta_text: 'Aprovechar oferta',
-                    cta_link: `https://wa.me/${whatsappNumber}`
-                },
-                {
-                    badge: '🚴 Rodá con estilo',
-                    title: 'Indumentaria <span>Premium</span> para ciclistas',
-                    description: 'Ropa técnica de alta calidad para tus rutas más exigentes.',
-                    image: 'https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1200&q=80&auto=format&fit=crop',
-                    cta_text: 'Ver colección',
-                    cta_link: `https://wa.me/${whatsappNumber}`
-                }
-            ];
+        function initBannersCarousel() {
+            const track = document.getElementById('bannersTrack');
+            const slides = track.querySelectorAll('.banner-slide-wrapper');
+            const totalSlides = slides.length;
+            let currentSlide = 0;
+            let isAnimating = false;
+            
+            // Si no hay slides, salir
+            if (totalSlides === 0) return;
 
-            // Si hay banners de Supabase, usarlos (ya están en el HTML)
-            // Si no, los banners de respaldo ya están hardcodeados en el HTML
-            // Esta función solo se usa para sincronizar el estado del carrusel
-            // Los banners ya están en el HTML con fetchpriority="high" y loading="eager"
+            // Función para actualizar dots
+            function updateDots(index) {
+                // Dots externos
+                const outerDots = document.querySelectorAll('#bannersDots .dot');
+                outerDots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+                
+                // Dots internos de cada slide
+                slides.forEach((slide, i) => {
+                    const innerDots = slide.querySelectorAll('.banners-dots .dot');
+                    innerDots.forEach((dot, j) => {
+                        dot.classList.toggle('active', j === index);
+                    });
+                });
+            }
+
+            // Función para ir a un slide
+            window.goToBannerSlide = function(index) {
+                if (isAnimating) return;
+                if (index < 0) index = totalSlides - 1;
+                if (index >= totalSlides) index = 0;
+                
+                isAnimating = true;
+                track.style.transform = `translateX(-${index * 100}%)`;
+                currentSlide = index;
+                updateDots(index);
+                
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 600);
+            };
+
+            // Función para siguiente banner (global)
+            window.nextBanner = function() {
+                goToBannerSlide(currentSlide + 1);
+                resetBannerAutoplay();
+            };
+
+            window.previousBanner = function() {
+                goToBannerSlide(currentSlide - 1);
+                resetBannerAutoplay();
+            };
+
+            // Crear dots para cada slide interno
+            slides.forEach((slide, slideIndex) => {
+                const dotsContainer = slide.querySelector('.banners-dots');
+                if (dotsContainer) {
+                    dotsContainer.innerHTML = '';
+                    for (let i = 0; i < totalSlides; i++) {
+                        const dot = document.createElement('button');
+                        dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                        dot.onclick = () => {
+                            goToBannerSlide(i);
+                            resetBannerAutoplay();
+                        };
+                        dotsContainer.appendChild(dot);
+                    }
+                }
+            });
+
+            // Dots externos
+            const outerDotsContainer = document.getElementById('bannersDots');
+            if (outerDotsContainer) {
+                outerDotsContainer.innerHTML = '';
+                for (let i = 0; i < totalSlides; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                    dot.onclick = () => {
+                        goToBannerSlide(i);
+                        resetBannerAutoplay();
+                    };
+                    outerDotsContainer.appendChild(dot);
+                }
+            }
+
+            // Botones externos
+            document.getElementById('bannerPrev').onclick = () => {
+                goToBannerSlide(currentSlide - 1);
+                resetBannerAutoplay();
+            };
+            document.getElementById('bannerNext').onclick = () => {
+                goToBannerSlide(currentSlide + 1);
+                resetBannerAutoplay();
+            };
+
+            // ========== SWIPE / TOUCH PARA MÓVILES ==========
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let isSwiping = false;
+
+            track.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+                isSwiping = true;
+            }, { passive: true });
+
+            track.addEventListener('touchmove', function(e) {
+                if (!isSwiping) return;
+                const diff = touchStartX - e.changedTouches[0].screenX;
+                if (Math.abs(diff) > 20) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            track.addEventListener('touchend', function(e) {
+                if (!isSwiping) return;
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        goToBannerSlide(currentSlide + 1);
+                    } else {
+                        goToBannerSlide(currentSlide - 1);
+                    }
+                    resetBannerAutoplay();
+                }
+                isSwiping = false;
+            }, { passive: true });
+
+            // ========== DRAG PARA DESKTOP ==========
+            let isDragging = false;
+            let dragStartX = 0;
+            let dragCurrentX = 0;
+            let dragOffset = 0;
+
+            track.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                dragStartX = e.clientX;
+                track.style.transition = 'none';
+                dragOffset = currentSlide * 100;
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                dragCurrentX = e.clientX;
+                const diff = ((dragStartX - dragCurrentX) / track.offsetWidth) * 100;
+                const newOffset = dragOffset + diff;
+                track.style.transform = `translateX(-${newOffset}%)`;
+            });
+
+            document.addEventListener('mouseup', function(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                
+                const diff = ((dragStartX - dragCurrentX) / track.offsetWidth) * 100;
+                if (Math.abs(diff) > 10) {
+                    if (diff > 0) {
+                        goToBannerSlide(currentSlide + 1);
+                    } else {
+                        goToBannerSlide(currentSlide - 1);
+                    }
+                    resetBannerAutoplay();
+                } else {
+                    goToBannerSlide(currentSlide);
+                }
+            });
+
+            // ========== AUTOPLAY ==========
+            function startBannerAutoplay() {
+                clearInterval(bannerInterval);
+                bannerInterval = setInterval(() => {
+                    goToBannerSlide(currentSlide + 1);
+                }, 5000);
+            }
+
+            function resetBannerAutoplay() {
+                clearInterval(bannerInterval);
+                startBannerAutoplay();
+            }
+
+            // Pausar autoplay al pasar el mouse
+            const carousel = document.querySelector('.banners-carousel');
+            carousel.addEventListener('mouseenter', () => clearInterval(bannerInterval));
+            carousel.addEventListener('mouseleave', startBannerAutoplay);
+
+            // Inicializar
+            goToBannerSlide(0);
+            startBannerAutoplay();
+
+            console.log('✅ Banners carrusel inicializado con swipe y controles intermedios');
         }
 
         // =====================================================
@@ -4159,8 +4640,12 @@
         console.log('🚴 OliviaBike 24.7 - Optimizado');
         console.log('✅ Hero: prioridad máxima (preload + fetchpriority)');
         console.log('✅ Banners: prioridad alta (fetchpriority + eager)');
-        console.log('✅ Productos: lazy loading');
+        console.log('✅ Banners: controles entre texto e imagen en móviles');
+        console.log('✅ Banners: swipe táctil para pasar');
+        console.log('✅ Productos: lazy loading + zoom interactivo');
         console.log('✅ Galería: lazy loading');
+        console.log('✅ Badge stock: tamaño justo');
+        console.log('✅ Descripción producto: más espacio y separación');
     </script>
 </body>
 </html>
