@@ -3433,138 +3433,128 @@
             }
         }
 
-        // =====================================================
-        // RENDER BANNERS CARRUSEL - CORREGIDO
-        // =====================================================
-        function renderBannersCarousel() {
-            const track = document.getElementById('bannersTrack');
-            const dotsContainer = document.getElementById('bannersDots');
-            
-            // 1. GUARDAR EL BANNER HARDCODEADO
-            const firstBanner = track.querySelector('.banner-slide');
-            
-            // 2. LIMPIAR EL TRACK PERO CONSERVAR EL PRIMER BANNER
-            track.innerHTML = '';
-            if (firstBanner) {
-                track.appendChild(firstBanner);
-            }
-            
-            // 3. AGREGAR BANNERS DESDE SUPABASE (TODOS)
-            const hardcodedUrl = 'https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/ChatGPT%20Image%2018%20jul%202026,%2006_11_19%20a.m..png';
-            
-            // Limpiar dots (conservar el primero)
-            const firstDot = dotsContainer.querySelector('.dot');
-            dotsContainer.innerHTML = '';
-            if (firstDot) {
-                firstDot.classList.add('active');
-                dotsContainer.appendChild(firstDot);
-            }
-            
-            allBanners.forEach((banner, index) => {
-                // Si el banner ya está hardcodeado, lo saltamos
-                if (banner.image === hardcodedUrl) return;
-                
-                const slideIndex = index + 1;
-                const slide = document.createElement('div');
-                slide.className = 'banner-slide';
-                slide.dataset.index = slideIndex;
-                slide.innerHTML = `
-                    <div class="banner-text">
-                        <span class="badge-banner">${banner.badge || '🔥 Oferta'}</span>
-                        <h2>${banner.title}</h2>
-                        <p>${banner.description || ''}</p>
-                        <a href="${banner.cta_link || `https://wa.me/${whatsappNumber}`}" target="_blank" class="btn btn-red">
-                            <i class="fab fa-whatsapp"></i> ${banner.cta_text || 'Consultar'}
-                        </a>
-                    </div>
-                    <div class="banner-image">
-                        <img 
-                            src="${banner.image}?w=1200&q=80&auto=format" 
-                            alt="${banner.title}" 
-                            fetchpriority="high"
-                            onload="this.classList.add('loaded')"
-                            onerror="console.error('Error cargando banner:', this.src);"
-                            class="lazy-image">
-                    </div>
-                `;
-                track.appendChild(slide);
-                
-                // Agregar dot
-                const dot = document.createElement('button');
-                dot.className = 'dot';
-                dot.dataset.index = slideIndex;
-                dot.addEventListener('click', () => {
-                    goToBannerSlide(slideIndex);
-                    resetBannerAutoplay();
-                });
-                dotsContainer.appendChild(dot);
-            });
-            
-            // 4. CONTAR SLIDES TOTALES
-            const totalSlides = track.querySelectorAll('.banner-slide').length;
-            console.log(`📸 Banners totales: ${totalSlides}`);
-            
-            // 5. ESPERAR A QUE CARGUEN LAS IMÁGENES
-            const allImages = track.querySelectorAll('.banner-slide img');
-            let loadedCount = 0;
-            
-            if (allImages.length === 0) {
-                console.warn('⚠️ No hay imágenes de banner para cargar');
-                return;
-            }
-            
-            allImages.forEach(img => {
-                if (img.complete && img.naturalHeight !== 0) {
-                    loadedCount++;
-                    img.classList.add('loaded');
-                } else {
-                    img.addEventListener('load', () => {
-                        loadedCount++;
-                        img.classList.add('loaded');
-                        console.log(`✅ Banner cargado: ${loadedCount}/${allImages.length}`);
-                        if (loadedCount === allImages.length) {
-                            console.log('🎯 Todos los banners cargados, iniciando carrusel');
-                            startBannerAutoplay();
-                        }
-                    });
-                    img.addEventListener('error', () => {
-                        loadedCount++;
-                        console.error(`❌ Error en banner: ${img.src}`);
-                        if (loadedCount === allImages.length) {
-                            console.log('⚠️ Algunos banners fallaron, pero iniciando carrusel igual');
-                            startBannerAutoplay();
-                        }
-                    });
+function renderBannersCarousel() {
+    const track = document.getElementById('bannersTrack');
+    const dotsContainer = document.getElementById('bannersDots');
+
+    console.log('🔄 Renderizando banners...');
+    console.log('📸 Banners desde Supabase:', allBanners.length);
+
+    const hardcodedUrl = 'https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/ChatGPT%20Image%2018%20jul%202026,%2006_11_19%20a.m..png';
+
+    // Filtramos los banners de Supabase, excluyendo el que ya está hardcodeado
+    const extraBanners = (allBanners || []).filter(b => b.image !== hardcodedUrl);
+
+    // Reconstruimos SOLO los dots (no tocamos el track / slide hardcodeado)
+    dotsContainer.innerHTML = '';
+    const firstDot = document.createElement('button');
+    firstDot.className = 'dot active';
+    firstDot.dataset.index = 0;
+    firstDot.addEventListener('click', () => {
+        goToBannerSlide(0);
+        resetBannerAutoplay();
+    });
+    dotsContainer.appendChild(firstDot);
+
+    // Por si esta función se llama más de una vez, sacamos slides dinámicos previos
+    // (dejamos SOLO el que tiene data-index="0", que es el hardcodeado del HTML)
+    track.querySelectorAll('.banner-slide[data-index]:not([data-index="0"])').forEach(el => el.remove());
+
+    // Agregamos los banners nuevos DESPUÉS del hardcodeado
+    extraBanners.forEach((banner, index) => {
+        const slideIndex = index + 1;
+        console.log(`📦 Agregando banner ${slideIndex}: ${banner.title}`);
+
+        const slide = document.createElement('div');
+        slide.className = 'banner-slide';
+        slide.dataset.index = slideIndex;
+        slide.innerHTML = `
+            <div class="banner-text">
+                <span class="badge-banner">${banner.badge || '🔥 Oferta'}</span>
+                <h2>${banner.title}</h2>
+                <p>${banner.description || ''}</p>
+                <a href="${banner.cta_link || `https://wa.me/${whatsappNumber}`}" target="_blank" class="btn btn-red">
+                    <i class="fab fa-whatsapp"></i> ${banner.cta_text || 'Consultar'}
+                </a>
+            </div>
+            <div class="banner-image">
+                <img 
+                    src="${banner.image}?w=1200&q=80&auto=format" 
+                    alt="${banner.title}" 
+                    loading="lazy"
+                    onload="this.classList.add('loaded')"
+                    onerror="console.error('❌ Error cargando banner:', this.src);"
+                    class="lazy-image">
+            </div>
+        `;
+        track.appendChild(slide);
+
+        const dot = document.createElement('button');
+        dot.className = 'dot';
+        dot.dataset.index = slideIndex;
+        dot.addEventListener('click', () => {
+            goToBannerSlide(slideIndex);
+            resetBannerAutoplay();
+        });
+        dotsContainer.appendChild(dot);
+    });
+
+    const totalSlides = track.querySelectorAll('.banner-slide').length;
+    console.log(`📸 Banners totales en el carrusel: ${totalSlides}`);
+
+    if (extraBanners.length === 0) {
+        console.warn('⚠️ No hay banners adicionales en Supabase, el carrusel se queda quieto en el hardcodeado');
+        return;
+    }
+
+    // El carrusel arranca (autoplay) recién cuando los banners de Supabase ya cargaron sus imágenes
+    const newImages = track.querySelectorAll('.banner-slide[data-index]:not([data-index="0"]) img');
+    let loadedCount = 0;
+
+    newImages.forEach(img => {
+        if (img.complete && img.naturalHeight !== 0) {
+            loadedCount++;
+            img.classList.add('loaded');
+        } else {
+            img.addEventListener('load', () => {
+                loadedCount++;
+                img.classList.add('loaded');
+                console.log(`✅ Banner cargado: ${loadedCount}/${newImages.length}`);
+                if (loadedCount === newImages.length) {
+                    console.log('🎯 Todos los banners nuevos cargados, arrancando carrusel');
+                    startBannerAutoplay();
                 }
             });
-            
-            // Si ya están todas cargadas, iniciar inmediatamente
-            if (loadedCount === allImages.length && loadedCount > 0) {
-                console.log('🎯 Todos los banners ya estaban cargados');
-                startBannerAutoplay();
-            }
-
-            // Configurar controles
-            const prevBtn = document.getElementById('bannerPrev');
-            const nextBtn = document.getElementById('bannerNext');
-            
-            // Remover event listeners antiguos
-            const newPrevBtn = prevBtn.cloneNode(true);
-            const newNextBtn = nextBtn.cloneNode(true);
-            prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
-            nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
-
-            newPrevBtn.addEventListener('click', () => {
-                goToBannerSlide(currentBannerSlide - 1);
-                resetBannerAutoplay();
-            });
-
-            newNextBtn.addEventListener('click', () => {
-                goToBannerSlide(currentBannerSlide + 1);
-                resetBannerAutoplay();
+            img.addEventListener('error', () => {
+                loadedCount++;
+                console.error(`❌ Error en banner: ${img.src}`);
+                if (loadedCount === newImages.length) startBannerAutoplay();
             });
         }
+    });
 
+    if (loadedCount === newImages.length) {
+        console.log('🎯 Los banners nuevos ya estaban cargados (caché)');
+        startBannerAutoplay();
+    }
+
+    // Configurar controles (evitando listeners duplicados si se llama de nuevo)
+    const prevBtn = document.getElementById('bannerPrev');
+    const nextBtn = document.getElementById('bannerNext');
+    const newPrevBtn = prevBtn.cloneNode(true);
+    const newNextBtn = nextBtn.cloneNode(true);
+    prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+    nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+
+    newPrevBtn.addEventListener('click', () => {
+        goToBannerSlide(currentBannerSlide - 1);
+        resetBannerAutoplay();
+    });
+    newNextBtn.addEventListener('click', () => {
+        goToBannerSlide(currentBannerSlide + 1);
+        resetBannerAutoplay();
+    });
+}
         // =====================================================
         // HERO CONTROLS
         // =====================================================
