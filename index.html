@@ -42,6 +42,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
+    <!-- ========== PRELOAD - IMAGEN DEL HERO ========== -->
+    <link rel="preload" as="image" href="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784346479068_uo2k0l.jpg" fetchpriority="high">
+    
     <!-- Preconnect para fuentes y CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -713,7 +716,7 @@
         }
 
         /* ============================================================
-           HERO - CON IMAGEN HARCODEADA
+           HERO - CON IMAGEN NATIVA <img> (OPTIMIZADO)
            ============================================================ */
         .hero {
             min-height: 100vh;
@@ -733,6 +736,13 @@
         .hero-slide {
             position: absolute;
             inset: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .hero-slide.active {
             opacity: 1;
             z-index: 1;
         }
@@ -741,13 +751,16 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
+        /* Gradiente overlay sobre la imagen */
         .hero-slide::after {
             content: '';
             position: absolute;
             inset: 0;
             background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
+            z-index: 1;
         }
 
         .hero .container {
@@ -2500,9 +2513,19 @@
         </div>
     </header>
 
-    <!-- ========== HERO CON CARRUSEL (HARCODEADO) ========== -->
+    <!-- ========== HERO CON IMAGEN NATIVA <img> (OPTIMIZADO) ========== -->
     <section class="hero" id="hero">
-        <div class="hero-slides" id="heroSlides"></div>
+        <div class="hero-slides" id="heroSlides">
+            <div class="hero-slide active">
+                <img src="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784346479068_uo2k0l.jpg" 
+                     alt="OliviaBike - Ciclismo Premium" 
+                     fetchpriority="high" 
+                     loading="eager"
+                     width="1920" 
+                     height="1080" 
+                     decoding="async">
+            </div>
+        </div>
 
         <div class="container">
             <div class="hero-content fade-in visible">
@@ -3031,10 +3054,6 @@
                 const { data: badges } = await supabaseClient.from('badges').select('*');
                 allBadges = badges || [];
 
-                // Cargar imágenes hero - NO SE USA MÁS
-                // const { data: heroImages } = await supabaseClient.from('images').select('*').eq('type', 'hero').order('sort_order');
-                // allHeroImages = heroImages?.map(i => i.url) || [];
-
                 // Cargar galería
                 const { data: gallery } = await supabaseClient.from('gallery').select('*').order('sort_order');
                 allGallery = gallery || [];
@@ -3059,7 +3078,7 @@
 
                 renderCategories();
                 renderProducts();
-                renderHeroCarousel(); // Ahora usa imagen hardcodeada
+                // El hero ya está en el HTML, no necesita renderHeroCarousel()
                 renderBannersCarousel();
                 renderGallery();
                 renderTestimonials();
@@ -3372,30 +3391,6 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeGalleryModal();
         });
-
-        // =====================================================
-        // HERO CARRUSEL - CON IMAGEN HARCODEADA
-        // =====================================================
-        function renderHeroCarousel() {
-            // IMAGEN HARCODEADA (subida desde el admin)
-            const heroImage = 'https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784346479068_uo2k0l.jpg';
-            
-            // Usamos UNA sola imagen (la hardcodeada)
-            const images = [heroImage];
-
-            const container = document.getElementById('heroSlides');
-            const indicators = document.getElementById('heroIndicators');
-
-            container.innerHTML = images.map((img, i) => `
-                <div class="hero-slide ${i === 0 ? 'active' : ''}">
-                    <img src="${img}" alt="OliviaBike - Ciclismo Premium" class="lazy-image" loading="eager" fetchpriority="high" onload="this.classList.add('loaded')">
-                </div>
-            `).join('');
-
-            // Ocultar indicadores (solo una imagen)
-            indicators.innerHTML = '';
-            indicators.style.display = 'none';
-        }
 
         // =====================================================
         // BANNERS CARRUSEL CON SWIPE
@@ -4167,11 +4162,10 @@
 
         console.log('🚴 OliviaBike 24.7 - Frontend con Paleta Roja');
         console.log('🔴 Color principal: ROJO (#E63946)');
-        console.log('✅ Hero con imagen hardcodeada (carga instantánea)');
+        console.log('✅ Hero con imagen nativa <img> - Carga prioritaria');
+        console.log('✅ Preload en el head para LCP optimizado');
         console.log('✅ Galería con lazy loading desde Supabase');
         console.log('✅ Modal de productos con descripción mejorada (más espacio)');
-        console.log('✅ Las imágenes muestran título y descripción al hacer hover');
-        console.log('✅ Al hacer click se abre modal con imagen grande + toda la info');
         console.log('📸 Galería completamente funcional');
     </script>
 </body>
