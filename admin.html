@@ -583,6 +583,7 @@
             position: relative;
             overflow: hidden;
             display: inline-block;
+            width: 100%;
         }
         .form-group .file-input-wrapper input[type="file"] {
             position: absolute;
@@ -595,7 +596,7 @@
         }
         .form-group .file-input-wrapper .file-label {
             display: inline-block;
-            padding: 8px 20px;
+            padding: 10px 20px;
             background: var(--gray-100);
             border: 2px dashed var(--gray-300);
             border-radius: 10px;
@@ -603,6 +604,8 @@
             transition: var(--transition);
             font-size: 0.85rem;
             color: var(--gray-500);
+            width: 100%;
+            text-align: center;
         }
         .form-group .file-input-wrapper .file-label:hover {
             border-color: var(--primary);
@@ -955,34 +958,49 @@
 
             <!-- ===== PANEL IMÁGENES ===== -->
             <div class="panel" id="panel-imagenes">
+                <!-- HERO -->
                 <div class="table-container">
-                    <h3 style="margin-bottom:16px;">🖼️ Hero - Carrusel Principal</h3>
+                    <div class="table-header">
+                        <h3><i class="fas fa-images"></i> 🖼️ Hero - Carrusel Principal</h3>
+                        <button class="btn btn-primary btn-sm" onclick="addHeroImage()">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
+                    </div>
                     <div id="heroImagesManager">
                         <p style="color:var(--gray-400);">No hay imágenes en el hero</p>
                     </div>
-                    <button class="btn btn-primary btn-sm" onclick="addHeroImage()">
-                        <i class="fas fa-plus"></i> Agregar imagen al hero
-                    </button>
+                    <p style="font-size:0.8rem;color:var(--gray-400);margin-top:12px;">
+                        <i class="fas fa-info-circle"></i> Las imágenes se comprimen automáticamente al subirlas
+                    </p>
                 </div>
 
+                <!-- BANNERS -->
                 <div class="table-container">
-                    <h3 style="margin-bottom:16px;">📢 Banners Rotativos</h3>
+                    <div class="table-header">
+                        <h3><i class="fas fa-ad"></i> 📢 Banners Rotativos</h3>
+                        <button class="btn btn-primary btn-sm" onclick="openBannerForm()">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
+                    </div>
                     <div id="bannersManager">
                         <p style="color:var(--gray-400);">No hay banners</p>
                     </div>
-                    <button class="btn btn-primary btn-sm" onclick="openBannerForm()">
-                        <i class="fas fa-plus"></i> Agregar banner
-                    </button>
                 </div>
 
+                <!-- GALERÍA -->
                 <div class="table-container">
-                    <h3 style="margin-bottom:16px;">🖼️ Galería</h3>
+                    <div class="table-header">
+                        <h3><i class="fas fa-images"></i> 🖼️ Galería</h3>
+                        <button class="btn btn-primary btn-sm" onclick="openGalleryForm()">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
+                    </div>
                     <div id="galleryManager">
                         <p style="color:var(--gray-400);">No hay imágenes en la galería</p>
                     </div>
-                    <button class="btn btn-primary btn-sm" onclick="addGalleryImage()">
-                        <i class="fas fa-plus"></i> Agregar imagen a galería
-                    </button>
+                    <p style="font-size:0.8rem;color:var(--gray-400);margin-top:12px;">
+                        <i class="fas fa-info-circle"></i> Las imágenes se comprimen automáticamente al subirlas
+                    </p>
                 </div>
             </div>
 
@@ -1148,6 +1166,12 @@
         let data = {};
 
         // =====================================================
+        // CONFIGURACIÓN DE STORAGE
+        // =====================================================
+        const STORAGE_BUCKET = 'gallery';
+        const STORAGE_URL = `${SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/`;
+
+        // =====================================================
         // INICIALIZAR SUPABASE
         // =====================================================
         function initSupabase() {
@@ -1247,6 +1271,86 @@
         });
 
         // =====================================================
+        // COMPRIMIR IMAGEN
+        // =====================================================
+        function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = function() {
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        if (width > maxWidth) {
+                            height = height * (maxWidth / width);
+                            width = maxWidth;
+                        }
+                        if (height > maxHeight) {
+                            width = width * (maxHeight / height);
+                            height = maxHeight;
+                        }
+                        
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        canvas.toBlob(function(blob) {
+                            resolve(blob);
+                        }, 'image/jpeg', quality);
+                    };
+                    img.onerror = reject;
+                };
+                reader.onerror = reject;
+            });
+        }
+
+        // =====================================================
+        // SUBIR IMAGEN A SUPABASE STORAGE
+        // =====================================================
+        async function uploadImageToStorage(file, fileName = null) {
+            try {
+                const compressedBlob = await compressImage(file, 1200, 1200, 0.8);
+                const ext = file.name.split('.').pop();
+                const finalFileName = fileName || `${Date.now()}_${Math.random().toString(36).substr(2, 6)}.jpg`;
+                
+                const { data: uploadData, error } = await supabaseClient.storage
+                    .from(STORAGE_BUCKET)
+                    .upload(finalFileName, compressedBlob, {
+                        contentType: 'image/jpeg',
+                        cacheControl: '3600'
+                    });
+                
+                if (error) throw error;
+                return `${STORAGE_URL}${finalFileName}`;
+            } catch (err) {
+                console.error('Error uploading image:', err);
+                throw err;
+            }
+        }
+
+        // =====================================================
+        // ELIMINAR IMAGEN DE SUPABASE STORAGE
+        // =====================================================
+        async function deleteImageFromStorage(imageUrl) {
+            try {
+                const fileName = imageUrl.split('/').pop();
+                if (!fileName) return;
+                const { error } = await supabaseClient.storage
+                    .from(STORAGE_BUCKET)
+                    .remove([fileName]);
+                if (error) throw error;
+                console.log('✅ Imagen eliminada de Storage:', fileName);
+            } catch (err) {
+                console.error('Error deleting image from storage:', err);
+            }
+        }
+
+        // =====================================================
         // CARGAR TODOS LOS DATOS
         // =====================================================
         async function loadAllData() {
@@ -1266,8 +1370,11 @@
                 const { data: heroImages } = await supabaseClient.from('images').select('*').eq('type', 'hero');
                 data.heroImages = heroImages?.map(i => i.url) || [];
 
-                const { data: gallery } = await supabaseClient.from('images').select('*').eq('type', 'gallery');
-                data.gallery = gallery?.map(i => i.url) || [];
+                // =====================================================
+                // GALERÍA - CARGAR DESDE TABLA "gallery"
+                // =====================================================
+                const { data: gallery } = await supabaseClient.from('gallery').select('*').order('sort_order');
+                data.galleryItems = gallery || [];
 
                 const { data: banners } = await supabaseClient.from('banners').select('*');
                 data.banners = banners || [];
@@ -1310,7 +1417,7 @@
                     'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1600&q=80'
                 ],
                 banners: [],
-                gallery: [],
+                galleryItems: [],
                 testimonials: [],
                 faqs: [],
                 benefits: [],
@@ -1400,7 +1507,7 @@
             const activeOffers = data.schedules.filter(s => s.estado === 'activo').length;
             document.getElementById('activeOffers').textContent = activeOffers;
             
-            const totalImages = (data.heroImages?.length || 0) + (data.banners?.length || 0) + (data.gallery?.length || 0);
+            const totalImages = (data.heroImages?.length || 0) + (data.banners?.length || 0) + (data.galleryItems?.length || 0);
             document.getElementById('totalImages').textContent = totalImages;
 
             const offersHtml = data.schedules
@@ -1630,7 +1737,7 @@
         }
 
         // ============================================================
-        // GUARDAR PRODUCTO - CORREGIDO (SIN oldPriceFormatted)
+        // GUARDAR PRODUCTO
         // ============================================================
         async function saveProduct(productId) {
             const name = document.getElementById('f_product_name').value.trim();
@@ -1644,7 +1751,6 @@
             const whatsapp_msg = document.getElementById('f_product_whatsapp').value.trim() || name;
             const colors = document.getElementById('f_product_colors').value.split(',').map(c => c.trim()).filter(c => c);
 
-            // Recoger campos dinámicos
             const custom_fields = {};
             document.querySelectorAll('[id^="field_"]').forEach(el => {
                 const key = el.id.replace('field_', '');
@@ -1659,9 +1765,6 @@
             const category = data.categories.find(c => c.id === category_id);
             const categoryName = category ? category.name : 'Sin categoría';
 
-            // ============================================================
-            // DATOS CORREGIDOS - SOLO columnas que existen en tu schema
-            // ============================================================
             const productData = {
                 id: productId || Date.now(),
                 name,
@@ -1679,8 +1782,6 @@
                 custom_fields: custom_fields,
                 updated_at: new Date().toISOString()
             };
-
-            // ❌ ELIMINADO: priceFormatted y oldPriceFormatted (NO existen en la tabla)
 
             try {
                 if (productId) {
@@ -2364,7 +2465,7 @@
         }
 
         // =====================================================
-        // IMÁGENES
+        // HERO - IMÁGENES
         // =====================================================
         function renderHeroImages() {
             const container = document.getElementById('heroImagesManager');
@@ -2376,11 +2477,19 @@
             container.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;">
                     ${data.heroImages.map((img, i) => `
-                        <div style="position:relative;border-radius:10px;overflow:hidden;border:2px solid var(--gray-200);">
+                        <div style="position:relative;border-radius:10px;overflow:hidden;border:2px solid var(--gray-200);background:var(--gray-100);">
                             <img src="${img}" style="width:100%;height:120px;object-fit:cover;" onerror="this.src='https://via.placeholder.com/150x120?text=Error'">
-                            <button onclick="removeHeroImage(${i})" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;">
-                                <i class="fas fa-times"></i>
-                            </button>
+                            <div style="position:absolute;top:4px;right:4px;display:flex;gap:4px;">
+                                <button onclick="editHeroImage(${i})" style="background:rgba(155,224,0,0.9);color:black;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:0.7rem;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="removeHeroImage(${i})" style="background:rgba(0,0,0,0.7);color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <div style="padding:6px;font-size:0.65rem;color:var(--gray-400);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                #${i+1}
+                            </div>
                         </div>
                     `).join('')}
                 </div>
@@ -2394,52 +2503,97 @@
             input.onchange = async function(e) {
                 const file = e.target.files[0];
                 if (file) {
-                    const reader = new FileReader();
-                    reader.onload = async function(ev) {
-                        try {
-                            const { error } = await supabaseClient
-                                .from('images')
-                                .insert([{ type: 'hero', url: ev.target.result, sort_order: data.heroImages.length }]);
-                            if (error) throw error;
-                            
-                            await loadAllData();
-                            renderHeroImages();
-                            renderDashboard();
-                            showToast('✅ Imagen agregada al hero', 'success');
-                        } catch (err) {
-                            console.error('Error adding hero image:', err);
-                            showToast('Error al agregar imagen', 'error');
-                        }
-                    };
-                    reader.readAsDataURL(file);
+                    try {
+                        showToast('📤 Subiendo imagen al hero...', 'info');
+                        const imageUrl = await uploadImageToStorage(file);
+                        
+                        const { error } = await supabaseClient
+                            .from('images')
+                            .insert([{ type: 'hero', url: imageUrl, sort_order: data.heroImages.length }]);
+                        if (error) throw error;
+                        
+                        await loadAllData();
+                        renderHeroImages();
+                        renderDashboard();
+                        showToast('✅ Imagen agregada al hero', 'success');
+                    } catch (err) {
+                        console.error('Error adding hero image:', err);
+                        showToast('Error al agregar imagen: ' + err.message, 'error');
+                    }
                 }
             };
             input.click();
         }
 
-        function removeHeroImage(index) {
-            if (confirm('¿Eliminar esta imagen del hero?')) {
-                const url = data.heroImages[index];
-                if (url) {
-                    supabaseClient
-                        .from('images')
-                        .delete()
-                        .eq('url', url)
-                        .eq('type', 'hero')
-                        .then(async () => {
-                            await loadAllData();
-                            renderHeroImages();
-                            renderDashboard();
-                            showToast('🗑️ Imagen eliminada', 'success');
-                        })
-                        .catch(err => {
-                            console.error('Error removing hero image:', err);
-                            showToast('Error al eliminar imagen', 'error');
-                        });
-                }
+        function editHeroImage(index) {
+            const currentUrl = data.heroImages[index];
+            if (!currentUrl) return;
+            
+            const newUrl = prompt('Ingresa la nueva URL de la imagen (o subí una nueva):', currentUrl);
+            if (newUrl === null) return;
+            if (!newUrl.trim()) {
+                showToast('⚠️ La URL no puede estar vacía', 'error');
+                return;
             }
+            
+            supabaseClient
+                .from('images')
+                .select('id')
+                .eq('url', currentUrl)
+                .eq('type', 'hero')
+                .then(async ({ data: resultData, error }) => {
+                    if (error || !resultData || resultData.length === 0) {
+                        showToast('⚠️ Imagen no encontrada en la base de datos', 'error');
+                        return;
+                    }
+                    
+                    const id = resultData[0].id;
+                    const { error: updateError } = await supabaseClient
+                        .from('images')
+                        .update({ url: newUrl.trim() })
+                        .eq('id', id);
+                    
+                    if (updateError) throw updateError;
+                    
+                    await loadAllData();
+                    renderHeroImages();
+                    renderDashboard();
+                    showToast('✅ Imagen del hero actualizada', 'success');
+                })
+                .catch(err => {
+                    console.error('Error updating hero image:', err);
+                    showToast('Error al actualizar: ' + err.message, 'error');
+                });
         }
 
+        function removeHeroImage(index) {
+            const url = data.heroImages[index];
+            if (!url) return;
+            
+            if (!confirm('¿Eliminar esta imagen del hero?')) return;
+            
+            deleteImageFromStorage(url);
+            
+            supabaseClient
+                .from('images')
+                .delete()
+                .eq('url', url)
+                .eq('type', 'hero')
+                .then(async () => {
+                    await loadAllData();
+                    renderHeroImages();
+                    renderDashboard();
+                    showToast('🗑️ Imagen del hero eliminada', 'success');
+                })
+                .catch(err => {
+                    console.error('Error removing hero image:', err);
+                    showToast('Error al eliminar imagen', 'error');
+                });
+        }
+
+        // =====================================================
+        // BANNERS
+        // =====================================================
         function renderBanners() {
             const container = document.getElementById('bannersManager');
             if (!data.banners || data.banners.length === 0) {
@@ -2598,77 +2752,241 @@
             }
         }
 
+        // =====================================================
+        // GALERÍA - RENDERIZAR
+        // =====================================================
         function renderGallery() {
             const container = document.getElementById('galleryManager');
-            if (!data.gallery || data.gallery.length === 0) {
-                container.innerHTML = '<p style="color:var(--gray-400);">No hay imágenes en la galería</p>';
+            const items = data.galleryItems || [];
+            
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center;padding:30px 0;color:var(--gray-400);">
+                        <i class="fas fa-images" style="font-size:2rem;display:block;margin-bottom:12px;"></i>
+                        <p>No hay imágenes en la galería</p>
+                        <p style="font-size:0.8rem;">Hacé clic en "Agregar" para empezar</p>
+                    </div>
+                `;
                 return;
             }
 
             container.innerHTML = `
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;">
-                    ${data.gallery.map((img, i) => `
-                        <div style="position:relative;border-radius:10px;overflow:hidden;border:2px solid var(--gray-200);">
-                            <img src="${img}" style="width:100%;height:120px;object-fit:cover;" onerror="this.src='https://via.placeholder.com/150x120?text=Error'">
-                            <button onclick="removeGalleryImage(${i})" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;">
-                                <i class="fas fa-times"></i>
-                            </button>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
+                    ${items.map(item => `
+                        <div style="background:var(--white);border-radius:12px;overflow:hidden;border:2px solid var(--gray-200);position:relative;transition:var(--transition);">
+                            <div style="position:relative;height:160px;overflow:hidden;background:var(--gray-100);">
+                                <img src="${item.image_url}" style="width:100%;height:100%;object-fit:cover;" 
+                                     onerror="this.src='https://via.placeholder.com/220x160?text=Error'">
+                                <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+                                    <button onclick="editGalleryItem(${item.id})" 
+                                            style="background:rgba(155,224,0,0.95);color:black;border:none;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:0.7rem;font-weight:600;transition:var(--transition);">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button onclick="deleteGalleryItem(${item.id})" 
+                                            style="background:rgba(239,68,68,0.95);color:white;border:none;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:0.7rem;font-weight:600;transition:var(--transition);">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div style="padding:12px;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;">
+                                    <span style="font-size:0.7rem;background:var(--gray-100);padding:2px 8px;border-radius:4px;">${item.badge || '📸'}</span>
+                                    <span style="font-size:0.65rem;color:var(--gray-400);">${item.category || 'General'}</span>
+                                </div>
+                                <div style="font-weight:600;font-size:0.95rem;margin-top:4px;">${item.title || 'Sin título'}</div>
+                                ${item.description ? `<div style="font-size:0.8rem;color:var(--gray-400);margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${item.description}</div>` : ''}
+                                <div style="font-size:0.65rem;color:var(--gray-400);margin-top:6px;">Orden: ${item.sort_order || 0}</div>
+                            </div>
                         </div>
                     `).join('')}
                 </div>
             `;
         }
 
-        function addGalleryImage() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.onchange = async function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = async function(ev) {
-                        try {
-                            const { error } = await supabaseClient
-                                .from('images')
-                                .insert([{ type: 'gallery', url: ev.target.result, sort_order: data.gallery.length }]);
-                            if (error) throw error;
-                            
-                            await loadAllData();
-                            renderGallery();
-                            renderDashboard();
-                            showToast('✅ Imagen agregada a la galería', 'success');
-                        } catch (err) {
-                            console.error('Error adding gallery image:', err);
-                            showToast('Error al agregar imagen', 'error');
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                }
-            };
-            input.click();
+        // =====================================================
+        // GALERÍA - FORMULARIO
+        // =====================================================
+        function openGalleryForm(itemId = null) {
+            const isEdit = itemId !== null;
+            const item = isEdit ? (data.galleryItems || []).find(g => g.id === itemId) : null;
+            
+            document.getElementById('formTitle').textContent = isEdit ? '✏️ Editar Imagen' : '➕ Nueva Imagen de Galería';
+            
+            document.getElementById('formBody').innerHTML = `
+                <div class="form-group">
+                    <label>${isEdit ? 'URL de la imagen (o subí una nueva)' : 'Subir imagen *'}</label>
+                    ${!isEdit ? `
+                        <div class="file-input-wrapper" style="display:block;margin-bottom:8px;">
+                            <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen (se comprime automáticamente)</span>
+                            <input type="file" accept="image/*" onchange="previewGalleryImage(event)" required>
+                        </div>
+                    ` : `
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                            <div class="file-input-wrapper" style="flex:1;">
+                                <span class="file-label"><i class="fas fa-upload"></i> Cambiar imagen</span>
+                                <input type="file" accept="image/*" onchange="previewGalleryImage(event)">
+                            </div>
+                        </div>
+                        <div style="font-size:0.8rem;color:var(--gray-400);margin-bottom:8px;">URL actual: ${item.image_url}</div>
+                    `}
+                    <input type="hidden" id="f_gallery_url" value="${isEdit ? item.image_url : ''}">
+                    <img class="image-preview ${isEdit && item.image_url ? '' : 'hidden'}" 
+                         id="f_gallery_preview" src="${isEdit ? item.image_url : ''}" 
+                         style="width:100%;max-height:200px;object-fit:contain;margin-top:8px;border-radius:8px;background:var(--gray-100);">
+                </div>
+                <div class="form-group">
+                    <label>Título *</label>
+                    <input type="text" id="f_gallery_title" value="${isEdit ? item.title : ''}" placeholder="Ej: Aventura en montaña">
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="f_gallery_desc" rows="2" placeholder="Descripción de la imagen">${isEdit ? item.description : ''}</textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Badge (emoji o texto)</label>
+                        <input type="text" id="f_gallery_badge" value="${isEdit ? item.badge : '📸'}" placeholder="📸 🚴 🏔️">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <input type="text" id="f_gallery_category" value="${isEdit ? item.category : 'General'}" placeholder="Ej: Aventura, Urbano">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Orden</label>
+                    <input type="number" id="f_gallery_sort" value="${isEdit ? item.sort_order : (data.galleryItems?.length || 0)}">
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="saveGalleryItem(${isEdit ? itemId : 'null'})">
+                        <i class="fas fa-save"></i> ${isEdit ? 'Actualizar' : 'Agregar'}
+                    </button>
+                    <button class="btn btn-outline" onclick="closeFormModal()">Cancelar</button>
+                </div>
+            `;
+
+            document.getElementById('formModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        function removeGalleryImage(index) {
-            if (confirm('¿Eliminar esta imagen de la galería?')) {
-                const url = data.gallery[index];
-                if (url) {
-                    supabaseClient
-                        .from('images')
-                        .delete()
-                        .eq('url', url)
-                        .eq('type', 'gallery')
-                        .then(async () => {
-                            await loadAllData();
-                            renderGallery();
-                            renderDashboard();
-                            showToast('🗑️ Imagen eliminada', 'success');
-                        })
-                        .catch(err => {
-                            console.error('Error removing gallery image:', err);
-                            showToast('Error al eliminar imagen', 'error');
-                        });
+        function previewGalleryImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('f_gallery_preview');
+                    if (preview) {
+                        preview.src = e.target.result;
+                        preview.classList.remove('hidden');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // =====================================================
+        // GALERÍA - GUARDAR
+        // =====================================================
+        async function saveGalleryItem(itemId = null) {
+            const title = document.getElementById('f_gallery_title').value.trim();
+            const description = document.getElementById('f_gallery_desc').value.trim();
+            const badge = document.getElementById('f_gallery_badge').value.trim() || '📸';
+            const category = document.getElementById('f_gallery_category').value.trim() || 'General';
+            const sort_order = parseInt(document.getElementById('f_gallery_sort').value) || 0;
+            
+            const fileInput = document.querySelector('#formBody input[type="file"]');
+            let imageUrl = document.getElementById('f_gallery_url').value;
+
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                try {
+                    const file = fileInput.files[0];
+                    showToast('📤 Subiendo y comprimiendo imagen...', 'info');
+                    imageUrl = await uploadImageToStorage(file);
+                    showToast('✅ Imagen subida y comprimida', 'success');
+                } catch (err) {
+                    console.error('Error uploading image:', err);
+                    showToast('❌ Error al subir la imagen: ' + err.message, 'error');
+                    return;
                 }
+            }
+
+            if (!imageUrl) {
+                showToast('⚠️ Se requiere una imagen', 'error');
+                return;
+            }
+
+            if (!title) {
+                showToast('⚠️ El título es requerido', 'error');
+                return;
+            }
+
+            const galleryData = {
+                id: itemId || Date.now(),
+                image_url: imageUrl,
+                title,
+                description,
+                badge,
+                category,
+                sort_order
+            };
+
+            try {
+                if (itemId) {
+                    const oldItem = data.galleryItems.find(g => g.id === itemId);
+                    if (oldItem && oldItem.image_url !== imageUrl) {
+                        await deleteImageFromStorage(oldItem.image_url);
+                    }
+                    
+                    const { error } = await supabaseClient
+                        .from('gallery')
+                        .update(galleryData)
+                        .eq('id', itemId);
+                    if (error) throw error;
+                    showToast('✅ Imagen actualizada', 'success');
+                } else {
+                    const { error } = await supabaseClient
+                        .from('gallery')
+                        .insert([galleryData]);
+                    if (error) throw error;
+                    showToast('✅ Imagen agregada a la galería', 'success');
+                }
+
+                await loadAllData();
+                closeFormModal();
+                renderGallery();
+                renderDashboard();
+            } catch (err) {
+                console.error('Error saving gallery item:', err);
+                showToast('❌ Error al guardar: ' + err.message, 'error');
+            }
+        }
+
+        function editGalleryItem(itemId) {
+            openGalleryForm(itemId);
+        }
+
+        async function deleteGalleryItem(itemId) {
+            if (!confirm('¿Eliminar esta imagen de la galería?')) return;
+            
+            try {
+                const item = data.galleryItems.find(g => g.id === itemId);
+                
+                const { error } = await supabaseClient
+                    .from('gallery')
+                    .delete()
+                    .eq('id', itemId);
+                if (error) throw error;
+                
+                if (item && item.image_url) {
+                    await deleteImageFromStorage(item.image_url);
+                }
+                
+                await loadAllData();
+                renderGallery();
+                renderDashboard();
+                showToast('🗑️ Imagen eliminada correctamente', 'success');
+            } catch (err) {
+                console.error('Error deleting gallery item:', err);
+                showToast('❌ Error al eliminar: ' + err.message, 'error');
             }
         }
 
@@ -3558,6 +3876,7 @@
                         await supabaseClient.from('categories').delete().neq('id', 0);
                         await supabaseClient.from('category_fields').delete().neq('id', 0);
                         await supabaseClient.from('badges').delete().neq('id', 0);
+                        await supabaseClient.from('gallery').delete().neq('id', 0);
                         
                         await loadAllData();
                         refreshAll();
@@ -3609,7 +3928,8 @@
         // INICIO
         // =====================================================
         console.log('🚴 OliviaBike 24.7 - Panel de Administración COMPLETO');
-        console.log('📦 Conectado a Supabase');
+        console.log('📸 Galería con compresión automática de imágenes');
+        console.log('📦 Las imágenes se guardan en Supabase Storage');
         console.log('🔑 Usuario: admin@oliviabike.com / admin123');
 
         document.addEventListener('DOMContentLoaded', function() {
