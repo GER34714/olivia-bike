@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+esta ultima version no respeta mi pedido <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- ========== SEO META TAGS ========== -->
     <title>OliviaBike 24.7 | Tienda de Ciclismo Premium - Bicicletas y Accesorios</title>
     <meta name="description" content="Descubre las mejores bicicletas, accesorios y equipamiento profesional para ciclistas exigentes. Envíos a todo el país. ¡Cotiza ahora!">
@@ -14,7 +14,7 @@
     <meta name="revisit-after" content="7 days">
     <meta name="geo.region" content="AR">
     <meta name="geo.placename" content="Buenos Aires">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://oliviabike.onrender.com/">
@@ -25,14 +25,14 @@
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="OliviaBike 24.7">
     <meta property="og:locale" content="es_AR">
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://oliviabike.onrender.com/">
     <meta name="twitter:title" content="OliviaBike 24.7 | Tienda de Ciclismo Premium">
     <meta name="twitter:description" content="Descubre las mejores bicicletas, accesorios y equipamiento profesional para ciclistas exigentes.">
     <meta name="twitter:image" content="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg?w=1200&q=80">
-    
+
     <!-- ========== FAVICON ========== -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚴</text></svg>">
     <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚴</text></svg>">
@@ -41,7 +41,7 @@
     <meta name="theme-color" content="#E63946">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
+
     <!-- ========== PRELOAD HERO IMAGE (MÁXIMA PRIORIDAD) ========== -->
     <link rel="preload" as="image" href="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg?w=1200&q=80&auto=format" fetchpriority="high">
 
@@ -50,10 +50,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://images.unsplash.com">
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         /* ============================================================
            NUEVA PALETA DE COLORES - ROJO + NEGRO + BLANCO
@@ -2869,7 +2869,7 @@
                     <i class="fab fa-whatsapp"></i>
                     <span>Consultar</span>
                 </a>
-                <button class="hamburger" id="hamburger" aria-label="Abrir menú de navegación">
+                <button class="hamburger" id="hamburger" aria-label="Abrir menú de navegación" aria-controls="navMenu" aria-expanded="false">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -3595,6 +3595,7 @@
                 // Si la oferta expiró, recargar para buscar otra
                 if (diff <= 0) {
                     clearInterval(offerTimerInterval);
+                    offerTimerInterval = null;
                     renderScheduledOffers();
                 }
             }
@@ -3894,7 +3895,7 @@
 
                 return `
                     <div class="gallery-item" onclick="openGalleryModal(${item.id})" style="grid-column:${isFirst ? 'span 2' : 'auto'};grid-row:${isFirst ? 'span 2' : 'auto'};">
-                        <img src="${item.image_url}?w=600&q=80&auto=format" alt="${title}" class="lazy-image" loading="${isFirst ? 'eager' : 'lazy'}" onload="this.classList.add('loaded')">
+                        <img src="${item.image_url}?w=600&q=80&auto=format" alt="${title}" class="lazy-image" loading="${isFirst ? 'eager' : 'lazy'}" onload="this.classList.add('loaded')" fetchpriority="${isFirst ? 'high' : 'low'}">
                         <div class="gallery-overlay">
                             <span class="gallery-badge">${badge}</span>
                             <h3>${title}</h3>
@@ -4015,7 +4016,7 @@
 
             let html = `
                 <div class="category-card active" data-category="todos" onclick="filterProducts('todos')">
-                    <i class="fas fa-th-large"></i>
+                    <i class="fas fa-bicycle"></i>
                     <span>Todos</span>
                 </div>
             `;
@@ -4589,7 +4590,7 @@
 
             modalContent.innerHTML = `
                 <div class="modal-image" id="modalImageContainer">
-                    <img id="modalMainImage" src="${mainImage}?w=600&q=80&auto=format" alt="${product.name}" class="lazy-image" loading="lazy" onload="this.classList.add('loaded')">
+                    <img id="modalMainImage" src="${mainImage}?w=600&q=80&auto=format" alt="${product.name}" class="lazy-image" fetchpriority="high" loading="eager" onload="this.classList.add('loaded')">
                     ${thumbnailsHtml}
                 </div>
                 <div class="modal-info">
@@ -4615,7 +4616,7 @@
                         ${product.stock || 'Sin stock'}
                     </div>
                     <div class="btn-group">
-                        <button class="btn btn-cart" onclick="addToCart(${product.id}); closeModal();">
+                        <button class="btn btn-cart" onclick="addToCart(${product.id})">
                             <i class="fas fa-cart-plus"></i> Agregar al carrito
                         </button>
                         <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20consultar%20por%20${encodeURIComponent(product.name)}" 
@@ -4718,12 +4719,21 @@
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('navMenu');
 
-        hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
+        hamburger.addEventListener('click', function() {
+            const isOpen = navMenu.classList.toggle('open');
+            this.setAttribute('aria-expanded', isOpen);
+        });
         document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', () => navMenu.classList.remove('open'));
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('open');
+                hamburger.setAttribute('aria-expanded', 'false');
+            });
         });
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.header')) navMenu.classList.remove('open');
+            if (!e.target.closest('.header')) {
+                navMenu.classList.remove('open');
+                hamburger.setAttribute('aria-expanded', 'false');
+            }
         });
 
         // =====================================================
@@ -4761,4 +4771,4 @@
         console.log('✒️ Fuente Aesthetic aplicada a "Olivia"');
     </script>
 </body>
-</html>
+</html> sobre este codigo hace la modificacion que pedi respetandolo siempre entendido ? decime primero que es lo que entendiste antes de enviar codigo
