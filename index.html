@@ -13,7 +13,7 @@
     <meta name="language" content="Spanish">
     <meta name="revisit-after" content="7 days">
     <meta name="geo.region" content="AR">
-    <meta name="geo.placename" content="Buenos Aires">
+    <meta name="geo.placename" content="General Villegas, Buenos Aires">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -353,6 +353,34 @@
             transform: translateY(-2px);
         }
 
+        .btn-checkout {
+            background: var(--primary);
+            color: var(--white);
+            width: 100%;
+            justify-content: center;
+            padding: 16px;
+            font-size: 1.05rem;
+        }
+        .btn-checkout:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--primary-glow);
+        }
+
+        .btn-checkout-secondary {
+            background: var(--black);
+            color: var(--white);
+            width: 100%;
+            justify-content: center;
+            padding: 16px;
+            font-size: 1.05rem;
+        }
+        .btn-checkout-secondary:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--primary-glow);
+        }
+
         /* ============================================================
            BOTONES FLOTANTES (CARRITO + WHATSAPP FIJO)
            ============================================================ */
@@ -623,11 +651,300 @@
         .cart-summary .summary-row.total .amount {
             color: var(--primary);
         }
-        .cart-summary .btn {
-            width: 100%;
+
+        /* ============================================================
+           CHECKOUT MODAL (NUEVO)
+           ============================================================ */
+        .checkout-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
             justify-content: center;
-            padding: 16px;
-            font-size: 1.05rem;
+            padding: 20px;
+        }
+        .checkout-modal-overlay.active { display: flex; }
+
+        .checkout-modal {
+            background: var(--white);
+            border-radius: var(--radius);
+            max-width: 620px;
+            width: 100%;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 40px 36px;
+            box-shadow: var(--shadow-xl);
+            animation: modalFadeIn 0.35s ease;
+            position: relative;
+        }
+
+        .checkout-modal .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+        .checkout-modal .modal-header h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--black);
+        }
+        .checkout-modal .modal-header h2 span {
+            color: var(--primary);
+        }
+        .checkout-modal .modal-header .close-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--gray-100);
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .checkout-modal .modal-header .close-btn:hover {
+            background: var(--black);
+            color: var(--white);
+            transform: rotate(90deg);
+        }
+
+        .checkout-modal .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .checkout-modal .step-indicator .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray-400);
+        }
+        .checkout-modal .step-indicator .step.active {
+            color: var(--primary);
+        }
+        .checkout-modal .step-indicator .step .num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--gray-200);
+            color: var(--gray-500);
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+        .checkout-modal .step-indicator .step.active .num {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .checkout-modal .step-indicator .line {
+            flex: 1;
+            height: 2px;
+            background: var(--gray-200);
+            max-width: 40px;
+        }
+        .checkout-modal .step-indicator .line.active {
+            background: var(--primary);
+        }
+
+        /* Paso 1 - Elegir método */
+        .delivery-options {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 12px 0 24px;
+        }
+
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 20px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--white);
+        }
+        .delivery-option:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .delivery-option.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+        .delivery-option .radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--gray-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+        .delivery-option.selected .radio {
+            border-color: var(--primary);
+        }
+        .delivery-option.selected .radio::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+        .delivery-option .icon {
+            font-size: 1.6rem;
+            color: var(--primary);
+        }
+        .delivery-option .info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .delivery-option .info p {
+            font-size: 0.85rem;
+            color: var(--gray-400);
+        }
+
+        /* Paso 2 - Formulario */
+        .checkout-form {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 8px;
+        }
+        .checkout-form.active {
+            display: flex;
+        }
+
+        .checkout-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .checkout-form .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+        .checkout-form .form-group label .required {
+            color: var(--primary);
+        }
+        .checkout-form .form-group input,
+        .checkout-form .form-group select,
+        .checkout-form .form-group textarea {
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-family: var(--font);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: var(--white);
+            width: 100%;
+            outline: none;
+        }
+        .checkout-form .form-group input:focus,
+        .checkout-form .form-group select:focus,
+        .checkout-form .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+        .checkout-form .form-group input.error,
+        .checkout-form .form-group select.error {
+            border-color: #ef4444;
+        }
+        .checkout-form .form-group .error-msg {
+            font-size: 0.75rem;
+            color: #ef4444;
+            display: none;
+        }
+        .checkout-form .form-group .error-msg.show {
+            display: block;
+        }
+        .checkout-form .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .checkout-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .checkout-form .shipping-info {
+            background: var(--primary-light);
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            border-left: 4px solid var(--primary);
+            margin-bottom: 4px;
+        }
+        .checkout-form .shipping-info strong {
+            color: var(--black);
+        }
+
+        .checkout-form .pickup-info {
+            background: var(--gray-100);
+            border-radius: 10px;
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .checkout-form .pickup-info .address {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .checkout-form .pickup-info .address i {
+            color: var(--primary);
+            margin-right: 8px;
+        }
+        .checkout-form .pickup-info .map-container {
+            border-radius: 10px;
+            overflow: hidden;
+            height: 180px;
+            margin-top: 4px;
+        }
+        .checkout-form .pickup-info .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .checkout-form .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .checkout-form .btn-group .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 14px;
+            font-size: 1rem;
+        }
+        .checkout-form .btn-group .btn-back {
+            background: var(--gray-200);
+            color: var(--black);
+        }
+        .checkout-form .btn-group .btn-back:hover {
+            background: var(--gray-300);
         }
 
         /* ============================================================
@@ -2483,6 +2800,12 @@
                 height: 38px;
                 max-height: 38px;
             }
+            .checkout-modal {
+                padding: 28px 20px;
+            }
+            .checkout-form .form-row {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
@@ -2717,6 +3040,18 @@
                 height: 38px;
                 max-height: 38px;
             }
+            .checkout-modal {
+                padding: 20px 16px;
+            }
+            .checkout-modal .modal-header h2 {
+                font-size: 1.3rem;
+            }
+            .delivery-option {
+                padding: 14px 16px;
+            }
+            .checkout-form .btn-group {
+                flex-direction: column;
+            }
         }
 
         @media (max-width: 480px) {
@@ -2841,6 +3176,18 @@
             .footer-brand .logo .logo-img {
                 height: 32px;
                 max-height: 32px;
+            }
+            .checkout-modal {
+                padding: 16px 12px;
+            }
+            .delivery-option .info h4 {
+                font-size: 0.9rem;
+            }
+            .delivery-option .info p {
+                font-size: 0.75rem;
+            }
+            .delivery-option .icon {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -3046,9 +3393,172 @@
                     <span>Total</span>
                     <span class="amount" id="cartTotalAmount">$0</span>
                 </div>
-                <button class="btn btn-whatsapp" onclick="checkout()">
-                    <i class="fab fa-whatsapp"></i> Finalizar compra por WhatsApp
+                <button class="btn btn-checkout" onclick="openCheckoutModal()">
+                    <i class="fas fa-arrow-right"></i> Continuar
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== CHECKOUT MODAL (NUEVO) ========== -->
+    <div class="checkout-modal-overlay" id="checkoutModal">
+        <div class="checkout-modal">
+            <div class="modal-header">
+                <h2>Finalizar <span>compra</span></h2>
+                <button class="close-btn" onclick="closeCheckoutModal()"><i class="fas fa-times"></i></button>
+            </div>
+
+            <!-- Paso 1: Elegir método -->
+            <div id="step1">
+                <div class="step-indicator">
+                    <div class="step active">
+                        <span class="num">1</span>
+                        <span>Entrega</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="step">
+                        <span class="num">2</span>
+                        <span>Datos</span>
+                    </div>
+                </div>
+
+                <p style="color: var(--gray-500); margin-bottom: 16px; font-size: 0.95rem;">
+                    ¿Cómo querés recibir tu pedido?
+                </p>
+
+                <div class="delivery-options">
+                    <div class="delivery-option" data-value="envio" onclick="selectDelivery('envio')">
+                        <div class="radio"></div>
+                        <div class="icon">📦</div>
+                        <div class="info">
+                            <h4>Envío a domicilio</h4>
+                            <p>Vía Correo Argentino o VÍA CARGO (costo a cotizar según ubicación y peso)</p>
+                        </div>
+                    </div>
+                    <div class="delivery-option" data-value="retiro" onclick="selectDelivery('retiro')">
+                        <div class="radio"></div>
+                        <div class="icon">🏪</div>
+                        <div class="info">
+                            <h4>Retiro en sucursal</h4>
+                            <p>Sin costo - Mitre 458, General Villegas, Buenos Aires</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-checkout" id="continueBtn" disabled onclick="goToStep2()">
+                    <i class="fas fa-arrow-right"></i> Continuar
+                </button>
+            </div>
+
+            <!-- Paso 2: Formulario -->
+            <div id="step2" style="display:none;">
+                <div class="step-indicator">
+                    <div class="step">
+                        <span class="num">1</span>
+                        <span>Entrega</span>
+                    </div>
+                    <div class="line active"></div>
+                    <div class="step active">
+                        <span class="num">2</span>
+                        <span>Datos</span>
+                    </div>
+                </div>
+
+                <!-- Formulario de ENVÍO -->
+                <div class="checkout-form active" id="formEnvio">
+                    <div class="shipping-info">
+                        <i class="fas fa-info-circle" style="color:var(--primary);"></i>
+                        <strong>Importante:</strong> El costo del envío NO está incluido en el precio de los productos. Se cotizará según tu ubicación y el peso del paquete.
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nombre completo <span class="required">*</span></label>
+                        <input type="text" id="envioNombre" placeholder="Ej: Juan Pérez" required>
+                        <div class="error-msg">Este campo es obligatorio</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dirección <span class="required">*</span></label>
+                        <input type="text" id="envioDireccion" placeholder="Ej: Av. Corrientes 1234" required>
+                        <div class="error-msg">Este campo es obligatorio</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Localidad <span class="required">*</span></label>
+                            <input type="text" id="envioLocalidad" placeholder="Ej: CABA" required>
+                            <div class="error-msg">Este campo es obligatorio</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Código postal <span class="required">*</span></label>
+                            <input type="text" id="envioCodigoPostal" placeholder="Ej: 1000" required>
+                            <div class="error-msg">Este campo es obligatorio</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teléfono <span class="required">*</span></label>
+                        <input type="tel" id="envioTelefono" placeholder="Ej: 11 2345-6789" required>
+                        <div class="error-msg">Este campo es obligatorio</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Empresa de envío preferida <span class="required">*</span></label>
+                        <select id="envioEmpresa" required>
+                            <option value="">Seleccioná una opción</option>
+                            <option value="Correo Argentino">Correo Argentino</option>
+                            <option value="VÍA CARGO">VÍA CARGO</option>
+                            <option value="Cualquiera">Cualquiera (la que tenga mejor disponibilidad)</option>
+                        </select>
+                        <div class="error-msg">Este campo es obligatorio</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notas adicionales</label>
+                        <textarea id="envioNotas" placeholder="Ej: Dejar en la puerta, timbre 2do piso, etc."></textarea>
+                    </div>
+                </div>
+
+                <!-- Formulario de RETIRO -->
+                <div class="checkout-form" id="formRetiro">
+                    <div class="pickup-info">
+                        <div class="address">
+                            <i class="fas fa-map-pin"></i> Mitre 458, General Villegas, Provincia de Buenos Aires
+                        </div>
+                        <div class="map-container">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3298.143009937417!2d-63.022319!3d-35.032221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95c3b8f4b2a1e8b3%3A0x7e8f5b2a1e8b3f4!2sMitre%20458%2C%20General%20Villegas%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1700000000000" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--gray-400); margin-top: 4px;">
+                            <i class="fas fa-info-circle" style="color:var(--primary);"></i> El pago se acuerda por WhatsApp. Te esperamos en la sucursal.
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nombre completo <span class="required">*</span></label>
+                        <input type="text" id="retiroNombre" placeholder="Ej: Juan Pérez" required>
+                        <div class="error-msg">Este campo es obligatorio</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Teléfono <span class="required">*</span></label>
+                        <input type="tel" id="retiroTelefono" placeholder="Ej: 11 2345-6789" required>
+                        <div class="error-msg">Este campo es obligatorio</div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-back" onclick="goToStep1()">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                    <button class="btn btn-checkout" onclick="finalizarPedido()">
+                        <i class="fab fa-whatsapp"></i> Finalizar pedido
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -3196,7 +3706,12 @@
             </div>
 
             <div class="map-container fade-in">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016887889453!2d-58.383759!3d-34.603684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzEzLjMiUyA1OMKwMjMnMDEuNSJX!5e0!3m2!1ses!2sar!4v1700000000000" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3298.143009937417!2d-63.022319!3d-35.032221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95c3b8f4b2a1e8b3%3A0x7e8f5b2a1e8b3f4!2sMitre%20458%2C%20General%20Villegas%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1700000000000" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    allowfullscreen>
+                </iframe>
             </div>
         </div>
     </section>
@@ -3240,6 +3755,7 @@
                     <ul>
                         <li><a href="https://wa.me/5493388461348" target="_blank" id="footerWhatsappLink"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
                         <li><a href="#"><i class="fas fa-phone"></i> +54 9 3388 46-1348</a></li>
+                        <li><a href="#"><i class="fas fa-map-pin"></i> Mitre 458, General Villegas, Bs As</a></li>
                     </ul>
                 </div>
 
@@ -3287,6 +3803,7 @@
         let allBadges = [];
         let whatsappNumber = '5493388461348';
         let offerTimerInterval = null;
+        let selectedDelivery = null;
 
         let currentHeroSlide = 0;
         let heroInterval;
@@ -4509,38 +5026,138 @@
             if (e.target === this) toggleCart();
         });
 
-        function checkout() {
+        // =====================================================
+        // CHECKOUT MODAL (NUEVO)
+        // =====================================================
+        function openCheckoutModal() {
             if (cart.length === 0) {
                 showToast('⚠️ Tu carrito está vacío', 'warning');
                 return;
             }
+            selectedDelivery = null;
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+            document.querySelectorAll('.delivery-option').forEach(opt => opt.classList.remove('selected'));
+            document.getElementById('continueBtn').disabled = true;
+            document.getElementById('checkoutModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-            const customerName = prompt('Por favor, ingresa tu nombre completo:');
-            if (customerName === null) return;
-            if (!customerName.trim()) {
-                showToast('⚠️ El nombre es obligatorio para continuar', 'warning');
-                return;
-            }
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
 
-            const address = prompt('Dirección de envío:');
-            if (address === null) return;
-            if (!address.trim()) {
-                showToast('⚠️ La dirección es obligatoria para continuar', 'warning');
-                return;
-            }
+        document.getElementById('checkoutModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCheckoutModal();
+        });
 
-            const city = prompt('Localidad:');
-            if (city === null) return;
+        function selectDelivery(value) {
+            selectedDelivery = value;
+            document.querySelectorAll('.delivery-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.dataset.value === value);
+            });
+            document.getElementById('continueBtn').disabled = false;
+        }
 
-            let message = '🛒 *Nuevo pedido desde OliviaBike 24.7*%0A%0A';
-            message += '👤 *Datos del cliente:*%0A';
-            message += `Nombre: ${customerName.trim()}%0A`;
-            message += `Dirección: ${address.trim()}%0A`;
-            if (city && city.trim()) {
-                message += `Localidad: ${city.trim()}%0A`;
-            }
-            message += '%0A📋 *Detalle del pedido:*%0A';
+        function goToStep2() {
+            if (!selectedDelivery) return;
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
             
+            // Mostrar el formulario correspondiente
+            if (selectedDelivery === 'envio') {
+                document.getElementById('formEnvio').classList.add('active');
+                document.getElementById('formRetiro').classList.remove('active');
+            } else {
+                document.getElementById('formRetiro').classList.add('active');
+                document.getElementById('formEnvio').classList.remove('active');
+            }
+        }
+
+        function goToStep1() {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step1').style.display = 'block';
+        }
+
+        function validateForm(formId) {
+            const form = document.getElementById(formId);
+            const inputs = form.querySelectorAll('input[required], select[required]');
+            let valid = true;
+            
+            inputs.forEach(input => {
+                const errorMsg = input.parentElement.querySelector('.error-msg');
+                if (!input.value.trim()) {
+                    input.classList.add('error');
+                    if (errorMsg) errorMsg.classList.add('show');
+                    valid = false;
+                } else {
+                    input.classList.remove('error');
+                    if (errorMsg) errorMsg.classList.remove('show');
+                }
+            });
+            
+            return valid;
+        }
+
+        function finalizarPedido() {
+            let isValid = false;
+            let formData = {};
+            
+            if (selectedDelivery === 'envio') {
+                isValid = validateForm('formEnvio');
+                if (isValid) {
+                    formData = {
+                        nombre: document.getElementById('envioNombre').value.trim(),
+                        direccion: document.getElementById('envioDireccion').value.trim(),
+                        localidad: document.getElementById('envioLocalidad').value.trim(),
+                        codigoPostal: document.getElementById('envioCodigoPostal').value.trim(),
+                        telefono: document.getElementById('envioTelefono').value.trim(),
+                        empresa: document.getElementById('envioEmpresa').value,
+                        notas: document.getElementById('envioNotas').value.trim()
+                    };
+                }
+            } else {
+                isValid = validateForm('formRetiro');
+                if (isValid) {
+                    formData = {
+                        nombre: document.getElementById('retiroNombre').value.trim(),
+                        telefono: document.getElementById('retiroTelefono').value.trim()
+                    };
+                }
+            }
+            
+            if (!isValid) {
+                showToast('⚠️ Por favor, completá todos los campos obligatorios', 'warning');
+                return;
+            }
+            
+            // Construir mensaje para WhatsApp
+            let message = '🛒 *Nuevo pedido desde OliviaBike 24.7*%0A%0A';
+            
+            if (selectedDelivery === 'envio') {
+                message += '📦 *Tipo de entrega:* Envío a domicilio%0A';
+                message += `🚚 *Empresa preferida:* ${formData.empresa}%0A%0A`;
+                message += '👤 *Datos del cliente:*%0A';
+                message += `Nombre: ${formData.nombre}%0A`;
+                message += `Teléfono: ${formData.telefono}%0A`;
+                message += `Dirección: ${formData.direccion}%0A`;
+                message += `Localidad: ${formData.localidad}%0A`;
+                message += `Código postal: ${formData.codigoPostal}%0A`;
+                if (formData.notas) {
+                    message += `Notas: ${formData.notas}%0A`;
+                }
+                message += '%0A⚠️ *El costo del envío se cotizará por separado según tu ubicación y el peso del paquete.*%0A';
+            } else {
+                message += '🏪 *Tipo de entrega:* Retiro en sucursal%0A';
+                message += '📍 *Dirección:* Mitre 458, General Villegas, Provincia de Buenos Aires%0A%0A';
+                message += '👤 *Datos del cliente:*%0A';
+                message += `Nombre: ${formData.nombre}%0A`;
+                message += `Teléfono: ${formData.telefono}%0A`;
+                message += '%0A💰 *Forma de pago:* Acordar por WhatsApp (alias, CBU, transferencia, etc.)%0A';
+            }
+            
+            message += '%0A📋 *Detalle del pedido:*%0A';
             cart.forEach((item, index) => {
                 message += `${index + 1}. ${item.name} x${item.qty} = $${(item.price * item.qty).toLocaleString('es-AR')}%0A`;
             });
@@ -4551,8 +5168,10 @@
             
             trackEvent('Carrito', 'Checkout', cart.length);
             
-            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+            closeCheckoutModal();
             toggleCart();
+            
+            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
         }
 
         // =====================================================
@@ -4847,6 +5466,7 @@
         console.log('🖼️ Logo: imagen local con fallback');
         console.log('✒️ Fuente Aesthetic aplicada a "Olivia"');
         console.log('🖋️ Fuente Lobster aplicada al título del Hero');
+        console.log('📍 Dirección: Mitre 458, General Villegas, Provincia de Buenos Aires');
     </script>
 </body>
 </html>
