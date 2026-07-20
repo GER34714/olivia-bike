@@ -67,6 +67,15 @@
             font-display: swap;
         }
 
+        /* ========== FUENTE LOBSTER PARA EL TÍTULO DEL HERO ========== */
+        @font-face {
+            font-family: 'Lobster';
+            src: url('https://raw.githubusercontent.com/GER34714/olivia-bike/main/Lobster%201.4.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -94,6 +103,7 @@
             --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --font: 'Poppins', sans-serif;
             --font-aesthetic: 'Aesthetic', 'Poppins', sans-serif;
+            --font-lobster: 'Lobster', cursive, sans-serif;
         }
 
         html { scroll-behavior: smooth; }
@@ -821,8 +831,9 @@
             margin-bottom: 20px;
         }
         .hero-content h1 {
+            font-family: var(--font-lobster);
             font-size: clamp(2.8rem, 6vw, 4.8rem);
-            font-weight: 900;
+            font-weight: 400;
             line-height: 1.05;
             margin-bottom: 20px;
         }
@@ -3513,6 +3524,7 @@
                     return;
                 }
 
+                // Si NO hay ofertas activas
                 if (!offers || offers.length === 0) {
                     container.innerHTML = '';
                     return;
@@ -3567,7 +3579,7 @@
         }
 
         // =====================================================
-        // TIMER PARA OFERTAS PROGRAMADAS
+        // TIMER PARA OFERTAS PROGRAMADAS (MEJORADO)
         // =====================================================
         function startOfferTimer(endDate) {
             // Limpiar intervalo anterior si existe
@@ -3592,11 +3604,76 @@
                 if (minutesEl) minutesEl.textContent = minutes;
                 if (secondsEl) secondsEl.textContent = seconds;
 
-                // Si la oferta expiró, recargar para buscar otra
+                // Si la oferta expiró
                 if (diff <= 0) {
                     clearInterval(offerTimerInterval);
                     offerTimerInterval = null;
-                    renderScheduledOffers();
+                    
+                    // Esperar 2 segundos y verificar si hay otra oferta
+                    setTimeout(async () => {
+                        // Buscar si hay otra oferta activa
+                        try {
+                            const now = new Date().toISOString();
+                            const { data: nextOffer, error } = await supabaseClient
+                                .from('schedules')
+                                .select('*')
+                                .eq('estado', 'activo')
+                                .lt('fecha_inicio', now)
+                                .gt('fecha_fin', now)
+                                .order('created_at', { ascending: false })
+                                .limit(1);
+                            
+                            if (error) {
+                                console.error('Error buscando siguiente oferta:', error);
+                                // Ocultar banner si hay error
+                                const banner = document.getElementById('bannerPromo');
+                                if (banner) {
+                                    banner.style.display = 'none';
+                                }
+                                return;
+                            }
+                            
+                            // Si hay otra oferta, recargar para mostrarla
+                            if (nextOffer && nextOffer.length > 0) {
+                                renderScheduledOffers();
+                            } else {
+                                // Si no hay otra oferta, mostrar mensaje de "Oferta finalizada" con botón Suscribirme
+                                const timerContainer = document.getElementById('offerTimer');
+                                const bannerPromo = document.getElementById('bannerPromo');
+                                
+                                if (timerContainer && bannerPromo) {
+                                    // Cambiar el contenido del banner al mensaje de oferta finalizada
+                                    const bannerContent = bannerPromo.querySelector('.banner-content');
+                                    if (bannerContent) {
+                                        // Guardar referencia a la imagen actual
+                                        const imageContainer = bannerPromo.querySelector('.banner-image');
+                                        const imageHtml = imageContainer ? imageContainer.innerHTML : '';
+                                        
+                                        bannerContent.innerHTML = `
+                                            <div class="fade-in-left" style="grid-column: 1 / -1; text-align: center; max-width: 700px; margin: 0 auto;">
+                                                <span class="section-tag" style="color: var(--gray-400);">⏰ Oferta finalizada</span>
+                                                <h2 style="font-size: clamp(1.8rem, 3vw, 2.6rem);">¡Esta promoción especial ya terminó!</h2>
+                                                <p style="color: var(--gray-400); margin-bottom: 20px;">Pero no te preocupes, pronto tendremos nuevas ofertas exclusivas para ti.</p>
+                                                <a href="https://wa.me/${whatsappNumber}?text=Hola!%20Quiero%20suscribirme%20para%20recibir%20ofertas%20especiales" 
+                                                   target="_blank" 
+                                                   class="btn btn-red">
+                                                    <i class="fas fa-envelope"></i> Suscribirme
+                                                </a>
+                                            </div>
+                                            ${imageHtml ? `<div class="banner-image" style="display:none;">${imageHtml}</div>` : ''}
+                                        `;
+                                    }
+                                }
+                            }
+                        } catch (err) {
+                            console.error('Error en verificación de siguiente oferta:', err);
+                            // Ocultar banner en caso de error
+                            const banner = document.getElementById('bannerPromo');
+                            if (banner) {
+                                banner.style.display = 'none';
+                            }
+                        }
+                    }, 2000);
                 }
             }
             
@@ -4769,6 +4846,7 @@
         console.log('📞 WhatsApp: +54 9 3388 46-1348');
         console.log('🖼️ Logo: imagen local con fallback');
         console.log('✒️ Fuente Aesthetic aplicada a "Olivia"');
+        console.log('🖋️ Fuente Lobster aplicada al título del Hero');
     </script>
 </body>
 </html>
