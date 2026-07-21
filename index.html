@@ -762,7 +762,7 @@
         .delivery-options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             margin: 12px 0 24px;
         }
 
@@ -770,7 +770,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 16px 20px;
+            padding: 18px 20px;
             border: 2px solid var(--gray-200);
             border-radius: 12px;
             cursor: pointer;
@@ -808,12 +808,8 @@
             background: var(--primary);
         }
         .delivery-option .icon {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--primary);
-            flex-shrink: 0;
-        }
-        .delivery-option .info {
-            flex: 1;
         }
         .delivery-option .info h4 {
             font-size: 1rem;
@@ -823,24 +819,6 @@
         .delivery-option .info p {
             font-size: 0.85rem;
             color: var(--gray-400);
-        }
-        .delivery-option .info .sub {
-            font-size: 0.75rem;
-            color: var(--gray-400);
-            font-style: italic;
-        }
-
-        .delivery-option .tag {
-            display: inline-block;
-            background: var(--primary-light);
-            color: var(--primary);
-            font-size: 0.65rem;
-            font-weight: 600;
-            padding: 2px 10px;
-            border-radius: 50px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-left: 6px;
         }
 
         /* Paso 2 - Formulario */
@@ -1119,7 +1097,6 @@
             position: absolute;
             inset: 0;
             z-index: 0;
-            background-color: #000;
         }
 
         .hero-slide {
@@ -1128,10 +1105,6 @@
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
             z-index: 0;
-            background-color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .hero-slide.active {
             opacity: 1;
@@ -1142,15 +1115,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: top;
         }
 
         .hero-slide::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 100%);
-            pointer-events: none;
+            background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
         }
 
         .hero .container {
@@ -3283,7 +3254,7 @@
         <div class="container">
             <div class="hero-content fade-in visible">
                 <span class="badge" id="heroBadge">🔥 Tienda Premium</span>
-                <h1 id="heroTitle"></h1>
+                <h1 id="heroTitle">Vive la <span>pasión</span> <br>sobre dos ruedas</h1>
                 <p id="heroDesc">Encuentra bicicletas de alta gama, accesorios y equipamiento profesional para ciclistas exigentes.</p>
                 <div class="hero-buttons">
                     <a href="#products" class="btn btn-primary">Ver productos</a>
@@ -3456,39 +3427,20 @@
                 </p>
 
                 <div class="delivery-options">
-                    <div class="delivery-option" data-value="correo" onclick="selectDelivery('correo')">
+                    <div class="delivery-option" data-value="envio" onclick="selectDelivery('envio')">
                         <div class="radio"></div>
                         <div class="icon">📦</div>
                         <div class="info">
-                            <h4>Correo Argentino</h4>
-                            <p>Envío a domicilio</p>
+                            <h4>Envío a domicilio</h4>
+                            <p>Vía Correo Argentino o VÍA CARGO (costo a cotizar según ubicación y peso)</p>
                         </div>
                     </div>
-
                     <div class="delivery-option" data-value="retiro" onclick="selectDelivery('retiro')">
                         <div class="radio"></div>
                         <div class="icon">🏪</div>
                         <div class="info">
                             <h4>Retiro en sucursal</h4>
                             <p>Sin costo - Mitre 458, General Villegas, Buenos Aires</p>
-                        </div>
-                    </div>
-
-                    <div class="delivery-option" data-value="viaCargo" onclick="selectDelivery('viaCargo')">
-                        <div class="radio"></div>
-                        <div class="icon">🚛</div>
-                        <div class="info">
-                            <h4>Vía Cargo</h4>
-                            <p>Envío a domicilio <span class="tag">si está disponible</span></p>
-                        </div>
-                    </div>
-
-                    <div class="delivery-option" data-value="coordinar" onclick="selectDelivery('coordinar')">
-                        <div class="radio"></div>
-                        <div class="icon">📞</div>
-                        <div class="info">
-                            <h4>A coordinar con el vendedor</h4>
-                            <p>Te contactamos para acordar el envío</p>
                         </div>
                     </div>
                 </div>
@@ -3512,49 +3464,60 @@
                     </div>
                 </div>
 
-                <!-- Formulario de ENVÍO (Correo Argentino) -->
-                <div class="checkout-form active" id="formCorreo">
+                <!-- Formulario de ENVÍO -->
+                <div class="checkout-form active" id="formEnvio">
                     <div class="shipping-info">
                         <i class="fas fa-info-circle" style="color:var(--primary);"></i>
                         <strong>Importante:</strong> El costo del envío NO está incluido en el precio de los productos. Se cotizará según tu ubicación y el peso del paquete.
                         <br><br>
-                        <strong>Previo pago del producto, despachamos por Correo Argentino.</strong>
+                        <strong>Previo pago del producto, despachamos por VÍA CARGO o Correo Argentino según tu elección.</strong>
                     </div>
 
                     <div class="form-group">
                         <label>Nombre completo <span class="required">*</span></label>
-                        <input type="text" id="correoNombre" placeholder="Ej: Juan Pérez" required>
+                        <input type="text" id="envioNombre" placeholder="Ej: Juan Pérez" required>
                         <div class="error-msg">Este campo es obligatorio</div>
                     </div>
 
                     <div class="form-group">
                         <label>Dirección <span class="required">*</span></label>
-                        <input type="text" id="correoDireccion" placeholder="Ej: Av. Corrientes 1234" required>
+                        <input type="text" id="envioDireccion" placeholder="Ej: Av. Corrientes 1234" required>
                         <div class="error-msg">Este campo es obligatorio</div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Localidad <span class="required">*</span></label>
-                            <input type="text" id="correoLocalidad" placeholder="Ej: CABA" required>
+                            <input type="text" id="envioLocalidad" placeholder="Ej: CABA" required>
                             <div class="error-msg">Este campo es obligatorio</div>
                         </div>
                         <div class="form-group">
                             <label>Código postal <span class="required">*</span></label>
-                            <input type="text" id="correoCodigoPostal" placeholder="Ej: 1000" required>
+                            <input type="text" id="envioCodigoPostal" placeholder="Ej: 1000" required>
                             <div class="error-msg">Este campo es obligatorio</div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>Teléfono <span class="required">*</span></label>
-                        <input type="tel" id="correoTelefono" placeholder="Ej: 11 2345-6789" required>
+                        <input type="tel" id="envioTelefono" placeholder="Ej: 11 2345-6789" required>
+                        <div class="error-msg">Este campo es obligatorio</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Empresa de envío preferida <span class="required">*</span></label>
+                        <select id="envioEmpresa" required>
+                            <option value="">Seleccioná una opción</option>
+                            <option value="Correo Argentino">Correo Argentino</option>
+                            <option value="VÍA CARGO">VÍA CARGO</option>
+                            <option value="Cualquiera">Cualquiera (la que tenga mejor disponibilidad)</option>
+                        </select>
                         <div class="error-msg">Este campo es obligatorio</div>
                     </div>
 
                     <div class="form-group">
                         <label>Notas adicionales</label>
-                        <textarea id="correoNotas" placeholder="Ej: Dejar en la puerta, timbre 2do piso, etc."></textarea>
+                        <textarea id="envioNotas" placeholder="Ej: Dejar en la puerta, timbre 2do piso, etc."></textarea>
                     </div>
                 </div>
 
@@ -3587,84 +3550,6 @@
                         <label>Teléfono <span class="required">*</span></label>
                         <input type="tel" id="retiroTelefono" placeholder="Ej: 11 2345-6789" required>
                         <div class="error-msg">Este campo es obligatorio</div>
-                    </div>
-                </div>
-
-                <!-- Formulario de VÍA CARGO -->
-                <div class="checkout-form" id="formViaCargo">
-                    <div class="shipping-info">
-                        <i class="fas fa-info-circle" style="color:var(--primary);"></i>
-                        <strong>Importante:</strong> El costo del envío NO está incluido en el precio de los productos. Se cotizará según tu ubicación y el peso del paquete.
-                        <br><br>
-                        <strong>Previo pago del producto, despachamos por VÍA CARGO (si está disponible en tu zona).</strong>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nombre completo <span class="required">*</span></label>
-                        <input type="text" id="viaCargoNombre" placeholder="Ej: Juan Pérez" required>
-                        <div class="error-msg">Este campo es obligatorio</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Dirección <span class="required">*</span></label>
-                        <input type="text" id="viaCargoDireccion" placeholder="Ej: Av. Corrientes 1234" required>
-                        <div class="error-msg">Este campo es obligatorio</div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Localidad <span class="required">*</span></label>
-                            <input type="text" id="viaCargoLocalidad" placeholder="Ej: CABA" required>
-                            <div class="error-msg">Este campo es obligatorio</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Código postal <span class="required">*</span></label>
-                            <input type="text" id="viaCargoCodigoPostal" placeholder="Ej: 1000" required>
-                            <div class="error-msg">Este campo es obligatorio</div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Teléfono <span class="required">*</span></label>
-                        <input type="tel" id="viaCargoTelefono" placeholder="Ej: 11 2345-6789" required>
-                        <div class="error-msg">Este campo es obligatorio</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Notas adicionales</label>
-                        <textarea id="viaCargoNotas" placeholder="Ej: Dejar en la puerta, timbre 2do piso, etc."></textarea>
-                    </div>
-                </div>
-
-                <!-- Formulario de A COORDINAR -->
-                <div class="checkout-form" id="formCoordinar">
-                    <div class="shipping-info">
-                        <i class="fas fa-info-circle" style="color:var(--primary);"></i>
-                        <strong>Te contactamos para coordinar el envío.</strong>
-                        <br><br>
-                        Un asesor se pondrá en contacto contigo para acordar la mejor opción de entrega según tu ubicación.
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nombre completo <span class="required">*</span></label>
-                        <input type="text" id="coordinarNombre" placeholder="Ej: Juan Pérez" required>
-                        <div class="error-msg">Este campo es obligatorio</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Teléfono <span class="required">*</span></label>
-                        <input type="tel" id="coordinarTelefono" placeholder="Ej: 11 2345-6789" required>
-                        <div class="error-msg">Este campo es obligatorio</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Dirección (opcional)</label>
-                        <input type="text" id="coordinarDireccion" placeholder="Ej: Av. Corrientes 1234">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Localidad (opcional)</label>
-                        <input type="text" id="coordinarLocalidad" placeholder="Ej: CABA">
                     </div>
                 </div>
 
@@ -5183,18 +5068,12 @@
             document.getElementById('step2').style.display = 'block';
             
             // Mostrar el formulario correspondiente
-            document.querySelectorAll('.checkout-form').forEach(form => form.classList.remove('active'));
-            
-            const formMap = {
-                'correo': 'formCorreo',
-                'retiro': 'formRetiro',
-                'viaCargo': 'formViaCargo',
-                'coordinar': 'formCoordinar'
-            };
-            
-            const formId = formMap[selectedDelivery];
-            if (formId) {
-                document.getElementById(formId).classList.add('active');
+            if (selectedDelivery === 'envio') {
+                document.getElementById('formEnvio').classList.add('active');
+                document.getElementById('formRetiro').classList.remove('active');
+            } else {
+                document.getElementById('formRetiro').classList.add('active');
+                document.getElementById('formEnvio').classList.remove('active');
             }
         }
 
@@ -5226,58 +5105,27 @@
         function finalizarPedido() {
             let isValid = false;
             let formData = {};
-            let deliveryLabel = '';
-            let deliveryDetail = '';
             
-            if (selectedDelivery === 'correo') {
-                isValid = validateForm('formCorreo');
+            if (selectedDelivery === 'envio') {
+                isValid = validateForm('formEnvio');
                 if (isValid) {
                     formData = {
-                        nombre: document.getElementById('correoNombre').value.trim(),
-                        direccion: document.getElementById('correoDireccion').value.trim(),
-                        localidad: document.getElementById('correoLocalidad').value.trim(),
-                        codigoPostal: document.getElementById('correoCodigoPostal').value.trim(),
-                        telefono: document.getElementById('correoTelefono').value.trim(),
-                        notas: document.getElementById('correoNotas').value.trim()
+                        nombre: document.getElementById('envioNombre').value.trim(),
+                        direccion: document.getElementById('envioDireccion').value.trim(),
+                        localidad: document.getElementById('envioLocalidad').value.trim(),
+                        codigoPostal: document.getElementById('envioCodigoPostal').value.trim(),
+                        telefono: document.getElementById('envioTelefono').value.trim(),
+                        empresa: document.getElementById('envioEmpresa').value,
+                        notas: document.getElementById('envioNotas').value.trim()
                     };
-                    deliveryLabel = 'Correo Argentino';
-                    deliveryDetail = '📦 Envío a domicilio';
                 }
-            } else if (selectedDelivery === 'retiro') {
+            } else {
                 isValid = validateForm('formRetiro');
                 if (isValid) {
                     formData = {
                         nombre: document.getElementById('retiroNombre').value.trim(),
                         telefono: document.getElementById('retiroTelefono').value.trim()
                     };
-                    deliveryLabel = 'Retiro en sucursal';
-                    deliveryDetail = '🏪 Sin costo - Mitre 458, General Villegas';
-                }
-            } else if (selectedDelivery === 'viaCargo') {
-                isValid = validateForm('formViaCargo');
-                if (isValid) {
-                    formData = {
-                        nombre: document.getElementById('viaCargoNombre').value.trim(),
-                        direccion: document.getElementById('viaCargoDireccion').value.trim(),
-                        localidad: document.getElementById('viaCargoLocalidad').value.trim(),
-                        codigoPostal: document.getElementById('viaCargoCodigoPostal').value.trim(),
-                        telefono: document.getElementById('viaCargoTelefono').value.trim(),
-                        notas: document.getElementById('viaCargoNotas').value.trim()
-                    };
-                    deliveryLabel = 'VÍA CARGO';
-                    deliveryDetail = '🚛 Envío a domicilio (si está disponible)';
-                }
-            } else if (selectedDelivery === 'coordinar') {
-                isValid = validateForm('formCoordinar');
-                if (isValid) {
-                    formData = {
-                        nombre: document.getElementById('coordinarNombre').value.trim(),
-                        telefono: document.getElementById('coordinarTelefono').value.trim(),
-                        direccion: document.getElementById('coordinarDireccion').value.trim(),
-                        localidad: document.getElementById('coordinarLocalidad').value.trim()
-                    };
-                    deliveryLabel = 'A coordinar con el vendedor';
-                    deliveryDetail = '📞 Te contactamos para acordar el envío';
                 }
             }
             
@@ -5289,14 +5137,12 @@
             // Construir mensaje para WhatsApp
             let message = '🛒 *Nuevo pedido desde OliviaBike 24.7*%0A%0A';
             
-            message += `📦 *Método de entrega:* ${deliveryLabel}%0A`;
-            message += `${deliveryDetail}%0A%0A`;
-            
-            message += '👤 *Datos del cliente:*%0A';
-            message += `Nombre: ${formData.nombre}%0A`;
-            message += `Teléfono: ${formData.telefono}%0A`;
-            
-            if (selectedDelivery === 'correo' || selectedDelivery === 'viaCargo') {
+            if (selectedDelivery === 'envio') {
+                message += '📦 *Tipo de entrega:* Envío a domicilio%0A';
+                message += `🚚 *Empresa preferida:* ${formData.empresa}%0A%0A`;
+                message += '👤 *Datos del cliente:*%0A';
+                message += `Nombre: ${formData.nombre}%0A`;
+                message += `Teléfono: ${formData.telefono}%0A`;
                 message += `Dirección: ${formData.direccion}%0A`;
                 message += `Localidad: ${formData.localidad}%0A`;
                 message += `Código postal: ${formData.codigoPostal}%0A`;
@@ -5304,18 +5150,14 @@
                     message += `Notas: ${formData.notas}%0A`;
                 }
                 message += '%0A⚠️ *El costo del envío se cotizará por separado según tu ubicación y el peso del paquete.*%0A';
-                message += `📦 *Previo pago del producto, despachamos por ${deliveryLabel}.*%0A`;
-            } else if (selectedDelivery === 'retiro') {
+                message += '%0A📦 *Previo pago del producto, despachamos por la empresa que elegiste.*%0A';
+            } else {
+                message += '🏪 *Tipo de entrega:* Retiro en sucursal%0A';
+                message += '📍 *Dirección:* Mitre 458, General Villegas, Provincia de Buenos Aires%0A%0A';
+                message += '👤 *Datos del cliente:*%0A';
+                message += `Nombre: ${formData.nombre}%0A`;
+                message += `Teléfono: ${formData.telefono}%0A`;
                 message += '%0A💰 *Forma de pago:* Podés abonarlo en el momento de retirar.%0A';
-                message += '📍 *Dirección:* Mitre 458, General Villegas, Provincia de Buenos Aires%0A';
-            } else if (selectedDelivery === 'coordinar') {
-                if (formData.direccion) {
-                    message += `Dirección: ${formData.direccion}%0A`;
-                }
-                if (formData.localidad) {
-                    message += `Localidad: ${formData.localidad}%0A`;
-                }
-                message += '%0A📞 *Un asesor se pondrá en contacto contigo para coordinar el envío.*%0A';
             }
             
             message += '%0A📋 *Detalle del pedido:*%0A';
@@ -5640,9 +5482,6 @@
         console.log('📍 Dirección: Mitre 458, General Villegas, Provincia de Buenos Aires');
         console.log('📩 Botones de WhatsApp con mensajes personalizados');
         console.log('🔗 Menú hamburguesa navega a las secciones');
-        console.log('🖼️ Imágenes del Hero con object-fit: cover y object-position: top');
-        console.log('📝 Título del Hero manejado desde el panel admin');
-        console.log('📦 Métodos de envío: Correo Argentino, Retiro, Vía Cargo, A coordinar');
     </script>
 </body>
 </html>
