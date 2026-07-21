@@ -1212,13 +1212,20 @@
         }
 
         /* ============================================================
-           BANNERS CON ROJO
+           BANNERS CON ROJO - MODIFICADO PARA MOSTRAR 1 SOLO BANNER
            ============================================================ */
         .banners-carousel {
             padding: 0;
             background: var(--black);
             position: relative;
-            overflow: hidden;
+            overflow: hidden; /* ← CRUCIAL: oculta los banners adyacentes */
+            width: 100%;
+        }
+
+        .banners-carousel .banner-wrapper {
+            position: relative;
+            overflow: hidden; /* ← Doble capa de seguridad */
+            width: 100%;
         }
 
         .banners-track {
@@ -1231,7 +1238,7 @@
         .banner-slide {
             min-width: 100%;
             width: 100%;
-            padding: 60px 0;
+            padding: 60px 24px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
@@ -1240,6 +1247,8 @@
             flex-shrink: 0;
             user-select: none;
             -webkit-user-select: none;
+            /* Eliminamos cualquier margen o padding que pueda mostrar fragmentos */
+            margin: 0;
         }
 
         .banner-slide .banner-text .badge-banner {
@@ -2725,6 +2734,7 @@
                 grid-template-columns: 1fr;
                 text-align: center;
                 gap: 30px;
+                padding: 40px 24px;
             }
             .banner-slide .banner-text p { margin: 16px auto 24px; }
             .banner-slide .banner-text .badge-banner { margin: 0 auto 12px; }
@@ -2914,7 +2924,7 @@
             }
             .hero-indicators { bottom: 60px; }
             .banner-slide {
-                padding: 40px 0;
+                padding: 30px 20px;
             }
             .banner-slide .banner-image img { max-height: 250px; }
             .banners-controls { padding: 15px 0 25px; }
@@ -3270,9 +3280,10 @@
         <div class="hero-scroll"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- ========== BANNERS - 1 IMAGEN HARDCODEADA + RESTO DESDE SUPABASE ========== -->
+    <!-- ========== BANNERS - MODIFICADO: WRAPPER PARA OVERFLOW ========== -->
     <section class="banners-carousel" id="banners">
-        <div class="container">
+        <!-- NUEVO WRAPPER: contenedor con overflow:hidden para ocultar banners adyacentes -->
+        <div class="banner-wrapper">
             <div class="banners-track" id="bannersTrack">
                 <!-- BANNER 1 - HARDCODEADO -->
                 <div class="banner-slide" data-index="0">
@@ -3297,11 +3308,11 @@
             </div>
         </div>
         <div class="banners-controls">
-            <button class="btn-banner" id="bannerPrev"><i class="fas fa-chevron-left"></i></button>
+            <button class="btn-banner" id="bannerPrev" aria-label="Banner anterior"><i class="fas fa-chevron-left"></i></button>
             <div class="banners-dots" id="bannersDots">
-                <button class="dot active" data-index="0"></button>
+                <button class="dot active" data-index="0" aria-label="Banner 1"></button>
             </div>
-            <button class="btn-banner" id="bannerNext"><i class="fas fa-chevron-right"></i></button>
+            <button class="btn-banner" id="bannerNext" aria-label="Banner siguiente"><i class="fas fa-chevron-right"></i></button>
         </div>
     </section>
 
@@ -4265,7 +4276,7 @@
         }
 
         // =====================================================
-        // RENDER BANNERS CARRUSEL
+        // RENDER BANNERS CARRUSEL (MODIFICADO)
         // =====================================================
         function renderBannersCarousel() {
             const track = document.getElementById('bannersTrack');
@@ -4284,14 +4295,14 @@
             const firstDot = document.createElement('button');
             firstDot.className = 'dot active';
             firstDot.dataset.index = 0;
+            firstDot.setAttribute('aria-label', 'Banner 1');
             firstDot.addEventListener('click', () => {
                 goToBannerSlide(0);
                 resetBannerAutoplay();
             });
             dotsContainer.appendChild(firstDot);
 
-            // Por si esta función se llama más de una vez, sacamos slides dinámicos previos
-            // (dejamos SOLO el que tiene data-index="0", que es el hardcodeado del HTML)
+            // Sacamos slides dinámicos previos (dejamos SOLO el que tiene data-index="0")
             track.querySelectorAll('.banner-slide[data-index]:not([data-index="0"])').forEach(el => el.remove());
 
             // Agregamos los banners nuevos DESPUÉS del hardcodeado
@@ -4326,6 +4337,7 @@
                 const dot = document.createElement('button');
                 dot.className = 'dot';
                 dot.dataset.index = slideIndex;
+                dot.setAttribute('aria-label', `Banner ${slideIndex + 1}`);
                 dot.addEventListener('click', () => {
                     goToBannerSlide(slideIndex);
                     resetBannerAutoplay();
@@ -4388,6 +4400,47 @@
                 goToBannerSlide(currentBannerSlide + 1);
                 resetBannerAutoplay();
             });
+
+            // =====================================================
+            // ✅ NUEVO: SOPORTE PARA SWIPE TÁCTIL EN MÓVILES
+            // =====================================================
+            const bannerWrapper = document.querySelector('.banner-wrapper');
+            if (bannerWrapper) {
+                let touchStartX = 0;
+                let touchEndX = 0;
+                let isSwiping = false;
+
+                bannerWrapper.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                    isSwiping = true;
+                }, { passive: true });
+
+                bannerWrapper.addEventListener('touchmove', (e) => {
+                    if (!isSwiping) return;
+                    // Evitamos que el scroll vertical se bloquee
+                    e.preventDefault();
+                }, { passive: false });
+
+                bannerWrapper.addEventListener('touchend', (e) => {
+                    if (!isSwiping) return;
+                    isSwiping = false;
+                    touchEndX = e.changedTouches[0].screenX;
+                    const diff = touchStartX - touchEndX;
+                    
+                    // Umbral mínimo de 50px para considerar swipe
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) {
+                            // Deslizar hacia la izquierda → siguiente
+                            goToBannerSlide(currentBannerSlide + 1);
+                            resetBannerAutoplay();
+                        } else {
+                            // Deslizar hacia la derecha → anterior
+                            goToBannerSlide(currentBannerSlide - 1);
+                            resetBannerAutoplay();
+                        }
+                    }
+                }, { passive: true });
+            }
         }
 
         // =====================================================
@@ -4419,7 +4472,7 @@
         }
 
         // =====================================================
-        // BANNERS CONTROLS
+        // BANNERS CONTROLS (MODIFICADO)
         // =====================================================
         function goToBannerSlide(index) {
             const slides = document.querySelectorAll('.banner-slide');
@@ -5470,6 +5523,10 @@
         console.log('🚴 OliviaBike 24.7 - Performance Optimizada');
         console.log('🔴 HERO: 1 imagen hardcodeada con preload + fetchpriority="high"');
         console.log('🟡 BANNER: 1 imagen hardcodeada + el resto desde Supabase (carrusel completo)');
+        console.log('✅ CARRUSEL BANNERS: 1 banner visible a la vez con overflow:hidden');
+        console.log('✅ SWIPE TÁCTIL: Implementado en móviles con umbral de 50px');
+        console.log('✅ FLECHAS: Reutilizadas las existentes para navegación en escritorio');
+        console.log('✅ AUTOPLAY: Mantenido a 6 segundos');
         console.log('🟢 RESTO: Imágenes desde Supabase con fetchpriority="high"');
         console.log('📸 GALERÍA: Modal GRANDE con flechas DENTRO y navegación por teclado');
         console.log('📅 OFERTAS: Cargadas desde tabla schedules de Supabase');
