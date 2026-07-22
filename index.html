@@ -3755,34 +3755,6 @@ function applyOfferToCart(cartItems, offer) {
     const savings = discount;
     return { items: cartItems, subtotal, discount, total, savings };
 }
-    // =====================================================
-    // 🚨 APLICAR TOPE MÁXIMO (NUEVO)
-    // =====================================================
-    if (tope > 0 && discount > tope) {
-        console.log(`🔒 Descuento limitado: $${Math.round(discount).toLocaleString('es-AR')} → $${tope.toLocaleString('es-AR')} (tope máximo)`);
-        discount = tope;
-    }
-
-    // NUNCA permitir que el descuento sea mayor que el subtotal (evita precios negativos)
-    if (discount > subtotal) {
-        console.log(`🔒 Descuento limitado al subtotal: $${subtotal.toLocaleString('es-AR')}`);
-        discount = subtotal;
-    }
-
-    discount = Math.round(discount);
-    const total = subtotal - discount;
-    const savings = discount;
-
-    console.log(`💰 Descuento aplicado: $${discount.toLocaleString('es-AR')} | Total: $${total.toLocaleString('es-AR')}`);
-
-    return { items: cartItems, subtotal, discount, total, savings };
-}
-        discount = Math.round(discount);
-        const total = subtotal - discount;
-        const savings = discount;
-
-        return { items: cartItems, subtotal, discount, total, savings };
-    }
 
     function updateCartUI() {
         const badge = document.getElementById('cartBadge');
