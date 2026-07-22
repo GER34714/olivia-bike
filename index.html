@@ -3499,7 +3499,52 @@
             }
         }
     }
+    // =====================================================
+    // CARGAR TEXTO DEL MODAL DE ENVÍOS
+    // =====================================================
+    async function loadModalEnvios() {
+        try {
+            const { data, error } = await supabaseClient
+                .from('config')
+                .select('value')
+                .eq('key', 'texto_modal_envios')
+                .single();
 
+            if (error) throw error;
+
+            const container = document.getElementById('shippingInfoContainer');
+            if (!container) return;
+
+            const texto = data?.value || 
+                '📦 *Enviamos a todo el país*%0A%0A• El costo del envío se cotizará al momento de finalizar la compra según tu ubicación.%0A• Realizamos envíos a todo el país.';
+
+            const html = texto
+                .replace(/%0A/g, '<br>')
+                .replace(/\*([^*]+)\*/g, '<strong>$1</strong>')
+                .replace(/•/g, '•');
+
+            container.innerHTML = `
+                <i class="fas fa-info-circle" style="color:var(--primary);"></i>
+                <span>${html}</span>
+            `;
+
+            console.log('✅ Modal de envíos cargado');
+
+        } catch (err) {
+            console.error('Error cargando texto de envíos:', err);
+            const container = document.getElementById('shippingInfoContainer');
+            if (container) {
+                container.innerHTML = `
+                    <i class="fas fa-info-circle" style="color:var(--primary);"></i>
+                    <span>
+                        <strong>Importante:</strong> El costo del envío se cotizará al momento de finalizar la compra según tu ubicación.
+                        Realizamos envíos a todo el país.
+                    </span>
+                `;
+            }
+        }
+    }
+    
   // =====================================================
 // CARGAR HORARIOS DESDE LA BD (AGRUPADOS)
 // =====================================================
