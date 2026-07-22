@@ -3500,7 +3500,7 @@
         }
     }
 
-   // =====================================================
+  // =====================================================
 // CARGAR HORARIOS DESDE LA BD (AGRUPADOS)
 // =====================================================
 async function loadHorarios() {
@@ -3518,7 +3518,7 @@ async function loadHorarios() {
 
         if (!horarios || horarios.length === 0) {
             container.innerHTML = `
-                <li><i class="fas fa-clock"></i> Lun a Vie: 08:00 - 20:00</li>
+                <li><i class="fas fa-clock"></i> Lun a Vie: 09:00 - 20:00</li>
                 <li><i class="fas fa-clock"></i> Sáb: 10:00 - 18:00</li>
                 <li><i class="fas fa-clock"></i> Dom: Cerrado</li>
             `;
@@ -3602,14 +3602,14 @@ async function loadHorarios() {
         });
 
         container.innerHTML = html;
-        console.log('✅ Horarios cargados y agrupados');
+        console.log('✅ Horarios cargados y agrupados:', horarios.length);
 
     } catch (err) {
         console.error('❌ Error cargando horarios:', err);
         const container = document.getElementById('horariosFooter');
         if (container) {
             container.innerHTML = `
-                <li><i class="fas fa-clock"></i> Lun a Vie: 08:00 - 20:00</li>
+                <li><i class="fas fa-clock"></i> Lun a Vie: 09:00 - 20:00</li>
                 <li><i class="fas fa-clock"></i> Sáb: 10:00 - 18:00</li>
                 <li><i class="fas fa-clock"></i> Dom: Cerrado</li>
             `;
