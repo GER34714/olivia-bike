@@ -442,7 +442,60 @@
             transform: scale(1.1);
             box-shadow: 0 12px 32px rgba(37,211,102,0.4);
         }
+/* ============================================================
+   ANIMACIONES PARA OFERTAS (IGUAL QUE EL ADMIN)
+   ============================================================ */
+@keyframes pulse-sticker {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
 
+/* Sticker de descuento - IGUAL QUE EL ADMIN */
+.discount-sticker {
+    display: inline-block;
+    background: var(--primary);
+    color: var(--white);
+    padding: 8px 24px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px rgba(230, 57, 70, 0.4);
+    animation: pulse-sticker 2s ease-in-out infinite;
+}
+
+/* Caja de información del alcance - IGUAL QUE EL ADMIN */
+.alcance-info-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 8px;
+    border-left: 3px solid var(--primary);
+}
+
+.alcance-info-box .info-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #D0D0D0;
+    font-size: 0.85rem;
+    padding: 3px 0;
+}
+
+.alcance-info-box .info-row i {
+    color: var(--primary);
+    width: 18px;
+    font-size: 0.8rem;
+}
+
+.alcance-info-box .info-row strong {
+    color: #FFFFFF;
+}
+
+.alcance-info-box .info-row .highlight {
+    color: var(--primary);
+    font-weight: 700;
+}
         /* ============================================================
            CARRITO MODAL
            ============================================================ */
@@ -3781,189 +3834,143 @@
     // =====================================================
     // RENDER OFERTAS PROGRAMADAS (MEJORADO - CON NOMBRES REALES)
     // =====================================================
-    async function renderScheduledOffers() {
-        const container = document.getElementById('offersContainer');
-        if (!container) return;
+async function renderScheduledOffers() {
+    const container = document.getElementById('offersContainer');
+    if (!container) return;
 
-        try {
-            const now = new Date().toISOString();
+    try {
+        const now = new Date().toISOString();
 
-            const { data: offers, error } = await supabaseClient
-                .from('schedules')
-                .select('*')
-                .eq('estado', 'activo')
-                .lt('fecha_inicio', now)
-                .gt('fecha_fin', now)
-                .order('priority', { ascending: true })
-                .limit(1);
+        const { data: offers, error } = await supabaseClient
+            .from('schedules')
+            .select('*')
+            .eq('estado', 'activo')
+            .lt('fecha_inicio', now)
+            .gt('fecha_fin', now)
+            .order('priority', { ascending: true })
+            .limit(1);
 
-            if (error) {
-                console.error('Error cargando ofertas:', error);
-                container.innerHTML = '';
-                return;
+        if (error) {
+            console.error('Error cargando ofertas:', error);
+            container.innerHTML = '';
+            return;
+        }
+
+        if (!offers || offers.length === 0) {
+            container.innerHTML = '';
+            activeOffer = null;
+            updateCartUI();
+            return;
+        }
+
+        const offer = offers[0];
+        activeOffer = offer;
+        const endDate = new Date(offer.fecha_fin);
+
+        // Calcular texto del descuento
+        let discountText = '';
+        if (offer.tipo_descuento === 'porcentaje' && offer.valor_descuento) {
+            discountText = offer.valor_descuento + '% OFF';
+        } else if (offer.tipo_descuento === 'monto_fijo' && offer.valor_descuento) {
+            discountText = '$' + Number(offer.valor_descuento).toLocaleString('es-AR') + ' OFF';
+        }
+
+        // ============================================================
+        // OBTENER NOMBRE REAL DEL ALCANCE (IGUAL QUE EL ADMIN)
+        // ============================================================
+        let alcanceName = '';
+        let alcanceDetail = '';
+
+        if (offer.alcance === 'global') {
+            alcanceName = 'Toda la tienda';
+            alcanceDetail = 'Válido para todos los productos';
+        } else if (offer.alcance === 'producto') {
+            const prodId = offer.productos_ids?.[0];
+            const product = allProducts.find(p => p.id == prodId);
+            alcanceName = product ? product.name : 'Producto seleccionado';
+            alcanceDetail = `Válido solo para "${alcanceName}"`;
+        } else if (offer.alcance === 'categoria') {
+            const catId = offer.categorias_ids?.[0];
+            const category = allCategories.find(c => c.id == catId);
+            alcanceName = category ? category.name : 'Categoría seleccionada';
+            alcanceDetail = `Válido para toda la categoría "${alcanceName}"`;
+        } else if (offer.alcance === 'seleccion') {
+            const ids = offer.productos_ids || [];
+            const count = ids.length;
+            if (count > 0) {
+                const names = ids.map(id => {
+                    const p = allProducts.find(pr => pr.id == id);
+                    return p ? p.name : id;
+                }).join(', ');
+                alcanceName = `${count} producto${count > 1 ? 's' : ''} seleccionado${count > 1 ? 's' : ''}`;
+                alcanceDetail = `Productos: ${names}`;
+            } else {
+                alcanceName = 'Seleccioná productos';
+                alcanceDetail = 'Agregá productos desde el panel admin';
             }
+        }
 
-            if (!offers || offers.length === 0) {
-                container.innerHTML = '';
-                activeOffer = null;
-                updateCartUI();
-                return;
-            }
-
-            const offer = offers[0];
-            activeOffer = offer;
-            const endDate = new Date(offer.fecha_fin);
-
-            let discountText = '';
-            if (offer.tipo_descuento === 'porcentaje' && offer.valor_descuento) {
-                discountText = offer.valor_descuento + '% OFF';
-            } else if (offer.tipo_descuento === 'monto_fijo' && offer.valor_descuento) {
-                discountText = '$' + Number(offer.valor_descuento).toLocaleString('es-AR') + ' OFF';
-            }
-
-            // Obtener nombre del alcance con nombres REALES
-            let alcanceText = '';
-            let alcanceDetail = '';
-
-            if (offer.alcance === 'global') {
-                alcanceText = ' en toda la compra';
-                alcanceDetail = 'Válido para todos los productos de la tienda';
-            } else if (offer.alcance === 'producto') {
-                const prodId = offer.productos_ids?.[0];
-                const product = allProducts.find(p => p.id == prodId);
-                alcanceText = product ? ` en "${product.name}"` : ' en producto seleccionado';
-                alcanceDetail = product ? `Válido solo para "${product.name}"` : 'Seleccioná un producto';
-            } else if (offer.alcance === 'categoria') {
-                const catId = offer.categorias_ids?.[0];
-                const category = allCategories.find(c => c.id == catId);
-                alcanceText = category ? ` en "${category.name}"` : ' en categoría seleccionada';
-                alcanceDetail = category ? `Válido para toda la categoría "${category.name}"` : 'Seleccioná una categoría';
-            } else if (offer.alcance === 'seleccion') {
-                const ids = offer.productos_ids || [];
-                const count = ids.length;
-                if (count > 0) {
-                    const names = ids.map(id => {
-                        const p = allProducts.find(pr => pr.id == id);
-                        return p ? p.name : id;
-                    }).join(', ');
-                    alcanceText = ` en ${count} producto${count > 1 ? 's' : ''} seleccionado${count > 1 ? 's' : ''}`;
-                    alcanceDetail = `Productos: ${names}`;
-                } else {
-                    alcanceText = ' en productos seleccionados';
-                    alcanceDetail = 'Agregá productos desde el panel admin';
-                }
-            }
-
-            container.innerHTML = `
-                <section class="banner-promo" id="bannerPromo">
-                    <div class="container">
-                        <div class="banner-content">
-                            <div class="fade-in-left">
-                                <span class="section-tag" style="color: var(--primary);">${offer.badge || '🔥 Oferta especial'}</span>
-                                <h2>${offer.title || 'Oferta por tiempo limitado'}</h2>
-                                <p>${offer.description || ''}</p>
-                                ${discountText ? `<p style="color: var(--primary); font-weight: 800; font-size: 1.3rem;">${discountText}${alcanceText}</p>` : ''}
-                                <p style="color: var(--gray-400); font-size: 0.9rem; margin-top: -8px;">${alcanceDetail}</p>
-                                <div class="banner-timer" id="offerTimer">
-                                    <div class="timer-item"><span class="number" id="offerHours">00</span><span class="label">Horas</span></div>
-                                    <div class="timer-item"><span class="number" id="offerMinutes">00</span><span class="label">Minutos</span></div>
-                                    <div class="timer-item"><span class="number" id="offerSeconds">00</span><span class="label">Segundos</span></div>
+        // ============================================================
+        // HTML DEL BANNER - IGUAL QUE LA VISTA PREVIA DEL ADMIN
+        // ============================================================
+        container.innerHTML = `
+            <section class="banner-promo" id="bannerPromo">
+                <div class="container">
+                    <div class="banner-content">
+                        <div class="fade-in-left">
+                            <span class="section-tag" style="color: var(--primary);">${offer.badge || '🔥 Oferta especial'}</span>
+                            <h2>${offer.title || 'Oferta por tiempo limitado'}</h2>
+                            <p>${offer.description || ''}</p>
+                            
+                            <!-- STICKER DE DESCUENTO (como en el admin) -->
+                            ${discountText ? `
+                                <p style="display: inline-block; background: var(--primary); color: var(--white); padding: 8px 24px; border-radius: 50px; font-weight: 800; font-size: 1.1rem; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(230, 57, 70, 0.4); animation: pulse-sticker 2s ease-in-out infinite;">
+                                    ${discountText}
+                                </p>
+                            ` : ''}
+                            
+                            <!-- INFO DEL ALCANCE (como en el admin) -->
+                            <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 14px 18px; margin-top: 8px; border-left: 3px solid var(--primary);">
+                                <div style="display: flex; align-items: center; gap: 10px; color: #D0D0D0; font-size: 0.85rem;">
+                                    <i class="fas fa-tag" style="color: var(--primary); width: 18px; font-size: 0.8rem;"></i>
+                                    <span>
+                                        <strong style="color: #FFFFFF;">${discountText || 'Sin descuento'}</strong> 
+                                        en <span style="color: var(--primary); font-weight: 700;">${alcanceName}</span>
+                                    </span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 10px; color: #D0D0D0; font-size: 0.85rem; margin-top: 4px;">
+                                    <i class="fas fa-info-circle" style="color: var(--primary); width: 18px; font-size: 0.8rem;"></i>
+                                    <span>${alcanceDetail}</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 10px; color: #D0D0D0; font-size: 0.85rem; margin-top: 4px;">
+                                    <i class="fas fa-calendar-alt" style="color: var(--primary); width: 18px; font-size: 0.8rem;"></i>
+                                    <span>${new Date(offer.fecha_inicio).toLocaleDateString('es-AR')} - ${new Date(offer.fecha_fin).toLocaleDateString('es-AR')}</span>
                                 </div>
                             </div>
-                            <div class="banner-image fade-in-right">
-                                <img src="${offer.image || 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80&auto=format'}" alt="${offer.title || 'Oferta'}" loading="lazy">
+
+                            <div class="banner-timer" id="offerTimer">
+                                <div class="timer-item"><span class="number" id="offerHours">00</span><span class="label">Horas</span></div>
+                                <div class="timer-item"><span class="number" id="offerMinutes">00</span><span class="label">Minutos</span></div>
+                                <div class="timer-item"><span class="number" id="offerSeconds">00</span><span class="label">Segundos</span></div>
                             </div>
+                            <!-- EL BOTÓN HA SIDO ELIMINADO -->
+                        </div>
+                        <div class="banner-image fade-in-right">
+                            <img src="${offer.image || 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80&auto=format'}" alt="${offer.title || 'Oferta'}" loading="lazy">
                         </div>
                     </div>
-                </section>
-            `;
+                </div>
+            </section>
+        `;
 
-            startOfferTimer(endDate);
-            updateCartUI();
+        startOfferTimer(endDate);
+        updateCartUI();
 
-        } catch (err) {
-            console.error('Error en renderScheduledOffers:', err);
-            container.innerHTML = '';
-        }
+    } catch (err) {
+        console.error('Error en renderScheduledOffers:', err);
+        container.innerHTML = '';
     }
-
-    function startOfferTimer(endDate) {
-        if (offerTimerInterval) {
-            clearInterval(offerTimerInterval);
-            offerTimerInterval = null;
-        }
-
-        function updateOfferTimer() {
-            const now = new Date();
-            const diff = Math.max(0, endDate - now);
-
-            const hours = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, '0');
-            const minutes = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-            const seconds = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
-
-            const hoursEl = document.getElementById('offerHours');
-            const minutesEl = document.getElementById('offerMinutes');
-            const secondsEl = document.getElementById('offerSeconds');
-
-            if (hoursEl) hoursEl.textContent = hours;
-            if (minutesEl) minutesEl.textContent = minutes;
-            if (secondsEl) secondsEl.textContent = seconds;
-
-            if (diff <= 0) {
-                clearInterval(offerTimerInterval);
-                offerTimerInterval = null;
-                setTimeout(async () => {
-                    const now2 = new Date().toISOString();
-                    const { data: nextOffer, error } = await supabaseClient
-                        .from('schedules')
-                        .select('*')
-                        .eq('estado', 'activo')
-                        .lt('fecha_inicio', now2)
-                        .gt('fecha_fin', now2)
-                        .order('created_at', { ascending: false })
-                        .limit(1);
-
-                    if (error) {
-                        console.error('Error buscando siguiente oferta:', error);
-                        const banner = document.getElementById('bannerPromo');
-                        if (banner) banner.style.display = 'none';
-                        return;
-                    }
-
-                    if (nextOffer && nextOffer.length > 0) {
-                        renderScheduledOffers();
-                    } else {
-                        const timerContainer = document.getElementById('offerTimer');
-                        const bannerPromo = document.getElementById('bannerPromo');
-                        if (timerContainer && bannerPromo) {
-                            const bannerContent = bannerPromo.querySelector('.banner-content');
-                            if (bannerContent) {
-                                const imageContainer = bannerPromo.querySelector('.banner-image');
-                                const imageHtml = imageContainer ? imageContainer.innerHTML : '';
-                                bannerContent.innerHTML = `
-                                    <div class="fade-in-left" style="grid-column: 1 / -1; text-align: center; max-width: 700px; margin: 0 auto;">
-                                        <span class="section-tag" style="color: var(--gray-400);">⏰ Oferta finalizada</span>
-                                        <h2 style="font-size: clamp(1.8rem, 3vw, 2.6rem);">¡Esta promoción especial ya terminó!</h2>
-                                        <p style="color: var(--gray-400); margin-bottom: 20px;">Pero no te preocupes, pronto tendremos nuevas ofertas exclusivas para ti.</p>
-                                        <a href="https://wa.me/${whatsappNumber}?text=Hola%20OliviaBike%2024.7%2C%20quiero%20suscribirme%20para%20recibir%20ofertas%20especiales." target="_blank" class="btn btn-red">
-                                            <i class="fas fa-envelope"></i> Suscribirme
-                                        </a>
-                                    </div>
-                                    ${imageHtml ? `<div class="banner-image" style="display:none;">${imageHtml}</div>` : ''}
-                                `;
-                            }
-                        }
-                        activeOffer = null;
-                        updateCartUI();
-                    }
-                }, 2000);
-            }
-        }
-
-        updateOfferTimer();
-        offerTimerInterval = setInterval(updateOfferTimer, 1000);
-    }
-
+}
     // =====================================================
     // RENDER HERO CARRUSEL
     // =====================================================
