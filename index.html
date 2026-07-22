@@ -3183,10 +3183,8 @@
             </div>
             <div>
                 <h4>Horarios</h4>
-                <ul>
-                    <li><i class="fas fa-clock"></i> Lun - Vie: 9:00 - 20:00</li>
-                    <li><i class="fas fa-clock"></i> Sábado: 10:00 - 18:00</li>
-                    <li><i class="fas fa-clock"></i> Domingo: Cerrado</li>
+                <ul id="horariosFooter">
+                    <li><i class="fas fa-spinner fa-spin"></i> Cargando horarios...</li>
                 </ul>
             </div>
         </div>
@@ -3287,11 +3285,9 @@
                 <div class="step active"><span class="num">2</span><span>Datos</span></div>
             </div>
             <div class="checkout-form active" id="formEnvio">
-                <div class="shipping-info">
-                    <i class="fas fa-info-circle" style="color:var(--primary);"></i>
-                    <strong>Importante:</strong> El costo del envío NO está incluido en el precio de los productos. Se cotizará según tu ubicación y el peso del paquete.
-                    <br><br>
-                    <strong>Previo pago del producto, despachamos por VÍA CARGO o Correo Argentino según tu elección.</strong>
+                <div class="shipping-info" id="shippingInfoContainer">
+                    <i class="fas fa-spinner fa-spin" style="color:var(--primary);"></i>
+                    <span>Cargando información de envíos...</span>
                 </div>
                 <div class="form-group"><label>Nombre completo <span class="required">*</span></label><input type="text" id="envioNombre" placeholder="Ej: Juan Pérez" required><div class="error-msg">Este campo es obligatorio</div></div>
                 <div class="form-group"><label>Dirección <span class="required">*</span></label><input type="text" id="envioDireccion" placeholder="Ej: Av. Corrientes 1234" required><div class="error-msg">Este campo es obligatorio</div></div>
@@ -3440,6 +3436,8 @@
             renderTestimonials();
             renderFaqs();
             renderScheduledOffers();
+            loadHorarios();
+            loadModalEnvios();
 
             loadCartFromStorage();
             updateCartUI();
@@ -3458,6 +3456,110 @@
                         <p>Error al cargar los productos</p>
                         <p style="font-size:0.85rem;">${err.message || 'Intenta recargar la página'}</p>
                     </div>
+                `;
+            }
+        }
+    }
+
+    // =====================================================
+    // CARGAR HORARIOS DESDE LA BD
+    // =====================================================
+    async function loadHorarios() {
+        try {
+            const { data: horarios, error } = await supabaseClient
+                .from('horarios')
+                .select('*')
+                .order('sort_order');
+
+            if (error) throw error;
+
+            const container = document.getElementById('horariosFooter');
+            if (!container) return;
+
+            if (!horarios || horarios.length === 0) {
+                container.innerHTML = `
+                    <li><i class="fas fa-clock"></i> Lun - Vie: 9:00 - 20:00</li>
+                    <li><i class="fas fa-clock"></i> Sábado: 10:00 - 18:00</li>
+                    <li><i class="fas fa-clock"></i> Domingo: Cerrado</li>
+                `;
+                return;
+            }
+
+            const diasMap = {
+                'lunes': 'Lun',
+                'martes': 'Mar',
+                'miercoles': 'Mié',
+                'jueves': 'Jue',
+                'viernes': 'Vie',
+                'sabado': 'Sáb',
+                'domingo': 'Dom'
+            };
+
+            container.innerHTML = horarios.map(h => {
+                const dia = diasMap[h.dia_semana] || h.dia_semana;
+                let texto;
+                if (h.esta_cerrado || !h.hora_apertura) {
+                    texto = `${dia}: Cerrado`;
+                } else {
+                    texto = `${dia}: ${h.hora_apertura} - ${h.hora_cierre}`;
+                }
+                return `<li><i class="fas fa-clock"></i> ${texto}</li>`;
+            }).join('');
+
+        } catch (err) {
+            console.error('Error cargando horarios:', err);
+            const container = document.getElementById('horariosFooter');
+            if (container) {
+                container.innerHTML = `
+                    <li><i class="fas fa-clock"></i> Lun - Vie: 9:00 - 20:00</li>
+                    <li><i class="fas fa-clock"></i> Sábado: 10:00 - 18:00</li>
+                    <li><i class="fas fa-clock"></i> Domingo: Cerrado</li>
+                `;
+            }
+        }
+    }
+
+    // =====================================================
+    // CARGAR TEXTO DEL MODAL DE ENVÍOS
+    // =====================================================
+    async function loadModalEnvios() {
+        try {
+            const { data, error } = await supabaseClient
+                .from('config')
+                .select('value')
+                .eq('key', 'texto_modal_envios')
+                .single();
+
+            if (error) throw error;
+
+            const container = document.getElementById('shippingInfoContainer');
+            if (!container) return;
+
+            const texto = data?.value || 
+                '📦 *Enviamos a todo el país*%0A%0A• El costo del envío NO está incluido en el precio de los productos.%0A• Se cotizará según tu ubicación y el peso del paquete.%0A• Previo pago del producto, despachamos por VÍA CARGO o Correo Argentino.%0A• Consultanos por el costo exacto antes de finalizar tu compra.';
+
+            // Reemplazar saltos de línea por <br> y procesar markdown básico
+            const html = texto
+                .replace(/%0A/g, '<br>')
+                .replace(/\*([^*]+)\*/g, '<strong>$1</strong>')
+                .replace(/•/g, '•');
+
+            container.innerHTML = `
+                <i class="fas fa-info-circle" style="color:var(--primary);"></i>
+                <span>${html}</span>
+            `;
+
+        } catch (err) {
+            console.error('Error cargando texto de envíos:', err);
+            const container = document.getElementById('shippingInfoContainer');
+            if (container) {
+                container.innerHTML = `
+                    <i class="fas fa-info-circle" style="color:var(--primary);"></i>
+                    <span>
+                        <strong>Importante:</strong> El costo del envío NO está incluido en el precio de los productos.
+                        Se cotizará según tu ubicación y el peso del paquete.<br>
+                        <strong>Previo pago del producto, despachamos por VÍA CARGO o Correo Argentino según tu elección.</strong>
+                    </span>
                 `;
             }
         }
@@ -4172,6 +4274,8 @@
             const slide = document.createElement('div');
             slide.className = 'banner-slide';
             slide.dataset.index = slideIndex;
+            // Usamos mensaje_whatsapp del banner o un mensaje por defecto
+            const mensajeWhatsapp = banner.mensaje_whatsapp || 'Hola%20OliviaBike%2024.7%2C%20quer%C3%ADa%20consultar%20sobre%20lo%20que%20vi%20en%20la%20web.';
             slide.innerHTML = `
                 <div class="banner-text">
                     <span class="badge-banner">${banner.badge || '🔥 Oferta'}</span>
@@ -4179,7 +4283,7 @@
                         <span class="olivia-aesthetic">Olivia</span> <span style="color:var(--primary);">Bike 24/7</span><br>${banner.title}
                     </h2>
                     <p>${banner.description || ''}</p>
-                    <a href="${banner.cta_link || `https://wa.me/${whatsappNumber}?text=Hola%20OliviaBike%2024.7%2C%20quer%C3%ADa%20consultar%20sobre%20lo%20que%20vi%20en%20la%20web.`}" target="_blank" class="btn btn-red">
+                    <a href="https://wa.me/${whatsappNumber}?text=${mensajeWhatsapp}" target="_blank" class="btn btn-red">
                         <i class="fab fa-whatsapp"></i> ${banner.cta_text || 'Consultar'}
                     </a>
                 </div>
@@ -5168,6 +5272,8 @@
     console.log('🚫 Ofertas: SIN botón "Aprovechar oferta"');
     console.log('🎯 Ofertas: Diseño IDÉNTICO al panel admin');
     console.log('📈 Google Analytics: G-RDLKZP7VNK');
+    console.log('🕐 Horarios: Cargados desde la BD dinámicamente');
+    console.log('📦 Modal de envíos: Texto cargado desde la BD');
 </script>
 </body>
 </html>
