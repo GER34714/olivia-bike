@@ -3697,55 +3697,80 @@ async function loadHorarios() {
         return cart.reduce((sum, item) => sum + item.qty, 0);
     }
 
-    function applyOfferToCart(cartItems, offer) {
-        if (!offer || !offer.tipo_descuento || !offer.valor_descuento || offer.valor_descuento <= 0) {
-            return { items: cartItems, subtotal: 0, discount: 0, total: 0, savings: 0 };
+function applyOfferToCart(cartItems, offer) {
+    // Si no hay oferta o no tiene descuento válido, devolver sin cambios
+    if (!offer || !offer.tipo_descuento || !offer.valor_descuento || offer.valor_descuento <= 0) {
+        return { items: cartItems, subtotal: 0, discount: 0, total: 0, savings: 0 };
+    }
+
+    const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    let discount = 0;
+    const alcance = offer.alcance || 'global';
+    const tipo = offer.tipo_descuento;
+    const valor = Number(offer.valor_descuento);
+    const tope = Number(offer.tope_maximo) || 0; // 0 = sin tope
+
+    // Calcular descuento según el alcance
+    if (alcance === 'global') {
+        if (tipo === 'porcentaje') {
+            discount = subtotal * (valor / 100);
+        } else {
+            discount = Math.min(valor, subtotal);
         }
-
-        const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
-        let discount = 0;
-        const alcance = offer.alcance || 'global';
-        const tipo = offer.tipo_descuento;
-        const valor = Number(offer.valor_descuento);
-
-        if (alcance === 'global') {
-            if (tipo === 'porcentaje') {
-                discount = subtotal * (valor / 100);
-            } else {
-                discount = Math.min(valor, subtotal);
-            }
-        } else if (alcance === 'producto') {
-            const productIds = offer.productos_ids || [];
-            const affectedItems = cartItems.filter(item => productIds.includes(String(item.id)));
-            const affectedSubtotal = affectedItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            if (tipo === 'porcentaje') {
-                discount = affectedSubtotal * (valor / 100);
-            } else {
-                discount = Math.min(valor, affectedSubtotal);
-            }
-        } else if (alcance === 'categoria') {
-            const categoryIds = offer.categorias_ids || [];
-            const affectedItems = cartItems.filter(item => {
-                const product = allProducts.find(p => p.id === item.id);
-                return product && categoryIds.includes(String(product.category_id));
-            });
-            const affectedSubtotal = affectedItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            if (tipo === 'porcentaje') {
-                discount = affectedSubtotal * (valor / 100);
-            } else {
-                discount = Math.min(valor, affectedSubtotal);
-            }
-        } else if (alcance === 'seleccion') {
-            const productIds = offer.productos_ids || [];
-            const affectedItems = cartItems.filter(item => productIds.includes(String(item.id)));
-            const affectedSubtotal = affectedItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            if (tipo === 'porcentaje') {
-                discount = affectedSubtotal * (valor / 100);
-            } else {
-                discount = Math.min(valor, affectedSubtotal);
-            }
+    } else if (alcance === 'producto') {
+        const productIds = offer.productos_ids || [];
+        const affectedItems = cartItems.filter(item => productIds.includes(String(item.id)));
+        const affectedSubtotal = affectedItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        if (tipo === 'porcentaje') {
+            discount = affectedSubtotal * (valor / 100);
+        } else {
+            discount = Math.min(valor, affectedSubtotal);
         }
+    } else if (alcance === 'categoria') {
+        const categoryIds = offer.categorias_ids || [];
+        const affectedItems = cartItems.filter(item => {
+            const product = allProducts.find(p => p.id === item.id);
+            return product && categoryIds.includes(String(product.category_id));
+        });
+        const affectedSubtotal = affectedItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        if (tipo === 'porcentaje') {
+            discount = affectedSubtotal * (valor / 100);
+        } else {
+            discount = Math.min(valor, affectedSubtotal);
+        }
+    } else if (alcance === 'seleccion') {
+        const productIds = offer.productos_ids || [];
+        const affectedItems = cartItems.filter(item => productIds.includes(String(item.id)));
+        const affectedSubtotal = affectedItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        if (tipo === 'porcentaje') {
+            discount = affectedSubtotal * (valor / 100);
+        } else {
+            discount = Math.min(valor, affectedSubtotal);
+        }
+    }
 
+    // =====================================================
+    // 🚨 APLICAR TOPE MÁXIMO (NUEVO)
+    // =====================================================
+    if (tope > 0 && discount > tope) {
+        console.log(`🔒 Descuento limitado: $${Math.round(discount).toLocaleString('es-AR')} → $${tope.toLocaleString('es-AR')} (tope máximo)`);
+        discount = tope;
+    }
+
+    // NUNCA permitir que el descuento sea mayor que el subtotal (evita precios negativos)
+    if (discount > subtotal) {
+        console.log(`🔒 Descuento limitado al subtotal: $${subtotal.toLocaleString('es-AR')}`);
+        discount = subtotal;
+    }
+
+    discount = Math.round(discount);
+    const total = subtotal - discount;
+    const savings = discount;
+
+    console.log(`💰 Descuento aplicado: $${discount.toLocaleString('es-AR')} | Total: $${total.toLocaleString('es-AR')}`);
+
+    return { items: cartItems, subtotal, discount, total, savings };
+}
         discount = Math.round(discount);
         const total = subtotal - discount;
         const savings = discount;
