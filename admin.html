@@ -634,6 +634,13 @@
             min-width: 140px;
         }
 
+        .help-text {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            margin-top: 4px;
+        }
+        .help-text strong { color: var(--primary-dark); }
+
         /* ============================================================
            VISTA PREVIA DE OFERTAS (SIN BOTÓN - IMAGEN COMPLETA)
            ============================================================ */
@@ -738,7 +745,6 @@
             margin-top: 4px;
             display: block;
         }
-        /* IMAGEN COMPLETA - SIN RECORTAR */
         .preview-offer-image {
             display: flex;
             align-items: center;
@@ -797,62 +803,8 @@
             border: 1px solid rgba(255,255,255,0.05);
         }
 
-        @media (max-width: 992px) {
-            .preview-offer-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .preview-offer-text .preview-timer {
-                justify-content: center;
-            }
-            .preview-offer-container {
-                padding: 24px 20px;
-            }
-            .preview-offer-text .preview-discount-sticker {
-                font-size: 0.95rem;
-                padding: 6px 18px;
-            }
-            .preview-offer-text h2 {
-                font-size: 1.6rem;
-            }
-            .preview-offer-text .preview-timer .timer-item .number {
-                font-size: 1.4rem;
-                min-width: 42px;
-                padding: 4px 10px;
-            }
-            .preview-offer-image {
-                min-height: 180px;
-            }
-            .preview-offer-image img {
-                max-height: 280px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .preview-offer-container {
-                padding: 16px 14px;
-            }
-            .preview-offer-text h2 {
-                font-size: 1.3rem;
-            }
-            .preview-offer-text .preview-timer {
-                gap: 10px;
-            }
-            .preview-offer-text .preview-timer .timer-item .number {
-                font-size: 1.2rem;
-                min-width: 36px;
-                padding: 4px 8px;
-            }
-            .preview-offer-image {
-                min-height: 140px;
-            }
-            .preview-offer-image img {
-                max-height: 200px;
-            }
-        }
-
         /* ============================================================
-           OTROS ESTILOS
+           ALCANCE SELECTOR
            ============================================================ */
         .alcance-selector {
             display: grid;
@@ -912,6 +864,9 @@
         }
         .multi-select-container .selected-item .remove-item:hover { color: #EF4444; }
 
+        /* ============================================================
+           TOAST
+           ============================================================ */
         .toast-admin {
             position: fixed;
             top: 30px;
@@ -943,13 +898,6 @@
             z-index: 99;
         }
         .sidebar-overlay.active { display: block; }
-        
-        .help-text {
-            font-size: 0.8rem;
-            color: var(--gray-400);
-            margin-top: 4px;
-        }
-        .help-text strong { color: var(--primary-dark); }
 
         @media (max-width: 992px) {
             .sidebar {
@@ -965,6 +913,16 @@
             .form-row { grid-template-columns: 1fr; }
             .form-modal-content { padding: 24px 20px; margin: 10px; }
             .alcance-selector { grid-template-columns: 1fr 1fr; }
+            .preview-offer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .preview-offer-text .preview-timer {
+                justify-content: center;
+            }
+            .preview-offer-container {
+                padding: 24px 20px;
+            }
         }
 
         @media (max-width: 600px) {
@@ -978,6 +936,16 @@
             .table-container td { padding: 6px 4px; }
             .form-actions .btn { min-width: 100%; flex: none; }
             .alcance-selector { grid-template-columns: 1fr 1fr; }
+            .preview-offer-container { padding: 16px 14px; }
+            .preview-offer-text h2 { font-size: 1.3rem; }
+            .preview-offer-text .preview-timer { gap: 10px; }
+            .preview-offer-text .preview-timer .timer-item .number {
+                font-size: 1.2rem;
+                min-width: 36px;
+                padding: 4px 8px;
+            }
+            .preview-offer-image { min-height: 140px; }
+            .preview-offer-image img { max-height: 200px; }
         }
 
         @media (max-width: 400px) {
@@ -1336,6 +1304,34 @@
                     </button>
                 </div>
 
+                <!-- ===== SECCIÓN HORARIOS ===== -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3><i class="fas fa-clock"></i> Horarios de Atención</h3>
+                        <button class="btn btn-primary btn-sm" onclick="openHorarioForm()">
+                            <i class="fas fa-plus"></i> Agregar horario
+                        </button>
+                    </div>
+                    <div id="horariosManager">
+                        <p style="color:var(--gray-400);">Cargando horarios...</p>
+                    </div>
+                </div>
+
+                <!-- ===== SECCIÓN TEXTO MODAL ENVÍOS ===== -->
+                <div class="table-container">
+                    <h3 style="margin-bottom:16px;">📦 Texto del Modal de Envíos</h3>
+                    <div class="form-group">
+                        <label>Contenido del modal (usá %0A para saltos de línea y *texto* para negrita)</label>
+                        <textarea id="configModalEnvios" rows="8" style="width:100%;padding:10px 14px;border:2px solid var(--gray-200);border-radius:10px;font-family:var(--font);font-size:0.9rem;resize:vertical;"></textarea>
+                        <div class="help-text">
+                            Ejemplo: 📦 *Enviamos a todo el país*%0A%0A• El costo del envío NO está incluido...
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveModalEnvios()">
+                        <i class="fas fa-save"></i> Guardar texto del modal
+                    </button>
+                </div>
+
                 <div class="table-container">
                     <h3 style="margin-bottom:16px;">💾 Datos</h3>
                     <div style="display:flex;gap:12px;flex-wrap:wrap;">
@@ -1624,6 +1620,10 @@
                     });
                 }
 
+                // Cargar horarios
+                const { data: horarios } = await supabaseClient.from('horarios').select('*').order('sort_order');
+                data.horarios = horarios || [];
+
                 console.log('✅ Todos los datos cargados desde Supabase');
             } catch (err) {
                 console.error('Error loading data:', err);
@@ -1644,12 +1644,14 @@
                 faqs: [],
                 benefits: [],
                 schedules: [],
+                horarios: [],
                 config: {
                     whatsapp: '5491123456789',
                     title: 'OliviaBike 24.7 - Tienda de Ciclismo Premium',
                     primaryColor: '#E63946',
                     secondaryColor: '#C62828',
-                    logo_url: ''
+                    logo_url: '',
+                    texto_modal_envios: '📦 *Enviamos a todo el país*%0A%0A• El costo del envío NO está incluido en el precio de los productos.%0A• Se cotizará según tu ubicación y el peso del paquete.%0A• Previo pago del producto, despachamos por VÍA CARGO o Correo Argentino.%0A• Consultanos por el costo exacto antes de finalizar tu compra.'
                 }
             };
         }
@@ -1717,6 +1719,8 @@
             renderHeroTexts();
             loadConfig();
             renderCategoryFields();
+            renderHorariosAdmin();
+            loadModalEnviosAdmin();
         }
 
         // =====================================================
@@ -2478,6 +2482,7 @@
                             <img src="${banner.image}" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px;" onerror="this.src='https://via.placeholder.com/220x100?text=No+img'">
                             <div style="font-size:0.8rem;font-weight:600;color:var(--primary);">${banner.badge || ''}</div>
                             <div style="font-weight:600;font-size:0.9rem;">${banner.title}</div>
+                            <div style="font-size:0.7rem;color:var(--gray-400);margin-top:4px;">💬 ${banner.mensaje_whatsapp ? banner.mensaje_whatsapp.substring(0,30) + '...' : 'Sin mensaje'}</div>
                             <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
                                 <button onclick="editBanner(${banner.id})" style="background:var(--primary);color:white;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.7rem;font-weight:600;">Editar</button>
                                 <button onclick="deleteBanner(${banner.id})" style="background:rgba(239,68,68,0.2);color:#EF4444;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.7rem;font-weight:600;">Eliminar</button>
@@ -2514,6 +2519,11 @@
                 <div class="form-group">
                     <label>Link del botón</label>
                     <input type="text" id="f_banner_link" value="${isEdit ? banner.cta_link : 'https://wa.me/5491123456789'}">
+                </div>
+                <div class="form-group">
+                    <label>Mensaje de WhatsApp (URL encoded)</label>
+                    <input type="text" id="f_banner_mensaje" value="${isEdit ? banner.mensaje_whatsapp : 'Hola%20OliviaBike%2024.7%2C%20vi%20la%20promoci%C3%B3n%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n.'}" placeholder="Ej: Hola%20OliviaBike%2024.7%2C%20quiero%20consultar...">
+                    <div class="help-text">El mensaje que se enviará al hacer clic en el botón. Usá <strong>%20</strong> para espacios.</div>
                 </div>
                 <div class="form-group">
                     <label>Imagen *</label>
@@ -2555,6 +2565,7 @@
             const description = document.getElementById('f_banner_desc').value.trim();
             const cta_text = document.getElementById('f_banner_cta').value.trim();
             const cta_link = document.getElementById('f_banner_link').value.trim();
+            const mensaje_whatsapp = document.getElementById('f_banner_mensaje').value.trim() || 'Hola%20OliviaBike%2024.7%2C%20vi%20la%20promoci%C3%B3n%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n.';
 
             if (!title || !description) {
                 showToast('⚠️ Completa los campos requeridos', 'error');
@@ -2589,7 +2600,8 @@
                 description,
                 image: imageUrl,
                 cta_text,
-                cta_link
+                cta_link,
+                mensaje_whatsapp
             };
 
             try {
@@ -3584,7 +3596,7 @@
         }
 
         // =====================================================
-        // FORMULARIO DE OFERTA CON VISTA PREVIA (SIN BOTÓN - IMAGEN COMPLETA)
+        // FORMULARIO DE OFERTA CON VISTA PREVIA
         // =====================================================
         function openScheduleForm(scheduleId = null) {
             const isEdit = scheduleId !== null;
@@ -3600,7 +3612,6 @@
 
             document.getElementById('formBody').innerHTML = `
                 <form id="scheduleForm" onsubmit="event.preventDefault(); saveSchedule('${scheduleId || ''}')">
-                    <!-- ===== CAMPOS DEL FORMULARIO ===== -->
                     <div class="form-row">
                         <div class="form-group">
                             <label>Nombre de la oferta *</label>
@@ -3763,7 +3774,7 @@
                         </div>
                     </div>
 
-                    <!-- ===== VISTA PREVIA DE LA OFERTA (SIN BOTÓN - IMAGEN COMPLETA) ===== -->
+                    <!-- VISTA PREVIA -->
                     <div style="margin-top:32px;padding-top:24px;border-top:3px solid var(--gray-200);">
                         <h4 style="margin-bottom:16px;color:var(--gray-700);font-size:1.1rem;">
                             <i class="fas fa-eye"></i> Vista previa de la oferta
@@ -3842,7 +3853,6 @@
             document.getElementById('formModal').classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Iniciar la vista previa y el timer
             setTimeout(() => {
                 updateOfferPreview();
                 startPreviewTimer();
@@ -3850,7 +3860,7 @@
         }
 
         // =====================================================
-        // FUNCIONES DE VISTA PREVIA
+        // FUNCIONES DE VISTA PREVIA (igual que antes)
         // =====================================================
         function getAlcanceName(s) {
             if (!s) return 'Seleccioná una opción';
@@ -3917,14 +3927,12 @@
             const fechaInicio = document.getElementById('f_schedule_start')?.value || '';
             const fechaFin = document.getElementById('f_schedule_end')?.value || '';
 
-            // Calcular texto del descuento
             let discountText = '';
             if (valorDescuento > 0) {
                 const num = Number(valorDescuento);
                 discountText = tipoDescuento === 'porcentaje' ? `${num}% OFF` : `$${num.toLocaleString('es-AR')} OFF`;
             }
 
-            // Obtener nombre del alcance
             let alcanceName = '';
             let alcanceDetail = '';
             let productosList = [];
@@ -3968,7 +3976,6 @@
                 }
             }
 
-            // Actualizar elementos de la vista previa
             document.getElementById('previewBadge').textContent = badge || 'Oferta';
             document.getElementById('previewTitle').textContent = title;
             document.getElementById('previewDesc').textContent = description;
@@ -3977,7 +3984,6 @@
             sticker.textContent = discountText || 'Sin descuento';
             sticker.style.display = discountText ? 'inline-block' : 'inline-block';
             
-            // Actualizar imagen (completa, sin recortar)
             const previewImg = document.getElementById('previewOfferImage');
             if (imageUrl && imageUrl.startsWith('data:image') || imageUrl.startsWith('http')) {
                 previewImg.src = imageUrl;
@@ -3987,12 +3993,10 @@
                 previewImg.src = 'https://via.placeholder.com/600x400?text=Sub%C3%AD+una+imagen+para+ver+el+banner';
             }
 
-            // Actualizar alcance
             document.getElementById('previewDiscountText').textContent = discountText || 'Sin descuento';
             document.getElementById('previewAlcanceName').textContent = alcanceName;
             document.getElementById('previewAlcanceDetail').textContent = alcanceDetail;
 
-            // Actualizar fechas
             let dateText = 'Sin fechas definidas';
             if (fechaInicio || fechaFin) {
                 const start = fechaInicio ? new Date(fechaInicio).toLocaleDateString('es-AR') : '??';
@@ -4001,7 +4005,6 @@
             }
             document.getElementById('previewDates').textContent = dateText;
 
-            // Actualizar tags de productos
             const tagsRow = document.getElementById('previewProductTagsRow');
             const tagsContainer = document.getElementById('previewProductTags');
             if (alcance === 'seleccion' && productosList.length > 0) {
@@ -4011,7 +4014,6 @@
                 tagsRow.style.display = 'none';
             }
 
-            // Actualizar el timer con la fecha de fin
             if (fechaFin) {
                 const endDate = new Date(fechaFin);
                 updatePreviewTimer(endDate);
@@ -4050,9 +4052,6 @@
             document.getElementById('previewSeconds').textContent = seconds;
         }
 
-        // =====================================================
-        // FUNCIONES DE ALCANCE PARA EL FORMULARIO
-        // =====================================================
         function selectAlcanceSchedule(value) {
             document.querySelectorAll('.alcance-option').forEach(el => {
                 el.classList.toggle('selected', el.dataset.value === value);
@@ -4100,7 +4099,6 @@
                 option.value = id;
                 option.textContent = product ? product.name : id;
                 select.appendChild(option);
-                // Reordenar opciones
                 const options = Array.from(select.options);
                 options.sort((a, b) => a.textContent.localeCompare(b.textContent));
                 select.innerHTML = '<option value="">Seleccioná un producto para agregar...</option>' +
@@ -4118,7 +4116,6 @@
                     const preview = document.getElementById('f_schedule_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    // Actualizar la vista previa del banner
                     document.getElementById('f_schedule_image').value = e.target.result;
                     updateOfferPreview();
                 };
@@ -4388,6 +4385,238 @@
         }
 
         // =====================================================
+        // HORARIOS - ADMIN
+        // =====================================================
+        async function renderHorariosAdmin() {
+            const container = document.getElementById('horariosManager');
+            if (!container) return;
+
+            try {
+                const { data: horarios, error } = await supabaseClient
+                    .from('horarios')
+                    .select('*')
+                    .order('sort_order');
+
+                if (error) throw error;
+
+                if (!horarios || horarios.length === 0) {
+                    container.innerHTML = '<p style="color:var(--gray-400);">No hay horarios configurados</p>';
+                    return;
+                }
+
+                const diasMap = {
+                    'lunes': 'Lunes',
+                    'martes': 'Martes',
+                    'miercoles': 'Miércoles',
+                    'jueves': 'Jueves',
+                    'viernes': 'Viernes',
+                    'sabado': 'Sábado',
+                    'domingo': 'Domingo'
+                };
+
+                container.innerHTML = horarios.map(h => `
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);flex-wrap:wrap;gap:8px;">
+                        <div>
+                            <strong>${diasMap[h.dia_semana] || h.dia_semana}</strong>
+                            <span style="margin-left:12px;font-size:0.9rem;">
+                                ${h.esta_cerrado || !h.hora_apertura ? 
+                                    '<span style="color:#EF4444;">Cerrado</span>' : 
+                                    `${h.hora_apertura} - ${h.hora_cierre}`
+                                }
+                            </span>
+                        </div>
+                        <div style="display:flex;gap:6px;">
+                            <button class="edit-btn" onclick="editHorario(${h.id})"><i class="fas fa-edit"></i></button>
+                            <button class="delete-btn" onclick="deleteHorario(${h.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                console.error('Error cargando horarios:', err);
+                container.innerHTML = '<p style="color:var(--gray-400);">Error al cargar horarios</p>';
+            }
+        }
+
+        function openHorarioForm(horarioId = null) {
+            const isEdit = horarioId !== null;
+            let horario = null;
+            if (isEdit) {
+                supabaseClient
+                    .from('horarios')
+                    .select('*')
+                    .eq('id', horarioId)
+                    .single()
+                    .then(({ data, error }) => {
+                        if (!error) horario = data;
+                        mostrarFormHorario(isEdit, horario);
+                    });
+            } else {
+                mostrarFormHorario(false, null);
+            }
+        }
+
+        function mostrarFormHorario(isEdit, horario) {
+            document.getElementById('formTitle').textContent = isEdit ? '✏️ Editar Horario' : '➕ Nuevo Horario';
+            
+            const dias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+            const diasMap = {
+                'lunes': 'Lunes', 'martes': 'Martes', 'miercoles': 'Miércoles',
+                'jueves': 'Jueves', 'viernes': 'Viernes', 'sabado': 'Sábado', 'domingo': 'Domingo'
+            };
+
+            document.getElementById('formBody').innerHTML = `
+                <div class="form-group">
+                    <label>Día de la semana *</label>
+                    <select id="f_horario_dia" required>
+                        ${dias.map(d => `
+                            <option value="${d}" ${isEdit && horario?.dia_semana === d ? 'selected' : ''}>
+                                ${diasMap[d]}
+                            </option>
+                        `).join('')}
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Hora de apertura</label>
+                        <input type="time" id="f_horario_apertura" value="${isEdit && horario?.hora_apertura ? horario.hora_apertura : ''}">
+                    </div>
+                    <div class="form-group">
+                        <label>Hora de cierre</label>
+                        <input type="time" id="f_horario_cierre" value="${isEdit && horario?.hora_cierre ? horario.hora_cierre : ''}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="f_horario_cerrado" ${isEdit && horario?.esta_cerrado ? 'checked' : ''}>
+                        Día cerrado (sin atención)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Orden</label>
+                    <input type="number" id="f_horario_sort" value="${isEdit ? horario?.sort_order || 0 : 0}">
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="saveHorario(${isEdit ? horario?.id : 'null'})">
+                        <i class="fas fa-save"></i> ${isEdit ? 'Actualizar' : 'Crear'} Horario
+                    </button>
+                    <button class="btn btn-outline" onclick="closeFormModal()">Cancelar</button>
+                </div>
+            `;
+
+            document.getElementById('formModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        async function saveHorario(horarioId) {
+            const dia_semana = document.getElementById('f_horario_dia').value;
+            const hora_apertura = document.getElementById('f_horario_apertura').value || null;
+            const hora_cierre = document.getElementById('f_horario_cierre').value || null;
+            const esta_cerrado = document.getElementById('f_horario_cerrado').checked;
+            const sort_order = parseInt(document.getElementById('f_horario_sort').value) || 0;
+
+            if (!dia_semana) {
+                showToast('⚠️ Seleccioná un día de la semana', 'error');
+                return;
+            }
+
+            const horarioData = {
+                dia_semana,
+                hora_apertura: esta_cerrado ? null : hora_apertura,
+                hora_cierre: esta_cerrado ? null : hora_cierre,
+                esta_cerrado,
+                sort_order
+            };
+
+            try {
+                if (horarioId) {
+                    const { error } = await supabaseClient
+                        .from('horarios')
+                        .update(horarioData)
+                        .eq('id', horarioId);
+                    if (error) throw error;
+                    showToast('✅ Horario actualizado', 'success');
+                } else {
+                    const { error } = await supabaseClient
+                        .from('horarios')
+                        .insert([horarioData]);
+                    if (error) throw error;
+                    showToast('✅ Horario creado', 'success');
+                }
+
+                closeFormModal();
+                await loadAllData();
+                renderHorariosAdmin();
+            } catch (err) {
+                console.error('Error saving horario:', err);
+                showToast('Error al guardar el horario: ' + err.message, 'error');
+            }
+        }
+
+        function editHorario(horarioId) {
+            openHorarioForm(horarioId);
+        }
+
+        async function deleteHorario(horarioId) {
+            if (!confirm('¿Eliminar este horario?')) return;
+            
+            try {
+                const { error } = await supabaseClient
+                    .from('horarios')
+                    .delete()
+                    .eq('id', horarioId);
+                if (error) throw error;
+                showToast('🗑️ Horario eliminado', 'success');
+                await loadAllData();
+                renderHorariosAdmin();
+            } catch (err) {
+                console.error('Error deleting horario:', err);
+                showToast('Error al eliminar el horario', 'error');
+            }
+        }
+
+        // =====================================================
+        // MODAL DE ENVÍOS - ADMIN
+        // =====================================================
+        function loadModalEnviosAdmin() {
+            const textarea = document.getElementById('configModalEnvios');
+            if (!textarea) return;
+
+            if (data.config && data.config.texto_modal_envios) {
+                textarea.value = data.config.texto_modal_envios;
+            } else {
+                textarea.value = '📦 *Enviamos a todo el país*%0A%0A• El costo del envío NO está incluido en el precio de los productos.%0A• Se cotizará según tu ubicación y el peso del paquete.%0A• Previo pago del producto, despachamos por VÍA CARGO o Correo Argentino.%0A• Consultanos por el costo exacto antes de finalizar tu compra.';
+            }
+        }
+
+        async function saveModalEnvios() {
+            const texto = document.getElementById('configModalEnvios').value.trim();
+
+            if (!texto) {
+                showToast('⚠️ El texto no puede estar vacío', 'error');
+                return;
+            }
+
+            try {
+                const { error } = await supabaseClient
+                    .from('config')
+                    .upsert({ 
+                        key: 'texto_modal_envios', 
+                        value: texto, 
+                        updated_at: new Date().toISOString() 
+                    }, { onConflict: 'key' });
+
+                if (error) throw error;
+
+                await loadAllData();
+                showToast('✅ Texto del modal de envíos guardado', 'success');
+            } catch (err) {
+                console.error('Error saving modal envios:', err);
+                showToast('Error al guardar el texto: ' + err.message, 'error');
+            }
+        }
+
+        // =====================================================
         // IMPORT / EXPORT / RESET
         // =====================================================
         function exportData() {
@@ -4458,6 +4687,7 @@
                         await supabaseClient.from('category_fields').delete().neq('id', 0);
                         await supabaseClient.from('badges').delete().neq('id', 0);
                         await supabaseClient.from('gallery').delete().neq('id', 0);
+                        await supabaseClient.from('horarios').delete().neq('id', 0);
                         
                         await loadAllData();
                         refreshAll();
@@ -4516,6 +4746,8 @@
         console.log('✅ Vista previa de ofertas SIN botón');
         console.log('✅ Imagen completa (object-fit: contain)');
         console.log('✅ Timer funcionando en tiempo real');
+        console.log('✅ Horarios: gestión completa desde el admin');
+        console.log('✅ Modal de envíos: texto editable desde el admin');
         console.log('🔑 Usuario: admin@oliviabike.com / admin123');
 
         document.addEventListener('DOMContentLoaded', function() {
