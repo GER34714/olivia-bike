@@ -16,8 +16,10 @@
         }
 
         :root {
-            --primary: #9BE000;
-            --primary-dark: #7AB800;
+            --primary: #E63946;
+            --primary-dark: #C62828;
+            --primary-light: rgba(230, 57, 70, 0.15);
+            --primary-glow: rgba(230, 57, 70, 0.35);
             --black: #000000;
             --white: #FFFFFF;
             --gray-100: #F7F7F7;
@@ -106,7 +108,7 @@
         }
         .login-box .form-group input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(155,224,0,0.1);
+            box-shadow: 0 0 0 4px var(--primary-light);
         }
 
         .login-box .btn {
@@ -187,7 +189,7 @@
             color: var(--white);
         }
         .sidebar .nav-item.active {
-            background: rgba(155,224,0,0.1);
+            background: rgba(230,57,70,0.1);
             color: var(--primary);
             border-left-color: var(--primary);
         }
@@ -215,7 +217,7 @@
             color: var(--primary);
         }
         .sidebar .nav-item.ir-web:hover {
-            background: rgba(155,224,0,0.1);
+            background: rgba(230,57,70,0.1);
             color: var(--white);
         }
 
@@ -261,7 +263,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--black);
+            color: var(--white);
             font-weight: 700;
             font-size: 1.1rem;
         }
@@ -294,9 +296,9 @@
         .btn-primary { background: var(--black); color: var(--white); }
         .btn-primary:hover {
             background: var(--primary);
-            color: var(--black);
+            color: var(--white);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(155,224,0,0.3);
+            box-shadow: 0 8px 24px var(--primary-glow);
         }
 
         .btn-outline {
@@ -459,12 +461,12 @@
             font-family: var(--font);
         }
         .actions .edit-btn {
-            background: rgba(155,224,0,0.15);
+            background: rgba(230,57,70,0.15);
             color: var(--primary-dark);
         }
         .actions .edit-btn:hover {
             background: var(--primary);
-            color: var(--black);
+            color: var(--white);
         }
         .actions .delete-btn {
             background: rgba(239,68,68,0.1);
@@ -491,7 +493,7 @@
         .form-modal-content {
             background: var(--white);
             border-radius: var(--radius);
-            max-width: 900px;
+            max-width: 1100px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -561,7 +563,7 @@
         .form-group textarea:focus,
         .form-group select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(155,224,0,0.1);
+            box-shadow: 0 0 0 4px var(--primary-light);
         }
         .form-group textarea {
             resize: vertical;
@@ -632,80 +634,226 @@
             min-width: 140px;
         }
 
-        .schedule-preview {
-            background: var(--black);
-            border-radius: var(--radius);
-            padding: 24px 32px;
-            color: var(--white);
-            margin-top: 16px;
-            display: none;
+        /* ============================================================
+           VISTA PREVIA DE OFERTAS (SIN BOTÓN - IMAGEN COMPLETA)
+           ============================================================ */
+        .preview-offer-container {
+            background: #000000;
+            border-radius: 16px;
+            padding: 40px 48px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(230, 57, 70, 0.2);
         }
-        .schedule-preview.show { display: block; }
-        .schedule-preview .badge-banner {
+        .preview-offer-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(230,57,70,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .preview-offer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .preview-offer-text .preview-badge {
             display: inline-block;
-            background: rgba(155,224,0,0.15);
-            color: var(--primary);
-            padding: 4px 14px;
+            background: rgba(230, 57, 70, 0.2);
+            color: #E63946;
+            padding: 6px 18px;
             border-radius: 50px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 8px;
+            border: 1px solid rgba(230, 57, 70, 0.15);
+            margin-bottom: 12px;
         }
-        .schedule-preview h3 {
-            font-size: 1.6rem;
+        .preview-offer-text h2 {
+            font-size: clamp(1.6rem, 2.5vw, 2.6rem);
             font-weight: 800;
+            color: #FFFFFF;
+            line-height: 1.1;
         }
-        .schedule-preview h3 span { color: var(--primary); }
-        .schedule-preview p {
-            color: var(--gray-300);
-            margin: 8px 0 16px;
+        .preview-offer-text h2 span {
+            color: #E63946;
         }
-        .schedule-preview .preview-image {
-            max-width: 300px;
-            border-radius: 10px;
-            margin-top: 12px;
-            max-height: 200px;
-            object-fit: cover;
+        .preview-offer-text .preview-desc {
+            color: #D0D0D0;
+            margin: 16px 0 20px;
+            font-weight: 300;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
-        .schedule-preview .btn-green {
-            background: var(--primary);
-            color: var(--black);
-            padding: 10px 24px;
+        .preview-offer-text .preview-discount-sticker {
+            display: inline-block;
+            background: #E63946;
+            color: #FFFFFF;
+            padding: 8px 24px;
             border-radius: 50px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: var(--font);
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(230, 57, 70, 0.4);
+            animation: pulse-sticker 2s ease-in-out infinite;
+        }
+        @keyframes pulse-sticker {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .preview-offer-text .preview-timer {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+        }
+        .preview-offer-text .preview-timer .timer-item {
+            text-align: center;
+        }
+        .preview-offer-text .preview-timer .timer-item .number {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #E63946;
+            background: rgba(255,255,255,0.05);
+            padding: 6px 14px;
+            border-radius: 8px;
+            min-width: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            font-family: 'Poppins', sans-serif;
+        }
+        .preview-offer-text .preview-timer .timer-item .label {
+            font-size: 0.6rem;
+            color: #A0A0A0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            display: block;
+        }
+        /* IMAGEN COMPLETA - SIN RECORTAR */
+        .preview-offer-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            min-height: 250px;
+        }
+        .preview-offer-image img {
+            width: 100%;
+            height: auto;
+            max-height: 380px;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .preview-offer-info {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-top: 16px;
+            border-left: 3px solid #E63946;
+        }
+        .preview-offer-info .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 0;
+            color: #D0D0D0;
             font-size: 0.85rem;
         }
-        .schedule-preview .btn-green:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        /* ========== NUEVOS ESTILOS PARA OFERTAS AVANZADAS ========== */
-        .discount-preview-box {
-            background: var(--primary);
-            color: var(--black);
-            border-radius: 10px;
-            padding: 16px 20px;
-            margin-top: 8px;
-            display: none;
-            font-weight: 600;
-        }
-        .discount-preview-box.show { display: block; }
-        .discount-preview-box .preview-text {
-            font-size: 0.95rem;
-        }
-        .discount-preview-box .preview-detail {
+        .preview-offer-info .info-row i {
+            color: #E63946;
+            width: 18px;
             font-size: 0.8rem;
-            opacity: 0.7;
+        }
+        .preview-offer-info .info-row strong {
+            color: #FFFFFF;
+        }
+        .preview-offer-info .info-row .highlight {
+            color: #E63946;
+            font-weight: 700;
+        }
+        .preview-offer-info .product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
             margin-top: 4px;
         }
+        .preview-offer-info .product-tags .tag {
+            background: rgba(255,255,255,0.08);
+            color: #D0D0D0;
+            padding: 2px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
 
+        @media (max-width: 992px) {
+            .preview-offer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .preview-offer-text .preview-timer {
+                justify-content: center;
+            }
+            .preview-offer-container {
+                padding: 24px 20px;
+            }
+            .preview-offer-text .preview-discount-sticker {
+                font-size: 0.95rem;
+                padding: 6px 18px;
+            }
+            .preview-offer-text h2 {
+                font-size: 1.6rem;
+            }
+            .preview-offer-text .preview-timer .timer-item .number {
+                font-size: 1.4rem;
+                min-width: 42px;
+                padding: 4px 10px;
+            }
+            .preview-offer-image {
+                min-height: 180px;
+            }
+            .preview-offer-image img {
+                max-height: 280px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .preview-offer-container {
+                padding: 16px 14px;
+            }
+            .preview-offer-text h2 {
+                font-size: 1.3rem;
+            }
+            .preview-offer-text .preview-timer {
+                gap: 10px;
+            }
+            .preview-offer-text .preview-timer .timer-item .number {
+                font-size: 1.2rem;
+                min-width: 36px;
+                padding: 4px 8px;
+            }
+            .preview-offer-image {
+                min-height: 140px;
+            }
+            .preview-offer-image img {
+                max-height: 200px;
+            }
+        }
+
+        /* ============================================================
+           OTROS ESTILOS
+           ============================================================ */
         .alcance-selector {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -725,11 +873,11 @@
         }
         .alcance-option:hover {
             border-color: var(--primary);
-            background: rgba(155,224,0,0.05);
+            background: var(--primary-light);
         }
         .alcance-option.selected {
             border-color: var(--primary);
-            background: rgba(155,224,0,0.1);
+            background: var(--primary-light);
             color: var(--primary-dark);
         }
         .alcance-option i { display: block; font-size: 1.2rem; margin-bottom: 4px; }
@@ -750,7 +898,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(155,224,0,0.15);
+            background: var(--primary-light);
             color: var(--primary-dark);
             padding: 4px 12px;
             border-radius: 50px;
@@ -787,6 +935,22 @@
         .toast-admin.error { border-left-color: #EF4444; }
         .toast-admin.info { border-left-color: #3B82F6; }
 
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 99;
+        }
+        .sidebar-overlay.active { display: block; }
+        
+        .help-text {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+            margin-top: 4px;
+        }
+        .help-text strong { color: var(--primary-dark); }
+
         @media (max-width: 992px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -813,8 +977,6 @@
             .table-container th,
             .table-container td { padding: 6px 4px; }
             .form-actions .btn { min-width: 100%; flex: none; }
-            .schedule-preview { padding: 16px; }
-            .schedule-preview h3 { font-size: 1.2rem; }
             .alcance-selector { grid-template-columns: 1fr 1fr; }
         }
 
@@ -835,22 +997,6 @@
             background: var(--primary);
             border-radius: 3px;
         }
-
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 99;
-        }
-        .sidebar-overlay.active { display: block; }
-        
-        .help-text {
-            font-size: 0.8rem;
-            color: var(--gray-400);
-            margin-top: 4px;
-        }
-        .help-text strong { color: var(--primary-dark); }
     </style>
 </head>
 <body>
@@ -1178,11 +1324,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Color Primario</label>
-                            <input type="color" id="configPrimary" value="#9BE000">
+                            <input type="color" id="configPrimary" value="#E63946">
                         </div>
                         <div class="form-group">
                             <label>Color Secundario</label>
-                            <input type="color" id="configSecondary" value="#7AB800">
+                            <input type="color" id="configSecondary" value="#C62828">
                         </div>
                     </div>
                     <button class="btn btn-primary" onclick="saveConfig()">
@@ -1234,6 +1380,7 @@
     </div>
 
     <!-- ========== JAVASCRIPT ========== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script>
         // =====================================================
         // CONFIGURACIÓN DE SUPABASE
@@ -1244,6 +1391,7 @@
         let supabaseClient = null;
         let currentUser = null;
         let data = {};
+        let previewTimerInterval = null;
 
         // =====================================================
         // CONFIGURACIÓN DE STORAGE
@@ -1489,10 +1637,7 @@
                 categories: [],
                 categoryFields: [],
                 badges: [],
-                heroImages: [
-                    'https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=1600&q=80',
-                    'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1600&q=80'
-                ],
+                heroImages: [],
                 banners: [],
                 galleryItems: [],
                 testimonials: [],
@@ -1502,8 +1647,8 @@
                 config: {
                     whatsapp: '5491123456789',
                     title: 'OliviaBike 24.7 - Tienda de Ciclismo Premium',
-                    primaryColor: '#9BE000',
-                    secondaryColor: '#7AB800',
+                    primaryColor: '#E63946',
+                    secondaryColor: '#C62828',
                     logo_url: ''
                 }
             };
@@ -1595,7 +1740,7 @@
                         <div>
                             <strong>${s.nombre}</strong>
                             ${s.tipo_descuento && s.valor_descuento ? `
-                                <span style="font-size:0.7rem;background:var(--primary);color:var(--black);padding:2px 8px;border-radius:4px;margin-left:8px;">
+                                <span style="font-size:0.7rem;background:var(--primary);color:var(--white);padding:2px 8px;border-radius:4px;margin-left:8px;">
                                     ${s.tipo_descuento === 'porcentaje' ? s.valor_descuento + '% OFF' : '$' + Number(s.valor_descuento).toLocaleString('es-AR') + ' OFF'}
                                 </span>
                             ` : ''}
@@ -1626,7 +1771,7 @@
         }
 
         // =====================================================
-        // PRODUCTOS
+        // PRODUCTOS (resumido)
         // =====================================================
         function renderProducts() {
             const container = document.getElementById('productsTable');
@@ -1669,7 +1814,7 @@
         }
 
         // =====================================================
-        // FORMULARIO DE PRODUCTO
+        // FUNCIONES BÁSICAS DE PRODUCTOS
         // =====================================================
         function openProductForm(productId = null) {
             const isEdit = productId !== null;
@@ -1687,15 +1832,10 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Categoría *</label>
-                        <div style="display:flex;gap:8px;align-items:center;">
-                            <select id="f_product_category" onchange="loadProductDynamicFields(this.value, ${isEdit ? productId : 'null'})" style="flex:1;">
-                                <option value="">Seleccionar categoría...</option>
-                                ${data.categories.map(c => `<option value="${c.id}" ${isEdit && product.category_id === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}
-                            </select>
-                            <button type="button" class="btn btn-primary btn-sm" onclick="openQuickCategoryForm()" style="padding:8px 12px;white-space:nowrap;">
-                                <i class="fas fa-plus"></i> Nueva
-                            </button>
-                        </div>
+                        <select id="f_product_category" style="flex:1;">
+                            <option value="">Seleccionar categoría...</option>
+                            ${data.categories.map(c => `<option value="${c.id}" ${isEdit && product.category_id === c.id ? 'selected' : ''}>${c.name}</option>`).join('')}
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Badge</label>
@@ -1734,17 +1874,6 @@
                         ${stockOptions.map(s => `<option value="${s}" ${isEdit && product.stock === s ? 'selected' : ''}>${s}</option>`).join('')}
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>WhatsApp Message</label>
-                    <input type="text" id="f_product_whatsapp" value="${isEdit ? product.whatsapp_msg : ''}">
-                </div>
-                <div class="form-group">
-                    <label>Colores (separa con coma)</label>
-                    <input type="text" id="f_product_colors" value="${isEdit && product.colors ? product.colors.join(', ') : '#000000, #9BE000'}">
-                </div>
-                <div id="productDynamicFields">
-                    <!-- Campos dinámicos según categoría -->
-                </div>
                 <div class="form-actions">
                     <button class="btn btn-primary" onclick="saveProduct(${isEdit ? productId : 'null'})">
                         <i class="fas fa-save"></i> ${isEdit ? 'Actualizar' : 'Crear'} Producto
@@ -1753,54 +1882,8 @@
                 </div>
             `;
 
-            const catSelect = document.getElementById('f_product_category');
-            if (catSelect.value) {
-                loadProductDynamicFields(catSelect.value, productId);
-            }
-
             document.getElementById('formModal').classList.add('active');
             document.body.style.overflow = 'hidden';
-        }
-
-        function loadProductDynamicFields(categoryId, productId) {
-            const container = document.getElementById('productDynamicFields');
-            const product = productId ? data.products.find(p => p.id === parseInt(productId)) : null;
-            const customFields = product?.custom_fields || {};
-
-            const fields = data.categoryFields.filter(f => f.category_id === parseInt(categoryId));
-            
-            if (fields.length === 0) {
-                container.innerHTML = '<p style="color:var(--gray-400);font-size:0.85rem;">No hay campos personalizados para esta categoría</p>';
-                return;
-            }
-
-            container.innerHTML = fields.map(f => {
-                const value = customFields[f.field_key] || '';
-                let input = '';
-
-                if (f.field_type === 'select' && f.field_options) {
-                    input = `
-                        <select id="field_${f.field_key}">
-                            <option value="">Seleccionar...</option>
-                            ${f.field_options.map(opt => `<option value="${opt}" ${value === opt ? 'selected' : ''}>${opt}</option>`).join('')}
-                        </select>
-                    `;
-                } else if (f.field_type === 'number') {
-                    input = `<input type="number" id="field_${f.field_key}" step="0.1" value="${value}">`;
-                } else if (f.field_type === 'textarea') {
-                    input = `<textarea id="field_${f.field_key}" rows="2">${value}</textarea>`;
-                } else {
-                    input = `<input type="text" id="field_${f.field_key}" value="${value}">`;
-                }
-
-                return `
-                    <div class="form-group">
-                        <label>${f.field_label} ${f.is_required ? '*' : ''}</label>
-                        ${input}
-                        <small class="help-text">Clave: ${f.field_key}</small>
-                    </div>
-                `;
-            }).join('');
         }
 
         function previewProductImage(event) {
@@ -1824,14 +1907,6 @@
             const old_price = parseFloat(document.getElementById('f_product_oldprice').value) || null;
             const description = document.getElementById('f_product_desc').value.trim();
             const stock = document.getElementById('f_product_stock').value;
-            const whatsapp_msg = document.getElementById('f_product_whatsapp').value.trim() || name;
-            const colors = document.getElementById('f_product_colors').value.split(',').map(c => c.trim()).filter(c => c);
-
-            const custom_fields = {};
-            document.querySelectorAll('[id^="field_"]').forEach(el => {
-                const key = el.id.replace('field_', '');
-                custom_fields[key] = el.value;
-            });
 
             if (!name || !description || !price) {
                 showToast('⚠️ Completa todos los campos requeridos', 'error');
@@ -1862,17 +1937,6 @@
             const category = data.categories.find(c => c.id === category_id);
             const categoryName = category ? category.name : 'Sin categoría';
 
-            if (productId) {
-                const oldProduct = data.products.find(p => p.id === productId);
-                if (oldProduct && oldProduct.image && oldProduct.image !== imageUrl && oldProduct.image.includes('/storage/')) {
-                    try {
-                        await deleteImageFromStorage(oldProduct.image);
-                    } catch (err) {
-                        console.warn('No se pudo eliminar la imagen vieja:', err);
-                    }
-                }
-            }
-
             const productData = {
                 id: productId || Date.now(),
                 name,
@@ -1885,9 +1949,6 @@
                 image: imageUrl,
                 stock: stock,
                 stock_color: stock === 'En stock' ? 'green' : stock === 'Últimas unidades' ? 'orange' : 'red',
-                whatsapp_msg: whatsapp_msg,
-                colors: colors.length ? colors : ['#000000'],
-                custom_fields: custom_fields,
                 updated_at: new Date().toISOString()
             };
 
@@ -1942,117 +2003,7 @@
         }
 
         // =====================================================
-        // CREACIÓN RÁPIDA DE CATEGORÍA
-        // =====================================================
-        function openQuickCategoryForm() {
-            document.getElementById('formTitle').textContent = '➕ Nueva Categoría (Rápida)';
-            
-            document.getElementById('formBody').innerHTML = `
-                <div class="form-group">
-                    <label>Nombre de la categoría *</label>
-                    <input type="text" id="f_quick_category_name" placeholder="Ej: Bicicletas Eléctricas">
-                </div>
-                <div class="form-group">
-                    <label>Imagen de la categoría</label>
-                    <div class="file-input-wrapper">
-                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen (se comprime automáticamente)</span>
-                        <input type="file" accept="image/*" onchange="previewQuickCategoryImage(event)">
-                    </div>
-                    <img class="image-preview hidden" id="f_quick_category_image_preview">
-                    <input type="hidden" id="f_quick_category_image">
-                    <small class="help-text">Si no se sube imagen, se usará el ícono como fallback</small>
-                </div>
-                <div class="form-group">
-                    <label>Ícono/Emoji (fallback)</label>
-                    <input type="text" id="f_quick_category_icon" placeholder="🔥 o 🏷️" value="🏷️">
-                </div>
-                <div class="form-actions">
-                    <button class="btn btn-primary" onclick="saveQuickCategory()">
-                        <i class="fas fa-save"></i> Crear Categoría
-                    </button>
-                    <button class="btn btn-outline" onclick="closeFormModal()">Cancelar</button>
-                </div>
-            `;
-
-            document.getElementById('formModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function previewQuickCategoryImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('f_quick_category_image_preview');
-                    preview.src = e.target.result;
-                    preview.classList.remove('hidden');
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        async function saveQuickCategory() {
-            const name = document.getElementById('f_quick_category_name').value.trim();
-            const icon = document.getElementById('f_quick_category_icon').value.trim() || '🏷️';
-
-            if (!name) {
-                showToast('⚠️ El nombre es requerido', 'error');
-                return;
-            }
-
-            const fileInput = document.querySelector('#formBody input[type="file"]');
-            let imageUrl = document.getElementById('f_quick_category_image').value;
-
-            if (fileInput && fileInput.files && fileInput.files.length > 0) {
-                try {
-                    const file = fileInput.files[0];
-                    showToast('📤 Subiendo imagen...', 'info');
-                    imageUrl = await uploadImageToStorage(file);
-                    showToast('✅ Imagen subida correctamente', 'success');
-                } catch (err) {
-                    console.error('Error uploading image:', err);
-                    showToast('❌ Error al subir la imagen: ' + err.message, 'error');
-                    return;
-                }
-            }
-
-            const categoryData = {
-                id: Date.now(),
-                name,
-                image: imageUrl || null,
-                icon: icon,
-                sort_order: data.categories.length
-            };
-
-            try {
-                const { error } = await supabaseClient
-                    .from('categories')
-                    .insert([categoryData]);
-                if (error) throw error;
-
-                await loadAllData();
-                
-                const catSelect = document.getElementById('f_product_category');
-                if (catSelect) {
-                    catSelect.innerHTML = `
-                        <option value="">Seleccionar categoría...</option>
-                        ${data.categories.map(c => `<option value="${c.id}" ${c.id === categoryData.id ? 'selected' : ''}>${c.name}</option>`).join('')}
-                    `;
-                    loadProductDynamicFields(categoryData.id, null);
-                }
-
-                closeFormModal();
-                renderCategories();
-                renderDashboard();
-                showToast(`✅ Categoría "${name}" creada y seleccionada`, 'success');
-            } catch (err) {
-                console.error('Error creating category:', err);
-                showToast('Error al crear la categoría', 'error');
-            }
-        }
-
-        // =====================================================
-        // CATEGORÍAS
+        // CATEGORÍAS (resumidas)
         // =====================================================
         function renderCategories() {
             const container = document.getElementById('categoriesTable');
@@ -2086,9 +2037,6 @@
                                     <div class="actions">
                                         <button class="edit-btn" onclick="editCategory(${c.id})"><i class="fas fa-edit"></i></button>
                                         <button class="delete-btn" onclick="deleteCategory(${c.id})"><i class="fas fa-trash"></i></button>
-                                        <button class="edit-btn" onclick="openCategoryFieldsManager(${c.id})" style="background:rgba(59,130,246,0.15);color:#2563EB;">
-                                            <i class="fas fa-cog"></i> Campos
-                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -2117,12 +2065,10 @@
                     </div>
                     <img class="image-preview ${isEdit && category.image ? '' : 'hidden'}" id="f_category_image_preview" src="${isEdit ? category.image : ''}">
                     <input type="hidden" id="f_category_image" value="${isEdit ? category.image : ''}">
-                    <small class="help-text">Si no se sube imagen, se usará el ícono como fallback</small>
                 </div>
                 <div class="form-group">
-                    <label>Ícono (FontAwesome o emoji - fallback)</label>
+                    <label>Ícono</label>
                     <input type="text" id="f_category_icon" value="${isEdit ? category.icon : 'fa-tag'}" placeholder="fa-tag o 🔥">
-                    <small class="help-text">Ej: fa-bicycle, fa-tag, 🔥, 🚴</small>
                 </div>
                 <div class="form-group">
                     <label>Orden</label>
@@ -2176,17 +2122,6 @@
                     console.error('Error uploading image:', err);
                     showToast('❌ Error al subir la imagen: ' + err.message, 'error');
                     return;
-                }
-            }
-
-            if (categoryId) {
-                const oldCategory = data.categories.find(c => c.id === categoryId);
-                if (oldCategory && oldCategory.image && oldCategory.image !== imageUrl && oldCategory.image.includes('/storage/')) {
-                    try {
-                        await deleteImageFromStorage(oldCategory.image);
-                    } catch (err) {
-                        console.warn('No se pudo eliminar la imagen vieja:', err);
-                    }
                 }
             }
 
@@ -2248,217 +2183,7 @@
         }
 
         // =====================================================
-        // CAMPOS DE CATEGORÍAS
-        // =====================================================
-        function openCategoryFieldsManager(categoryId) {
-            const category = data.categories.find(c => c.id === categoryId);
-            if (!category) return;
-
-            document.getElementById('formTitle').textContent = `⚙️ Campos de "${category.name}"`;
-            
-            const fields = data.categoryFields.filter(f => f.category_id === categoryId);
-            
-            let fieldsHtml = '';
-            if (fields.length === 0) {
-                fieldsHtml = '<p style="color:var(--gray-400);">No hay campos definidos para esta categoría</p>';
-            } else {
-                fieldsHtml = fields.map(f => `
-                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-100);">
-                        <div>
-                            <strong>${f.field_label}</strong>
-                            <span style="font-size:0.8rem;color:var(--gray-400);"> (${f.field_key})</span>
-                            <span style="font-size:0.7rem;background:var(--gray-200);padding:2px 8px;border-radius:4px;margin-left:8px;">${f.field_type}</span>
-                            ${f.is_required ? '<span style="color:#EF4444;font-size:0.7rem;">*</span>' : ''}
-                        </div>
-                        <div class="actions">
-                            <button class="edit-btn" onclick="editCategoryField(${f.id}, ${categoryId})"><i class="fas fa-edit"></i></button>
-                            <button class="delete-btn" onclick="deleteCategoryField(${f.id})"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            document.getElementById('formBody').innerHTML = `
-                <div style="margin-bottom:16px;">
-                    <strong>Campos personalizados:</strong>
-                </div>
-                ${fieldsHtml}
-                <div style="margin-top:16px;padding-top:16px;border-top:2px solid var(--gray-100);">
-                    <button class="btn btn-primary btn-sm" onclick="openCategoryFieldForm(${categoryId})">
-                        <i class="fas fa-plus"></i> Agregar campo
-                    </button>
-                </div>
-                <div class="form-actions">
-                    <button class="btn btn-outline" onclick="closeFormModal()">Cerrar</button>
-                </div>
-            `;
-
-            document.getElementById('formModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function renderCategoryFields() {
-            const container = document.getElementById('categoryFieldsManager');
-            if (!data.categories || data.categories.length === 0) {
-                container.innerHTML = '<p style="color:var(--gray-400);">No hay categorías</p>';
-                return;
-            }
-
-            let html = '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">';
-            data.categories.forEach(c => {
-                const count = data.categoryFields.filter(f => f.category_id === c.id).length;
-                html += `
-                    <button onclick="openCategoryFieldsManager(${c.id})" style="padding:8px 16px;border:2px solid var(--gray-200);border-radius:8px;background:var(--white);cursor:pointer;font-family:var(--font);transition:var(--transition);">
-                        <i class="fas ${c.icon || 'fa-tag'}"></i>
-                        ${c.name}
-                        <span style="background:var(--primary);color:var(--black);padding:0 8px;border-radius:50%;font-size:0.7rem;margin-left:4px;">${count}</span>
-                    </button>
-                `;
-            });
-            html += '</div>';
-
-            container.innerHTML = html;
-        }
-
-        function openCategoryFieldForm(categoryId, fieldId = null) {
-            const isEdit = fieldId !== null;
-            const field = isEdit ? data.categoryFields.find(f => f.id === fieldId) : null;
-            const category = data.categories.find(c => c.id === categoryId);
-
-            document.getElementById('formTitle').textContent = isEdit ? '✏️ Editar Campo' : `➕ Nuevo Campo para "${category?.name || ''}"`;
-            
-            document.getElementById('formBody').innerHTML = `
-                <div class="form-group">
-                    <label>Clave del campo *</label>
-                    <input type="text" id="f_field_key" value="${isEdit ? field.field_key : ''}" placeholder="Ej: peso, rodado, talle">
-                    <small class="help-text">Identificador único (se usa en el código)</small>
-                </div>
-                <div class="form-group">
-                    <label>Etiqueta *</label>
-                    <input type="text" id="f_field_label" value="${isEdit ? field.field_label : ''}" placeholder="Ej: Peso (kg)">
-                </div>
-                <div class="form-group">
-                    <label>Tipo de campo</label>
-                    <select id="f_field_type">
-                        <option value="text" ${isEdit && field.field_type === 'text' ? 'selected' : ''}>Texto</option>
-                        <option value="number" ${isEdit && field.field_type === 'number' ? 'selected' : ''}>Número</option>
-                        <option value="select" ${isEdit && field.field_type === 'select' ? 'selected' : ''}>Select (opciones)</option>
-                        <option value="textarea" ${isEdit && field.field_type === 'textarea' ? 'selected' : ''}>Área de texto</option>
-                    </select>
-                </div>
-                <div class="form-group" id="field_options_group" style="${isEdit && field.field_type === 'select' ? '' : 'display:none;'}">
-                    <label>Opciones (separadas por coma)</label>
-                    <input type="text" id="f_field_options" value="${isEdit && field.field_options ? field.field_options.join(', ') : ''}" placeholder="Ej: S, M, L, XL">
-                </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="f_field_required" ${isEdit && field.is_required ? 'checked' : ''}>
-                        Campo requerido
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>Orden</label>
-                    <input type="number" id="f_field_sort" value="${isEdit ? field.sort_order : 0}">
-                </div>
-                <div class="form-actions">
-                    <button class="btn btn-primary" onclick="saveCategoryField(${categoryId}, ${isEdit ? fieldId : 'null'})">
-                        <i class="fas fa-save"></i> ${isEdit ? 'Actualizar' : 'Crear'} Campo
-                    </button>
-                    <button class="btn btn-outline" onclick="closeFormModal()">Cancelar</button>
-                </div>
-            `;
-
-            document.getElementById('f_field_type').addEventListener('change', function() {
-                const group = document.getElementById('field_options_group');
-                if (this.value === 'select') {
-                    group.style.display = 'block';
-                } else {
-                    group.style.display = 'none';
-                }
-            });
-
-            document.getElementById('formModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        async function saveCategoryField(categoryId, fieldId) {
-            const field_key = document.getElementById('f_field_key').value.trim();
-            const field_label = document.getElementById('f_field_label').value.trim();
-            const field_type = document.getElementById('f_field_type').value;
-            const field_options = document.getElementById('f_field_options').value.split(',').map(s => s.trim()).filter(s => s);
-            const is_required = document.getElementById('f_field_required').checked;
-            const sort_order = parseInt(document.getElementById('f_field_sort').value) || 0;
-
-            if (!field_key || !field_label) {
-                showToast('⚠️ Completa los campos requeridos', 'error');
-                return;
-            }
-
-            const fieldData = {
-                id: fieldId || Date.now(),
-                category_id: categoryId,
-                field_key,
-                field_label,
-                field_type,
-                field_options: field_type === 'select' ? field_options : null,
-                is_required,
-                sort_order
-            };
-
-            try {
-                if (fieldId) {
-                    const { error } = await supabaseClient
-                        .from('category_fields')
-                        .update(fieldData)
-                        .eq('id', fieldId);
-                    if (error) throw error;
-                    showToast('✅ Campo actualizado', 'success');
-                } else {
-                    const { error } = await supabaseClient
-                        .from('category_fields')
-                        .insert([fieldData]);
-                    if (error) throw error;
-                    showToast('✅ Campo creado', 'success');
-                }
-
-                await loadAllData();
-                closeFormModal();
-                renderCategoryFields();
-                openCategoryFieldsManager(categoryId);
-            } catch (err) {
-                console.error('Error saving field:', err);
-                showToast('Error al guardar el campo', 'error');
-            }
-        }
-
-        function editCategoryField(fieldId, categoryId) {
-            openCategoryFieldForm(categoryId, fieldId);
-        }
-
-        async function deleteCategoryField(fieldId) {
-            if (!confirm('¿Eliminar este campo?')) return;
-            
-            try {
-                const { error } = await supabaseClient
-                    .from('category_fields')
-                    .delete()
-                    .eq('id', fieldId);
-                if (error) throw error;
-                showToast('🗑️ Campo eliminado', 'success');
-                await loadAllData();
-                renderCategoryFields();
-                const field = data.categoryFields.find(f => f.id === fieldId);
-                if (field) {
-                    openCategoryFieldsManager(field.category_id);
-                }
-            } catch (err) {
-                console.error('Error deleting field:', err);
-                showToast('Error al eliminar el campo', 'error');
-            }
-        }
-
-        // =====================================================
-        // BADGES
+        // BADGES (resumidos)
         // =====================================================
         function renderBadges() {
             const container = document.getElementById('badgesTable');
@@ -2516,11 +2241,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>Color de fondo</label>
-                        <input type="color" id="f_badge_color" value="${isEdit ? badge.color : '#9BE000'}">
+                        <input type="color" id="f_badge_color" value="${isEdit ? badge.color : '#E63946'}">
                     </div>
                     <div class="form-group">
                         <label>Color de texto</label>
-                        <input type="color" id="f_badge_text_color" value="${isEdit ? badge.text_color : '#000000'}">
+                        <input type="color" id="f_badge_text_color" value="${isEdit ? badge.text_color : '#FFFFFF'}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -2612,7 +2337,7 @@
         }
 
         // =====================================================
-        // HERO - IMÁGENES
+        // IMÁGENES (resumido)
         // =====================================================
         function renderHeroImages() {
             const container = document.getElementById('heroImagesManager');
@@ -2627,16 +2352,14 @@
                         <div style="position:relative;border-radius:10px;overflow:hidden;border:2px solid var(--gray-200);background:var(--gray-100);">
                             <img src="${img}" style="width:100%;height:120px;object-fit:cover;" onerror="this.src='https://via.placeholder.com/150x120?text=Error'">
                             <div style="position:absolute;top:4px;right:4px;display:flex;gap:4px;">
-                                <button onclick="editHeroImage(${i})" style="background:rgba(155,224,0,0.9);color:black;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:0.7rem;">
+                                <button onclick="editHeroImage(${i})" style="background:rgba(230,57,70,0.9);color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:0.7rem;">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <button onclick="removeHeroImage(${i})" style="background:rgba(0,0,0,0.7);color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
-                            <div style="padding:6px;font-size:0.65rem;color:var(--gray-400);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                                #${i+1}
-                            </div>
+                            <div style="padding:6px;font-size:0.65rem;color:var(--gray-400);text-align:center;">#${i+1}</div>
                         </div>
                     `).join('')}
                 </div>
@@ -2676,7 +2399,7 @@
             const currentUrl = data.heroImages[index];
             if (!currentUrl) return;
             
-            const newUrl = prompt('Ingresa la nueva URL de la imagen (o subí una nueva):', currentUrl);
+            const newUrl = prompt('Ingresa la nueva URL de la imagen:', currentUrl);
             if (newUrl === null) return;
             if (!newUrl.trim()) {
                 showToast('⚠️ La URL no puede estar vacía', 'error');
@@ -2690,7 +2413,7 @@
                 .eq('type', 'hero')
                 .then(async ({ data: resultData, error }) => {
                     if (error || !resultData || resultData.length === 0) {
-                        showToast('⚠️ Imagen no encontrada en la base de datos', 'error');
+                        showToast('⚠️ Imagen no encontrada', 'error');
                         return;
                     }
                     
@@ -2705,7 +2428,7 @@
                     await loadAllData();
                     renderHeroImages();
                     renderDashboard();
-                    showToast('✅ Imagen del hero actualizada', 'success');
+                    showToast('✅ Imagen actualizada', 'success');
                 })
                 .catch(err => {
                     console.error('Error updating hero image:', err);
@@ -2739,7 +2462,7 @@
         }
 
         // =====================================================
-        // BANNERS
+        // BANNERS (resumido)
         // =====================================================
         function renderBanners() {
             const container = document.getElementById('bannersManager');
@@ -2750,13 +2473,13 @@
 
             container.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
-                    ${data.banners.map((banner, i) => `
+                    ${data.banners.map((banner) => `
                         <div style="background:var(--black);border-radius:10px;padding:16px;color:white;position:relative;">
                             <img src="${banner.image}" style="width:100%;height:100px;object-fit:cover;border-radius:8px;margin-bottom:8px;" onerror="this.src='https://via.placeholder.com/220x100?text=No+img'">
                             <div style="font-size:0.8rem;font-weight:600;color:var(--primary);">${banner.badge || ''}</div>
                             <div style="font-weight:600;font-size:0.9rem;">${banner.title}</div>
                             <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
-                                <button onclick="editBanner(${banner.id})" style="background:var(--primary);color:black;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.7rem;font-weight:600;">Editar</button>
+                                <button onclick="editBanner(${banner.id})" style="background:var(--primary);color:white;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.7rem;font-weight:600;">Editar</button>
                                 <button onclick="deleteBanner(${banner.id})" style="background:rgba(239,68,68,0.2);color:#EF4444;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.7rem;font-weight:600;">Eliminar</button>
                             </div>
                         </div>
@@ -2859,17 +2582,6 @@
                 return;
             }
 
-            if (bannerId) {
-                const oldBanner = data.banners.find(b => b.id === bannerId);
-                if (oldBanner && oldBanner.image && oldBanner.image !== imageUrl && oldBanner.image.includes('/storage/')) {
-                    try {
-                        await deleteImageFromStorage(oldBanner.image);
-                    } catch (err) {
-                        console.warn('No se pudo eliminar la imagen vieja:', err);
-                    }
-                }
-            }
-
             const bannerData = {
                 id: bannerId || Date.now(),
                 badge,
@@ -2930,37 +2642,31 @@
         }
 
         // =====================================================
-        // GALERÍA
+        // GALERÍA (resumido)
         // =====================================================
         function renderGallery() {
             const container = document.getElementById('galleryManager');
             const items = data.galleryItems || [];
             
             if (items.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align:center;padding:30px 0;color:var(--gray-400);">
-                        <i class="fas fa-images" style="font-size:2rem;display:block;margin-bottom:12px;"></i>
-                        <p>No hay imágenes en la galería</p>
-                        <p style="font-size:0.8rem;">Hacé clic en "Agregar" para empezar</p>
-                    </div>
-                `;
+                container.innerHTML = '<p style="color:var(--gray-400);">No hay imágenes en la galería</p>';
                 return;
             }
 
             container.innerHTML = `
                 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
                     ${items.map(item => `
-                        <div style="background:var(--white);border-radius:12px;overflow:hidden;border:2px solid var(--gray-200);position:relative;transition:var(--transition);">
+                        <div style="background:var(--white);border-radius:12px;overflow:hidden;border:2px solid var(--gray-200);position:relative;">
                             <div style="position:relative;height:160px;overflow:hidden;background:var(--gray-100);">
                                 <img src="${item.image_url}" style="width:100%;height:100%;object-fit:cover;" 
                                      onerror="this.src='https://via.placeholder.com/220x160?text=Error'">
                                 <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
                                     <button onclick="editGalleryItem(${item.id})" 
-                                            style="background:rgba(155,224,0,0.95);color:black;border:none;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:0.7rem;font-weight:600;transition:var(--transition);">
+                                            style="background:rgba(230,57,70,0.95);color:white;border:none;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:0.7rem;font-weight:600;">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button onclick="deleteGalleryItem(${item.id})" 
-                                            style="background:rgba(239,68,68,0.95);color:white;border:none;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:0.7rem;font-weight:600;transition:var(--transition);">
+                                            style="background:rgba(239,68,68,0.95);color:white;border:none;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:0.7rem;font-weight:600;">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -2971,8 +2677,6 @@
                                     <span style="font-size:0.65rem;color:var(--gray-400);">${item.category || 'General'}</span>
                                 </div>
                                 <div style="font-weight:600;font-size:0.95rem;margin-top:4px;">${item.title || 'Sin título'}</div>
-                                ${item.description ? `<div style="font-size:0.8rem;color:var(--gray-400);margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${item.description}</div>` : ''}
-                                <div style="font-size:0.65rem;color:var(--gray-400);margin-top:6px;">Orden: ${item.sort_order || 0}</div>
                             </div>
                         </div>
                     `).join('')}
@@ -3010,25 +2714,21 @@
                 </div>
                 <div class="form-group">
                     <label>Título *</label>
-                    <input type="text" id="f_gallery_title" value="${isEdit ? item.title : ''}" placeholder="Ej: Aventura en montaña">
+                    <input type="text" id="f_gallery_title" value="${isEdit ? item.title : ''}">
                 </div>
                 <div class="form-group">
                     <label>Descripción</label>
-                    <textarea id="f_gallery_desc" rows="2" placeholder="Descripción de la imagen">${isEdit ? item.description : ''}</textarea>
+                    <textarea id="f_gallery_desc" rows="2">${isEdit ? item.description : ''}</textarea>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Badge (emoji o texto)</label>
-                        <input type="text" id="f_gallery_badge" value="${isEdit ? item.badge : '📸'}" placeholder="📸 🚴 🏔️">
+                        <label>Badge</label>
+                        <input type="text" id="f_gallery_badge" value="${isEdit ? item.badge : '📸'}">
                     </div>
                     <div class="form-group">
                         <label>Categoría</label>
-                        <input type="text" id="f_gallery_category" value="${isEdit ? item.category : 'General'}" placeholder="Ej: Aventura, Urbano">
+                        <input type="text" id="f_gallery_category" value="${isEdit ? item.category : 'General'}">
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Orden</label>
-                    <input type="number" id="f_gallery_sort" value="${isEdit ? item.sort_order : (data.galleryItems?.length || 0)}">
                 </div>
                 <div class="form-actions">
                     <button class="btn btn-primary" onclick="saveGalleryItem(${isEdit ? itemId : 'null'})">
@@ -3062,7 +2762,6 @@
             const description = document.getElementById('f_gallery_desc').value.trim();
             const badge = document.getElementById('f_gallery_badge').value.trim() || '📸';
             const category = document.getElementById('f_gallery_category').value.trim() || 'General';
-            const sort_order = parseInt(document.getElementById('f_gallery_sort').value) || 0;
             
             const fileInput = document.querySelector('#formBody input[type="file"]');
             let imageUrl = document.getElementById('f_gallery_url').value;
@@ -3090,17 +2789,6 @@
                 return;
             }
 
-            if (itemId) {
-                const oldItem = data.galleryItems.find(g => g.id === itemId);
-                if (oldItem && oldItem.image_url && oldItem.image_url !== imageUrl && oldItem.image_url.includes('/storage/')) {
-                    try {
-                        await deleteImageFromStorage(oldItem.image_url);
-                    } catch (err) {
-                        console.warn('No se pudo eliminar la imagen vieja:', err);
-                    }
-                }
-            }
-
             const galleryData = {
                 id: itemId || Date.now(),
                 image_url: imageUrl,
@@ -3108,7 +2796,7 @@
                 description,
                 badge,
                 category,
-                sort_order
+                sort_order: data.galleryItems?.length || 0
             };
 
             try {
@@ -3145,17 +2833,11 @@
             if (!confirm('¿Eliminar esta imagen de la galería?')) return;
             
             try {
-                const item = data.galleryItems.find(g => g.id === itemId);
-                
                 const { error } = await supabaseClient
                     .from('gallery')
                     .delete()
                     .eq('id', itemId);
                 if (error) throw error;
-                
-                if (item && item.image_url && item.image_url.includes('/storage/')) {
-                    await deleteImageFromStorage(item.image_url);
-                }
                 
                 await loadAllData();
                 renderGallery();
@@ -3168,7 +2850,7 @@
         }
 
         // =====================================================
-        // CONTENIDO
+        // CONTENIDO (resumido)
         // =====================================================
         function renderHeroTexts() {
             if (data.config) {
@@ -3205,7 +2887,6 @@
             }
         }
 
-        // Testimonials
         function renderTestimonials() {
             const container = document.getElementById('testimonialsManager');
             if (!data.testimonials || data.testimonials.length === 0) {
@@ -3213,7 +2894,7 @@
                 return;
             }
 
-            container.innerHTML = data.testimonials.map((t, i) => `
+            container.innerHTML = data.testimonials.map(t => `
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);flex-wrap:wrap;gap:8px;">
                     <div style="display:flex;align-items:center;gap:12px;">
                         <img src="${t.image}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;" onerror="this.src='https://via.placeholder.com/40x40?text=No+img'">
@@ -3320,17 +3001,6 @@
                 return;
             }
 
-            if (testimonialId) {
-                const oldTestimonial = data.testimonials.find(t => t.id === testimonialId);
-                if (oldTestimonial && oldTestimonial.image && oldTestimonial.image !== imageUrl && oldTestimonial.image.includes('/storage/')) {
-                    try {
-                        await deleteImageFromStorage(oldTestimonial.image);
-                    } catch (err) {
-                        console.warn('No se pudo eliminar la imagen vieja:', err);
-                    }
-                }
-            }
-
             const testimonialData = {
                 id: testimonialId || Date.now(),
                 name,
@@ -3389,7 +3059,6 @@
             }
         }
 
-        // FAQs
         function renderFaqs() {
             const container = document.getElementById('faqManager');
             if (!data.faqs || data.faqs.length === 0) {
@@ -3397,7 +3066,7 @@
                 return;
             }
 
-            container.innerHTML = data.faqs.map((f, i) => `
+            container.innerHTML = data.faqs.map(f => `
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);flex-wrap:wrap;gap:8px;">
                     <div style="flex:1;min-width:150px;">
                         <strong>${f.question}</strong>
@@ -3500,7 +3169,6 @@
             }
         }
 
-        // Benefits
         function renderBenefits() {
             const container = document.getElementById('benefitsManager');
             if (!data.benefits || data.benefits.length === 0) {
@@ -3508,7 +3176,7 @@
                 return;
             }
 
-            container.innerHTML = data.benefits.map((b, i) => `
+            container.innerHTML = data.benefits.map(b => `
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);flex-wrap:wrap;gap:8px;">
                     <div style="display:flex;align-items:center;gap:12px;">
                         <i class="fas ${b.icon}" style="font-size:1.5rem;color:var(--primary);width:30px;"></i>
@@ -3535,7 +3203,7 @@
             
             document.getElementById('formBody').innerHTML = `
                 <div class="form-group">
-                    <label>Ícono (FontAwesome)</label>
+                    <label>Ícono</label>
                     <select id="f_benefit_icon">
                         ${iconOptions.map(icon => `<option value="${icon}" ${isEdit && b.icon === icon ? 'selected' : ''}>${icon}</option>`).join('')}
                     </select>
@@ -3625,7 +3293,207 @@
         }
 
         // =====================================================
-        // PROGRAMADOR DE OFERTAS - MODIFICADO CON CAMPOS AVANZADOS
+        // CAMPOS DE CATEGORÍAS
+        // =====================================================
+        function renderCategoryFields() {
+            const container = document.getElementById('categoryFieldsManager');
+            if (!data.categories || data.categories.length === 0) {
+                container.innerHTML = '<p style="color:var(--gray-400);">No hay categorías</p>';
+                return;
+            }
+
+            let html = '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">';
+            data.categories.forEach(c => {
+                const count = data.categoryFields.filter(f => f.category_id === c.id).length;
+                html += `
+                    <button onclick="openCategoryFieldsManager(${c.id})" style="padding:8px 16px;border:2px solid var(--gray-200);border-radius:8px;background:var(--white);cursor:pointer;font-family:var(--font);transition:var(--transition);">
+                        <i class="fas ${c.icon || 'fa-tag'}"></i>
+                        ${c.name}
+                        <span style="background:var(--primary);color:var(--white);padding:0 8px;border-radius:50%;font-size:0.7rem;margin-left:4px;">${count}</span>
+                    </button>
+                `;
+            });
+            html += '</div>';
+
+            container.innerHTML = html;
+        }
+
+        function openCategoryFieldsManager(categoryId) {
+            const category = data.categories.find(c => c.id === categoryId);
+            if (!category) return;
+
+            document.getElementById('formTitle').textContent = `⚙️ Campos de "${category.name}"`;
+            
+            const fields = data.categoryFields.filter(f => f.category_id === categoryId);
+            
+            let fieldsHtml = '';
+            if (fields.length === 0) {
+                fieldsHtml = '<p style="color:var(--gray-400);">No hay campos definidos</p>';
+            } else {
+                fieldsHtml = fields.map(f => `
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-100);">
+                        <div>
+                            <strong>${f.field_label}</strong>
+                            <span style="font-size:0.8rem;color:var(--gray-400);"> (${f.field_key})</span>
+                            <span style="font-size:0.7rem;background:var(--gray-200);padding:2px 8px;border-radius:4px;margin-left:8px;">${f.field_type}</span>
+                            ${f.is_required ? '<span style="color:#EF4444;font-size:0.7rem;">*</span>' : ''}
+                        </div>
+                        <div class="actions">
+                            <button class="edit-btn" onclick="editCategoryField(${f.id}, ${categoryId})"><i class="fas fa-edit"></i></button>
+                            <button class="delete-btn" onclick="deleteCategoryField(${f.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('formBody').innerHTML = `
+                <div style="margin-bottom:16px;">
+                    <strong>Campos personalizados:</strong>
+                </div>
+                ${fieldsHtml}
+                <div style="margin-top:16px;padding-top:16px;border-top:2px solid var(--gray-100);">
+                    <button class="btn btn-primary btn-sm" onclick="openCategoryFieldForm(${categoryId})">
+                        <i class="fas fa-plus"></i> Agregar campo
+                    </button>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-outline" onclick="closeFormModal()">Cerrar</button>
+                </div>
+            `;
+
+            document.getElementById('formModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openCategoryFieldForm(categoryId, fieldId = null) {
+            const isEdit = fieldId !== null;
+            const field = isEdit ? data.categoryFields.find(f => f.id === fieldId) : null;
+            const category = data.categories.find(c => c.id === categoryId);
+
+            document.getElementById('formTitle').textContent = isEdit ? '✏️ Editar Campo' : `➕ Nuevo Campo para "${category?.name || ''}"`;
+            
+            document.getElementById('formBody').innerHTML = `
+                <div class="form-group">
+                    <label>Clave del campo *</label>
+                    <input type="text" id="f_field_key" value="${isEdit ? field.field_key : ''}" placeholder="Ej: peso, rodado">
+                </div>
+                <div class="form-group">
+                    <label>Etiqueta *</label>
+                    <input type="text" id="f_field_label" value="${isEdit ? field.field_label : ''}" placeholder="Ej: Peso (kg)">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de campo</label>
+                    <select id="f_field_type">
+                        <option value="text" ${isEdit && field.field_type === 'text' ? 'selected' : ''}>Texto</option>
+                        <option value="number" ${isEdit && field.field_type === 'number' ? 'selected' : ''}>Número</option>
+                        <option value="select" ${isEdit && field.field_type === 'select' ? 'selected' : ''}>Select</option>
+                        <option value="textarea" ${isEdit && field.field_type === 'textarea' ? 'selected' : ''}>Área de texto</option>
+                    </select>
+                </div>
+                <div class="form-group" id="field_options_group" style="${isEdit && field.field_type === 'select' ? '' : 'display:none;'}">
+                    <label>Opciones</label>
+                    <input type="text" id="f_field_options" value="${isEdit && field.field_options ? field.field_options.join(', ') : ''}" placeholder="Ej: S, M, L, XL">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="f_field_required" ${isEdit && field.is_required ? 'checked' : ''}>
+                        Campo requerido
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="saveCategoryField(${categoryId}, ${isEdit ? fieldId : 'null'})">
+                        <i class="fas fa-save"></i> ${isEdit ? 'Actualizar' : 'Crear'} Campo
+                    </button>
+                    <button class="btn btn-outline" onclick="closeFormModal()">Cancelar</button>
+                </div>
+            `;
+
+            document.getElementById('f_field_type').addEventListener('change', function() {
+                const group = document.getElementById('field_options_group');
+                if (this.value === 'select') {
+                    group.style.display = 'block';
+                } else {
+                    group.style.display = 'none';
+                }
+            });
+
+            document.getElementById('formModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        async function saveCategoryField(categoryId, fieldId) {
+            const field_key = document.getElementById('f_field_key').value.trim();
+            const field_label = document.getElementById('f_field_label').value.trim();
+            const field_type = document.getElementById('f_field_type').value;
+            const field_options = document.getElementById('f_field_options').value.split(',').map(s => s.trim()).filter(s => s);
+            const is_required = document.getElementById('f_field_required').checked;
+
+            if (!field_key || !field_label) {
+                showToast('⚠️ Completa los campos requeridos', 'error');
+                return;
+            }
+
+            const fieldData = {
+                id: fieldId || Date.now(),
+                category_id: categoryId,
+                field_key,
+                field_label,
+                field_type,
+                field_options: field_type === 'select' ? field_options : null,
+                is_required,
+                sort_order: 0
+            };
+
+            try {
+                if (fieldId) {
+                    const { error } = await supabaseClient
+                        .from('category_fields')
+                        .update(fieldData)
+                        .eq('id', fieldId);
+                    if (error) throw error;
+                    showToast('✅ Campo actualizado', 'success');
+                } else {
+                    const { error } = await supabaseClient
+                        .from('category_fields')
+                        .insert([fieldData]);
+                    if (error) throw error;
+                    showToast('✅ Campo creado', 'success');
+                }
+
+                await loadAllData();
+                closeFormModal();
+                renderCategoryFields();
+                openCategoryFieldsManager(categoryId);
+            } catch (err) {
+                console.error('Error saving field:', err);
+                showToast('Error al guardar el campo', 'error');
+            }
+        }
+
+        function editCategoryField(fieldId, categoryId) {
+            openCategoryFieldForm(categoryId, fieldId);
+        }
+
+        async function deleteCategoryField(fieldId) {
+            if (!confirm('¿Eliminar este campo?')) return;
+            
+            try {
+                const { error } = await supabaseClient
+                    .from('category_fields')
+                    .delete()
+                    .eq('id', fieldId);
+                if (error) throw error;
+                showToast('🗑️ Campo eliminado', 'success');
+                await loadAllData();
+                renderCategoryFields();
+            } catch (err) {
+                console.error('Error deleting field:', err);
+                showToast('Error al eliminar el campo', 'error');
+            }
+        }
+
+        // =====================================================
+        // RENDER OFERTAS PROGRAMADAS
         // =====================================================
         function renderSchedules() {
             const container = document.getElementById('schedulesTable');
@@ -3648,12 +3516,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        ${data.schedules.map((s, i) => `
+                        ${data.schedules.map(s => `
                             <tr>
                                 <td><strong>${s.nombre}</strong></td>
                                 <td>
                                     ${s.tipo_descuento && s.valor_descuento ? `
-                                        <span style="background:var(--primary);color:var(--black);padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:600;">
+                                        <span style="background:var(--primary);color:var(--white);padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:600;">
                                             ${s.tipo_descuento === 'porcentaje' ? s.valor_descuento + '% OFF' : '$' + Number(s.valor_descuento).toLocaleString('es-AR') + ' OFF'}
                                         </span>
                                     ` : '<span style="color:var(--gray-400);font-size:0.7rem;">Sin descuento</span>'}
@@ -3716,7 +3584,7 @@
         }
 
         // =====================================================
-        // FORMULARIO DE OFERTA - MODIFICADO CON CAMPOS AVANZADOS
+        // FORMULARIO DE OFERTA CON VISTA PREVIA (SIN BOTÓN - IMAGEN COMPLETA)
         // =====================================================
         function openScheduleForm(scheduleId = null) {
             const isEdit = scheduleId !== null;
@@ -3729,57 +3597,51 @@
             const valorDescuento = s?.valor_descuento || '';
             const selectedProductos = s?.productos_ids || [];
             const selectedCategorias = s?.categorias_ids || [];
-            
-            // Generar opciones de productos y categorías
-            const productOptions = data.products.map(p => 
-                `<option value="${p.id}">${p.name}</option>`
-            ).join('');
-
-            const categoryOptions = data.categories.map(c => 
-                `<option value="${c.id}">${c.name}</option>`
-            ).join('');
 
             document.getElementById('formBody').innerHTML = `
                 <form id="scheduleForm" onsubmit="event.preventDefault(); saveSchedule('${scheduleId || ''}')">
-                    <div class="form-group">
-                        <label>Nombre de la oferta *</label>
-                        <input type="text" id="f_schedule_name" value="${isEdit ? s.nombre : ''}" placeholder="Ej: Black Friday 2026" required>
+                    <!-- ===== CAMPOS DEL FORMULARIO ===== -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre de la oferta *</label>
+                            <input type="text" id="f_schedule_name" value="${isEdit ? s.nombre : ''}" placeholder="Ej: Black Friday 2026" required onchange="updateOfferPreview()" oninput="updateOfferPreview()">
+                        </div>
+                        <div class="form-group">
+                            <label>Badge</label>
+                            <input type="text" id="f_schedule_badge" value="${isEdit ? s.badge : '🔥 Oferta especial'}" onchange="updateOfferPreview()" oninput="updateOfferPreview()">
+                        </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
                             <label>Fecha de Inicio *</label>
-                            <input type="datetime-local" id="f_schedule_start" value="${isEdit ? s.fecha_inicio.slice(0, 16) : ''}" required>
+                            <input type="datetime-local" id="f_schedule_start" value="${isEdit ? s.fecha_inicio.slice(0, 16) : ''}" required onchange="updateOfferPreview()">
                         </div>
                         <div class="form-group">
                             <label>Fecha de Fin *</label>
-                            <input type="datetime-local" id="f_schedule_end" value="${isEdit ? s.fecha_fin.slice(0, 16) : ''}" required>
+                            <input type="datetime-local" id="f_schedule_end" value="${isEdit ? s.fecha_fin.slice(0, 16) : ''}" required onchange="updateOfferPreview()">
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Badge</label>
-                        <input type="text" id="f_schedule_badge" value="${isEdit ? s.badge : '🔥 Oferta especial'}">
                     </div>
 
                     <div class="form-group">
                         <label>Título *</label>
-                        <input type="text" id="f_schedule_title" value="${isEdit ? s.title : 'Hasta 50% OFF en todo'}" required>
+                        <input type="text" id="f_schedule_title" value="${isEdit ? s.title : '¡Aprovecha esta increíble oferta por tiempo limitado!'}" required onchange="updateOfferPreview()" oninput="updateOfferPreview()">
                     </div>
 
                     <div class="form-group">
                         <label>Descripción *</label>
-                        <textarea id="f_schedule_desc" rows="2" required>${isEdit ? s.description : 'No te pierdas esta increíble oferta'}</textarea>
+                        <textarea id="f_schedule_desc" rows="2" required onchange="updateOfferPreview()" oninput="updateOfferPreview()">${isEdit ? s.description : 'Descuento aplicable para todos nuestros clientes hasta agotar el tiempo!!!'}</textarea>
                     </div>
 
-                    <div class="form-group">
-                        <label>Texto del botón</label>
-                        <input type="text" id="f_schedule_cta" value="${isEdit ? s.cta_text : 'Aprovechar oferta'}">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Link del botón</label>
-                        <input type="text" id="f_schedule_link" value="${isEdit ? s.cta_link : 'https://wa.me/5491123456789'}">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Texto del botón</label>
+                            <input type="text" id="f_schedule_cta" value="${isEdit ? s.cta_text : 'Aprovechar oferta'}" onchange="updateOfferPreview()" oninput="updateOfferPreview()">
+                        </div>
+                        <div class="form-group">
+                            <label>Link del botón</label>
+                            <input type="text" id="f_schedule_link" value="${isEdit ? s.cta_link : 'https://wa.me/5491123456789'}" onchange="updateOfferPreview()" oninput="updateOfferPreview()">
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -3799,7 +3661,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Tipo de descuento</label>
-                            <select id="f_tipo_descuento" onchange="updateDiscountPreviewSchedule()">
+                            <select id="f_tipo_descuento" onchange="updateOfferPreview()">
                                 <option value="porcentaje" ${selectedTipo === 'porcentaje' ? 'selected' : ''}>Porcentaje (%)</option>
                                 <option value="monto_fijo" ${selectedTipo === 'monto_fijo' ? 'selected' : ''}>Monto fijo ($)</option>
                             </select>
@@ -3809,10 +3671,7 @@
                             <input type="number" id="f_valor_descuento" 
                                    placeholder="${selectedTipo === 'porcentaje' ? 'Ej: 20' : 'Ej: 10000'}" 
                                    value="${valorDescuento}" min="0" step="any"
-                                   onchange="updateDiscountPreviewSchedule()">
-                            <small class="help-text" id="descuentoHelp">
-                                ${selectedTipo === 'porcentaje' ? 'Ingresa un número entre 1 y 100' : 'Ingresa el monto en pesos argentinos'}
-                            </small>
+                                   onchange="updateOfferPreview()" oninput="updateOfferPreview()">
                         </div>
                     </div>
 
@@ -3842,7 +3701,7 @@
                     <div id="alcanceProductoContainer" style="${selectedAlcance === 'producto' ? '' : 'display:none;'}">
                         <div class="form-group">
                             <label>Seleccionar producto</label>
-                            <select id="f_producto_seleccionado" onchange="updateDiscountPreviewSchedule()">
+                            <select id="f_producto_seleccionado" onchange="updateOfferPreview()">
                                 <option value="">Seleccioná un producto</option>
                                 ${data.products.map(p => `
                                     <option value="${p.id}" ${selectedProductos.includes(p.id) ? 'selected' : ''}>
@@ -3856,7 +3715,7 @@
                     <div id="alcanceCategoriaContainer" style="${selectedAlcance === 'categoria' ? '' : 'display:none;'}">
                         <div class="form-group">
                             <label>Seleccionar categoría</label>
-                            <select id="f_categoria_seleccionada" onchange="updateDiscountPreviewSchedule()">
+                            <select id="f_categoria_seleccionada" onchange="updateOfferPreview()">
                                 <option value="">Seleccioná una categoría</option>
                                 ${data.categories.map(c => `
                                     <option value="${c.id}" ${selectedCategorias.includes(c.id) ? 'selected' : ''}>
@@ -3887,24 +3746,8 @@
                                     <option value="${p.id}">${p.name}</option>
                                 `).join('')}
                             </select>
-                            <small class="help-text">Seleccioná productos uno por uno para agregarlos</small>
                         </div>
                     </div>
-
-                    <div class="discount-preview-box ${(selectedTipo && valorDescuento) ? 'show' : ''}" id="discountPreviewSchedule">
-                        <div class="preview-text" id="previewTextSchedule">
-                            <strong>${selectedTipo === 'porcentaje' ? (valorDescuento || 0) + '% OFF' : '$' + Number(valorDescuento || 0).toLocaleString('es-AR') + ' OFF'}</strong>
-                            en <span id="previewAlcanceSchedule">${selectedAlcance === 'global' ? 'toda la compra' : selectedAlcance === 'producto' ? 'el producto seleccionado' : selectedAlcance === 'categoria' ? 'la categoría seleccionada' : 'los productos seleccionados'}</span>
-                        </div>
-                        <div class="preview-detail" id="previewDetailSchedule">
-                            ${selectedAlcance === 'global' ? 'Se aplicará a todos los productos del carrito' :
-                              selectedAlcance === 'producto' ? 'Se aplicará solo al producto seleccionado' :
-                              selectedAlcance === 'categoria' ? 'Se aplicará a todos los productos de la categoría' :
-                              'Se aplicará solo a los productos seleccionados'}
-                        </div>
-                    </div>
-
-                    <hr style="margin:24px 0;border-color:var(--gray-200);">
 
                     <div class="form-row">
                         <div class="form-group">
@@ -3917,7 +3760,73 @@
                         <div class="form-group">
                             <label>Prioridad</label>
                             <input type="number" id="f_schedule_priority" value="${isEdit ? s.priority || 1 : 1}" min="1" step="1">
-                            <small class="help-text">1 = mayor prioridad (solo se aplica la oferta con prioridad más alta)</small>
+                        </div>
+                    </div>
+
+                    <!-- ===== VISTA PREVIA DE LA OFERTA (SIN BOTÓN - IMAGEN COMPLETA) ===== -->
+                    <div style="margin-top:32px;padding-top:24px;border-top:3px solid var(--gray-200);">
+                        <h4 style="margin-bottom:16px;color:var(--gray-700);font-size:1.1rem;">
+                            <i class="fas fa-eye"></i> Vista previa de la oferta
+                            <span style="font-size:0.8rem;color:var(--gray-400);font-weight:400;">(se actualiza automáticamente)</span>
+                        </h4>
+                        
+                        <div class="preview-offer-container" id="previewOfferContainer">
+                            <div class="preview-offer-grid">
+                                <div class="preview-offer-text">
+                                    <span class="preview-badge" id="previewBadge">${isEdit ? s.badge : '🔥 Oferta especial'}</span>
+                                    <h2 id="previewTitle">${isEdit ? s.title : '¡Aprovecha esta increíble oferta por tiempo limitado!'}</h2>
+                                    <p class="preview-desc" id="previewDesc">${isEdit ? s.description : 'Descuento aplicable para todos nuestros clientes hasta agotar el tiempo!!!'}</p>
+                                    
+                                    <div class="preview-discount-sticker" id="previewDiscountSticker">
+                                        ${isEdit && s.valor_descuento ? (s.tipo_descuento === 'porcentaje' ? s.valor_descuento + '% OFF' : '$' + Number(s.valor_descuento).toLocaleString('es-AR') + ' OFF') : 'Sin descuento'}
+                                    </div>
+                                    
+                                    <div class="preview-timer" id="previewTimer">
+                                        <div class="timer-item">
+                                            <span class="number" id="previewHours">00</span>
+                                            <span class="label">Horas</span>
+                                        </div>
+                                        <div class="timer-item">
+                                            <span class="number" id="previewMinutes">00</span>
+                                            <span class="label">Minutos</span>
+                                        </div>
+                                        <div class="timer-item">
+                                            <span class="number" id="previewSeconds">00</span>
+                                            <span class="label">Segundos</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="preview-offer-info">
+                                        <div class="info-row">
+                                            <i class="fas fa-tag"></i>
+                                            <span id="previewAlcanceText">
+                                                <strong id="previewDiscountText">${isEdit && s.valor_descuento ? (s.tipo_descuento === 'porcentaje' ? s.valor_descuento + '% OFF' : '$' + Number(s.valor_descuento).toLocaleString('es-AR') + ' OFF') : 'Sin descuento'}</strong> 
+                                                en <span class="highlight" id="previewAlcanceName">${getAlcanceName(s)}</span>
+                                            </span>
+                                        </div>
+                                        <div class="info-row" id="previewAlcanceDetailRow">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span id="previewAlcanceDetail">${getAlcanceDetail(s)}</span>
+                                        </div>
+                                        <div class="info-row">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span id="previewDates">${isEdit ? new Date(s.fecha_inicio).toLocaleDateString('es-AR') + ' - ' + new Date(s.fecha_fin).toLocaleDateString('es-AR') : 'Sin fechas definidas'}</span>
+                                        </div>
+                                        <div class="info-row" id="previewProductTagsRow" style="${selectedAlcance === 'seleccion' && selectedProductos.length > 0 ? '' : 'display:none;'}">
+                                            <i class="fas fa-box"></i>
+                                            <div class="product-tags" id="previewProductTags">
+                                                ${selectedProductos.map(id => {
+                                                    const p = data.products.find(pr => pr.id === id);
+                                                    return p ? `<span class="tag">${p.name}</span>` : '';
+                                                }).join('')}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="preview-offer-image">
+                                    <img id="previewOfferImage" src="${isEdit && s.image ? s.image : 'https://via.placeholder.com/600x400?text=Sub%C3%AD+una+imagen+para+ver+el+banner'}" alt="Vista previa de la oferta">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -3932,11 +3841,217 @@
 
             document.getElementById('formModal').classList.add('active');
             document.body.style.overflow = 'hidden';
-            updateDiscountPreviewSchedule();
+            
+            // Iniciar la vista previa y el timer
+            setTimeout(() => {
+                updateOfferPreview();
+                startPreviewTimer();
+            }, 100);
         }
 
         // =====================================================
-        // FUNCIONES DE ALCANCE Y PREVIEW PARA OFERTAS
+        // FUNCIONES DE VISTA PREVIA
+        // =====================================================
+        function getAlcanceName(s) {
+            if (!s) return 'Seleccioná una opción';
+            const alcance = s.alcance || 'global';
+            if (alcance === 'global') return 'Toda la tienda';
+            if (alcance === 'producto') {
+                const prodId = s.productos_ids?.[0];
+                const product = data.products.find(p => p.id == prodId);
+                return product ? product.name : 'Producto seleccionado';
+            }
+            if (alcance === 'categoria') {
+                const catId = s.categorias_ids?.[0];
+                const category = data.categories.find(c => c.id == catId);
+                return category ? category.name : 'Categoría seleccionada';
+            }
+            if (alcance === 'seleccion') {
+                const count = s.productos_ids?.length || 0;
+                return `${count} producto${count > 1 ? 's' : ''} seleccionado${count > 1 ? 's' : ''}`;
+            }
+            return '—';
+        }
+
+        function getAlcanceDetail(s) {
+            if (!s) return 'Configurá el alcance de la oferta';
+            const alcance = s.alcance || 'global';
+            if (alcance === 'global') return 'Válido para todos los productos de la tienda';
+            if (alcance === 'producto') {
+                const prodId = s.productos_ids?.[0];
+                const product = data.products.find(p => p.id == prodId);
+                return product ? `Válido solo para "${product.name}"` : 'Seleccioná un producto';
+            }
+            if (alcance === 'categoria') {
+                const catId = s.categorias_ids?.[0];
+                const category = data.categories.find(c => c.id == catId);
+                return category ? `Válido para toda la categoría "${category.name}"` : 'Seleccioná una categoría';
+            }
+            if (alcance === 'seleccion') {
+                const ids = s.productos_ids || [];
+                if (ids.length === 0) return 'Agregá productos usando el selector';
+                const names = ids.map(id => {
+                    const p = data.products.find(pr => pr.id == id);
+                    return p ? p.name : id;
+                }).join(', ');
+                return `Productos: ${names}`;
+            }
+            return '—';
+        }
+
+        function getSelectedProductIdsSchedule() {
+            const container = document.getElementById('multiSelectContainerSchedule');
+            if (!container) return [];
+            return Array.from(container.querySelectorAll('.selected-item')).map(el => el.dataset.id);
+        }
+
+        function updateOfferPreview() {
+            const title = document.getElementById('f_schedule_title')?.value || 'Título de la oferta';
+            const description = document.getElementById('f_schedule_desc')?.value || 'Descripción de la oferta';
+            const badge = document.getElementById('f_schedule_badge')?.value || '🔥 Oferta especial';
+            const cta_text = document.getElementById('f_schedule_cta')?.value || 'Aprovechar oferta';
+            const imageUrl = document.getElementById('f_schedule_image')?.value || '';
+            const tipoDescuento = document.getElementById('f_tipo_descuento')?.value || 'porcentaje';
+            const valorDescuento = document.getElementById('f_valor_descuento')?.value || 0;
+            const alcance = document.getElementById('f_alcance')?.value || 'global';
+            const fechaInicio = document.getElementById('f_schedule_start')?.value || '';
+            const fechaFin = document.getElementById('f_schedule_end')?.value || '';
+
+            // Calcular texto del descuento
+            let discountText = '';
+            if (valorDescuento > 0) {
+                const num = Number(valorDescuento);
+                discountText = tipoDescuento === 'porcentaje' ? `${num}% OFF` : `$${num.toLocaleString('es-AR')} OFF`;
+            }
+
+            // Obtener nombre del alcance
+            let alcanceName = '';
+            let alcanceDetail = '';
+            let productosList = [];
+
+            const productoSelect = document.getElementById('f_producto_seleccionado');
+            const categoriaSelect = document.getElementById('f_categoria_seleccionada');
+
+            if (alcance === 'global') {
+                alcanceName = 'Toda la tienda';
+                alcanceDetail = 'Válido para todos los productos';
+            } else if (alcance === 'producto') {
+                const prodId = productoSelect?.value;
+                if (prodId) {
+                    const product = data.products.find(p => p.id == prodId);
+                    alcanceName = product ? product.name : 'Producto seleccionado';
+                    alcanceDetail = `Válido solo para "${alcanceName}"`;
+                } else {
+                    alcanceName = 'Seleccioná un producto';
+                    alcanceDetail = 'Elegí un producto para ver el detalle';
+                }
+            } else if (alcance === 'categoria') {
+                const catId = categoriaSelect?.value;
+                if (catId) {
+                    const category = data.categories.find(c => c.id == catId);
+                    alcanceName = category ? category.name : 'Categoría seleccionada';
+                    alcanceDetail = `Válido para toda la categoría "${alcanceName}"`;
+                } else {
+                    alcanceName = 'Seleccioná una categoría';
+                    alcanceDetail = 'Elegí una categoría para ver el detalle';
+                }
+            } else if (alcance === 'seleccion') {
+                const selectedIds = getSelectedProductIdsSchedule();
+                const products = data.products.filter(p => selectedIds.includes(String(p.id)));
+                if (products.length > 0) {
+                    alcanceName = `${products.length} producto${products.length > 1 ? 's' : ''} seleccionado${products.length > 1 ? 's' : ''}`;
+                    alcanceDetail = products.map(p => p.name).join(', ');
+                    productosList = products;
+                } else {
+                    alcanceName = 'Seleccioná productos';
+                    alcanceDetail = 'Agregá productos usando el selector de abajo';
+                }
+            }
+
+            // Actualizar elementos de la vista previa
+            document.getElementById('previewBadge').textContent = badge || 'Oferta';
+            document.getElementById('previewTitle').textContent = title;
+            document.getElementById('previewDesc').textContent = description;
+            
+            const sticker = document.getElementById('previewDiscountSticker');
+            sticker.textContent = discountText || 'Sin descuento';
+            sticker.style.display = discountText ? 'inline-block' : 'inline-block';
+            
+            // Actualizar imagen (completa, sin recortar)
+            const previewImg = document.getElementById('previewOfferImage');
+            if (imageUrl && imageUrl.startsWith('data:image') || imageUrl.startsWith('http')) {
+                previewImg.src = imageUrl;
+            } else if (imageUrl) {
+                previewImg.src = imageUrl;
+            } else {
+                previewImg.src = 'https://via.placeholder.com/600x400?text=Sub%C3%AD+una+imagen+para+ver+el+banner';
+            }
+
+            // Actualizar alcance
+            document.getElementById('previewDiscountText').textContent = discountText || 'Sin descuento';
+            document.getElementById('previewAlcanceName').textContent = alcanceName;
+            document.getElementById('previewAlcanceDetail').textContent = alcanceDetail;
+
+            // Actualizar fechas
+            let dateText = 'Sin fechas definidas';
+            if (fechaInicio || fechaFin) {
+                const start = fechaInicio ? new Date(fechaInicio).toLocaleDateString('es-AR') : '??';
+                const end = fechaFin ? new Date(fechaFin).toLocaleDateString('es-AR') : '??';
+                dateText = `${start} - ${end}`;
+            }
+            document.getElementById('previewDates').textContent = dateText;
+
+            // Actualizar tags de productos
+            const tagsRow = document.getElementById('previewProductTagsRow');
+            const tagsContainer = document.getElementById('previewProductTags');
+            if (alcance === 'seleccion' && productosList.length > 0) {
+                tagsRow.style.display = '';
+                tagsContainer.innerHTML = productosList.map(p => `<span class="tag">${p.name}</span>`).join('');
+            } else {
+                tagsRow.style.display = 'none';
+            }
+
+            // Actualizar el timer con la fecha de fin
+            if (fechaFin) {
+                const endDate = new Date(fechaFin);
+                updatePreviewTimer(endDate);
+            }
+        }
+
+        function startPreviewTimer() {
+            if (previewTimerInterval) {
+                clearInterval(previewTimerInterval);
+                previewTimerInterval = null;
+            }
+            
+            const fechaFin = document.getElementById('f_schedule_end')?.value;
+            if (fechaFin) {
+                const endDate = new Date(fechaFin);
+                updatePreviewTimer(endDate);
+                previewTimerInterval = setInterval(() => {
+                    const currentEndDate = document.getElementById('f_schedule_end')?.value;
+                    if (currentEndDate) {
+                        updatePreviewTimer(new Date(currentEndDate));
+                    }
+                }, 1000);
+            }
+        }
+
+        function updatePreviewTimer(endDate) {
+            const now = new Date();
+            const diff = Math.max(0, endDate - now);
+
+            const hours = String(Math.floor(diff / (1000 * 60 * 60))).padStart(2, '0');
+            const minutes = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            const seconds = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+
+            document.getElementById('previewHours').textContent = hours;
+            document.getElementById('previewMinutes').textContent = minutes;
+            document.getElementById('previewSeconds').textContent = seconds;
+        }
+
+        // =====================================================
+        // FUNCIONES DE ALCANCE PARA EL FORMULARIO
         // =====================================================
         function selectAlcanceSchedule(value) {
             document.querySelectorAll('.alcance-option').forEach(el => {
@@ -3948,37 +4063,7 @@
             document.getElementById('alcanceCategoriaContainer').style.display = value === 'categoria' ? '' : 'none';
             document.getElementById('alcanceSeleccionContainer').style.display = value === 'seleccion' ? '' : 'none';
 
-            updateDiscountPreviewSchedule();
-        }
-
-        function updateDiscountPreviewSchedule() {
-            const tipo = document.getElementById('f_tipo_descuento')?.value || 'porcentaje';
-            const valor = document.getElementById('f_valor_descuento')?.value || 0;
-            const alcance = document.getElementById('f_alcance')?.value || 'global';
-
-            const preview = document.getElementById('discountPreviewSchedule');
-            const previewText = document.getElementById('previewTextSchedule');
-            const previewDetail = document.getElementById('previewDetailSchedule');
-
-            if (valor && valor > 0) {
-                preview.classList.add('show');
-                const valorNum = Number(valor);
-                const displayValor = tipo === 'porcentaje' ? valorNum + '% OFF' : '$' + valorNum.toLocaleString('es-AR') + ' OFF';
-                const alcanceText = alcance === 'global' ? 'toda la compra' :
-                    alcance === 'producto' ? 'el producto seleccionado' :
-                    alcance === 'categoria' ? 'la categoría seleccionada' :
-                    'los productos seleccionados';
-
-                previewText.innerHTML = `<strong>${displayValor}</strong> en <span>${alcanceText}</span>`;
-
-                const detailText = alcance === 'global' ? 'Se aplicará a todos los productos del carrito' :
-                    alcance === 'producto' ? 'Se aplicará solo al producto seleccionado' :
-                    alcance === 'categoria' ? 'Se aplicará a todos los productos de la categoría' :
-                    'Se aplicará solo a los productos seleccionados';
-                previewDetail.textContent = detailText;
-            } else {
-                preview.classList.remove('show');
-            }
+            updateOfferPreview();
         }
 
         function addProductSelectionSchedule() {
@@ -3987,7 +4072,7 @@
             if (!id) return;
 
             const container = document.getElementById('multiSelectContainerSchedule');
-            const product = data.products.find(p => p.id === id);
+            const product = data.products.find(p => p.id == id);
             if (!product) return;
 
             const span = document.createElement('span');
@@ -4002,14 +4087,14 @@
             select.querySelector(`option[value="${id}"]`)?.remove();
             select.value = '';
 
-            updateDiscountPreviewSchedule();
+            updateOfferPreview();
         }
 
         function removeProductSelectionSchedule(id) {
             const container = document.getElementById('multiSelectContainerSchedule');
             const item = container.querySelector(`.selected-item[data-id="${id}"]`);
             if (item) {
-                const product = data.products.find(p => p.id === id);
+                const product = data.products.find(p => p.id == id);
                 const select = document.getElementById('f_multi_select_schedule');
                 const option = document.createElement('option');
                 option.value = id;
@@ -4021,14 +4106,8 @@
                 select.innerHTML = '<option value="">Seleccioná un producto para agregar...</option>' +
                     options.filter(o => o.value).map(o => o.outerHTML).join('');
                 item.remove();
-                updateDiscountPreviewSchedule();
+                updateOfferPreview();
             }
-        }
-
-        function getSelectedProductIdsSchedule() {
-            const container = document.getElementById('multiSelectContainerSchedule');
-            if (!container) return [];
-            return Array.from(container.querySelectorAll('.selected-item')).map(el => el.dataset.id);
         }
 
         function previewScheduleImage(event) {
@@ -4039,13 +4118,16 @@
                     const preview = document.getElementById('f_schedule_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
+                    // Actualizar la vista previa del banner
+                    document.getElementById('f_schedule_image').value = e.target.result;
+                    updateOfferPreview();
                 };
                 reader.readAsDataURL(file);
             }
         }
 
         // =====================================================
-        // GUARDAR OFERTA - MODIFICADO CON CAMPOS AVANZADOS
+        // GUARDAR OFERTA
         // =====================================================
         async function saveSchedule(scheduleId) {
             const nombre = document.getElementById('f_schedule_name').value.trim();
@@ -4067,7 +4149,6 @@
                 return;
             }
 
-            // Validaciones de descuento
             if (valor_descuento <= 0) {
                 showToast('⚠️ Ingresa un valor de descuento válido (mayor a 0)', 'error');
                 return;
@@ -4124,18 +4205,6 @@
                 return;
             }
 
-            // Si estamos editando y la imagen cambió, eliminar la vieja
-            if (scheduleId) {
-                const oldSchedule = data.schedules.find(s => s.id === scheduleId);
-                if (oldSchedule && oldSchedule.image && oldSchedule.image !== imageUrl && oldSchedule.image.includes('/storage/')) {
-                    try {
-                        await deleteImageFromStorage(oldSchedule.image);
-                    } catch (err) {
-                        console.warn('No se pudo eliminar la imagen vieja:', err);
-                    }
-                }
-            }
-
             const scheduleData = {
                 id: scheduleId || Date.now(),
                 nombre,
@@ -4173,6 +4242,11 @@
                     showToast('✅ Oferta creada', 'success');
                 }
 
+                if (previewTimerInterval) {
+                    clearInterval(previewTimerInterval);
+                    previewTimerInterval = null;
+                }
+
                 await loadAllData();
                 closeFormModal();
                 renderSchedules();
@@ -4184,6 +4258,10 @@
         }
 
         function editSchedule(scheduleId) {
+            if (previewTimerInterval) {
+                clearInterval(previewTimerInterval);
+                previewTimerInterval = null;
+            }
             openScheduleForm(scheduleId);
         }
 
@@ -4249,8 +4327,8 @@
             if (data.config) {
                 document.getElementById('configWhatsapp').value = data.config.whatsapp || '5491123456789';
                 document.getElementById('configTitle').value = data.config.title || 'OliviaBike 24.7 - Tienda de Ciclismo Premium';
-                document.getElementById('configPrimary').value = data.config.primaryColor || '#9BE000';
-                document.getElementById('configSecondary').value = data.config.secondaryColor || '#7AB800';
+                document.getElementById('configPrimary').value = data.config.primaryColor || '#E63946';
+                document.getElementById('configSecondary').value = data.config.secondaryColor || '#C62828';
                 
                 const logoPreview = document.getElementById('logoPreview');
                 if (data.config.logo_url) {
@@ -4410,6 +4488,10 @@
         // FORM MODAL UTILITIES
         // =====================================================
         function closeFormModal() {
+            if (previewTimerInterval) {
+                clearInterval(previewTimerInterval);
+                previewTimerInterval = null;
+            }
             document.getElementById('formModal').classList.remove('active');
             document.body.style.overflow = '';
         }
@@ -4431,8 +4513,9 @@
         // INICIO
         // =====================================================
         console.log('🚴 OliviaBike 24.7 - Panel de Administración COMPLETO');
-        console.log('✅ Sistema de ofertas configurable implementado');
-        console.log('📊 Campos: tipo_descuento, valor_descuento, alcance, productos_ids, categorias_ids, priority');
+        console.log('✅ Vista previa de ofertas SIN botón');
+        console.log('✅ Imagen completa (object-fit: contain)');
+        console.log('✅ Timer funcionando en tiempo real');
         console.log('🔑 Usuario: admin@oliviabike.com / admin123');
 
         document.addEventListener('DOMContentLoaded', function() {
