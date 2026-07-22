@@ -491,7 +491,7 @@
         .form-modal-content {
             background: var(--white);
             border-radius: var(--radius);
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -686,6 +686,84 @@
             transform: translateY(-2px);
         }
 
+        /* ========== NUEVOS ESTILOS PARA OFERTAS AVANZADAS ========== */
+        .discount-preview-box {
+            background: var(--primary);
+            color: var(--black);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-top: 8px;
+            display: none;
+            font-weight: 600;
+        }
+        .discount-preview-box.show { display: block; }
+        .discount-preview-box .preview-text {
+            font-size: 0.95rem;
+        }
+        .discount-preview-box .preview-detail {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .alcance-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .alcance-option {
+            padding: 10px 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.8rem;
+            background: var(--white);
+        }
+        .alcance-option:hover {
+            border-color: var(--primary);
+            background: rgba(155,224,0,0.05);
+        }
+        .alcance-option.selected {
+            border-color: var(--primary);
+            background: rgba(155,224,0,0.1);
+            color: var(--primary-dark);
+        }
+        .alcance-option i { display: block; font-size: 1.2rem; margin-bottom: 4px; }
+
+        .multi-select-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 8px;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            min-height: 50px;
+            max-height: 120px;
+            overflow-y: auto;
+            background: var(--white);
+        }
+        .multi-select-container .selected-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(155,224,0,0.15);
+            color: var(--primary-dark);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .multi-select-container .selected-item .remove-item {
+            cursor: pointer;
+            font-size: 0.7rem;
+            color: var(--gray-500);
+        }
+        .multi-select-container .selected-item .remove-item:hover { color: #EF4444; }
+
         .toast-admin {
             position: fixed;
             top: 30px;
@@ -707,6 +785,7 @@
         }
         .toast-admin.success { border-left-color: #22C55E; }
         .toast-admin.error { border-left-color: #EF4444; }
+        .toast-admin.info { border-left-color: #3B82F6; }
 
         @media (max-width: 992px) {
             .sidebar {
@@ -721,6 +800,7 @@
             .hamburger-admin { display: block; }
             .form-row { grid-template-columns: 1fr; }
             .form-modal-content { padding: 24px 20px; margin: 10px; }
+            .alcance-selector { grid-template-columns: 1fr 1fr; }
         }
 
         @media (max-width: 600px) {
@@ -735,6 +815,7 @@
             .form-actions .btn { min-width: 100%; flex: none; }
             .schedule-preview { padding: 16px; }
             .schedule-preview h3 { font-size: 1.2rem; }
+            .alcance-selector { grid-template-columns: 1fr 1fr; }
         }
 
         @media (max-width: 400px) {
@@ -742,6 +823,7 @@
             .stat-card { padding: 16px; }
             .stat-card .stat-number { font-size: 1.5rem; }
             .stat-card .stat-icon { font-size: 1.5rem; }
+            .alcance-selector { grid-template-columns: 1fr; }
         }
 
         .form-modal-content::-webkit-scrollbar,
@@ -768,6 +850,7 @@
             color: var(--gray-400);
             margin-top: 4px;
         }
+        .help-text strong { color: var(--primary-dark); }
     </style>
 </head>
 <body>
@@ -958,7 +1041,6 @@
 
             <!-- ===== PANEL IMÁGENES ===== -->
             <div class="panel" id="panel-imagenes">
-                <!-- HERO -->
                 <div class="table-container">
                     <div class="table-header">
                         <h3><i class="fas fa-images"></i> 🖼️ Hero - Carrusel Principal</h3>
@@ -974,7 +1056,6 @@
                     </p>
                 </div>
 
-                <!-- BANNERS -->
                 <div class="table-container">
                     <div class="table-header">
                         <h3><i class="fas fa-ad"></i> 📢 Banners Rotativos</h3>
@@ -987,7 +1068,6 @@
                     </div>
                 </div>
 
-                <!-- GALERÍA -->
                 <div class="table-container">
                     <div class="table-header">
                         <h3><i class="fas fa-images"></i> 🖼️ Galería</h3>
@@ -1370,9 +1450,6 @@
                 const { data: heroImages } = await supabaseClient.from('images').select('*').eq('type', 'hero');
                 data.heroImages = heroImages?.map(i => i.url) || [];
 
-                // =====================================================
-                // GALERÍA - CARGAR DESDE TABLA "gallery"
-                // =====================================================
                 const { data: gallery } = await supabaseClient.from('gallery').select('*').order('sort_order');
                 data.galleryItems = gallery || [];
 
@@ -1517,6 +1594,11 @@
                     <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--gray-100);">
                         <div>
                             <strong>${s.nombre}</strong>
+                            ${s.tipo_descuento && s.valor_descuento ? `
+                                <span style="font-size:0.7rem;background:var(--primary);color:var(--black);padding:2px 8px;border-radius:4px;margin-left:8px;">
+                                    ${s.tipo_descuento === 'porcentaje' ? s.valor_descuento + '% OFF' : '$' + Number(s.valor_descuento).toLocaleString('es-AR') + ' OFF'}
+                                </span>
+                            ` : ''}
                             <div style="font-size:0.85rem;color:var(--gray-400);">
                                 ${new Date(s.fecha_inicio).toLocaleDateString()} - ${new Date(s.fecha_fin).toLocaleDateString()}
                             </div>
@@ -1671,7 +1753,6 @@
                 </div>
             `;
 
-            // Cargar campos dinámicos si hay categoría seleccionada
             const catSelect = document.getElementById('f_product_category');
             if (catSelect.value) {
                 loadProductDynamicFields(catSelect.value, productId);
@@ -1730,15 +1811,11 @@
                     const preview = document.getElementById('f_product_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
         }
 
-        // ============================================================
-        // GUARDAR PRODUCTO
-        // ============================================================
         async function saveProduct(productId) {
             const name = document.getElementById('f_product_name').value.trim();
             const category_id = parseInt(document.getElementById('f_product_category').value) || null;
@@ -1761,7 +1838,6 @@
                 return;
             }
 
-            // --- IMAGEN: subir a Storage si hay archivo nuevo ---
             const fileInput = document.querySelector('#formBody input[type="file"]');
             let imageUrl = document.getElementById('f_product_image').value;
 
@@ -1786,13 +1862,11 @@
             const category = data.categories.find(c => c.id === category_id);
             const categoryName = category ? category.name : 'Sin categoría';
 
-            // Si estamos editando y la imagen cambió, eliminar la vieja
             if (productId) {
                 const oldProduct = data.products.find(p => p.id === productId);
                 if (oldProduct && oldProduct.image && oldProduct.image !== imageUrl && oldProduct.image.includes('/storage/')) {
                     try {
                         await deleteImageFromStorage(oldProduct.image);
-                        console.log('🗑️ Imagen vieja eliminada');
                     } catch (err) {
                         console.warn('No se pudo eliminar la imagen vieja:', err);
                     }
@@ -1912,7 +1986,6 @@
                     const preview = document.getElementById('f_quick_category_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
@@ -1927,7 +2000,6 @@
                 return;
             }
 
-            // --- IMAGEN: subir a Storage si hay archivo ---
             const fileInput = document.querySelector('#formBody input[type="file"]');
             let imageUrl = document.getElementById('f_quick_category_image').value;
 
@@ -2076,7 +2148,6 @@
                     const preview = document.getElementById('f_category_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
@@ -2092,7 +2163,6 @@
                 return;
             }
 
-            // --- IMAGEN: subir a Storage si hay archivo nuevo ---
             const fileInput = document.querySelector('#formBody input[type="file"]');
             let imageUrl = document.getElementById('f_category_image').value;
 
@@ -2109,13 +2179,11 @@
                 }
             }
 
-            // Si estamos editando y la imagen cambió, eliminar la vieja
             if (categoryId) {
                 const oldCategory = data.categories.find(c => c.id === categoryId);
                 if (oldCategory && oldCategory.image && oldCategory.image !== imageUrl && oldCategory.image.includes('/storage/')) {
                     try {
                         await deleteImageFromStorage(oldCategory.image);
-                        console.log('🗑️ Imagen vieja eliminada');
                     } catch (err) {
                         console.warn('No se pudo eliminar la imagen vieja:', err);
                     }
@@ -2753,7 +2821,6 @@
                     const preview = document.getElementById('f_banner_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
@@ -2771,7 +2838,6 @@
                 return;
             }
 
-            // --- IMAGEN: subir a Storage si hay archivo nuevo ---
             const fileInput = document.querySelector('#formBody input[type="file"]');
             let imageUrl = document.getElementById('f_banner_image').value;
 
@@ -2793,13 +2859,11 @@
                 return;
             }
 
-            // Si estamos editando y la imagen cambió, eliminar la vieja
             if (bannerId) {
                 const oldBanner = data.banners.find(b => b.id === bannerId);
                 if (oldBanner && oldBanner.image && oldBanner.image !== imageUrl && oldBanner.image.includes('/storage/')) {
                     try {
                         await deleteImageFromStorage(oldBanner.image);
-                        console.log('🗑️ Imagen vieja eliminada');
                     } catch (err) {
                         console.warn('No se pudo eliminar la imagen vieja:', err);
                     }
@@ -2866,7 +2930,7 @@
         }
 
         // =====================================================
-        // GALERÍA - RENDERIZAR
+        // GALERÍA
         // =====================================================
         function renderGallery() {
             const container = document.getElementById('galleryManager');
@@ -2916,9 +2980,6 @@
             `;
         }
 
-        // =====================================================
-        // GALERÍA - FORMULARIO
-        // =====================================================
         function openGalleryForm(itemId = null) {
             const isEdit = itemId !== null;
             const item = isEdit ? (data.galleryItems || []).find(g => g.id === itemId) : null;
@@ -2996,9 +3057,6 @@
             }
         }
 
-        // =====================================================
-        // GALERÍA - GUARDAR
-        // =====================================================
         async function saveGalleryItem(itemId = null) {
             const title = document.getElementById('f_gallery_title').value.trim();
             const description = document.getElementById('f_gallery_desc').value.trim();
@@ -3032,13 +3090,11 @@
                 return;
             }
 
-            // Si estamos editando y la imagen cambió, eliminar la vieja
             if (itemId) {
                 const oldItem = data.galleryItems.find(g => g.id === itemId);
                 if (oldItem && oldItem.image_url && oldItem.image_url !== imageUrl && oldItem.image_url.includes('/storage/')) {
                     try {
                         await deleteImageFromStorage(oldItem.image_url);
-                        console.log('🗑️ Imagen vieja eliminada');
                     } catch (err) {
                         console.warn('No se pudo eliminar la imagen vieja:', err);
                     }
@@ -3227,7 +3283,6 @@
                     const preview = document.getElementById('f_testimonial_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
@@ -3244,7 +3299,6 @@
                 return;
             }
 
-            // --- IMAGEN: subir a Storage si hay archivo nuevo ---
             const fileInput = document.querySelector('#formBody input[type="file"]');
             let imageUrl = document.getElementById('f_testimonial_image').value;
 
@@ -3266,13 +3320,11 @@
                 return;
             }
 
-            // Si estamos editando y la imagen cambió, eliminar la vieja
             if (testimonialId) {
                 const oldTestimonial = data.testimonials.find(t => t.id === testimonialId);
                 if (oldTestimonial && oldTestimonial.image && oldTestimonial.image !== imageUrl && oldTestimonial.image.includes('/storage/')) {
                     try {
                         await deleteImageFromStorage(oldTestimonial.image);
-                        console.log('🗑️ Imagen vieja eliminada');
                     } catch (err) {
                         console.warn('No se pudo eliminar la imagen vieja:', err);
                     }
@@ -3573,7 +3625,7 @@
         }
 
         // =====================================================
-        // PROGRAMADOR DE OFERTAS
+        // PROGRAMADOR DE OFERTAS - MODIFICADO CON CAMPOS AVANZADOS
         // =====================================================
         function renderSchedules() {
             const container = document.getElementById('schedulesTable');
@@ -3587,6 +3639,8 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
+                            <th>Descuento</th>
+                            <th>Alcance</th>
                             <th>Inicio</th>
                             <th>Fin</th>
                             <th>Estado</th>
@@ -3597,8 +3651,21 @@
                         ${data.schedules.map((s, i) => `
                             <tr>
                                 <td><strong>${s.nombre}</strong></td>
-                                <td>${new Date(s.fecha_inicio).toLocaleString()}</td>
-                                <td>${new Date(s.fecha_fin).toLocaleString()}</td>
+                                <td>
+                                    ${s.tipo_descuento && s.valor_descuento ? `
+                                        <span style="background:var(--primary);color:var(--black);padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:600;">
+                                            ${s.tipo_descuento === 'porcentaje' ? s.valor_descuento + '% OFF' : '$' + Number(s.valor_descuento).toLocaleString('es-AR') + ' OFF'}
+                                        </span>
+                                    ` : '<span style="color:var(--gray-400);font-size:0.7rem;">Sin descuento</span>'}
+                                </td>
+                                <td style="font-size:0.75rem;">
+                                    ${s.alcance === 'global' ? '🌐 Global' :
+                                      s.alcance === 'producto' ? '📦 Producto' :
+                                      s.alcance === 'categoria' ? '📂 Categoría' :
+                                      s.alcance === 'seleccion' ? '🎯 Selección' : '—'}
+                                </td>
+                                <td style="font-size:0.75rem;">${new Date(s.fecha_inicio).toLocaleDateString()}</td>
+                                <td style="font-size:0.75rem;">${new Date(s.fecha_fin).toLocaleDateString()}</td>
                                 <td><span class="badge-status ${s.estado}">${s.estado === 'activo' ? 'Activo' : s.estado === 'pendiente' ? 'Pendiente' : 'Finalizado'}</span></td>
                                 <td>
                                     <div class="actions">
@@ -3648,111 +3715,320 @@
             }
         }
 
+        // =====================================================
+        // FORMULARIO DE OFERTA - MODIFICADO CON CAMPOS AVANZADOS
+        // =====================================================
         function openScheduleForm(scheduleId = null) {
             const isEdit = scheduleId !== null;
             const s = isEdit ? data.schedules.find(s => s.id === scheduleId) : null;
             
             document.getElementById('formTitle').textContent = isEdit ? '✏️ Editar Oferta Programada' : '📅 Nueva Oferta Programada';
             
+            const selectedTipo = s?.tipo_descuento || 'porcentaje';
+            const selectedAlcance = s?.alcance || 'global';
+            const valorDescuento = s?.valor_descuento || '';
+            const selectedProductos = s?.productos_ids || [];
+            const selectedCategorias = s?.categorias_ids || [];
+            
+            // Generar opciones de productos y categorías
+            const productOptions = data.products.map(p => 
+                `<option value="${p.id}">${p.name}</option>`
+            ).join('');
+
+            const categoryOptions = data.categories.map(c => 
+                `<option value="${c.id}">${c.name}</option>`
+            ).join('');
+
             document.getElementById('formBody').innerHTML = `
-                <div class="form-group">
-                    <label>Nombre de la oferta *</label>
-                    <input type="text" id="f_schedule_name" value="${isEdit ? s.nombre : ''}" placeholder="Ej: Black Friday 2026">
-                </div>
-                <div class="form-row">
+                <form id="scheduleForm" onsubmit="event.preventDefault(); saveSchedule('${scheduleId || ''}')">
                     <div class="form-group">
-                        <label>Fecha de Inicio *</label>
-                        <input type="datetime-local" id="f_schedule_start" value="${isEdit ? s.fecha_inicio.slice(0, 16) : ''}">
+                        <label>Nombre de la oferta *</label>
+                        <input type="text" id="f_schedule_name" value="${isEdit ? s.nombre : ''}" placeholder="Ej: Black Friday 2026" required>
                     </div>
-                    <div class="form-group">
-                        <label>Fecha de Fin *</label>
-                        <input type="datetime-local" id="f_schedule_end" value="${isEdit ? s.fecha_fin.slice(0, 16) : ''}">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Fecha de Inicio *</label>
+                            <input type="datetime-local" id="f_schedule_start" value="${isEdit ? s.fecha_inicio.slice(0, 16) : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha de Fin *</label>
+                            <input type="datetime-local" id="f_schedule_end" value="${isEdit ? s.fecha_fin.slice(0, 16) : ''}" required>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Badge</label>
-                    <input type="text" id="f_schedule_badge" value="${isEdit ? s.badge : '🔥 Oferta especial'}">
-                </div>
-                <div class="form-group">
-                    <label>Título *</label>
-                    <input type="text" id="f_schedule_title" value="${isEdit ? s.title : 'Hasta 50% OFF en todo'}">
-                </div>
-                <div class="form-group">
-                    <label>Descripción *</label>
-                    <textarea id="f_schedule_desc" rows="2">${isEdit ? s.description : 'No te pierdas esta increíble oferta'}</textarea>
-                </div>
-                <div class="form-group">
-                    <label>Texto del botón</label>
-                    <input type="text" id="f_schedule_cta" value="${isEdit ? s.cta_text : 'Aprovechar oferta'}">
-                </div>
-                <div class="form-group">
-                    <label>Link del botón</label>
-                    <input type="text" id="f_schedule_link" value="${isEdit ? s.cta_link : 'https://wa.me/5491123456789'}">
-                </div>
-                <div class="form-group">
-                    <label>Imagen del banner *</label>
-                    <div class="file-input-wrapper">
-                        <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen (se comprime automáticamente)</span>
-                        <input type="file" accept="image/*" onchange="previewScheduleImage(event)">
-                    </div>
-                    <img class="image-preview ${isEdit && s.image ? '' : 'hidden'}" id="f_schedule_image_preview" src="${isEdit ? s.image : ''}">
-                    <input type="hidden" id="f_schedule_image" value="${isEdit ? s.image : ''}">
-                </div>
-                
-                <div style="margin-top:16px;">
-                    <label style="font-weight:600;font-size:0.85rem;">Vista previa</label>
-                    <div class="schedule-preview" id="schedulePreview">
-                        <span class="badge-banner" id="preview_badge">🔥 Oferta especial</span>
-                        <h3 id="preview_title">Hasta 50% OFF en todo</h3>
-                        <p id="preview_desc">No te pierdas esta increíble oferta</p>
-                        <button class="btn-green" id="preview_cta">Aprovechar oferta</button>
-                        <br>
-                        <img class="preview-image" id="preview_image" src="" style="display:none;">
-                    </div>
-                </div>
 
-                <div class="form-actions">
-                    <button class="btn btn-primary" onclick="saveSchedule(${isEdit ? scheduleId : 'null'})">
-                        <i class="fas fa-save"></i> ${isEdit ? 'Actualizar' : 'Crear'} Oferta
-                    </button>
-                    <button class="btn btn-outline" onclick="closeFormModal()">Cancelar</button>
-                </div>
+                    <div class="form-group">
+                        <label>Badge</label>
+                        <input type="text" id="f_schedule_badge" value="${isEdit ? s.badge : '🔥 Oferta especial'}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Título *</label>
+                        <input type="text" id="f_schedule_title" value="${isEdit ? s.title : 'Hasta 50% OFF en todo'}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Descripción *</label>
+                        <textarea id="f_schedule_desc" rows="2" required>${isEdit ? s.description : 'No te pierdas esta increíble oferta'}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Texto del botón</label>
+                        <input type="text" id="f_schedule_cta" value="${isEdit ? s.cta_text : 'Aprovechar oferta'}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Link del botón</label>
+                        <input type="text" id="f_schedule_link" value="${isEdit ? s.cta_link : 'https://wa.me/5491123456789'}">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Imagen del banner *</label>
+                        <div class="file-input-wrapper">
+                            <span class="file-label"><i class="fas fa-upload"></i> Seleccionar imagen (se comprime automáticamente)</span>
+                            <input type="file" accept="image/*" onchange="previewScheduleImage(event)">
+                        </div>
+                        <img class="image-preview ${isEdit && s.image ? '' : 'hidden'}" id="f_schedule_image_preview" src="${isEdit ? s.image : ''}">
+                        <input type="hidden" id="f_schedule_image" value="${isEdit ? s.image : ''}">
+                    </div>
+
+                    <hr style="margin:24px 0;border-color:var(--gray-200);">
+
+                    <h4 style="margin-bottom:16px;color:var(--gray-700);">💰 Configuración del descuento</h4>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tipo de descuento</label>
+                            <select id="f_tipo_descuento" onchange="updateDiscountPreviewSchedule()">
+                                <option value="porcentaje" ${selectedTipo === 'porcentaje' ? 'selected' : ''}>Porcentaje (%)</option>
+                                <option value="monto_fijo" ${selectedTipo === 'monto_fijo' ? 'selected' : ''}>Monto fijo ($)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Valor del descuento</label>
+                            <input type="number" id="f_valor_descuento" 
+                                   placeholder="${selectedTipo === 'porcentaje' ? 'Ej: 20' : 'Ej: 10000'}" 
+                                   value="${valorDescuento}" min="0" step="any"
+                                   onchange="updateDiscountPreviewSchedule()">
+                            <small class="help-text" id="descuentoHelp">
+                                ${selectedTipo === 'porcentaje' ? 'Ingresa un número entre 1 y 100' : 'Ingresa el monto en pesos argentinos'}
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Alcance de la oferta</label>
+                        <div class="alcance-selector" id="alcanceSelector">
+                            <div class="alcance-option ${selectedAlcance === 'global' ? 'selected' : ''}" 
+                                 data-value="global" onclick="selectAlcanceSchedule('global')">
+                                <i class="fas fa-globe-americas"></i> Global
+                            </div>
+                            <div class="alcance-option ${selectedAlcance === 'producto' ? 'selected' : ''}" 
+                                 data-value="producto" onclick="selectAlcanceSchedule('producto')">
+                                <i class="fas fa-box"></i> Producto
+                            </div>
+                            <div class="alcance-option ${selectedAlcance === 'categoria' ? 'selected' : ''}" 
+                                 data-value="categoria" onclick="selectAlcanceSchedule('categoria')">
+                                <i class="fas fa-tags"></i> Categoría
+                            </div>
+                            <div class="alcance-option ${selectedAlcance === 'seleccion' ? 'selected' : ''}" 
+                                 data-value="seleccion" onclick="selectAlcanceSchedule('seleccion')">
+                                <i class="fas fa-list-check"></i> Selección
+                            </div>
+                        </div>
+                        <input type="hidden" id="f_alcance" value="${selectedAlcance}">
+                    </div>
+
+                    <div id="alcanceProductoContainer" style="${selectedAlcance === 'producto' ? '' : 'display:none;'}">
+                        <div class="form-group">
+                            <label>Seleccionar producto</label>
+                            <select id="f_producto_seleccionado" onchange="updateDiscountPreviewSchedule()">
+                                <option value="">Seleccioná un producto</option>
+                                ${data.products.map(p => `
+                                    <option value="${p.id}" ${selectedProductos.includes(p.id) ? 'selected' : ''}>
+                                        ${p.name}
+                                    </option>
+                                `).join('')}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="alcanceCategoriaContainer" style="${selectedAlcance === 'categoria' ? '' : 'display:none;'}">
+                        <div class="form-group">
+                            <label>Seleccionar categoría</label>
+                            <select id="f_categoria_seleccionada" onchange="updateDiscountPreviewSchedule()">
+                                <option value="">Seleccioná una categoría</option>
+                                ${data.categories.map(c => `
+                                    <option value="${c.id}" ${selectedCategorias.includes(c.id) ? 'selected' : ''}>
+                                        ${c.name}
+                                    </option>
+                                `).join('')}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="alcanceSeleccionContainer" style="${selectedAlcance === 'seleccion' ? '' : 'display:none;'}">
+                        <div class="form-group">
+                            <label>Seleccionar productos</label>
+                            <div class="multi-select-container" id="multiSelectContainerSchedule">
+                                ${selectedProductos.map(id => {
+                                    const p = data.products.find(pr => pr.id === id);
+                                    return p ? `
+                                        <span class="selected-item" data-id="${p.id}">
+                                            ${p.name}
+                                            <span class="remove-item" onclick="removeProductSelectionSchedule('${p.id}')">&times;</span>
+                                        </span>
+                                    ` : '';
+                                }).join('')}
+                            </div>
+                            <select id="f_multi_select_schedule" onchange="addProductSelectionSchedule()" style="margin-top:8px;width:100%;padding:8px;border:2px solid var(--gray-200);border-radius:8px;">
+                                <option value="">Seleccioná un producto para agregar...</option>
+                                ${data.products.filter(p => !selectedProductos.includes(p.id)).map(p => `
+                                    <option value="${p.id}">${p.name}</option>
+                                `).join('')}
+                            </select>
+                            <small class="help-text">Seleccioná productos uno por uno para agregarlos</small>
+                        </div>
+                    </div>
+
+                    <div class="discount-preview-box ${(selectedTipo && valorDescuento) ? 'show' : ''}" id="discountPreviewSchedule">
+                        <div class="preview-text" id="previewTextSchedule">
+                            <strong>${selectedTipo === 'porcentaje' ? (valorDescuento || 0) + '% OFF' : '$' + Number(valorDescuento || 0).toLocaleString('es-AR') + ' OFF'}</strong>
+                            en <span id="previewAlcanceSchedule">${selectedAlcance === 'global' ? 'toda la compra' : selectedAlcance === 'producto' ? 'el producto seleccionado' : selectedAlcance === 'categoria' ? 'la categoría seleccionada' : 'los productos seleccionados'}</span>
+                        </div>
+                        <div class="preview-detail" id="previewDetailSchedule">
+                            ${selectedAlcance === 'global' ? 'Se aplicará a todos los productos del carrito' :
+                              selectedAlcance === 'producto' ? 'Se aplicará solo al producto seleccionado' :
+                              selectedAlcance === 'categoria' ? 'Se aplicará a todos los productos de la categoría' :
+                              'Se aplicará solo a los productos seleccionados'}
+                        </div>
+                    </div>
+
+                    <hr style="margin:24px 0;border-color:var(--gray-200);">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <select id="f_schedule_estado">
+                                <option value="activo" ${isEdit && s.estado === 'activo' ? 'selected' : ''}>Activo</option>
+                                <option value="pendiente" ${isEdit && s.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Prioridad</label>
+                            <input type="number" id="f_schedule_priority" value="${isEdit ? s.priority || 1 : 1}" min="1" step="1">
+                            <small class="help-text">1 = mayor prioridad (solo se aplica la oferta con prioridad más alta)</small>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> ${isEdit ? 'Actualizar' : 'Crear'} Oferta
+                        </button>
+                        <button class="btn btn-outline" onclick="closeFormModal()">Cancelar</button>
+                    </div>
+                </form>
             `;
-
-            const inputs = document.querySelectorAll('#formBody input, #formBody textarea');
-            inputs.forEach(input => {
-                input.addEventListener('input', updateSchedulePreview);
-            });
-
-            setTimeout(updateSchedulePreview, 100);
 
             document.getElementById('formModal').classList.add('active');
             document.body.style.overflow = 'hidden';
+            updateDiscountPreviewSchedule();
         }
 
-        function updateSchedulePreview() {
-            const badge = document.getElementById('f_schedule_badge')?.value || '🔥 Oferta especial';
-            const title = document.getElementById('f_schedule_title')?.value || 'Hasta 50% OFF en todo';
-            const desc = document.getElementById('f_schedule_desc')?.value || 'No te pierdas esta increíble oferta';
-            const cta = document.getElementById('f_schedule_cta')?.value || 'Aprovechar oferta';
-            const image = document.getElementById('f_schedule_image')?.value || '';
+        // =====================================================
+        // FUNCIONES DE ALCANCE Y PREVIEW PARA OFERTAS
+        // =====================================================
+        function selectAlcanceSchedule(value) {
+            document.querySelectorAll('.alcance-option').forEach(el => {
+                el.classList.toggle('selected', el.dataset.value === value);
+            });
+            document.getElementById('f_alcance').value = value;
 
-            const preview = document.getElementById('schedulePreview');
-            if (preview) {
+            document.getElementById('alcanceProductoContainer').style.display = value === 'producto' ? '' : 'none';
+            document.getElementById('alcanceCategoriaContainer').style.display = value === 'categoria' ? '' : 'none';
+            document.getElementById('alcanceSeleccionContainer').style.display = value === 'seleccion' ? '' : 'none';
+
+            updateDiscountPreviewSchedule();
+        }
+
+        function updateDiscountPreviewSchedule() {
+            const tipo = document.getElementById('f_tipo_descuento')?.value || 'porcentaje';
+            const valor = document.getElementById('f_valor_descuento')?.value || 0;
+            const alcance = document.getElementById('f_alcance')?.value || 'global';
+
+            const preview = document.getElementById('discountPreviewSchedule');
+            const previewText = document.getElementById('previewTextSchedule');
+            const previewDetail = document.getElementById('previewDetailSchedule');
+
+            if (valor && valor > 0) {
                 preview.classList.add('show');
-                document.getElementById('preview_badge').textContent = badge;
-                document.getElementById('preview_title').textContent = title;
-                document.getElementById('preview_desc').textContent = desc;
-                document.getElementById('preview_cta').textContent = cta;
+                const valorNum = Number(valor);
+                const displayValor = tipo === 'porcentaje' ? valorNum + '% OFF' : '$' + valorNum.toLocaleString('es-AR') + ' OFF';
+                const alcanceText = alcance === 'global' ? 'toda la compra' :
+                    alcance === 'producto' ? 'el producto seleccionado' :
+                    alcance === 'categoria' ? 'la categoría seleccionada' :
+                    'los productos seleccionados';
 
-                const img = document.getElementById('preview_image');
-                if (image) {
-                    img.src = image;
-                    img.style.display = 'block';
-                } else {
-                    img.style.display = 'none';
-                }
+                previewText.innerHTML = `<strong>${displayValor}</strong> en <span>${alcanceText}</span>`;
+
+                const detailText = alcance === 'global' ? 'Se aplicará a todos los productos del carrito' :
+                    alcance === 'producto' ? 'Se aplicará solo al producto seleccionado' :
+                    alcance === 'categoria' ? 'Se aplicará a todos los productos de la categoría' :
+                    'Se aplicará solo a los productos seleccionados';
+                previewDetail.textContent = detailText;
+            } else {
+                preview.classList.remove('show');
             }
+        }
+
+        function addProductSelectionSchedule() {
+            const select = document.getElementById('f_multi_select_schedule');
+            const id = select.value;
+            if (!id) return;
+
+            const container = document.getElementById('multiSelectContainerSchedule');
+            const product = data.products.find(p => p.id === id);
+            if (!product) return;
+
+            const span = document.createElement('span');
+            span.className = 'selected-item';
+            span.dataset.id = id;
+            span.innerHTML = `
+                ${product.name}
+                <span class="remove-item" onclick="removeProductSelectionSchedule('${id}')">&times;</span>
+            `;
+            container.appendChild(span);
+
+            select.querySelector(`option[value="${id}"]`)?.remove();
+            select.value = '';
+
+            updateDiscountPreviewSchedule();
+        }
+
+        function removeProductSelectionSchedule(id) {
+            const container = document.getElementById('multiSelectContainerSchedule');
+            const item = container.querySelector(`.selected-item[data-id="${id}"]`);
+            if (item) {
+                const product = data.products.find(p => p.id === id);
+                const select = document.getElementById('f_multi_select_schedule');
+                const option = document.createElement('option');
+                option.value = id;
+                option.textContent = product ? product.name : id;
+                select.appendChild(option);
+                // Reordenar opciones
+                const options = Array.from(select.options);
+                options.sort((a, b) => a.textContent.localeCompare(b.textContent));
+                select.innerHTML = '<option value="">Seleccioná un producto para agregar...</option>' +
+                    options.filter(o => o.value).map(o => o.outerHTML).join('');
+                item.remove();
+                updateDiscountPreviewSchedule();
+            }
+        }
+
+        function getSelectedProductIdsSchedule() {
+            const container = document.getElementById('multiSelectContainerSchedule');
+            if (!container) return [];
+            return Array.from(container.querySelectorAll('.selected-item')).map(el => el.dataset.id);
         }
 
         function previewScheduleImage(event) {
@@ -3763,12 +4039,14 @@
                     const preview = document.getElementById('f_schedule_image_preview');
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
-                    // NO guardamos base64 en el hidden - solo preview visual
                 };
                 reader.readAsDataURL(file);
             }
         }
 
+        // =====================================================
+        // GUARDAR OFERTA - MODIFICADO CON CAMPOS AVANZADOS
+        // =====================================================
         async function saveSchedule(scheduleId) {
             const nombre = document.getElementById('f_schedule_name').value.trim();
             const fechaInicio = document.getElementById('f_schedule_start').value;
@@ -3778,13 +4056,53 @@
             const description = document.getElementById('f_schedule_desc').value.trim();
             const cta_text = document.getElementById('f_schedule_cta').value.trim();
             const cta_link = document.getElementById('f_schedule_link').value.trim();
+            const tipo_descuento = document.getElementById('f_tipo_descuento').value;
+            const valor_descuento = parseFloat(document.getElementById('f_valor_descuento').value) || 0;
+            const alcance = document.getElementById('f_alcance').value;
+            const estado = document.getElementById('f_schedule_estado').value;
+            const priority = parseInt(document.getElementById('f_schedule_priority').value) || 1;
 
             if (!nombre || !fechaInicio || !fechaFin || !title || !description) {
                 showToast('⚠️ Completa todos los campos requeridos', 'error');
                 return;
             }
 
-            // --- IMAGEN: subir a Storage si hay archivo nuevo ---
+            // Validaciones de descuento
+            if (valor_descuento <= 0) {
+                showToast('⚠️ Ingresa un valor de descuento válido (mayor a 0)', 'error');
+                return;
+            }
+
+            if (tipo_descuento === 'porcentaje' && (valor_descuento < 1 || valor_descuento > 100)) {
+                showToast('⚠️ El porcentaje debe estar entre 1 y 100', 'error');
+                return;
+            }
+
+            let productos_ids = [];
+            let categorias_ids = [];
+
+            if (alcance === 'producto') {
+                const prodId = document.getElementById('f_producto_seleccionado').value;
+                if (!prodId) {
+                    showToast('⚠️ Selecciona un producto para este alcance', 'error');
+                    return;
+                }
+                productos_ids = [prodId];
+            } else if (alcance === 'categoria') {
+                const catId = document.getElementById('f_categoria_seleccionada').value;
+                if (!catId) {
+                    showToast('⚠️ Selecciona una categoría para este alcance', 'error');
+                    return;
+                }
+                categorias_ids = [catId];
+            } else if (alcance === 'seleccion') {
+                productos_ids = getSelectedProductIdsSchedule();
+                if (!productos_ids.length) {
+                    showToast('⚠️ Selecciona al menos un producto', 'error');
+                    return;
+                }
+            }
+
             const fileInput = document.querySelector('#formBody input[type="file"]');
             let imageUrl = document.getElementById('f_schedule_image').value;
 
@@ -3812,20 +4130,11 @@
                 if (oldSchedule && oldSchedule.image && oldSchedule.image !== imageUrl && oldSchedule.image.includes('/storage/')) {
                     try {
                         await deleteImageFromStorage(oldSchedule.image);
-                        console.log('🗑️ Imagen vieja eliminada');
                     } catch (err) {
                         console.warn('No se pudo eliminar la imagen vieja:', err);
                     }
                 }
             }
-
-            const now = new Date();
-            const inicio = new Date(fechaInicio);
-            const fin = new Date(fechaFin);
-            let estado = 'pendiente';
-            
-            if (now >= inicio && now < fin) estado = 'activo';
-            else if (now >= fin) estado = 'finalizado';
 
             const scheduleData = {
                 id: scheduleId || Date.now(),
@@ -3839,6 +4148,12 @@
                 cta_text,
                 cta_link,
                 image: imageUrl,
+                tipo_descuento,
+                valor_descuento,
+                alcance,
+                productos_ids,
+                categorias_ids,
+                priority,
                 created_at: new Date().toISOString()
             };
 
@@ -3864,7 +4179,7 @@
                 renderDashboard();
             } catch (err) {
                 console.error('Error saving schedule:', err);
-                showToast('Error al guardar la oferta', 'error');
+                showToast('Error al guardar la oferta: ' + err.message, 'error');
             }
         }
 
@@ -4116,8 +4431,8 @@
         // INICIO
         // =====================================================
         console.log('🚴 OliviaBike 24.7 - Panel de Administración COMPLETO');
-        console.log('📸 Galería con compresión automática de imágenes');
-        console.log('📦 Las imágenes se guardan en Supabase Storage');
+        console.log('✅ Sistema de ofertas configurable implementado');
+        console.log('📊 Campos: tipo_descuento, valor_descuento, alcance, productos_ids, categorias_ids, priority');
         console.log('🔑 Usuario: admin@oliviabike.com / admin123');
 
         document.addEventListener('DOMContentLoaded', function() {
