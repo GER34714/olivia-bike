@@ -42,10 +42,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- ========== PRELOAD HERO IMAGE (MÁXIMA PRIORIDAD) ========== -->
+    <!-- ========== PRELOAD HERO IMAGE ========== -->
     <link rel="preload" as="image" href="https://spwurhpdsvqlwsfyzyrn.supabase.co/storage/v1/object/public/gallery/1784354880508_jnb17z.jpg?w=1200&q=80&auto=format" fetchpriority="high">
 
-    <!-- Preconnect para fuentes y CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -124,9 +123,6 @@
             padding: 0 24px;
         }
 
-        /* ============================================================
-           LOADING SPINNER
-           ============================================================ */
         .loading-spinner {
             display: inline-block;
             width: 40px;
@@ -167,45 +163,6 @@
             min-height: 200px;
         }
 
-        /* ============================================================
-           SCROLL TOP BUTTON
-           ============================================================ */
-        .scroll-top {
-            position: fixed;
-            bottom: 120px;
-            right: 30px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--black);
-            color: var(--white);
-            border: 2px solid var(--primary);
-            cursor: pointer;
-            transition: var(--transition);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            z-index: 9997;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .scroll-top.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .scroll-top:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        /* ============================================================
-           SECCIONES
-           ============================================================ */
         .section-tag {
             display: inline-block;
             font-size: 12px;
@@ -235,9 +192,6 @@
         .section-header.center { text-align: center; }
         .section-header.center .section-subtitle { margin: 0 auto; }
 
-        /* ============================================================
-           BOTONES
-           ============================================================ */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -377,7 +331,7 @@
         }
 
         /* ============================================================
-           BOTONES FLOTANTES (CARRITO + WHATSAPP FIJO)
+           BOTONES FLOTANTES (CARRITO + WHATSAPP)
            ============================================================ */
         .float-buttons {
             position: fixed;
@@ -1028,6 +982,7 @@
             white-space: nowrap;
             flex-wrap: wrap;
         }
+        /* OLIVIA con Aesthetic en el logo */
         .logo .logo-text .olivia {
             font-family: var(--font-aesthetic);
             font-size: 1.7rem;
@@ -1107,7 +1062,7 @@
         }
 
         /* ============================================================
-           HERO
+           1. HERO
            ============================================================ */
         .hero {
             min-height: 100vh;
@@ -1237,7 +1192,81 @@
         }
 
         /* ============================================================
-           BANNERS
+           2. OFERTAS ESPECIALES (banner-promo)
+           ============================================================ */
+        .banner-promo {
+            padding: 80px 0;
+            background: var(--black);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        .banner-promo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(230,57,70,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .banner-promo .banner-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+        .banner-promo .banner-content h2 {
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.1;
+        }
+        .banner-promo .banner-content h2 span { color: var(--primary); }
+        .banner-promo .banner-content p {
+            color: var(--gray-300);
+            margin: 16px 0 24px;
+            font-weight: 300;
+        }
+
+        .banner-timer {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .timer-item { text-align: center; }
+        .timer-item .number {
+            display: block;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: rgba(255,255,255,0.05);
+            padding: 8px 16px;
+            border-radius: 8px;
+            min-width: 60px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .timer-item .label {
+            font-size: 0.7rem;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .banner-promo .banner-image img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* ============================================================
+           3. BANNER PROMOCIONAL (banners-carousel)
+           - BANNERS COMPLETAMENTE VISIBLES DENTRO DEL CONTENEDOR
            ============================================================ */
         .banners-carousel {
             padding: 0;
@@ -1273,6 +1302,7 @@
             user-select: none;
             -webkit-user-select: none;
             margin: 0;
+            overflow: visible;
         }
 
         .banner-slide .banner-text .badge-banner {
@@ -1288,6 +1318,12 @@
             margin-bottom: 12px;
             border: 1px solid rgba(230, 57, 70, 0.15);
         }
+        /* OLIVIA con Aesthetic en el banner */
+        .banner-slide .banner-text h2 .olivia-aesthetic {
+            font-family: var(--font-aesthetic);
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
         .banner-slide .banner-text h2 {
             font-size: clamp(2rem, 3.5vw, 3.2rem);
             font-weight: 800;
@@ -1302,12 +1338,24 @@
             max-width: 480px;
         }
 
+        .banner-slide .banner-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            min-height: 280px;
+            max-height: 400px;
+            overflow: hidden;
+            border-radius: var(--radius);
+        }
         .banner-slide .banner-image img {
             width: 100%;
+            height: 100%;
+            object-fit: contain;
             border-radius: var(--radius);
             box-shadow: var(--shadow-xl);
-            max-height: 350px;
-            object-fit: cover;
+            max-height: 400px;
             pointer-events: none;
         }
 
@@ -1364,7 +1412,53 @@
         }
 
         /* ============================================================
-           CATEGORÍAS
+           4. BENEFICIOS (AHORA ARRIBA DE CATEGORÍAS)
+           ============================================================ */
+        .benefits {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+        }
+
+        .benefit-item {
+            text-align: center;
+            padding: 24px;
+        }
+        .benefit-item .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+        .benefit-item:hover .icon {
+            transform: scale(1.1) rotate(-5deg);
+            background: var(--primary);
+            color: var(--white);
+        }
+        .benefit-item h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .benefit-item p {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================
+           5. CATEGORÍAS
            ============================================================ */
         .categories {
             padding: 80px 0;
@@ -1419,7 +1513,7 @@
         }
 
         /* ============================================================
-           PRODUCTOS
+           6. PRODUCTOS
            ============================================================ */
         .products {
             padding: 80px 0;
@@ -1599,324 +1693,108 @@
         }
 
         /* ============================================================
-           MODAL DE PRODUCTO
+           7. ASESORAMIENTO / INFOGRAFÍA (CTA FINAL)
            ============================================================ */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(8px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .modal-overlay.active { display: flex; }
-
-        .modal-content {
-            background: var(--white);
-            border-radius: var(--radius);
-            max-width: 1100px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            padding: 40px 48px;
-            box-shadow: var(--shadow-xl);
-            animation: modalFadeIn 0.3s ease;
-        }
-
-        .modal-close {
-            position: sticky;
-            top: 0;
-            float: right;
-            width: 44px;
-            height: 44px;
-            border: none;
-            background: var(--gray-100);
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            margin-bottom: 20px;
-        }
-        .modal-close:hover {
+        .cta-final {
+            padding: 100px 0;
             background: var(--black);
-            color: var(--white);
-            transform: rotate(90deg);
-        }
-
-        .modal-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 48px;
-            margin-top: 10px;
-            align-items: start;
-        }
-
-        .modal-image {
-            border-radius: var(--radius);
-            overflow: hidden;
-            background: var(--gray-100);
-            position: sticky;
-            top: 0;
-            cursor: zoom-in;
-            transition: var(--transition);
-        }
-
-        .modal-image.zoomed {
-            cursor: zoom-out;
-        }
-
-        .modal-image.zoomed img {
-            transform: scale(1.5);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-image img {
-            width: 100%;
-            height: 100%;
-            max-height: 450px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .modal-image-thumbnails {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-        .modal-image-thumbnails img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 2px solid var(--gray-200);
-            transition: var(--transition);
-        }
-        .modal-image-thumbnails img:hover,
-        .modal-image-thumbnails img.active {
-            border-color: var(--primary);
-            transform: scale(1.05);
-        }
-
-        .modal-info {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding-right: 8px;
-        }
-
-        .modal-info .badge-category {
-            display: inline-block;
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 4px 16px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            align-self: flex-start;
-        }
-
-        .modal-info h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-
-        .modal-info .description {
-            color: var(--gray-600);
-            font-size: 0.95rem;
-            line-height: 1.9;
-            padding: 20px 20px;
-            max-height: 280px;
-            overflow-y: auto;
-            border-top: 1px solid var(--gray-100);
-            border-bottom: 1px solid var(--gray-100);
-            margin: 4px 0;
-            background: var(--gray-50);
-            border-radius: 10px;
-            text-align: left;
-            width: 100%;
-        }
-
-        .modal-info .description p {
-            margin-bottom: 12px;
-        }
-
-        .modal-info .specs-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px 20px;
-            margin: 8px 0;
-            background: var(--gray-100);
-            padding: 16px 20px;
-            border-radius: 12px;
-        }
-        .modal-info .specs-grid .spec-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            border-bottom: 1px solid var(--gray-200);
-            font-size: 0.9rem;
-        }
-        .modal-info .specs-grid .spec-item:last-child { border-bottom: none; }
-        .modal-info .specs-grid .spec-item .label {
-            color: var(--gray-400);
-            font-weight: 400;
-        }
-        .modal-info .specs-grid .spec-item .value {
-            font-weight: 600;
-        }
-
-        .modal-info .colors {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .modal-info .colors .color-label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-right: 8px;
-        }
-        .modal-info .colors .color-option {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 2px solid var(--gray-200);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .modal-info .colors .color-option:hover {
-            transform: scale(1.1);
-            border-color: var(--black);
-        }
-
-        .modal-info .price {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--black);
-        }
-        .modal-info .price span {
-            font-size: 1.2rem;
-            font-weight: 400;
-            color: var(--gray-400);
-            text-decoration: line-through;
-            margin-left: 12px;
-        }
-
-        .modal-info .stock-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        .modal-info .stock-status .dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-        .modal-info .stock-status .dot.green { background: #22c55e; }
-        .modal-info .stock-status .dot.orange { background: #f59e0b; }
-        .modal-info .stock-status .dot.red { background: #ef4444; }
-
-        .modal-info .btn-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-        .modal-info .btn-group .btn {
-            flex: 1;
-            justify-content: center;
-            min-width: 180px;
-        }
-
-        .related-products {
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 2px solid var(--gray-200);
-        }
-
-        .related-products h4 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--black);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .related-products h4 i {
-            color: var(--primary);
-        }
-
-        .related-products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 12px;
-        }
-
-        .related-product-card {
-            background: var(--gray-100);
-            border-radius: 12px;
-            padding: 12px;
             text-align: center;
-            transition: var(--transition);
-            cursor: pointer;
-            text-decoration: none;
-            color: var(--black);
-            border: 2px solid transparent;
-        }
-        .related-product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary);
-            background: var(--white);
-        }
-        .related-product-card img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 6px;
-            background: var(--gray-200);
-        }
-        .related-product-card .related-name {
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            position: relative;
             overflow: hidden;
-            margin-bottom: 4px;
         }
-        .related-product-card .related-price {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--primary);
+        .cta-final::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(230,57,70,0.06) 0%, transparent 70%);
+            border-radius: 50%;
         }
-        .related-product-card .btn-related {
-            margin-top: 8px;
-            padding: 4px 12px;
-            font-size: 0.7rem;
+
+        .cta-final .container { position: relative; z-index: 1; }
+        .cta-final h2 {
+            font-size: clamp(2.4rem, 4vw, 3.6rem);
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+        .cta-final h2 span { color: var(--primary); }
+        .cta-final p {
+            color: var(--gray-300);
+            font-size: 1.1rem;
+            max-width: 540px;
+            margin: 0 auto 32px;
+            font-weight: 300;
+        }
+        .cta-final .btn {
+            padding: 18px 48px;
+            font-size: 1.1rem;
         }
 
         /* ============================================================
-           GALERÍA
+           8. TESTIMONIOS - Aquí OLIVIA usa Poppins (NO Aesthetic)
+           ============================================================ */
+        .testimonials {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .testimonial-card {
+            padding: 32px;
+            background: var(--gray-100);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .testimonial-card .stars {
+            color: #FFB800;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+        .testimonial-card p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            font-weight: 400;
+            line-height: 1.7;
+        }
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--gray-200);
+        }
+        .testimonial-card .author img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .testimonial-card .author .name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .testimonial-card .author .role {
+            font-size: 0.8rem;
+            color: var(--gray-400);
+        }
+
+        /* ============================================================
+           9. GALERÍA
            ============================================================ */
         .gallery {
             padding: 80px 0;
@@ -2274,185 +2152,7 @@
         }
 
         /* ============================================================
-           BANNER PROMO - OFERTAS PROGRAMADAS (MODIFICADO)
-           ============================================================ */
-        .banner-promo {
-            padding: 80px 0;
-            background: var(--black);
-            color: var(--white);
-            position: relative;
-            overflow: hidden;
-        }
-        .banner-promo::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(230,57,70,0.08) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .banner-promo .banner-content {
-            position: relative;
-            z-index: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            align-items: center;
-        }
-        .banner-promo .banner-content h2 {
-            font-size: clamp(2rem, 3.5vw, 3rem);
-            font-weight: 800;
-            line-height: 1.1;
-        }
-        .banner-promo .banner-content h2 span { color: var(--primary); }
-        .banner-promo .banner-content p {
-            color: var(--gray-300);
-            margin: 16px 0 24px;
-            font-weight: 300;
-        }
-
-        .banner-timer {
-            display: flex;
-            gap: 16px;
-            margin-top: 24px;
-        }
-        .timer-item { text-align: center; }
-        .timer-item .number {
-            display: block;
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: var(--primary);
-            background: rgba(255,255,255,0.05);
-            padding: 8px 16px;
-            border-radius: 8px;
-            min-width: 60px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .timer-item .label {
-            font-size: 0.7rem;
-            color: var(--gray-400);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
-        }
-
-        .banner-promo .banner-image img {
-            width: 100%;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-xl);
-        }
-
-        /* ============================================================
-           BENEFICIOS
-           ============================================================ */
-        .benefits {
-            padding: 80px 0;
-            background: var(--white);
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 32px;
-        }
-
-        .benefit-item {
-            text-align: center;
-            padding: 24px;
-        }
-        .benefit-item .icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 72px;
-            height: 72px;
-            background: var(--primary-light);
-            border-radius: 50%;
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 16px;
-            transition: var(--transition);
-        }
-        .benefit-item:hover .icon {
-            transform: scale(1.1) rotate(-5deg);
-            background: var(--primary);
-            color: var(--white);
-        }
-        .benefit-item h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        .benefit-item p {
-            color: var(--gray-400);
-            font-size: 0.9rem;
-        }
-
-        /* ============================================================
-           TESTIMONIOS
-           ============================================================ */
-        .testimonials {
-            padding: 80px 0;
-            background: var(--white);
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-        }
-
-        .testimonial-card {
-            padding: 32px;
-            background: var(--gray-100);
-            border-radius: var(--radius);
-            transition: var(--transition);
-        }
-        .testimonial-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .testimonial-card .stars {
-            color: #FFB800;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-        }
-        .testimonial-card p {
-            font-size: 0.95rem;
-            color: var(--gray-600);
-            font-weight: 400;
-            line-height: 1.7;
-        }
-        .testimonial-card .author {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--gray-200);
-        }
-        .testimonial-card .author img {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .testimonial-card .author .name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .testimonial-card .author .role {
-            font-size: 0.8rem;
-            color: var(--gray-400);
-        }
-
-        /* ============================================================
-           FAQ
+           10. FAQS
            ============================================================ */
         .faq {
             padding: 80px 0;
@@ -2499,49 +2199,7 @@
         }
 
         /* ============================================================
-           CTA FINAL
-           ============================================================ */
-        .cta-final {
-            padding: 100px 0;
-            background: var(--black);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .cta-final::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 800px;
-            height: 800px;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(230,57,70,0.06) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .cta-final .container { position: relative; z-index: 1; }
-        .cta-final h2 {
-            font-size: clamp(2.4rem, 4vw, 3.6rem);
-            font-weight: 900;
-            color: var(--white);
-            margin-bottom: 16px;
-        }
-        .cta-final h2 span { color: var(--primary); }
-        .cta-final p {
-            color: var(--gray-300);
-            font-size: 1.1rem;
-            max-width: 540px;
-            margin: 0 auto 32px;
-            font-weight: 300;
-        }
-        .cta-final .btn {
-            padding: 18px 48px;
-            font-size: 1.1rem;
-        }
-
-        /* ============================================================
-           MAPA
+           11. MAPA / UBICACIÓN
            ============================================================ */
         .map-section {
             padding: 80px 0;
@@ -2561,7 +2219,7 @@
         }
 
         /* ============================================================
-           FOOTER
+           12. FOOTER
            ============================================================ */
         .footer {
             background: var(--black);
@@ -2599,6 +2257,7 @@
             align-items: baseline;
             flex-wrap: wrap;
         }
+        /* OLIVIA con Aesthetic en el footer */
         .footer-brand .logo .logo-text .olivia {
             font-family: var(--font-aesthetic);
             font-size: 1.7rem;
@@ -2720,20 +2379,266 @@
         }
 
         /* ============================================================
-           RESPONSIVE
+           MODAL DE PRODUCTO - ESTILOS ADICIONALES
            ============================================================ */
-        @media (max-width: 992px) {
-            /* ... (estilos responsive existentes) ... */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        @media (max-width: 768px) {
-            /* ... (estilos responsive existentes) ... */
+        .modal-overlay.active { display: flex; }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--radius);
+            max-width: 1000px;
+            width: 100%;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 40px;
+            box-shadow: var(--shadow-xl);
+            animation: modalFadeIn 0.35s ease;
+            position: relative;
         }
-        @media (max-width: 480px) {
-            /* ... (estilos responsive existentes) ... */
+
+        .modal-close {
+            position: sticky;
+            top: 0;
+            float: right;
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: var(--gray-100);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            margin-bottom: 20px;
+        }
+        .modal-close:hover {
+            background: var(--black);
+            color: var(--white);
+            transform: rotate(90deg);
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .modal-image {
+            position: relative;
+        }
+        .modal-image img {
+            width: 100%;
+            border-radius: var(--radius);
+            object-fit: cover;
+            max-height: 450px;
+            transition: var(--transition);
+            cursor: zoom-in;
+        }
+        .modal-image.zoomed img {
+            cursor: zoom-out;
+            transform: scale(1.5);
+        }
+
+        .modal-image-thumbnails {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .modal-image-thumbnails img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid var(--gray-200);
+            transition: var(--transition);
+        }
+        .modal-image-thumbnails img:hover,
+        .modal-image-thumbnails img.active {
+            border-color: var(--primary);
+        }
+
+        .modal-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .modal-info .badge-category {
+            display: inline-block;
+            background: var(--gray-100);
+            color: var(--gray-500);
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            align-self: flex-start;
+        }
+        .modal-info h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+        .modal-info .description {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 16px 20px;
+            background: var(--gray-100);
+            border-radius: 10px;
+        }
+        .modal-info .description p {
+            margin-bottom: 8px;
+        }
+        .modal-info .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px;
+            padding: 12px 16px;
+            background: var(--gray-100);
+            border-radius: 10px;
+        }
+        .modal-info .specs-grid .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .modal-info .specs-grid .spec-item .label {
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+        .modal-info .specs-grid .spec-item .value {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .modal-info .colors {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .modal-info .colors .color-label {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+        .modal-info .colors .color-option {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid var(--gray-200);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .modal-info .colors .color-option:hover {
+            transform: scale(1.1);
+            border-color: var(--primary);
+        }
+        .modal-info .price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--black);
+        }
+        .modal-info .price span {
+            font-weight: 400;
+            font-size: 1.2rem;
+            color: var(--gray-400);
+            text-decoration: line-through;
+            margin-left: 12px;
+        }
+        .modal-info .stock-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .modal-info .stock-status .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .modal-info .stock-status .dot.green { background: #22C55E; }
+        .modal-info .stock-status .dot.orange { background: #F59E0B; }
+        .modal-info .stock-status .dot.red { background: #EF4444; }
+        .modal-info .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .modal-info .btn-group .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 14px;
+        }
+
+        .related-products {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 2px solid var(--gray-200);
+        }
+        .related-products h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--gray-500);
+        }
+        .related-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+        }
+        .related-product-card {
+            background: var(--gray-100);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .related-product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            background: var(--white);
+        }
+        .related-product-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .related-product-card .related-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin: 8px 0 4px;
+        }
+        .related-product-card .related-price {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary);
         }
 
         /* ============================================================
-           ESTILOS RESPONSIVE (resumidos por espacio)
+           RESPONSIVE
            ============================================================ */
         @media (max-width: 992px) {
             .banner-promo .banner-content { grid-template-columns: 1fr; text-align: center; }
@@ -2741,16 +2646,16 @@
             .footer-grid { grid-template-columns: 1fr 1fr; }
             .modal-grid { grid-template-columns: 1fr; gap: 24px; }
             .modal-content { padding: 28px 24px; }
-            .modal-image { position: relative; top: auto; }
             .modal-image img { max-height: 300px; }
             .modal-info .description { max-height: 200px; padding: 16px 16px; }
             .banner-slide { grid-template-columns: 1fr; text-align: center; gap: 30px; padding: 40px 24px; }
             .banner-slide .banner-text p { margin: 16px auto 24px; }
             .banner-slide .banner-text .badge-banner { margin: 0 auto 12px; }
+            .banner-slide .banner-image { min-height: 200px; max-height: 300px; }
+            .banner-slide .banner-image img { max-height: 280px; object-fit: contain; }
             .cart-item { grid-template-columns: 50px 1fr auto; gap: 10px; }
             .cart-item img { width: 50px; height: 50px; }
             .related-products-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
-            .scroll-top { bottom: 110px; right: 20px; width: 40px; height: 40px; font-size: 1rem; }
             .gallery-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 200px; gap: 12px; }
             .gallery-item:first-child { grid-column: span 2; grid-row: span 1; }
             .gallery-overlay { transform: translateY(0); opacity: 1; padding: 16px 16px 14px; }
@@ -2769,6 +2674,7 @@
             .logo .logo-img { height: 38px; max-height: 38px; }
             .checkout-modal { padding: 28px 20px; }
             .checkout-form .form-row { grid-template-columns: 1fr; }
+            .modal-info .specs-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
@@ -2828,7 +2734,8 @@
             .modal-close { width: 36px; height: 36px; font-size: 1rem; margin-bottom: 12px; }
             .hero-indicators { bottom: 60px; }
             .banner-slide { padding: 30px 20px; }
-            .banner-slide .banner-image img { max-height: 250px; }
+            .banner-slide .banner-image { min-height: 180px; max-height: 250px; }
+            .banner-slide .banner-image img { max-height: 220px; }
             .banners-controls { padding: 15px 0 25px; }
             .float-buttons { bottom: 20px; right: 20px; gap: 10px; }
             .cart-float { padding: 12px 16px; }
@@ -2843,7 +2750,6 @@
             .toast { bottom: 90px; right: 20px; left: 20px; max-width: none; padding: 14px 18px; font-size: 0.85rem; }
             .related-products-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
             .related-product-card img { height: 80px; }
-            .scroll-top { bottom: 100px; right: 20px; width: 36px; height: 36px; font-size: 0.9rem; }
             .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; gap: 10px; }
             .gallery-more-btn .btn-gallery-more { padding: 12px 28px; font-size: 0.9rem; }
             .gallery-modal-content { max-width: 100%; width: 100%; max-height: 100vh; border-radius: 0; margin: 0; }
@@ -2876,7 +2782,8 @@
             .product-body .btn-group-cart .btn { font-size: 0.7rem; padding: 8px; }
             .container { padding: 0 16px; }
             .banner-slide .banner-text h2 { font-size: 1.6rem; }
-            .banner-slide .banner-image img { max-height: 200px; }
+            .banner-slide .banner-image { min-height: 140px; max-height: 200px; }
+            .banner-slide .banner-image img { max-height: 180px; }
             .modal-content { padding: 12px 12px; margin: 6px; border-radius: 10px; }
             .modal-info .description { padding: 12px 12px; font-size: 0.85rem; max-height: 150px; }
             .modal-info h2 { font-size: 1.3rem; }
@@ -2886,7 +2793,6 @@
             .related-product-card img { height: 70px; }
             .float-buttons { bottom: 15px; right: 15px; }
             .whatsapp-float { width: 42px; height: 42px; font-size: 1.2rem; }
-            .scroll-top { bottom: 85px; right: 15px; width: 34px; height: 34px; font-size: 0.8rem; }
             .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 140px; gap: 8px; }
             .gallery-more-btn .btn-gallery-more { padding: 10px 20px; font-size: 0.8rem; }
             .gallery-modal-body { padding: 12px; gap: 12px; }
@@ -2909,6 +2815,7 @@
             .delivery-option .info h4 { font-size: 0.9rem; }
             .delivery-option .info p { font-size: 0.75rem; }
             .delivery-option .icon { font-size: 1.3rem; }
+            .modal-info .specs-grid .spec-item { flex-direction: column; gap: 2px; }
         }
     </style>
 </head>
@@ -2920,15 +2827,16 @@
             <a href="#" class="logo" id="mainLogo">
                 <img src="logo-olivia-bike.png" alt="OliviaBike" class="logo-img" loading="eager" onerror="this.style.display='none'">
                 <span class="logo-text" id="logoText">
+                    <!-- OLIVIA con Aesthetic -->
                     <span class="olivia">Olivia</span><span class="bike">Bike</span> <span class="siete">24.7</span>
                 </span>
             </a>
             <nav>
                 <ul class="nav-menu" id="navMenu">
+                    <li><a href="#benefits">Beneficios</a></li>
                     <li><a href="#categories">Categorías</a></li>
                     <li><a href="#products">Productos</a></li>
                     <li><a href="#gallery">Galería</a></li>
-                    <li><a href="#benefits">Beneficios</a></li>
                     <li><a href="#testimonials">Testimonios</a></li>
                     <li><a href="#faq">FAQ</a></li>
                     <li><a href="#contact">Contacto</a></li>
@@ -2954,7 +2862,7 @@
         </div>
     </header>
 
-    <!-- ========== HERO ========== -->
+    <!-- ========== 1. HERO ========== -->
     <section class="hero" id="hero">
         <div class="hero-slides" id="heroSlides">
             <div class="hero-slide active">
@@ -2979,14 +2887,20 @@
         <div class="hero-scroll"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- ========== BANNERS ========== -->
+    <!-- ========== 2. OFERTAS ESPECIALES ========== -->
+    <div id="offersContainer"></div>
+
+    <!-- ========== 3. BANNER PROMOCIONAL ========== -->
     <section class="banners-carousel" id="banners">
         <div class="banner-wrapper">
             <div class="banners-track" id="bannersTrack">
                 <div class="banner-slide" data-index="0">
                     <div class="banner-text">
                         <span class="badge-banner">🚴‍♂️ Equipate con lo mejor</span>
-                        <h2><span class="olivia-text" style="font-family:var(--font-aesthetic);">Olivia</span> <span style="color:var(--primary);">Bike24/7</span><br>Todo para tu bicicleta</h2>
+                        <h2>
+                            <!-- OLIVIA con Aesthetic -->
+                            <span class="olivia-aesthetic">Olivia</span> <span style="color:var(--primary);">Bike24/7</span><br>Todo para tu bicicleta
+                        </h2>
                         <p>Elegí ropa y accesorios de calidad. Elegí Olivia.</p>
                         <a href="https://wa.me/5493388461348?text=Hola%20OliviaBike%2024.7%2C%20quer%C3%ADa%20consultar%20sobre%20lo%20que%20vi%20en%20la%20web." target="_blank" class="btn btn-red">
                             <i class="fab fa-whatsapp"></i> Consultar ahora
@@ -3007,7 +2921,19 @@
         </div>
     </section>
 
-    <!-- ========== CATEGORÍAS ========== -->
+    <!-- ========== 4. BENEFICIOS (AHORA ARRIBA DE CATEGORÍAS) ========== -->
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <div class="section-header center fade-in">
+                <span class="section-tag">¿Por qué elegirnos?</span>
+                <h2 class="section-title">Beneficios <span style="color: var(--primary);">OliviaBike24/7</span></h2>
+                <p class="section-subtitle">Nos enfocamos en brindarte la mejor experiencia de compra y asesoramiento</p>
+            </div>
+            <div class="benefits-grid" id="benefitsGrid"></div>
+        </div>
+    </section>
+
+    <!-- ========== 5. CATEGORÍAS ========== -->
     <section class="categories" id="categories">
         <div class="container">
             <div class="section-header center fade-in">
@@ -3019,7 +2945,7 @@
         </div>
     </section>
 
-    <!-- ========== PRODUCTOS ========== -->
+    <!-- ========== 6. PRODUCTOS ========== -->
     <section class="products" id="products">
         <div class="container">
             <div class="section-header center fade-in">
@@ -3044,17 +2970,160 @@
         </div>
     </section>
 
-    <!-- ========== MODAL DE PRODUCTO ========== -->
-    <div class="modal-overlay" id="productModal">
-        <div class="modal-content">
-            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
-            <div class="modal-grid" id="modalContent"></div>
-            <div class="related-products" id="relatedProductsContainer" style="display:none;">
-                <h4><i class="fas fa-sync-alt"></i> Productos relacionados</h4>
-                <div class="related-products-grid" id="relatedProductsGrid"></div>
+    <!-- ========== 7. ASESORAMIENTO / INFOGRAFÍA (CTA FINAL) ========== -->
+    <section class="cta-final" id="contact">
+        <div class="container">
+            <div class="fade-in">
+                <h2>¿Listo para <span>rodar</span> con nosotros?</h2>
+                <p>Escríbenos por WhatsApp y te asesoramos personalmente para encontrar el producto perfecto para ti.</p>
+                <a href="https://wa.me/5493388461348?text=Hola%20OliviaBike%2024.7%2C%20quer%C3%ADa%20hacer%20una%20consulta." target="_blank" class="btn btn-red" id="ctaWhatsapp">
+                    <i class="fab fa-whatsapp"></i> Consultar ahora
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 8. TESTIMONIOS - AQUÍ OLIVIA USA POPPINS (NO AESTHETIC) ========== -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header center fade-in">
+                <span class="section-tag">Testimonios</span>
+                <h2 class="section-title">Lo que dicen <span style="color: var(--primary);">nuestros clientes</span></h2>
+                <p class="section-subtitle">Experiencias reales de ciclistas que confían en OliviaBike24/7</p>
+            </div>
+            <div class="testimonials-grid" id="testimonialsGrid"></div>
+        </div>
+    </section>
+
+    <!-- ========== 9. GALERÍA ========== -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="section-header center fade-in">
+                <span class="section-tag">Inspiración</span>
+                <h2 class="section-title">Galería</h2>
+                <p class="section-subtitle">Hacé clic en cualquier imagen para verla en detalle</p>
+            </div>
+            <div class="gallery-wrapper">
+                <div class="gallery-grid" id="galleryGrid">
+                    <div class="loading-container" style="grid-column:1/-1;">
+                        <div class="loading-spinner"></div>
+                        <p style="color:var(--gray-400);margin-top:12px;">Cargando galería...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-more-btn" id="galleryMoreBtn">
+                <button class="btn-gallery-more" id="galleryToggleBtn">
+                    <span id="galleryToggleText">Ver más</span>
+                    <i class="fas fa-chevron-down" id="galleryToggleIcon"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== MODAL DE GALERÍA ========== -->
+    <div class="gallery-modal-overlay" id="galleryModal">
+        <div class="gallery-modal-content">
+            <button class="gallery-modal-close" id="galleryModalClose"><i class="fas fa-times"></i></button>
+            <button class="gallery-modal-nav prev" id="galleryModalPrev"><i class="fas fa-chevron-left"></i></button>
+            <button class="gallery-modal-nav next" id="galleryModalNext"><i class="fas fa-chevron-right"></i></button>
+            <div class="gallery-modal-body" id="galleryModalBody">
+                <div class="gallery-modal-image"><img id="galleryModalImage" src="" alt="Imagen de galería"></div>
+                <div class="gallery-modal-info">
+                    <span class="gallery-modal-badge" id="galleryModalBadge">📸 Galería</span>
+                    <h2 id="galleryModalTitle">Título de la imagen</h2>
+                    <div class="gallery-modal-description" id="galleryModalDescription">Descripción de la imagen</div>
+                    <div class="gallery-modal-meta">
+                        <span><i class="fas fa-calendar-alt"></i> <span id="galleryModalDate">Fecha</span></span>
+                        <span><i class="fas fa-tag"></i> <span id="galleryModalCategory">Categoría</span></span>
+                    </div>
+                    <div class="gallery-modal-counter" id="galleryModalCounter">1 / 10</div>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- ========== 10. FAQS ========== -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header center fade-in">
+                <span class="section-tag">Preguntas frecuentes</span>
+                <h2 class="section-title">Resolvemos tus <span style="color: var(--primary);">dudas</span></h2>
+                <p class="section-subtitle">Todo lo que necesitas saber antes de hacer tu consulta</p>
+            </div>
+            <div class="faq-list" id="faqList"></div>
+        </div>
+    </section>
+
+    <!-- ========== 11. MAPA / UBICACIÓN ========== -->
+    <section class="map-section" id="map">
+        <div class="container">
+            <div class="section-header center fade-in">
+                <span class="section-tag">Ubicación</span>
+                <h2 class="section-title">Encuéntranos</h2>
+                <p class="section-subtitle">Visítanos en nuestro local y conoce nuestros productos en persona</p>
+            </div>
+            <div class="map-container fade-in">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3298.143009937417!2d-63.022319!3d-35.032221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95c3b8f4b2a1e8b3%3A0x7e8f5b2a1e8b3f4!2sMitre%20458%2C%20General%20Villegas%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1700000000000" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 12. FOOTER ========== -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <img src="logo-olivia-bike.png" alt="OliviaBike" class="logo-img" loading="lazy" onerror="this.style.display='none'">
+                        <span class="logo-text">
+                            <!-- OLIVIA con Aesthetic -->
+                            <span class="olivia">Olivia</span><span class="bike">Bike</span> <span class="siete">24.7</span>
+                        </span>
+                    </a>
+                    <p>Tu tienda de ciclismo premium. Equipamiento de alta calidad para ciclistas exigentes.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/5493388461348?text=Hola%20OliviaBike%2024.7%2C%20quer%C3%ADa%20hacer%20una%20consulta." target="_blank" aria-label="WhatsApp" id="footerWhatsapp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4>Enlaces</h4>
+                    <ul>
+                        <li><a href="#products">Productos</a></li>
+                        <li><a href="#gallery">Galería</a></li>
+                        <li><a href="#benefits">Beneficios</a></li>
+                        <li><a href="#testimonials">Testimonios</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="admin.html" target="_blank" style="color: var(--primary); font-weight: 600;">
+                            <i class="fas fa-user-shield"></i> Panel Admin
+                        </a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="https://wa.me/5493388461348?text=Hola%20OliviaBike%2024.7%2C%20quer%C3%ADa%20hacer%20una%20consulta." target="_blank" id="footerWhatsappLink"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +54 9 3388 46-1348</a></li>
+                        <li><a href="#"><i class="fas fa-map-pin"></i> Mitre 458, General Villegas, Bs As</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Horarios</h4>
+                    <ul>
+                        <li><i class="fas fa-clock"></i> Lun - Vie: 9:00 - 20:00</li>
+                        <li><i class="fas fa-clock"></i> Sábado: 10:00 - 18:00</li>
+                        <li><i class="fas fa-clock"></i> Domingo: Cerrado</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="creator">Creado y diseñado por <a href="https://ciborg347.onrender.com" target="_blank">Ciborg 347</a></div>
+                <p>&copy; 2026 <span>OliviaBike 24.7</span>. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- ========== BOTONES FLOTANTES ========== -->
     <div class="float-buttons" id="floatButtons">
@@ -3086,6 +3155,24 @@
                 <button class="btn btn-checkout" onclick="openCheckoutModal()"><i class="fas fa-arrow-right"></i> Continuar</button>
             </div>
         </div>
+    </div>
+
+    <!-- ========== MODAL DE PRODUCTO ========== -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            <div class="modal-grid" id="modalContent"></div>
+            <div class="related-products" id="relatedProductsContainer" style="display:none;">
+                <h4><i class="fas fa-sync-alt"></i> Productos relacionados</h4>
+                <div class="related-products-grid" id="relatedProductsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TOAST ========== -->
+    <div class="toast" id="toast">
+        <div class="toast-title">✅ Producto agregado</div>
+        <div id="toastMessage">El producto se añadió al carrito</div>
     </div>
 
     <!-- ========== CHECKOUT MODAL ========== -->
@@ -3161,186 +3248,6 @@
             </div>
         </div>
     </div>
-
-    <!-- ========== TOAST ========== -->
-    <div class="toast" id="toast">
-        <div class="toast-title">✅ Producto agregado</div>
-        <div id="toastMessage">El producto se añadió al carrito</div>
-    </div>
-
-    <!-- ========== GALERÍA ========== -->
-    <section class="gallery" id="gallery">
-        <div class="container">
-            <div class="section-header center fade-in">
-                <span class="section-tag">Inspiración</span>
-                <h2 class="section-title">Galería</h2>
-                <p class="section-subtitle">Hacé clic en cualquier imagen para verla en detalle</p>
-            </div>
-            <div class="gallery-wrapper">
-                <div class="gallery-grid" id="galleryGrid">
-                    <div class="loading-container" style="grid-column:1/-1;">
-                        <div class="loading-spinner"></div>
-                        <p style="color:var(--gray-400);margin-top:12px;">Cargando galería...</p>
-                    </div>
-                </div>
-            </div>
-            <div class="gallery-more-btn" id="galleryMoreBtn">
-                <button class="btn-gallery-more" id="galleryToggleBtn">
-                    <span id="galleryToggleText">Ver más</span>
-                    <i class="fas fa-chevron-down" id="galleryToggleIcon"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== MODAL DE GALERÍA ========== -->
-    <div class="gallery-modal-overlay" id="galleryModal">
-        <div class="gallery-modal-content">
-            <button class="gallery-modal-close" id="galleryModalClose"><i class="fas fa-times"></i></button>
-            <button class="gallery-modal-nav prev" id="galleryModalPrev"><i class="fas fa-chevron-left"></i></button>
-            <button class="gallery-modal-nav next" id="galleryModalNext"><i class="fas fa-chevron-right"></i></button>
-            <div class="gallery-modal-body" id="galleryModalBody">
-                <div class="gallery-modal-image"><img id="galleryModalImage" src="" alt="Imagen de galería"></div>
-                <div class="gallery-modal-info">
-                    <span class="gallery-modal-badge" id="galleryModalBadge">📸 Galería</span>
-                    <h2 id="galleryModalTitle">Título de la imagen</h2>
-                    <div class="gallery-modal-description" id="galleryModalDescription">Descripción de la imagen</div>
-                    <div class="gallery-modal-meta">
-                        <span><i class="fas fa-calendar-alt"></i> <span id="galleryModalDate">Fecha</span></span>
-                        <span><i class="fas fa-tag"></i> <span id="galleryModalCategory">Categoría</span></span>
-                    </div>
-                    <div class="gallery-modal-counter" id="galleryModalCounter">1 / 10</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========== OFERTAS PROGRAMADAS (MODIFICADO) ========== -->
-    <div id="offersContainer"></div>
-
-    <!-- ========== BENEFICIOS ========== -->
-    <section class="benefits" id="benefits">
-        <div class="container">
-            <div class="section-header center fade-in">
-                <span class="section-tag">¿Por qué elegirnos?</span>
-                <h2 class="section-title">Beneficios <span style="color: var(--primary);">OliviaBike24/7</span></h2>
-                <p class="section-subtitle">Nos enfocamos en brindarte la mejor experiencia de compra y asesoramiento</p>
-            </div>
-            <div class="benefits-grid" id="benefitsGrid"></div>
-        </div>
-    </section>
-
-    <!-- ========== TESTIMONIOS ========== -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <div class="section-header center fade-in">
-                <span class="section-tag">Testimonios</span>
-                <h2 class="section-title">Lo que dicen <span style="color: var(--primary);">nuestros clientes</span></h2>
-                <p class="section-subtitle">Experiencias reales de ciclistas que confían en OliviaBike24/7</p>
-            </div>
-            <div class="testimonials-grid" id="testimonialsGrid"></div>
-        </div>
-    </section>
-
-    <!-- ========== FAQ ========== -->
-    <section class="faq" id="faq">
-        <div class="container">
-            <div class="section-header center fade-in">
-                <span class="section-tag">Preguntas frecuentes</span>
-                <h2 class="section-title">Resolvemos tus <span style="color: var(--primary);">dudas</span></h2>
-                <p class="section-subtitle">Todo lo que necesitas saber antes de hacer tu consulta</p>
-            </div>
-            <div class="faq-list" id="faqList"></div>
-        </div>
-    </section>
-
-    <!-- ========== CTA FINAL ========== -->
-    <section class="cta-final" id="contact">
-        <div class="container">
-            <div class="fade-in">
-                <h2>¿Listo para <span>rodar</span> con nosotros?</h2>
-                <p>Escríbenos por WhatsApp y te asesoramos personalmente para encontrar el producto perfecto para ti.</p>
-                <a href="https://wa.me/5493388461348?text=Hola%20OliviaBike%2024.7%2C%20quer%C3%ADa%20hacer%20una%20consulta." target="_blank" class="btn btn-red" id="ctaWhatsapp">
-                    <i class="fab fa-whatsapp"></i> Consultar ahora
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== MAPA ========== -->
-    <section class="map-section" id="map">
-        <div class="container">
-            <div class="section-header center fade-in">
-                <span class="section-tag">Ubicación</span>
-                <h2 class="section-title">Encuéntranos</h2>
-                <p class="section-subtitle">Visítanos en nuestro local y conoce nuestros productos en persona</p>
-            </div>
-            <div class="map-container fade-in">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3298.143009937417!2d-63.022319!3d-35.032221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95c3b8f4b2a1e8b3%3A0x7e8f5b2a1e8b3f4!2sMitre%20458%2C%20General%20Villegas%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1700000000000" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== FOOTER ========== -->
-    <footer class="footer" id="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="#" class="logo">
-                        <img src="logo-olivia-bike.png" alt="OliviaBike" class="logo-img" loading="lazy" onerror="this.style.display='none'">
-                        <span class="logo-text">
-                            <span class="olivia">Olivia</span><span class="bike">Bike</span> <span class="siete">24.7</span>
-                        </span>
-                    </a>
-                    <p>Tu tienda de ciclismo premium. Equipamiento de alta calidad para ciclistas exigentes.</p>
-                    <div class="footer-social">
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/5493388461348?text=Hola%20OliviaBike%2024.7%2C%20quer%C3%ADa%20hacer%20una%20consulta." target="_blank" aria-label="WhatsApp" id="footerWhatsapp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    </div>
-                </div>
-                <div>
-                    <h4>Enlaces</h4>
-                    <ul>
-                        <li><a href="#products">Productos</a></li>
-                        <li><a href="#gallery">Galería</a></li>
-                        <li><a href="#benefits">Beneficios</a></li>
-                        <li><a href="#testimonials">Testimonios</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                        <li><a href="admin.html" target="_blank" style="color: var(--primary); font-weight: 600;">
-                            <i class="fas fa-user-shield"></i> Panel Admin
-                        </a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4>Contacto</h4>
-                    <ul>
-                        <li><a href="https://wa.me/5493388461348?text=Hola%20OliviaBike%2024.7%2C%20quer%C3%ADa%20hacer%20una%20consulta." target="_blank" id="footerWhatsappLink"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
-                        <li><a href="#"><i class="fas fa-phone"></i> +54 9 3388 46-1348</a></li>
-                        <li><a href="#"><i class="fas fa-map-pin"></i> Mitre 458, General Villegas, Bs As</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4>Horarios</h4>
-                    <ul>
-                        <li><i class="fas fa-clock"></i> Lun - Vie: 9:00 - 20:00</li>
-                        <li><i class="fas fa-clock"></i> Sábado: 10:00 - 18:00</li>
-                        <li><i class="fas fa-clock"></i> Domingo: Cerrado</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <div class="creator">Creado y diseñado por <a href="https://ciborg347.onrender.com" target="_blank">Ciborg 347</a></div>
-                <p>&copy; 2026 <span>OliviaBike 24.7</span>. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- ========== BOTÓN VOLVER ARRIBA ========== -->
-    <button class="scroll-top" id="scrollTop" aria-label="Volver arriba">
-        <i class="fas fa-arrow-up"></i>
-    </button>
 
     <!-- ========== JAVASCRIPT ========== -->
     <script>
@@ -3452,6 +3359,7 @@
 
                 console.log('✅ Todos los datos cargados correctamente');
 
+                renderBenefits();
                 renderCategories();
                 renderProducts();
                 renderHeroCarousel();
@@ -3459,7 +3367,6 @@
                 renderGallery();
                 renderTestimonials();
                 renderFaqs();
-                renderBenefits();
                 renderScheduledOffers();
 
                 loadCartFromStorage();
@@ -3470,7 +3377,7 @@
             } catch (err) {
                 console.error('❌ Error loading data:', err);
                 showToast('⚠️ Error al cargar los datos. Intenta de nuevo.', 'error');
-                
+
                 const grid = document.getElementById('productsGrid');
                 if (grid) {
                     grid.innerHTML = `
@@ -3620,7 +3527,7 @@
         function updateCartSummary() {
             const subtotal = getCartTotal();
             const result = applyOfferToCart(cart, activeOffer);
-            
+
             const discountRow = document.getElementById('discountRow');
             const savingsRow = document.getElementById('savingsRow');
             const discountEl = document.getElementById('cartDiscount');
@@ -3869,7 +3776,7 @@
         }
 
         // =====================================================
-        // RENDER OFERTAS PROGRAMADAS (MODIFICADO - SIN BOTÓN Y SIN TEXTO AUTOMÁTICO)
+        // RENDER OFERTAS PROGRAMADAS
         // =====================================================
         async function renderScheduledOffers() {
             const container = document.getElementById('offersContainer');
@@ -4144,7 +4051,9 @@
                 slide.innerHTML = `
                     <div class="banner-text">
                         <span class="badge-banner">${banner.badge || '🔥 Oferta'}</span>
-                        <h2>${banner.title}</h2>
+                        <h2>
+                            <span class="olivia-aesthetic">Olivia</span> <span style="color:var(--primary);">Bike24/7</span><br>${banner.title}
+                        </h2>
                         <p>${banner.description || ''}</p>
                         <a href="${banner.cta_link || `https://wa.me/${whatsappNumber}?text=Hola%20OliviaBike%2024.7%2C%20quer%C3%ADa%20consultar%20sobre%20lo%20que%20vi%20en%20la%20web.`}" target="_blank" class="btn btn-red">
                             <i class="fab fa-whatsapp"></i> ${banner.cta_text || 'Consultar'}
@@ -4279,6 +4188,24 @@
         function resetBannerAutoplay() {
             clearInterval(bannerInterval);
             setTimeout(() => { startBannerAutoplay(); }, 3000);
+        }
+
+        // =====================================================
+        // RENDER BENEFICIOS
+        // =====================================================
+        function renderBenefits() {
+            const container = document.getElementById('benefitsGrid');
+            if (!allBenefits || allBenefits.length === 0) {
+                container.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay beneficios</p>';
+                return;
+            }
+            container.innerHTML = allBenefits.map(b => `
+                <div class="benefit-item">
+                    <div class="icon"><i class="fas ${b.icon}"></i></div>
+                    <h4>${b.title}</h4>
+                    <p>${b.description}</p>
+                </div>
+            `).join('');
         }
 
         // =====================================================
@@ -4849,7 +4776,7 @@
         });
 
         // =====================================================
-        // RENDER TESTIMONIALS, FAQS, BENEFICIOS
+        // RENDER TESTIMONIALS - AQUÍ OLIVIA USA POPPINS
         // =====================================================
         function renderTestimonials() {
             const container = document.getElementById('testimonialsGrid');
@@ -4864,6 +4791,7 @@
                     <div class="author">
                         <img src="${t.image}?w=100&q=80&auto=format" class="lazy-image" onerror="this.src='https://i.pravatar.cc/100?img=1'" loading="lazy" onload="this.classList.add('loaded')">
                         <div>
+                            <!-- Aquí NO se usa Aesthetic, solo Poppins (la fuente por defecto) -->
                             <div class="name">${t.name}</div>
                             <div class="role">${t.role || ''}</div>
                         </div>
@@ -4872,6 +4800,9 @@
             `).join('');
         }
 
+        // =====================================================
+        // RENDER FAQS
+        // =====================================================
         function renderFaqs() {
             const container = document.getElementById('faqList');
             if (!allFaqs || allFaqs.length === 0) {
@@ -4903,21 +4834,6 @@
                 answer.style.maxHeight = '200px';
                 answer.style.padding = '0 24px 20px';
             }
-        }
-
-        function renderBenefits() {
-            const container = document.getElementById('benefitsGrid');
-            if (!allBenefits || allBenefits.length === 0) {
-                container.innerHTML = '<p style="text-align:center;width:100%;color:var(--gray-400);">No hay beneficios</p>';
-                return;
-            }
-            container.innerHTML = allBenefits.map(b => `
-                <div class="benefit-item">
-                    <div class="icon"><i class="fas ${b.icon}"></i></div>
-                    <h4>${b.title}</h4>
-                    <p>${b.description}</p>
-                </div>
-            `).join('');
         }
 
         // =====================================================
@@ -4957,7 +4873,7 @@
         }
 
         // =====================================================
-        // BOTONES FLOTANTES (MODIFICADO - OCULTAR EN FOOTER)
+        // BOTONES FLOTANTES
         // =====================================================
         function initFloatButtonsVisibility() {
             const floatButtons = document.getElementById('floatButtons');
@@ -4967,14 +4883,10 @@
 
             if (!floatButtons || !hero || !banners || !footer) return;
 
-            // Observar Hero, Banners y Footer
             const observer = new IntersectionObserver((entries) => {
                 let shouldHide = false;
-                
                 entries.forEach(entry => {
-                    // Si el elemento observado está visible
                     if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
-                        // Si es el Hero, Banners o Footer, ocultar botones
                         const targetId = entry.target.id;
                         if (targetId === 'hero' || targetId === 'banners' || targetId === 'footer') {
                             shouldHide = true;
@@ -4998,7 +4910,6 @@
             observer.observe(banners);
             observer.observe(footer);
 
-            // Scroll fallback
             let lastScrollY = window.scrollY;
             window.addEventListener('scroll', () => {
                 const currentScrollY = window.scrollY;
@@ -5007,10 +4918,7 @@
                 const footerTop = footer.offsetTop;
                 const windowHeight = window.innerHeight;
 
-                // Si el scroll supera la altura del Hero + Banners, mostrar
-                // Pero si está cerca del footer, ocultar
                 if (currentScrollY > heroHeight + bannersHeight * 0.8) {
-                    // Verificar si está cerca del footer
                     if (currentScrollY + windowHeight > footerTop - 100) {
                         floatButtons.classList.remove('visible');
                         floatButtons.classList.add('hidden');
@@ -5061,22 +4969,6 @@
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
             header.classList.toggle('scrolled', window.pageYOffset > 80);
-        });
-
-        // =====================================================
-        // BOTÓN VOLVER ARRIBA
-        // =====================================================
-        const scrollTopBtn = document.getElementById('scrollTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 600) {
-                scrollTopBtn.classList.add('visible');
-            } else {
-                scrollTopBtn.classList.remove('visible');
-            }
-        });
-
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
         // =====================================================
@@ -5142,10 +5034,12 @@
             }, 500);
         });
 
-        console.log('🚴 OliviaBike 24.7 - FRONTEND COMPLETO');
-        console.log('✅ Ofertas: sin botón CTA, solo muestra lo que el admin configuró');
-        console.log('✅ Botones flotantes: ocultos en Hero, Banners y Footer');
-        console.log('✅ Galería y productos cargando correctamente');
+        console.log('🚴 OliviaBike 24.7 - NUEVO ORDEN');
+        console.log('📋 1.Header → 2.Hero → 3.Ofertas → 4.Banner → 5.Beneficios → 6.Categorías → 7.Productos → 8.CTA → 9.Testimonios → 10.Galería → 11.FAQs → 12.Mapa → 13.Footer');
+        console.log('🎨 "OLIVIA" con Aesthetic en: Logo, Banners, Títulos, Footer');
+        console.log('🎨 "OLIVIA" con Poppins en: Testimonios/Reseñas');
+        console.log('✅ Banners visibles completos dentro del contenedor');
+        console.log('❌ "X" debajo del footer eliminada');
         console.log('📞 WhatsApp: +54 9 3388 46-1348');
     </script>
 </body>
