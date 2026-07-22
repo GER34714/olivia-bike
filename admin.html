@@ -4145,6 +4145,7 @@
             const cta_link = document.getElementById('f_schedule_link').value.trim();
             const tipo_descuento = document.getElementById('f_tipo_descuento').value;
             const valor_descuento = parseFloat(document.getElementById('f_valor_descuento').value) || 0;
+            const tope_maximo = parseFloat(document.getElementById('f_tope_maximo').value) || 0;
             const alcance = document.getElementById('f_alcance').value;
             const estado = document.getElementById('f_schedule_estado').value;
             const priority = parseInt(document.getElementById('f_schedule_priority').value) || 1;
@@ -4224,6 +4225,7 @@
                 image: imageUrl,
                 tipo_descuento,
                 valor_descuento,
+                tope_maximo,  // <--- AGREGAR ESTA LÍNEA
                 alcance,
                 productos_ids,
                 categorias_ids,
