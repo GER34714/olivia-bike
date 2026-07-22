@@ -3698,19 +3698,15 @@ async function loadHorarios() {
     }
 
 function applyOfferToCart(cartItems, offer) {
-    // Si no hay oferta o no tiene descuento válido, devolver sin cambios
     if (!offer || !offer.tipo_descuento || !offer.valor_descuento || offer.valor_descuento <= 0) {
         return { items: cartItems, subtotal: 0, discount: 0, total: 0, savings: 0 };
     }
-
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
     let discount = 0;
     const alcance = offer.alcance || 'global';
     const tipo = offer.tipo_descuento;
     const valor = Number(offer.valor_descuento);
-    const tope = Number(offer.tope_maximo) || 0; // 0 = sin tope
-
-    // Calcular descuento según el alcance
+    const tope = Number(offer.tope_maximo) || 0;
     if (alcance === 'global') {
         if (tipo === 'porcentaje') {
             discount = subtotal * (valor / 100);
@@ -3748,7 +3744,17 @@ function applyOfferToCart(cartItems, offer) {
             discount = Math.min(valor, affectedSubtotal);
         }
     }
-
+    if (tope > 0 && discount > tope) {
+        discount = tope;
+    }
+    if (discount > subtotal) {
+        discount = subtotal;
+    }
+    discount = Math.round(discount);
+    const total = subtotal - discount;
+    const savings = discount;
+    return { items: cartItems, subtotal, discount, total, savings };
+}
     // =====================================================
     // 🚨 APLICAR TOPE MÁXIMO (NUEVO)
     // =====================================================
