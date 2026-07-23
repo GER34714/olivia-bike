@@ -3545,7 +3545,7 @@
         }
     }
     
-  // =====================================================
+  // // =====================================================
 // CARGAR HORARIOS DESDE LA BD (AGRUPADOS)
 // =====================================================
 async function loadHorarios() {
@@ -3563,9 +3563,21 @@ async function loadHorarios() {
 
         if (!horarios || horarios.length === 0) {
             container.innerHTML = `
-                <li><i class="fas fa-clock"></i> Lun a Vie: 09:00 - 20:00</li>
-                <li><i class="fas fa-clock"></i> Sáb: 10:00 - 18:00</li>
-                <li><i class="fas fa-clock"></i> Dom: Cerrado</li>
+                <li><i class="fas fa-clock"></i> ABIERTO TODOS LOS DÍAS 24/7</li>
+            `;
+            return;
+        }
+
+        // Verificar si todos los días están abiertos 24/7
+        const todosAbiertos247 = horarios.every(h => 
+            h.hora_apertura === '00:00' && 
+            h.hora_cierre === '23:59' && 
+            !h.esta_cerrado
+        );
+
+        if (todosAbiertos247 && horarios.length === 7) {
+            container.innerHTML = `
+                <li><i class="fas fa-clock"></i> ABIERTO TODOS LOS DÍAS 24/7</li>
             `;
             return;
         }
@@ -3654,15 +3666,11 @@ async function loadHorarios() {
         const container = document.getElementById('horariosFooter');
         if (container) {
             container.innerHTML = `
-                <li><i class="fas fa-clock"></i> Lun a Vie: 09:00 - 20:00</li>
-                <li><i class="fas fa-clock"></i> Sáb: 10:00 - 18:00</li>
-                <li><i class="fas fa-clock"></i> Dom: Cerrado</li>
+                <li><i class="fas fa-clock"></i> ABIERTO TODOS LOS DÍAS 24/7</li>
             `;
         }
     }
-}
-    
-    // =====================================================
+} =====================================================
     // FUNCIONES DE CARRITO (igual que antes, se mantienen)
     // =====================================================
     function loadCartFromStorage() {
